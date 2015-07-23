@@ -1,0 +1,22 @@
+Backend\AdminBundle\Entity\Zona:
+    properties:
+        name:
+            - NotBlank: { message: Olvido ingresar el Nombre de la zona }
+            - Length: 
+                min: 2
+                max: 100
+                minMessage: "El nombre debe tener al menos 2 carácteres"
+                maxMessage: "El nombre debe tener 100 carácteres máximo"
+Backend\AdminBundle\Entity\Barrio:
+    properties:
+        name:
+            - NotBlank: { message: Olvido ingresar el Nombre del Barrio/Localidad }
+            - Length: 
+                min: 2
+                max: 100
+                minMessage: "El nombre debe tener al menos 2 carácteres"
+                maxMessage: "El nombre debe tener 100 carácteres máximo"
+        zona:
+            - NotBlank: { message: Olvido ingresar la zona }
+    
+                                                                                                            

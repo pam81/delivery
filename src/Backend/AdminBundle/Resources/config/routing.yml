@@ -1,0 +1,19 @@
+backend_admin_homepage:
+    pattern:  /
+    defaults: { _controller: BackendAdminBundle:Default:index }
+
+blank:
+    pattern:  /blank
+    defaults: { _controller: BackendAdminBundle:Default:blank }
+
+backend_zona:
+    resource: "@BackendAdminBundle/Resources/config/routing/zona.yml"
+    prefix:   /zona
+
+
+backend_barrio:
+    resource: "@BackendAdminBundle/Resources/config/routing/barrio.yml"
+    prefix:   /barrio        
+
+
+            

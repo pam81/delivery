@@ -1,0 +1,89 @@
+/* 640 - hd01_
+ ----------------------------- */
+
+@media (max-width: 640px) {
+
+	.user_herramientas {
+		width: 100%;
+	}
+
+	.log01_contenedor {
+		width: 85%;
+		padding-top: 20px;
+	}
+
+	.log01_contenedor .logo {
+		width: 150px;
+		margin-top: }
+
+		.log01_contenedor h2 {
+		font-size: 38px;
+		margin-top: 0;
+	}
+
+	.log01_contenedor .formulario {
+		margin-top: 15px;
+	}
+
+	.log01_contenedor .formulario .btn_sector {
+		margin-top: 10px;
+		text-align: center;
+	}
+	.log01_contenedor .formulario .btn_sector a.btn {
+		float: none;
+	}
+
+	.user_herramientas {
+		margin-top: 26px;
+		padding-top: 12px;
+		text-align: left;
+	}
+	.user_herramientas a {
+		margin-bottom: 9px;
+		margin-left: 20px;
+		margin-right: 0;
+		width: 80%;
+	}
+
+	.contenedor_s {
+		width: 90%;
+		/*background-color: #ddd;*/
+	}
+
+	.hm01_item {
+		margin-bottom: 10px;
+	}
+
+	.tit_seccion {
+		font-size: 20px;
+	}
+
+	.sc01_item {
+		margin: 20px auto 0;
+		width: 270px;
+	}
+
+	.select_estilo {
+		width: 240px;
+	}
+	.select_estilo select {
+		width: 240px;
+		font-size: 14px;
+	}
+
+	.rl01_centrado {
+		width: 300px;
+	}
+
+	.rl01_contenedor .item h2 {
+		max-width: 270px;
+	}
+	.rl01_contenedor .item p {
+		max-width: 270px;
+	}
+
+	.rl02_contenedor {
+		width: 90%;
+	}
+
+} /* media */

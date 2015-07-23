@@ -1,0 +1,45 @@
+<?php
+
+// BackendUserBundle:User:forgot.html.twig
+return array (
+  'e8b976d' => 
+  array (
+    0 => 
+    array (
+      0 => '@BackendUserBundle/Resources/public/js/validate_moduser.js',
+    ),
+    1 => 
+    array (
+    ),
+    2 => 
+    array (
+      'output' => '_controller/js/e8b976d.js',
+      'name' => 'e8b976d',
+      'debug' => NULL,
+      'combine' => NULL,
+      'vars' => 
+      array (
+      ),
+    ),
+  ),
+  '4b97b4d' => 
+  array (
+    0 => 
+    array (
+      0 => '@BackendUserBundle/Resources/public/js/forgot_pass.js',
+    ),
+    1 => 
+    array (
+    ),
+    2 => 
+    array (
+      'output' => '_controller/js/4b97b4d.js',
+      'name' => '4b97b4d',
+      'debug' => NULL,
+      'combine' => NULL,
+      'vars' => 
+      array (
+      ),
+    ),
+  ),
+);

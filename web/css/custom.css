@@ -1,0 +1,9 @@
+#tab, #tab2{
+  margin-top: 20px;
+}
+#select2-backend_userbundle_usertype_birthday_year-container{
+  width: 60px !important; 
+}
+.help-block, .error{
+  color: #D74142 !important;
+}

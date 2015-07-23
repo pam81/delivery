@@ -1,0 +1,44 @@
+ <!-- Sidebar Menu Items  -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li class="active">
+                        <a href="{{ path('principal') }}"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                    </li>
+                    {% if is_granted('ROLE_VIEWUSER') %}
+                    <li>
+                        <a href="{{ path('user') }}"><i class="fa fa-users"></i> Usuarios</a>
+                    </li>
+                    {% endif %}
+                    {% if  is_granted('ROLE_SETEO') or is_granted('ROLE_ADMIN') or  is_granted('ROLE_VIEWZONA')
+                        or is_granted('ROLE_VIEWBARRIO')
+                    %}
+                      <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Configuración <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="demo" class="collapse">
+                            {% if is_granted('ROLE_ADMIN') %}
+                            <li>
+                                <a href="{{ path('group') }}">Grupos</a>
+                            </li>
+                            {% endif %}
+                            {% if is_granted('ROLE_SETEO') %}
+                            <li>
+                                <a href="{{ path('seteo') }}">Seteo</a>
+                            </li>
+                            {% endif %}
+                            {% if is_granted('ROLE_VIEWZONA') %}
+                            <li>
+                                <a href="{{ path('zona') }}">Zona</a>
+                            </li>
+                            {% endif %}
+                            
+                            {% if is_granted('ROLE_VIEWBARRIO') %}
+                            <li>
+                                <a href="{{ path('barrio') }}">Localidad / Barrios</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                     {% endif %}
+                     
+                </ul>
+            </div>
