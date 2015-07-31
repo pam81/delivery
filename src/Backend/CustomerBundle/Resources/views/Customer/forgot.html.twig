@@ -1,0 +1,40 @@
+{% extends '::loginBase.html.twig' %}
+
+{% block container %}
+  
+
+<div id="loginModal" class="modal show" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content">
+      <div class="modal-header">
+          <h1 class="text-center">William Hope - Administrador</h1>
+      </div>
+      <div class="modal-body">
+          {% include '::messages.html.twig' %}
+          <p>Ingrese su Usuario o Email para poder cambiar su contraseña. </p>
+          <form class="form col-md-12 center-block" action='{{ path('forgot_pass') }}' method="POST" name="formForgot" id="formForgot">
+            <div class="form-group">
+              <input type="text" id="email" name="email"  class="form-control input-lg" placeholder="Usuario / Email">
+              <div id='formForgot_email_errorloc' class="help-block error" ></div>
+            </div>
+            
+            <div class="form-group">
+              <button class="btn btn-primary btn-lg btn-block" id="btn_forgot" type="submit">Enviar</button>
+              <span class="pull-right"><a href="{{ path('login') }}">Login</a></span>
+            </div>
+          </form>
+      </div>
+      <div class="modal-footer">
+      </div>
+  </div>
+  </div>
+</div>
+
+{% endblock %}
+{% block javascripts %}
+  {{ parent() }}
+ {% javascripts '@BackendUserBundle/Resources/public/js/forgot_pass.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+{% endblock %}

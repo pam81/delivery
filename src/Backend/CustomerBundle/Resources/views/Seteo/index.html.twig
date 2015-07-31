@@ -1,0 +1,106 @@
+{% extends '::backend.html.twig' %}
+
+{% block container %}
+    
+    <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            Seteo de parámetros
+                        </h1>
+                        <ol class="breadcrumb">
+                            <li>
+                                <i class="fa fa-dashboard"></i>  <a href="{{ path("principal") }}">Dashboard</a>
+                            </li>
+                            <li class="active">
+                                <i class="fa fa-cog"></i> Seteos
+                            </li>
+                        </ol>
+                    </div>
+                </div> <!-- row -->
+
+                 <div class="row">
+                    <div class="col-lg-3">
+                        <button type="button" class="btn btn-primary" id="new_button" data-url="{{ path('seteo_new') }}">Nuevo</button>
+                     </div>
+                 </div>
+                    
+
+                 <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th {% if pagination.isSorted('u.name') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nombre', 'u.name') }}</th>
+                                        <th>Valor</th>
+                                        <th style="width: 36px;">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                     {% for seteo in pagination %}
+                                       <tr>
+                                                  <td>{{ seteo.name }}</td>
+                                                  <td>{{ seteo.value }}</td>
+                                                  <td>
+                                                  <a href="{{ path('seteo_edit', { 'id': seteo.id }) }}"><i class="fa fa-pencil"></i></a>
+                                                  <a href="#" class="btn confirm-delete"   data-toggle="modal" data-id="{{ seteo.id }}"  data-target="#myModal"><i class="fa fa-trash"></i></a>
+                                                  </td>
+                                      </tr>
+                                      
+                                      {% endfor %}
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                 </div>   
+                <!-- /.row -->
+
+                <div class="pagination">
+                       {{ knp_pagination_render(pagination) }}
+    
+               </div>
+
+
+
+    
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title" id="myModalLabel">Confirmar Borrado</h4>
+            </div>
+            <div class="modal-body">
+                <p class="error-text">Esta seguro que desea borrar el parámetro seleccionado?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" data-id="0"  data-url="{{ path('seteo_delete', { 'id': 'id' }) }}">Borrar</button>
+        </div>
+    </div>
+  </div>
+</div>
+    
+    
+    
+    
+    
+    
+    <form action="" id="delete-form" method="post" {{ form_enctype(delete_form) }}>
+    {{ form_widget(delete_form) }}
+    <input type="hidden" value="DELETE" name="_method">
+    
+    </form>
+    
+    
+    
+   
+    
+    {% endblock %}
+  {% block javascripts %}
+  {{ parent() }}
+   
+  {% endblock %}
+
+

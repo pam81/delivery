@@ -1,0 +1,122 @@
+{% extends "::backend.html.twig"%}
+{% block container %}
+  
+    
+    <ul class="nav nav-tabs">
+    <li class="active"><a href="#home" data-toggle="tab">Perfil</a></li>
+    <li><a href="#profile" data-toggle="tab">Contraseña</a></li>
+    </ul>
+    
+    <div id="myTabContent" class="tab-content">
+    <div class="tab-pane active in" id="home">
+    <form class="form-horizontal" id="tab" name="tab" method="post" novalidate  {{ form_enctype(form) }} action="" >
+    {{ form_errors(form) }}
+        
+    <input type="hidden" name="action" value="update" />
+    
+    <div class="form-group">
+        
+        {{ form_label(form.name,"Nombre", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
+        <div class="col-xs-6">
+            {{ form_widget(form.name, { 'attr': {'class': 'form-control'} }) }}
+            <span id='backend_userbundle_usertype_name_errorloc' class="help-block"> {{ form_errors(form.name) }} </span>
+        </div>
+    </div>
+    
+    
+   <div class="form-group">
+
+{{ form_label(form.lastname,"Apellido", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
+<div class="col-xs-6">
+ {{ form_widget(form.lastname, { 'attr': {'class': 'form-control'} }) }}
+    
+    <div id='backend_userbundle_usertype_lastname_errorloc' class="help-block error" >{{ form_errors(form.lastname) }}</div>
+</div>
+</div>
+ 
+    
+      <div class="form-group">
+
+{{ form_label(form.email,"Email", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
+<div class="col-xs-6">
+{{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}
+    
+ <div id='backend_userbundle_usertype_email_errorloc' class="help-block error" >{{ form_errors(form.email) }}</div>   
+</div>
+</div>
+    
+    
+        
+    
+    
+    
+    
+    
+    
+    {{ form_rest(form) }}
+    
+    
+<div class="form-group col-xs-10">
+    <button type="submit" class="btn btn-primary center-block"><i class="fa fa-check"></i>Actualizar</button>
+
+</div>
+    
+    </form>
+    </div>
+    <div class="tab-pane fade" id="profile">
+    <form id="tab2" class="form-horizontal" name="tab2" method="post" novalidate  {{ form_enctype(form) }} action="" >
+    {{ form_errors(pass) }}
+     
+    <input type="hidden" name="action" value="change" />
+    
+    <div class="form-group">
+
+{{ form_label(pass.password.first,"Nueva Contraseña", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
+<div class="col-xs-6">
+{{ form_widget(pass.password.first, { 'attr': {'class': 'form-control'} }) }}
+    
+    <div id='backend_userbundle_usertype_password_firt_errorloc' class="help-block error" >{{ form_errors(pass.password.first) }}</div>
+</div>
+</div>
+      
+   
+     <div class="form-group">
+
+{{ form_label(pass.password.second,"Repetir Contraseña", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
+<div class="col-xs-6">
+{{ form_widget(pass.password.second, { 'attr': {'class': 'form-control'} }) }}
+    
+  <div id='backend_userbundle_usertype_password_second_errorloc' class="help-bloock error" >{{ form_errors(pass.password.second) }}</div>   
+</div>
+</div>
+    
+    
+    
+    {{ form_rest(pass) }}
+    
+    <div class="form-group col-xs-10">
+
+
+<button type="submit" class="btn btn-primary center-block"><i class="fa fa-check"></i>Cambiar</button>
+
+</div>
+    
+    
+    </form>
+    </div>
+    
+    
+    
+    
+   
+  
+    
+   
+{% endblock %}
+{% block javascripts %}
+  {{ parent() }}
+ 
+{% javascripts '@BackendUserBundle/Resources/public/js/validate_profile.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+{% endblock %}

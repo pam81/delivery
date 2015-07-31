@@ -1,0 +1,40 @@
+{% extends '::loginBase.html.twig' %}
+{% block container %}
+     <!--login modal-->
+<div id="loginModal" class="modal show" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content">
+      <div class="modal-header">
+          <h1 class="text-center">Zona Delivery - Administrador</h1>
+      </div>
+      <div class="modal-body">
+           {% include '::messages.html.twig' %}
+          <form class="form col-md-12 center-block" action="{{ path('login_check') }}" method="POST" id="formLogin" name="formLogin">
+            <div class="form-group">
+              <input type="text" id="formUsername" name="_username" value="{{ last_username }}" class="form-control input-lg" placeholder="Usuario">
+              <div id='formLogin_username_errorloc' class="help-block error" ></div>
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control input-lg" placeholder="Contraseña" id="formPassword" name="_password">
+              <div id='formLogin_password_errorloc' class="help-block error" ></div>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-primary btn-lg btn-block" type="submit" id="btn_login">Ingresar</button>
+              <span class="pull-right"><a href="{{ path('register_user') }}">Registrarse</a></span><span><a href="{{ path('forgot_pass') }}">Recuperar contraseña</a></span>
+            </div>
+            <input type="hidden" name="_target_path" value="backend_admin_homepage" />
+          </form>
+      </div>
+      <div class="modal-footer">
+      </div>
+  </div>
+  </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+  {{ parent() }}
+ {% javascripts '@BackendUserBundle/Resources/public/js/login_user.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+{% endblock %}

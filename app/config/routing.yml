@@ -46,7 +46,7 @@ change_pass:
     defaults: { _controller: "BackendUserBundle:User:changePassword", codigo: '' }    
     
 access_denied:
-    pattern: /panel/acess
+    pattern: /panel/caes
     defaults: { _controller: BackendAdminBundle:Default:access }    
 
 principal:

@@ -1,0 +1,32 @@
+{% extends '::loginBase.html.twig' %}
+
+{% block container %}
+
+
+<div id="loginModal" class="modal show" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content">
+      <div class="modal-header">
+          <h1 class="text-center">William Hope - Administrador</h1>
+      </div>
+      <div class="modal-body text-center">
+          {% include '::messages.html.twig' %}
+          <h2>Felicitaciones</h2>
+          <p>Has activado tu cuenta!</p>
+           <span class="pull-right"><a href="{{ path('login') }}">Login</a></span>
+      </div>
+      <div class="modal-footer">
+      </div>
+  </div>
+  </div>
+</div>
+
+
+
+
+{% endblock %}
+{% block javascripts %}
+  {{ parent() }}
+ 
+
+{% endblock %}
