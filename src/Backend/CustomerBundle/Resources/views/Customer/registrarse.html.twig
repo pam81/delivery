@@ -1,0 +1,68 @@
+{% extends '::loginBase.html.twig' %}
+{% block container %}
+
+<div id="loginModal" class="modal show" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content">
+      <div class="modal-header">
+          <h1 class="text-center">William Hope - Administrador</h1>
+      </div>
+      <div class="modal-body" style="overflow-y: auto; height: 460px;">
+       {% include '::messages.html.twig' %}
+          <form class="form col-md-12 center-block" action="{{ path('register_user') }}" method="POST" id="formRegister" name="formRegister">
+            <div class="form-group col-xs-12">
+              <label class="control-label col-xs-2">Nombre</label>
+              <div class="col-xs-10">
+                <input type="text" id="inputNombre" placeholder="" name="name" value="" class="form-control">
+                <span id='backend_userbundle_usertype_name_errorloc' class="help-block ">  </span>
+              </div>
+            </div>
+            <div class="form-group  col-xs-12">
+              <label class="control-label col-xs-2">Apellido</label>
+              <div class="col-xs-10">
+                <input type="text" id="inputApellido" placeholder="" name="lastname" value="" class="form-control">
+                <span id='backend_userbundle_usertype_name_errorloc' class="help-block"> </span>
+              </div>
+            </div>
+            <div class="form-group  col-xs-12">
+              <label class="control-label col-xs-2">Email</label>
+              <div class="col-xs-10">
+                <input type="text" id="inputEmail" placeholder="" name="email" value="" class="form-control">
+                <span id='backend_userbundle_usertype_name_errorloc' class="help-block">  </span>
+              </div>
+            </div>
+            
+            <div class="form-group  col-xs-12">
+              <label class="control-label col-xs-2">Contraseña</label>
+              <div class="col-xs-10">
+                <input type="password" id="inputPass" placeholder="" name="password" value="" class="form-control">
+                <span id='backend_userbundle_usertype_name_errorloc' class="help-block">  </span>
+              </div>
+            </div>
+            <div class="form-group  col-xs-12">
+              <label class="control-label col-xs-2">Repetir Contraseña</label>
+              <div class="col-xs-10">
+                <input type="password" id="inputConfirmPass" placeholder="" name="confirmPassword" value="" class="form-control">
+                <span id='backend_userbundle_usertype_name_errorloc' class="help-block">  </span>
+              </div>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-primary btn-lg btn-block" type="submit" id="btn_login">Registrarse</button>
+              <span class="pull-right"><a href="{{ path('login') }}">Login</a></span>
+            </div>
+            
+          </form>
+      </div>
+      <div class="modal-footer">
+      </div>
+  </div>
+  </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+  {{ parent() }}
+ {% javascripts '@BackendUserBundle/Resources/public/js/register_user.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+{% endblock %}
