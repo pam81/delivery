@@ -11,10 +11,10 @@ use Backend\UserBundle\Validator\Constraints\EmailUnique;
 
 
 /**
- * Backend\UserBundle\Entity\User
+ * Backend\CustomerBundle\Entity\Customer
  *
- * @ORM\Table(name="user")
- * @ORM\Entity(repositoryClass="Backend\UserBundle\Entity\UserRepository")
+ * @ORM\Table(name="customer")
+ * @ORM\Entity(repositoryClass="Backend\CustomerBundle\Entity\UserRepository")
  * @ORM\HasLifecycleCallbacks 
  * @UsuarioUnique()
  * @EmailUnique()  
@@ -27,7 +27,6 @@ class Customer implements AdvancedUserInterface, \Serializable {
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
    
 
     /**
@@ -40,8 +39,6 @@ class Customer implements AdvancedUserInterface, \Serializable {
      */
     private $password;
     
-    
-
     /**
      * @ORM\Column(type="string", length=200)
      */
@@ -70,9 +67,16 @@ class Customer implements AdvancedUserInterface, \Serializable {
      * @ORM\Column(name="dni", type="string", length=100, nullable=true)
      */
     private $dni;
+	
+    /**
+     * @ORM\Column(name="cuit", type="string", length=50, nullable=true)
+     */
+    private $cuit;
+	
     /**
      * @ORM\Column(name="birthday", type="date",  nullable=true)
      */
+	
     private $birthday;
     
     /**
@@ -80,12 +84,18 @@ class Customer implements AdvancedUserInterface, \Serializable {
      */
     private $phone;
     
-    
     /**
      * @ORM\ManyToMany(targetEntity="Group", inversedBy="users")
      *
      */
     private $groups;
+	
+    /**
+     * @ORM\Column(name="is_comercio", type="boolean")
+     */
+	
+    private $isComercio;
+	
     
     /**
      * @ORM\Column(name="created_at", type="datetime")
@@ -95,7 +105,17 @@ class Customer implements AdvancedUserInterface, \Serializable {
      * @ORM\Column(name="modified_at", type="datetime", nullable=true)
      */
     private $modifiedAt;
-   
+
+    /**
+     * @ORM\Column(name="validated_at", type="datetime", nullable=true)
+     */
+    private $validatedAt;
+	
+	/**
+	     * @ORM\Column(name="rejected",type="text",nullable=true)
+	 */
+	private $rejected;
+	
        
     public function __construct() {
         $this->isActive = true;

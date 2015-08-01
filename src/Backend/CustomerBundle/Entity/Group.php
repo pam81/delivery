@@ -1,6 +1,6 @@
 <?php
  
-namespace Backend\UserBundle\Entity;
+namespace Backend\CustomerBundle\Entity;
 
 use Symfony\Component\Security\Core\Role\Role;
 use Doctrine\Common\Collections\ArrayCollection;

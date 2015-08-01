@@ -1,6 +1,6 @@
 <?php
  
-namespace Backend\UserBundle\Entity;
+namespace Backend\CustomerBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
