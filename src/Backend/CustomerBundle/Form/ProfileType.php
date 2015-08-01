@@ -1,6 +1,6 @@
 <?php
 
-namespace Backend\UserBundle\Form;
+namespace Backend\CustomerBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,12 +21,12 @@ class ProfileType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Backend\UserBundle\Entity\User'
+            'data_class' => 'Backend\CustomerBundle\Entity\Customer'
         ));
     }
 
     public function getName()
     {
-        return 'backend_userbundle_profiletype';
+        return 'backend_customerbundle_profiletype';
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Backend\UserBundle\Form;
+namespace Backend\CustomerBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,7 +18,7 @@ class GroupType extends AbstractType
             ->add('name')
             ->add('role')
             ->add('accesos','entity',array(
-                'class'=>'BackendUserBundle:Acceso',
+                'class'=>'BackendCustomerBundle:Acceso',
                 'property'=>'name',
                 'multiple'=>true,
                 'expanded'=>true,
@@ -35,7 +35,7 @@ class GroupType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Backend\UserBundle\Entity\Group'
+            'data_class' => 'Backend\CustomerBundle\Entity\Group'
         ));
     }
 
@@ -44,6 +44,6 @@ class GroupType extends AbstractType
      */
     public function getName()
     {
-        return 'backend_userbundle_group';
+        return 'backend_customerbundle_group';
     }
 }

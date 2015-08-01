@@ -1,13 +1,13 @@
 <?php
 
-namespace Backend\UserBundle\Form;
+namespace Backend\CustomerBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
 
-class UserType extends AbstractType
+class CustomerType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -33,7 +33,7 @@ class UserType extends AbstractType
                         'second_options' => array('label' => 'Repetir contraseña'),
                     ));
             $builder->add('groups','entity',array(
-                'class'=>'BackendUserBundle:Group',
+                'class'=>'BackendCustomerBundle:Group',
                 'property'=>'name',
                 'multiple'=>true
             ));
@@ -48,7 +48,7 @@ class UserType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Backend\UserBundle\Entity\User'
+            'data_class' => 'Backend\CustomerBundle\Entity\Customer'
         ));
     }
 
