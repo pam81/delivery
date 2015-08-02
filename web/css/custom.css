@@ -7,3 +7,12 @@
 .help-block, .error{
   color: #D74142 !important;
 }
+.boton_initial {
+
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    border: 1px solid #999;
+    margin: 10px;
+   
+}

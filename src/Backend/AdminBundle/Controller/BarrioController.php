@@ -300,7 +300,7 @@ class BarrioController extends Controller
           $i++;
         }
                             
-        $excelService->excelObj->getActiveSheet()->setTitle('Listado de Localidades/Barrios');
+        $excelService->excelObj->getActiveSheet()->setTitle('Listado de Barrios');
         // Set active sheet index to the first sheet, so Excel opens this as the first sheet
         $excelService->excelObj->setActiveSheetIndex(0);
         $excelService->excelObj->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
