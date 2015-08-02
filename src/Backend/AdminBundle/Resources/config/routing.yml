@@ -15,5 +15,13 @@ backend_barrio:
     resource: "@BackendAdminBundle/Resources/config/routing/barrio.yml"
     prefix:   /barrio        
 
+backend_categoria:
+    resource: "@BackendAdminBundle/Resources/config/routing/categoria.yml"
+    prefix:   /categoria
+
+backend_subcategoria:
+    resource: "@BackendAdminBundle/Resources/config/routing/subcategoria.yml"
+    prefix:   /subcategoria    
+
 
             

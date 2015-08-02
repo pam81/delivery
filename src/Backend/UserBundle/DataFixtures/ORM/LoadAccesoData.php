@@ -78,145 +78,60 @@ class LoadAccesoData extends AbstractFixture implements OrderedFixtureInterface
         $this->addReference('view-zona', $accesoAdmin9);
         
         $accesoAdmin10 = new Acceso();
-        $accesoAdmin10->setName('Nueva Farmacia');
-        $accesoAdmin10->setAcceso('ROLE_ADDFARMACIA');
+        $accesoAdmin10->setName('Nueva Categoría');
+        $accesoAdmin10->setAcceso('ROLE_ADDCATEGORIA');
         $manager->persist($accesoAdmin10);
         $manager->flush();
-        $this->addReference('add-farmacia', $accesoAdmin10);
+        $this->addReference('add-categoria', $accesoAdmin10);
         
         $accesoAdmin11 = new Acceso();
-        $accesoAdmin11->setName('Modificar Farmacia');
-        $accesoAdmin11->setAcceso('ROLE_MODFARMACIA');
+        $accesoAdmin11->setName('Modificar Categoría');
+        $accesoAdmin11->setAcceso('ROLE_MODCATEGORIA');
         $manager->persist($accesoAdmin11);
         $manager->flush();
-        $this->addReference('mod-farmacia', $accesoAdmin11);
+        $this->addReference('mod-categoria', $accesoAdmin11);
 
         $accesoAdmin12 = new Acceso();
-        $accesoAdmin12->setName('Borrar Farmacia');
-        $accesoAdmin12->setAcceso('ROLE_DELFARMACIA');
+        $accesoAdmin12->setName('Borrar Categoría');
+        $accesoAdmin12->setAcceso('ROLE_DELCATEGORIA');
         $manager->persist($accesoAdmin12);
         $manager->flush();
-        $this->addReference('del-farmacia', $accesoAdmin12);
+        $this->addReference('del-categoria', $accesoAdmin12);
        
         $accesoAdmin13 = new Acceso();
-        $accesoAdmin13->setName('Listar Farmacia');
-        $accesoAdmin13->setAcceso('ROLE_VIEWFARMACIA');
+        $accesoAdmin13->setName('Listar Categorías');
+        $accesoAdmin13->setAcceso('ROLE_VIEWCATEGORIA');
         $manager->persist($accesoAdmin13);
         $manager->flush();
-        $this->addReference('view-farmacia', $accesoAdmin13);
+        $this->addReference('view-categoria', $accesoAdmin13);
         
         $accesoAdmin14 = new Acceso();
-        $accesoAdmin14->setName('Nueva Cartilla');
-        $accesoAdmin14->setAcceso('ROLE_ADDCARTILLA');
+        $accesoAdmin14->setName('Nueva Subcategoría');
+        $accesoAdmin14->setAcceso('ROLE_ADDSUBCATEGORIA');
         $manager->persist($accesoAdmin14);
         $manager->flush();
-        $this->addReference('add-cartilla', $accesoAdmin14);
+        $this->addReference('add-subcategoria', $accesoAdmin14);
         
         $accesoAdmin15 = new Acceso();
-        $accesoAdmin15->setName('Modificar Cartilla');
-        $accesoAdmin15->setAcceso('ROLE_MODCARTILLA');
+        $accesoAdmin15->setName('Modificar Subcategoría');
+        $accesoAdmin15->setAcceso('ROLE_MODSUBCATEGORIA');
         $manager->persist($accesoAdmin15);
         $manager->flush();
-        $this->addReference('mod-cartilla', $accesoAdmin15);
+        $this->addReference('mod-subcategoria', $accesoAdmin15);
 
         $accesoAdmin16 = new Acceso();
-        $accesoAdmin16->setName('Borrar Cartilla');
-        $accesoAdmin16->setAcceso('ROLE_DELCARTILLA');
+        $accesoAdmin16->setName('Borrar Subcategoría');
+        $accesoAdmin16->setAcceso('ROLE_DELSUBCATEGORIA');
         $manager->persist($accesoAdmin16);
         $manager->flush();
-        $this->addReference('del-cartilla', $accesoAdmin16);
+        $this->addReference('del-subcategoria', $accesoAdmin16);
        
         $accesoAdmin17 = new Acceso();
-        $accesoAdmin17->setName('Listar Cartilla');
-        $accesoAdmin17->setAcceso('ROLE_VIEWCARTILLA');
+        $accesoAdmin17->setName('Listar Subcategorías');
+        $accesoAdmin17->setAcceso('ROLE_VIEWSUBCATEGORIA');
         $manager->persist($accesoAdmin17);
         $manager->flush();
-        $this->addReference('view-cartilla', $accesoAdmin17);
-        
-        $accesoAdmin18 = new Acceso();
-        $accesoAdmin18->setName('Nuevo Plan');
-        $accesoAdmin18->setAcceso('ROLE_ADDPLAN');
-        $manager->persist($accesoAdmin18);
-        $manager->flush();
-        $this->addReference('add-plan', $accesoAdmin18);
-        
-        $accesoAdmin19 = new Acceso();
-        $accesoAdmin19->setName('Modificar Plan');
-        $accesoAdmin19->setAcceso('ROLE_MODPLAN');
-        $manager->persist($accesoAdmin19);
-        $manager->flush();
-        $this->addReference('mod-plan', $accesoAdmin19);
-
-        $accesoAdmin20 = new Acceso();
-        $accesoAdmin20->setName('Borrar Plan');
-        $accesoAdmin20->setAcceso('ROLE_DELPLAN');
-        $manager->persist($accesoAdmin20);
-        $manager->flush();
-        $this->addReference('del-plan', $accesoAdmin20);
-       
-        $accesoAdmin21= new Acceso();
-        $accesoAdmin21->setName('Listar Plan');
-        $accesoAdmin21->setAcceso('ROLE_VIEWPLAN');
-        $manager->persist($accesoAdmin21);
-        $manager->flush();
-        $this->addReference('view-plan', $accesoAdmin21);
-        
-        $accesoAdmin22 = new Acceso();
-        $accesoAdmin22->setName('Nuevo Prestador');
-        $accesoAdmin22->setAcceso('ROLE_ADDPRESTADOR');
-        $manager->persist($accesoAdmin22);
-        $manager->flush();
-        $this->addReference('add-prestador', $accesoAdmin22);
-        
-        $accesoAdmin23 = new Acceso();
-        $accesoAdmin23->setName('Modificar Prestador');
-        $accesoAdmin23->setAcceso('ROLE_MODPRESTADOR');
-        $manager->persist($accesoAdmin23);
-        $manager->flush();
-        $this->addReference('mod-prestador', $accesoAdmin23);
-
-        $accesoAdmin24 = new Acceso();
-        $accesoAdmin24->setName('Borrar Prestador');
-        $accesoAdmin24->setAcceso('ROLE_DELPRESTADOR');
-        $manager->persist($accesoAdmin24);
-        $manager->flush();
-        $this->addReference('del-prestador', $accesoAdmin24);
-       
-        $accesoAdmin25= new Acceso();
-        $accesoAdmin25->setName('Listar Prestador');
-        $accesoAdmin25->setAcceso('ROLE_VIEWPRESTADOR');
-        $manager->persist($accesoAdmin25);
-        $manager->flush();
-        $this->addReference('view-prestador', $accesoAdmin25);
-        
-        $accesoAdmin26 = new Acceso();
-        $accesoAdmin26->setName('Nueva Especialidad');
-        $accesoAdmin26->setAcceso('ROLE_ADDESPECIALIDAD');
-        $manager->persist($accesoAdmin26);
-        $manager->flush();
-        $this->addReference('add-especialidad', $accesoAdmin26);
-        
-        $accesoAdmin27 = new Acceso();
-        $accesoAdmin27->setName('Modificar Especialidad');
-        $accesoAdmin27->setAcceso('ROLE_MODESPECIALIDAD');
-        $manager->persist($accesoAdmin27);
-        $manager->flush();
-        $this->addReference('mod-especialidad', $accesoAdmin27);
-
-        $accesoAdmin28 = new Acceso();
-        $accesoAdmin28->setName('Borrar Especialidad');
-        $accesoAdmin28->setAcceso('ROLE_DELESPECIALIDAD');
-        $manager->persist($accesoAdmin28);
-        $manager->flush();
-        $this->addReference('del-especialidad', $accesoAdmin28);
-       
-        $accesoAdmin29= new Acceso();
-        $accesoAdmin29->setName('Listar Especialidad');
-        $accesoAdmin29->setAcceso('ROLE_VIEWESPECIALIDAD');
-        $manager->persist($accesoAdmin29);
-        $manager->flush();
-        $this->addReference('view-especialidad', $accesoAdmin29);
-        
+        $this->addReference('view-subcategoria', $accesoAdmin17);
         
         $accesoAdmin34 = new Acceso();
         $accesoAdmin34->setName('Nuevo Barrio');
@@ -247,33 +162,7 @@ class LoadAccesoData extends AbstractFixture implements OrderedFixtureInterface
         $this->addReference('view-barrio', $accesoAdmin37);
         
          
-        $accesoAdmin38 = new Acceso();
-        $accesoAdmin38->setName('Nuevo Idioma');
-        $accesoAdmin38->setAcceso('ROLE_ADDIDIOMA');
-        $manager->persist($accesoAdmin38);
-        $manager->flush();
-        $this->addReference('add-idioma', $accesoAdmin38);
         
-        $accesoAdmin39 = new Acceso();
-        $accesoAdmin39->setName('Modificar Idioma');
-        $accesoAdmin39->setAcceso('ROLE_MODIDIOMA');
-        $manager->persist($accesoAdmin39);
-        $manager->flush();
-        $this->addReference('mod-idioma', $accesoAdmin39);
-
-        $accesoAdmin40 = new Acceso();
-        $accesoAdmin40->setName('Borrar Idioma');
-        $accesoAdmin40->setAcceso('ROLE_DELIDIOMA');
-        $manager->persist($accesoAdmin40);
-        $manager->flush();
-        $this->addReference('del-idioma', $accesoAdmin40);
-       
-        $accesoAdmin41= new Acceso();
-        $accesoAdmin41->setName('Listar Idioma');
-        $accesoAdmin41->setAcceso('ROLE_VIEWIDIOMA');
-        $manager->persist($accesoAdmin41);
-        $manager->flush();
-        $this->addReference('view-idioma', $accesoAdmin41);
                
     }
 

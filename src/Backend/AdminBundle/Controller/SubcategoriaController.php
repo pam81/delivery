@@ -6,19 +6,19 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Backend\AdminBundle\Entity\Barrio;
-use Backend\AdminBundle\Form\BarrioType;
+use Backend\AdminBundle\Entity\Subcategoria;
+use Backend\AdminBundle\Form\SubcategoriaType;
 
 /**
- * Barrio controller.
+ * Subcategoria controller.
  *
  */
-class BarrioController extends Controller
+class SubcategoriaController extends Controller
 {
 
      public function generateSQL($search){
      
-        $dql="SELECT u FROM BackendAdminBundle:Barrio u "  ;
+        $dql="SELECT u FROM BackendAdminBundle:Subcategoria u "  ;
         $search=mb_convert_case($search,MB_CASE_LOWER);
         
        
@@ -32,12 +32,12 @@ class BarrioController extends Controller
      }
 
     /**
-     * Lists all Barrios entities.
+     * Lists all Subcategorias entities.
      *
      */
     public function indexAction(Request $request,$search)
     {
-       if ( $this->get('security.context')->isGranted('ROLE_VIEWBARRIO')) {
+       if ( $this->get('security.context')->isGranted('ROLE_VIEWSUBCATEGORIA')) {
         $em = $this->getDoctrine()->getManager();
         
         $dql=$this->generateSQL($search);
@@ -51,7 +51,7 @@ class BarrioController extends Controller
     );
         
         $deleteForm = $this->createDeleteForm(0);
-        return $this->render('BackendAdminBundle:Barrio:index.html.twig', 
+        return $this->render('BackendAdminBundle:Subcategoria:index.html.twig', 
         array('pagination' => $pagination,
         'delete_form' => $deleteForm->createView(),
         'search'=>$search
@@ -62,27 +62,27 @@ class BarrioController extends Controller
          throw new AccessDeniedException(); 
     }
     /**
-     * Creates a new Barrio entity.
+     * Creates a new Subcategoria entity.
      *
      */
     public function createAction(Request $request)
     {
-        if ( $this->get('security.context')->isGranted('ROLE_ADDBARRIO')) {
-        $entity  = new Barrio();
-        $form = $this->createForm(new BarrioType(), $entity);
+        if ( $this->get('security.context')->isGranted('ROLE_ADDSUBCATEGORIA')) {
+        $entity  = new Subcategoria();
+        $form = $this->createForm(new SubcategoriaType(), $entity);
         $form->bind($request);
          
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-            $this->get('session')->getFlashBag()->add('success' , 'Se ha agregado un nuevo barrio.');
-            return $this->redirect($this->generateUrl('barrio_edit', array('id' => $entity->getId())));
+            $this->get('session')->getFlashBag()->add('success' , 'Se ha agregado un nuevo subcategoria.');
+            return $this->redirect($this->generateUrl('subcategoria_edit', array('id' => $entity->getId())));
         }
         
         
 
-        return $this->render('BackendAdminBundle:Barrio:new.html.twig', array(
+        return $this->render('BackendAdminBundle:Subcategoria:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView()
            
@@ -95,14 +95,14 @@ class BarrioController extends Controller
     /**
     * Creates a form to create a Cliente entity.
     *
-    * @param Barrio $entity The entity
+    * @param Subcategoria $entity The entity
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createCreateForm(Barrio $entity)
+    private function createCreateForm(Subcategoria $entity)
     {
-        $form = $this->createForm(new BarrioType(), $entity, array(
-            'action' => $this->generateUrl('barrio_create'),
+        $form = $this->createForm(new SubcategoriaType(), $entity, array(
+            'action' => $this->generateUrl('subcategoria_create'),
             'method' => 'POST',
         ));
 
@@ -112,16 +112,16 @@ class BarrioController extends Controller
     }
 
     /**
-     * Displays a form to create a new Barrio entity.
+     * Displays a form to create a new Subcategoria entity.
      *
      */
     public function newAction()
     {
-       if ( $this->get('security.context')->isGranted('ROLE_ADDBARRIO')) {
-        $entity = new Barrio();
-        $form   = $this->createForm(new BarrioType(), $entity);
+       if ( $this->get('security.context')->isGranted('ROLE_ADDSUBCATEGORIA')) {
+        $entity = new Subcategoria();
+        $form   = $this->createForm(new SubcategoriaType(), $entity);
 
-        return $this->render('BackendAdminBundle:Barrio:new.html.twig', array(
+        return $this->render('BackendAdminBundle:Subcategoria:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView()
             
@@ -133,26 +133,26 @@ class BarrioController extends Controller
 
   
     /**
-     * Displays a form to edit an existing Barrio entity.
+     * Displays a form to edit an existing Subcategoria entity.
      *
      */
     public function editAction($id)
     {
-        if ( $this->get('security.context')->isGranted('ROLE_MODBARRIO')) { 
+        if ( $this->get('security.context')->isGranted('ROLE_MODSUBCATEGORIA')) { 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('BackendAdminBundle:Barrio')->find($id);
+        $entity = $em->getRepository('BackendAdminBundle:Subcategoria')->find($id);
 
         if (!$entity) {
             
-             $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado el barrio .');
-             return $this->redirect($this->generateUrl('barrio'));
+             $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado el subcategoria .');
+             return $this->redirect($this->generateUrl('subcategoria'));
         }
 
-        $editForm = $this->createForm(new BarrioType(), $entity);
+        $editForm = $this->createForm(new SubcategoriaType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('BackendAdminBundle:Barrio:edit.html.twig', array(
+        return $this->render('BackendAdminBundle:Subcategoria:edit.html.twig', array(
             'entity'      => $entity,
             'form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -164,16 +164,16 @@ class BarrioController extends Controller
     }
 
     /**
-    * Creates a form to edit a Barrio entity.
+    * Creates a form to edit a Subcategoria entity.
     *                                       
-    * @param Barrio $entity The entity
+    * @param Subcategoria $entity The entity
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(Barrio $entity)
+    private function createEditForm(Subcategoria $entity)
     {
-        $form = $this->createForm(new BarrioType(), $entity, array(
-            'action' => $this->generateUrl('barrio_update', array('id' => $entity->getId())),
+        $form = $this->createForm(new SubcategoriaType(), $entity, array(
+            'action' => $this->generateUrl('subcategoria_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
@@ -182,33 +182,33 @@ class BarrioController extends Controller
         return $form;
     }
     /**
-     * Edits an existing Barrio entity.
+     * Edits an existing Subcategoria entity.
      *
      */
     public function updateAction(Request $request, $id)
     {
-        if ( $this->get('security.context')->isGranted('ROLE_MODBARRIO')) {  
+        if ( $this->get('security.context')->isGranted('ROLE_MODSUBCATEGORIA')) {  
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('BackendAdminBundle:Barrio')->find($id);
+        $entity = $em->getRepository('BackendAdminBundle:Subcategoria')->find($id);
 
         if (!$entity) {
-             $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado el barrio.');
-             return $this->redirect($this->generateUrl('barrio'));
+             $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado la subcategoria.');
+             return $this->redirect($this->generateUrl('subcategoria'));
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new BarrioType(), $entity);
+        $editForm = $this->createForm(new SubcategoriaType(), $entity);
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
-             $this->get('session')->getFlashBag()->add('success' , 'Se han actualizado los datos del barrio .');
-            return $this->redirect($this->generateUrl('barrio_edit', array('id' => $id)));
+             $this->get('session')->getFlashBag()->add('success' , 'Se han actualizado los datos de la subcategoria .');
+            return $this->redirect($this->generateUrl('subcategoria_edit', array('id' => $id)));
         }
 
-        return $this->render('BackendAdminBundle:Barrio:edit.html.twig', array(
+        return $this->render('BackendAdminBundle:Subcategoria:edit.html.twig', array(
             'entity'      => $entity,
             'form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -219,21 +219,21 @@ class BarrioController extends Controller
          throw new AccessDeniedException();  
     }
     /**
-     * Deletes a Barrio entity.
+     * Deletes a Subcategoria entity.
      *
      */
     public function deleteAction(Request $request, $id)
     {
-        if ( $this->get('security.context')->isGranted('ROLE_DELBARRIO')) { 
+        if ( $this->get('security.context')->isGranted('ROLE_DELSUBCATEGORIA')) { 
         $form = $this->createDeleteForm($id);
         $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('BackendAdminBundle:Barrio')->find($id);
+            $entity = $em->getRepository('BackendAdminBundle:Subcategoria')->find($id);
 
             if (!$entity) {
-                $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado el barrio.');
+                $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado la subcategoria.');
              
             }
            else{
@@ -242,19 +242,19 @@ class BarrioController extends Controller
             
             $em->remove($entity);
             $em->flush();
-            $this->get('session')->getFlashBag()->add('success' , 'Se han borrado los datos del barrio.');
+            $this->get('session')->getFlashBag()->add('success' , 'Se han borrado los datos del subcategoria.');
             
             }
         }
 
-        return $this->redirect($this->generateUrl('barrio'));
+        return $this->redirect($this->generateUrl('subcategoria'));
       }
       else
        throw new AccessDeniedException(); 
     }
 
     /**
-     * Creates a form to delete a Barrio entity by id.
+     * Creates a form to delete a Subcategoria entity by id.
      *
      * @param mixed $id The entity id
      *
@@ -270,7 +270,7 @@ class BarrioController extends Controller
     
      public function exportarAction(Request $request)
     {
-     if ( $this->get('security.context')->isGranted('ROLE_VIEWBARRIO')) {
+     if ( $this->get('security.context')->isGranted('ROLE_VIEWSUBCATEGORIA')) {
          
          $em = $this->getDoctrine()->getManager();
 
@@ -284,7 +284,7 @@ class BarrioController extends Controller
                          
                             
         $excelService->excelObj->setActiveSheetIndex(0)
-                    ->setCellValue('A1', 'Zona')
+                    ->setCellValue('A1', 'Categoría')
                     ->setCellValue('B1', 'Nombre')
                     
                     ;
@@ -300,14 +300,14 @@ class BarrioController extends Controller
           $i++;
         }
                             
-        $excelService->excelObj->getActiveSheet()->setTitle('Listado de Barrios');
+        $excelService->excelObj->getActiveSheet()->setTitle('Listado de Subcategorías');
         // Set active sheet index to the first sheet, so Excel opens this as the first sheet
         $excelService->excelObj->setActiveSheetIndex(0);
         $excelService->excelObj->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
         $excelService->excelObj->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
         
         
-        $fileName="barrios_".date("Ymd").".xls";
+        $fileName="subcategorias_".date("Ymd").".xls";
         //create the response
         $response = $excelService->getResponse();
         $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
@@ -326,14 +326,14 @@ class BarrioController extends Controller
         }
     }
     
-    public function getBarrioByZonaAction(Request $request)
+    public function getSubcategoriaByCategoriaAction(Request $request)
     {
      
-      $zona_id=$request->request->get("zona");
-      $barrios = $this->getDoctrine()->getRepository('BackendAdminBundle:Barrio')->findBy(array("zona"=>$zona_id));
+      $zona_id=$request->request->get("categoria");
+      $subcategorias = $this->getDoctrine()->getRepository('BackendAdminBundle:Subcategoria')->findBy(array("zona"=>$zona_id));
      
       $resultado=array();
-      foreach($barrios as $v){
+      foreach($subcategorias as $v){
             $r=array();
             $r["id"]=$v->getId();
             $r["text"]=$v->getName();

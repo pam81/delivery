@@ -1,18 +1,19 @@
 {% extends '::backend.html.twig' %}
 
-{% block container -%}
-
+{% block container %}
+ 
+ 
  <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Listado de Usuarios
+                            Listado de Categorías
                         </h1>
                         <ol class="breadcrumb">
                             <li>
                                 <i class="fa fa-dashboard"></i>  <a href="{{ path("principal") }}">Dashboard</a>
                             </li>
                             <li class="active">
-                                <i class="fa fa-users"></i> Listado de Usuarios
+                                <i class="fa fa-globe"></i> Listado de Categorías
                             </li>
                         </ol>
                     </div>
@@ -20,17 +21,20 @@
 
                  <div class="row">
                     <div class="col-lg-3">
-                        <button type="button" class="btn btn-primary" id="new_button" data-url="{{ path('user_new') }}">Nuevo</button>
+                        <button type="button" class="btn btn-primary" id="new_button" data-url="{{ path('categoria_new') }}">Nuevo</button>
                      </div>
                      <div class="col-lg-4">
                           <form id="custom-search-form" class="form-search form-horizontal pull-right" action="#">
                             
                             <div class="form-group input-group">
                                 <input type="text" class="form-control search-query" id="search-query" placeholder="Buscar" value="{{ search }}">
-                                <span class="input-group-btn"><button class="btn btn-default" id="search-button" data-url="{{ path('user') }}" type="button"><i class="fa fa-search"></i></button></span>
+                                <span class="input-group-btn"><button class="btn btn-default" id="search-button" data-url="{{ path('categoria') }}" type="button"><i class="fa fa-search"></i></button></span>
                             </div>
                            
                           </form>
+                     </div>
+                     <div class="col-lg-3">
+                     {% if is_granted("ROLE_VIEWCATEGORIA") %} <button class="btn btn-primary" type="button" id="exportar_button" data-url="{{ path('categoria_exportar') }}" >Exportar </button> {% endif %}
                      </div> 
                  </div>
                     
@@ -41,25 +45,21 @@
                             <table class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th {% if pagination.isSorted('u.Email') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Email', 'u.email') }}</th>
-                                        <th>Tipo Usuario</th>
-                                        <th>Estado</th>
+                                        <th {% if pagination.isSorted('u.name') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nombre', 'u.name') }}</th>
                                         <th style="width: 36px;">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                     {% for user in pagination %}
+                                     {% for categoria in pagination %}
                                        <tr>
-                                                 
-                                                  <td>{{ user.email }}</td>
-                                                  <td>{% for item in user.groups %}
-                                                       {{ item.name }}<br/>
-                                                       {% endfor %} </td>
-                                                  
-                                                  <td>   {% if user.isActive == 1 %} <span class="label label-success">Activo</span> {% else %} <span class="label label-danger">Inhabilitado</span>  {% endif %} </td>
+                                                  <td>{{ categoria.name |capitalize}}</td>
                                                   <td>
-                                                  <a href="{{ path('user_edit', { 'id': user.id }) }}"><i class="fa fa-pencil"></i></a>
-                                                  <a href="#" class="btn confirm-delete"   data-toggle="modal" data-id={{ user.id }}  data-target="#myModal"><i class="fa fa-trash" title="Borrar"></i></a>
+                                                  {% if is_granted("ROLE_MODCATEGORIA") %}
+                                                  <a href="{{ path('categoria_edit', { 'id': categoria.id }) }}"><i class="fa fa-pencil"></i></a>
+                                                  {% endif %}
+                                                  {% if is_granted("ROLE_DELCATEGORIA") %}
+                                                  <a href="#" class="btn confirm-delete"   data-toggle="modal" data-id={{ categoria.id }}  data-target="#myModal"><i class="fa fa-trash"></i></a>
+                                                  {% endif %}
                                                   </td>
                                       </tr>
                                       
@@ -88,11 +88,11 @@
             <h4 class="modal-title" id="myModalLabel">Confirmar Borrado</h4>
             </div>
             <div class="modal-body">
-                <p class="error-text">Esta seguro que desea borrar el usuario?</p>
+                <p class="error-text">Esta seguro que desea borrar la categoria?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-danger" data-id="0"  data-url="{{ path('user_delete', { 'id': 'id' }) }}">Borrar</button>
+                <button type="button" class="btn btn-danger" data-id="0"  data-url="{{ path('categoria_delete', { 'id': 'id' }) }}">Borrar</button>
         </div>
     </div>
   </div>
@@ -108,15 +108,22 @@
     <input type="hidden" value="DELETE" name="_method">
     
     </form>
+ 
+ 
+ 
     
     
     {% endblock %}
-
-
-
-{% block javascripts %}
+  {% block javascripts %}
   {{ parent() }}
-   {% javascripts '@BackendUserBundle/Resources/public/js/user_index.js' %}
+ 
+{% javascripts '@BackendAdminBundle/Resources/public/js/search_index.js' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
-   {% endjavascripts %}
+{% endjavascripts %}
+{% javascripts '@BackendAdminBundle/Resources/public/js/exportar_entidad.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}      
+  
 {% endblock %}
+
+

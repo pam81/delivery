@@ -1,0 +1,34 @@
+subcategoria_new:
+    pattern:  /new
+    defaults: { _controller: "BackendAdminBundle:Subcategoria:new" }
+
+subcategoria_exportar:
+    pattern:  /exportar
+    defaults: { _controller: "BackendAdminBundle:Subcategoria:exportar" }
+    
+subcategoria_create:
+    pattern:  /create
+    defaults: { _controller: "BackendAdminBundle:Subcategoria:create" }
+    requirements: { _method: post }
+
+subcategoria_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "BackendAdminBundle:Subcategoria:edit" }
+
+subcategoria_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "BackendAdminBundle:Subcategoria:update" }
+    requirements: { _method: post|put }
+
+subcategoria_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "BackendAdminBundle:Subcategoria:delete" }
+    requirements: { _method: post|delete }
+    
+subcategoria_categoria:
+    pattern:  /getsubcategoria
+    defaults: { _controller: "BackendAdminBundle:Subcategoria:getSubcategoriaByCategoria" }
+    
+subcategoria:
+    pattern:  /{search}
+    defaults: { _controller: "BackendAdminBundle:Subcategoria:index" , search: ''}

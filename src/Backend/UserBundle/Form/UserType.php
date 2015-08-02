@@ -23,7 +23,7 @@ class UserType extends AbstractType
                 'years'=> range(date('Y') -100, date('Y'))
             ));
             $builder->add('phone');
-            $builder->add('plan');
+            
             $builder->add('password', 'repeated', array(
                         'type' => 'password',
                         'invalid_message' => 'No coincide la contraseña.',
