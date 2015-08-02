@@ -1,0 +1,34 @@
+barrio_new:
+    pattern:  /new
+    defaults: { _controller: "BackendCustomerAdminBundle:Barrio:new" }
+
+barrio_exportar:
+    pattern:  /exportar
+    defaults: { _controller: "BackendCustomerAdminBundle:Barrio:exportar" }
+    
+barrio_create:
+    pattern:  /create
+    defaults: { _controller: "BackendCustomerAdminBundle:Barrio:create" }
+    requirements: { _method: post }
+
+barrio_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "BackendCustomerAdminBundle:Barrio:edit" }
+
+barrio_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "BackendCustomerAdminBundle:Barrio:update" }
+    requirements: { _method: post|put }
+
+barrio_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "BackendCustomerAdminBundle:Barrio:delete" }
+    requirements: { _method: post|delete }
+    
+barrio_zona:
+    pattern:  /getbarrio
+    defaults: { _controller: "BackendCustomerAdminBundle:Barrio:getBarrioByZona" }
+    
+barrio:
+    pattern:  /{search}
+    defaults: { _controller: "BackendCustomerAdminBundle:Barrio:index" , search: ''}

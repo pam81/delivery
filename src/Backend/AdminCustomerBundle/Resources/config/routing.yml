@@ -1,0 +1,19 @@
+backend_admin_customer_homepage:
+    pattern:  /
+    defaults: { _controller: BackendCustomerAdminBundle:Default:index }
+
+blank:
+    pattern:  /blank
+    defaults: { _controller: BackendCustomerAdminBundle:Default:blank }
+
+backend_zona:
+    resource: "@BackendCustomerAdminBundle/Resources/config/routing/zona.yml"
+    prefix:   /zona
+
+
+backend_barrio:
+    resource: "@BackendCustomerAdminBundle/Resources/config/routing/barrio.yml"
+    prefix:   /barrio        
+
+
+            

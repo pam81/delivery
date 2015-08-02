@@ -1,12 +1,13 @@
 <?php
 
-namespace Backend\CustomerBundle\Form;
+namespace Backend\AdminBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Backend\AdminBundle\Form\EventListener\ZonaSubscriber;
 
-class GroupType extends AbstractType
+class BarrioType extends AbstractType
 {
         /**
      * @param FormBuilderInterface $builder
@@ -15,18 +16,13 @@ class GroupType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('zona')
             ->add('name')
-            ->add('role')
-            ->add('accesos','entity',array(
-                'class'=>'BackendCustomerBundle:Acceso',
-                'property'=>'name',
-                'multiple'=>true,
-                'expanded'=>true,
-                'attr'   =>  array(
-                             'class'   => 'c4'),
-            ))
-          
-        ;
+            
+            ;
+      
+        
+			   
     }
     
     /**
@@ -35,7 +31,7 @@ class GroupType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Backend\CustomerBundle\Entity\Group'
+            'data_class' => 'Backend\AdminBundle\Entity\Barrio'
         ));
     }
 
@@ -44,6 +40,6 @@ class GroupType extends AbstractType
      */
     public function getName()
     {
-        return 'backend_customerbundle_group';
+        return 'backend_adminbundle_barrio';
     }
 }

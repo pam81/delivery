@@ -1,6 +1,6 @@
 <?php
 
-namespace Backend\UserBundle\Form;
+namespace Backend\CustomerBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -26,7 +26,7 @@ class SeteoType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Backend\UserBundle\Entity\Seteo'
+            'data_class' => 'Backend\CustomerBundle\Entity\Seteo'
         ));
     }
 
@@ -35,6 +35,6 @@ class SeteoType extends AbstractType
      */
     public function getName()
     {
-        return 'backend_userbundle_seteo';
+        return 'backend_customerbundle_seteo';
     }
 }
