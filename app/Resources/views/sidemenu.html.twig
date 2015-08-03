@@ -33,7 +33,17 @@
                             
                             {% if is_granted('ROLE_VIEWBARRIO') %}
                             <li>
-                                <a href="{{ path('barrio') }}">Localidad / Barrios</a>
+                                <a href="{{ path('barrio') }}"> Barrios</a>
+                            </li>
+                            {% endif %}
+                            {% if is_granted('ROLE_VIEWCATEGORIA') %}
+                            <li>
+                                <a href="{{ path('categoria') }}"> Categorías</a>
+                            </li>
+                            {% endif %}
+                            {% if is_granted('ROLE_VIEWSUBCATEGORIA') %}
+                            <li>
+                                <a href="{{ path('subcategoria') }}"> Subcategorías</a>
                             </li>
                             {% endif %}
                         </ul>
