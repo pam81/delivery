@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Backend\CustomerBundle\Entity\Customer;
 use Backend\CustomerBundle\Form\CustomerType;
-use Backend\UserBundle\Form\ProfileType;
+use Backend\CustomerBundle\Form\ProfileType;
 
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -21,7 +21,7 @@ class CustomerController extends Controller
 {
     /**
      * Lists all Customer entities.
-     * ADMIN: solo puede tener acceso a abm de usuarios
+     * ADMIN: solo puede tener acceso a abm de clientes
      */
      
     public function setContainer(ContainerInterface $container = null)
@@ -33,7 +33,7 @@ class CustomerController extends Controller
     public function indexAction(Request $request,$search)
     {
      
-      if ( $this->get('security.context')->isGranted('ROLE_VIEWUSER')) {
+      if ( $this->get('security.context')->isGranted('ROLE_VIEWCUSTOMER')) {
         $em = $this->getDoctrine()->getManager();
          //setear la busqueda del place para direccionar luego
         $this->get('session')->set('user_search',$search);
@@ -67,22 +67,22 @@ class CustomerController extends Controller
     }
 
     /**
-     * Creates a new User entity.
+     * Creates a new Customer entity.
      *
      */
     public function createAction(Request $request)
     {
        
-        if ( $this->get('security.context')->isGranted('ROLE_ADDUSER')) {
-        $entity  = new User();
-        $form = $this->createForm(new UserType(), $entity);
+        if ( $this->get('security.context')->isGranted('ROLE_ADDCUSTOMER')) {
+        $entity  = new Customer();
+        $form = $this->createForm(new CustomerType(), $entity);
         $form->bind($request);
          
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-            $this->get('session')->getFlashBag()->add('success' , 'Se ha creado un nuevo usuario.');
+            $this->get('session')->getFlashBag()->add('success' , 'Se ha creado un nuevo cliente.');
             return $this->redirect($this->generateUrl('user_edit', array('id' => $entity->getId())));
         }
         
@@ -99,13 +99,13 @@ class CustomerController extends Controller
     }
 
     /**
-     * Displays a form to create a new User entity.
+     * Displays a form to create a new Customer entity.
      *
      */
     public function newAction()
     {
-        if ( $this->get('security.context')->isGranted('ROLE_ADDUSER')) {
-        $entity = new User();
+        if ( $this->get('security.context')->isGranted('ROLE_ADDCUSTOMER')) {
+        $entity = new Customer();
         $form   = $this->createForm(new CustomerType(), $entity);
 
         return $this->render('BackendCustomerBundle:Customer:new.html.twig', array(
@@ -119,23 +119,23 @@ class CustomerController extends Controller
     }
 
     /**
-     * Finds and displays a User entity.
+     * Finds and displays a Customer entity.
      *
      */
     public function showAction($id)
     {
-      if ( $this->get('security.context')->isGranted('ROLE_VIEWUSER')) {
+      if ( $this->get('security.context')->isGranted('ROLE_VIEWCUSTOMER')) {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('BackendUserBundle:User')->find($id);
+        $entity = $em->getRepository('BackendCustoerBundle:Customer')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('No se ha encontrado el usuario.');
+            throw $this->createNotFoundException('No se ha encontrado el cliente.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('BackendUserBundle:User:show.html.twig', array(
+        return $this->render('BackendCustoerBundle:Customer:show.html.twig', array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),        ));
       }
@@ -144,24 +144,24 @@ class CustomerController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing User entity.
+     * Displays a form to edit an existing Customer entity.
      *
      */
     public function editAction($id)
     {
-       if ( $this->get('security.context')->isGranted('ROLE_MODUSER')) { 
+       if ( $this->get('security.context')->isGranted('ROLE_MODCUSTOMER')) { 
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('BackendCustomerBundle:Customer')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('No se ha encontrado el usuario.');
+            throw $this->createNotFoundException('No se ha encontrado el cliente.');
         }
 
-        $editForm = $this->createForm(new UserType(), $entity);
+        $editForm = $this->createForm(new CustomerType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('BackendUserBundle:Customer:edit.html.twig', array(
+        return $this->render('BackendCustoerBundle:Customer:edit.html.twig', array(
             'entity'      => $entity,
             'form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -173,18 +173,18 @@ class CustomerController extends Controller
     }
 
     /**
-     * Edits an existing User entity.
+     * Edits an existing Customer entity.
      *
      */
     public function updateAction(Request $request, $id)
     {
-       if ( $this->get('security.context')->isGranted('ROLE_MODUSER')) {  
+       if ( $this->get('security.context')->isGranted('ROLE_MODCUSTOMER')) {  
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('BackendCustomerBundle:Customer')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('No se ha encontrado el usuario.');
+            throw $this->createNotFoundException('No se ha encontrado el cliente.');
         }
 
        $deleteForm = $this->createDeleteForm($id);
@@ -194,7 +194,7 @@ class CustomerController extends Controller
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
-             $this->get('session')->getFlashBag()->add('success' , 'Se ha actualizado el usuario.');
+             $this->get('session')->getFlashBag()->add('success' , 'Se ha actualizado el cliente.');
             return $this->redirect($this->generateUrl('user_edit', array('id' => $id)));
         }
 
@@ -211,12 +211,12 @@ class CustomerController extends Controller
     }
 
     /**
-     * Deletes a User entity.
+     * Deletes a Customer entity.
      *  No se borra se pone en true isDelete
      */
     public function deleteAction(Request $request, $id)
     {
-        if ( $this->get('security.context')->isGranted('ROLE_DELUSER')) { 
+        if ( $this->get('security.context')->isGranted('ROLE_DELCUSTOMER')) { 
             $form = $this->createDeleteForm($id);
         $form->bind($request);
 
@@ -225,14 +225,14 @@ class CustomerController extends Controller
             $entity = $em->getRepository('BackendCustomerBundle:Customer')->find($id);
 
             if (!$entity) {
-                $this->get('session')->getFlashBag()->add('error' , 'No se ha borrado el usuario.');
+                $this->get('session')->getFlashBag()->add('error' , 'No se ha borrado el cliente.');
                 throw $this->createNotFoundException('No se ha encontrado el Usuario.');
             }
             $entity->setIsDelete(true);
             $entity->setIsActive(false);
             $em->persist($entity);
             $em->flush();
-            $this->get('session')->getFlashBag()->add('success' , 'Se ha borrado el usuario.');
+            $this->get('session')->getFlashBag()->add('success' , 'Se ha borrado el cliente.');
         }
 
         return $this->redirect($this->generateUrl('customer',array('search' => $this->get('session')->get('customer_search') )));
@@ -252,14 +252,14 @@ class CustomerController extends Controller
     
     public function profileAction(Request $request) {
         
-        $customer=$this->getUser();
+        $customer=$this->getCustomer();
         
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('BackendCustomerBundle:Customer')->find($customer->getId());
 
         if (!$entity) {
-            throw $this->createNotFoundException('No se ha encontrado el usuario.');
+            throw $this->createNotFoundException('No se ha encontrado el cliente.');
         }
 
         $editForm = $this->createForm(new ProfileType(), $entity);
@@ -339,25 +339,25 @@ class CustomerController extends Controller
     {
        if ($request->getMethod() == 'POST') {  
         
-        $usuario=array();
-        $usuario["email"] = $this->getRequest()->get("email", null);    
-    	$usuario["password"] = $this->getRequest()->get("password", null);
-    	$usuario["name"] = $this->getRequest()->get("name", null);
-        $usuario["lastname"] = $this->getRequest()->get("lastname", null);
-        $usuario["role"]="ROLE_VISITOR";
+        $cliente=array();
+        $cliente["email"] = $this->getRequest()->get("email", null);    
+    	$cliente["password"] = $this->getRequest()->get("password", null);
+    	$cliente["name"] = $this->getRequest()->get("name", null);
+        $cliente["lastname"] = $this->getRequest()->get("lastname", null);
+        $cliente["role"]="ROLE_VISITOR";
         
         
         
-    		$service = new \Backend\CustomerBundle\Services\UserService($this->get('doctrine.orm.default_entity_manager'));
-    		$registerResponse = $service->register($usuario);
+    		$service = new \Backend\CustomerBundle\Services\CustomerService($this->get('doctrine.orm.default_entity_manager'));
+    		$registerResponse = $service->register($cliente);
     		
     		$respuesta=json_decode($registerResponse);
     		
-    		if ($respuesta->status == 0) //se creo el usuario envio mail
+    		if ($respuesta->status == 0) //se creo el cliente envio mail
     		{
     		  $em = $this->getDoctrine()->getManager();
-          	  $empresa = $em->getRepository('BackendUserBundle:Seteo')->findOneByName("empresa");
-    		  $email_site = $em->getRepository('BackendUserBundle:Seteo')->findOneByName("email");
+          	  $empresa = $em->getRepository('BackendCustoerBundle:Seteo')->findOneByName("empresa");
+    		  $email_site = $em->getRepository('BackendCustoerBundle:Seteo')->findOneByName("email");
     		  
     		  $url= $this->generateUrl(
             'activate_account',
@@ -366,11 +366,11 @@ class CustomerController extends Controller
     		  $message = \Swift_Message::newInstance()
                     ->setSubject("Registro en ".$empresa->getValue())
                     ->setFrom($email_site->getValue())
-                    ->setTo($usuario["email"])
+                    ->setTo($cliente["email"])
                     ->setBody(
                         $this->renderView(
                             'BackendCustomerBundle:Customer:register_email.html.twig',
-                            array('name' => $usuario["name"],
+                            array('name' => $cliente["name"],
                              'url' =>$url
                              )
                         ),'text/html'
@@ -393,16 +393,16 @@ class CustomerController extends Controller
     public function forgotPasswordAction(Request $request){
      
     if ($request->getMethod() == 'POST') {
-    	$service = new \Backend\CustomerBundle\Services\UserService($this->get('doctrine.orm.default_entity_manager'));
+    	$service = new \Backend\CustomerBundle\Services\CustomerService($this->get('doctrine.orm.default_entity_manager'));
     	$forgotResponse = $service->forgotPassword($this->getRequest()->get("email", null));
     		
     	$respuesta=json_decode($forgotResponse);
     
-      if ($respuesta->status == 0) //se creo el usuario envio mail
+      if ($respuesta->status == 0) //se creo el cliente envio mail
     		{
     		  $em = $this->getDoctrine()->getManager();
-          $empresa = $em->getRepository('BackendUserBundle:Seteo')->findOneByName("empresa");
-    		  $email_site = $em->getRepository('BackendUserBundle:Seteo')->findOneByName("email");
+          $empresa = $em->getRepository('BackendCustoerBundle:Seteo')->findOneByName("empresa");
+    		  $email_site = $em->getRepository('BackendCustoerBundle:Seteo')->findOneByName("email");
     		  $url= $this->generateUrl(
             'change_pass',
             array('codigo' =>$respuesta->codigo ), true );
@@ -425,7 +425,7 @@ class CustomerController extends Controller
           $this->get('session')->getFlashBag()->add('success' , 'Se ha enviado un mail para cambiar su contraseña.');  
     		}
     	else{
-          $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado el usuario.');
+          $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado el cliente.');
       }	
     
     }
@@ -444,7 +444,7 @@ class CustomerController extends Controller
                       "password"=>$this->getRequest()->get("password", null)
          );
          
-        $service = new \Backend\CustomerBundle\Services\UserService($this->get('doctrine.orm.default_entity_manager'));
+        $service = new \Backend\CustomerBundle\Services\CustomerService($this->get('doctrine.orm.default_entity_manager'));
       	$response = $service->changePassword($cambio);
     		
       	$respuesta=json_decode($response);
@@ -452,8 +452,8 @@ class CustomerController extends Controller
       	if ($respuesta->status == 0) //se cambio la contraseña
     		{
     		  $em = $this->getDoctrine()->getManager();
-          	  $empresa = $em->getRepository('BackendUserBundle:Seteo')->findOneByName("empresa");
-    		  $email_site = $em->getRepository('BackendUserBundle:Seteo')->findOneByName("email");
+          	  $empresa = $em->getRepository('BackendCustoerBundle:Seteo')->findOneByName("empresa");
+    		  $email_site = $em->getRepository('BackendCustoerBundle:Seteo')->findOneByName("email");
     		  
           $message = \Swift_Message::newInstance()
                     ->setSubject("Cambio de Contraseña para el sitio ".$empresa->getValue())
@@ -474,7 +474,7 @@ class CustomerController extends Controller
          $this->get('session')->getFlashBag()->add('success' , 'Se ha enviado un mail con los datos de su cuenta.');  
     		}
     	else{
-          $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado el usuario.');
+          $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado el cliente.');
       }	
     
        }
@@ -501,7 +501,7 @@ class CustomerController extends Controller
        {
        	$codigo=$this->getRequest()->get("codigo", null);
          
-        $service = new \Backend\CustomerBundle\Services\UserService($this->get('doctrine.orm.default_entity_manager'));
+        $service = new \Backend\CustomerBundle\Services\CustomerService($this->get('doctrine.orm.default_entity_manager'));
       	$response = $service->activateAccount($codigo);
     		
       	$respuesta=json_decode($response);
