@@ -1,4 +1,4 @@
-Backend\UserBundle\Entity\User:
+Backend\CustomerBundle\Entity\Customer:
     properties:
         name:
             - NotBlank: { message: Olvido ingresar el Nombre }
@@ -38,6 +38,7 @@ Backend\UserBundle\Entity\User:
                 maxMessage: "El email debe tener 60 carácteres máximo"  
         groups:
             - NotBlank: { message: Debe seleccionar al menos un Grupo }  
+
 Backend\UserBundle\Entity\Group:
     properties:   
         name:
@@ -54,6 +55,7 @@ Backend\UserBundle\Entity\Group:
                 max: 20
                 minMessage: "El nombre debe tener al menos 2 carácteres"
                 maxMessage: "El nombre debe tener 20 carácteres máximo"
+
 Backend\UserBundle\Entity\Seteo:
     properties:   
         name:

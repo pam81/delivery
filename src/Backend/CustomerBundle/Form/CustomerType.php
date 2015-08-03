@@ -23,6 +23,7 @@ class CustomerType extends AbstractType
                 'years'=> range(date('Y') -100, date('Y'))
             ));
             $builder->add('phone');
+			$builder->add('mobile');
             $builder->add('plan');
             $builder->add('password', 'repeated', array(
                         'type' => 'password',
@@ -33,7 +34,7 @@ class CustomerType extends AbstractType
                         'second_options' => array('label' => 'Repetir contraseña'),
                     ));
             $builder->add('groups','entity',array(
-                'class'=>'BackendCustomerBundle:Group',
+                'class'=>'BackendUserBundle:Group',
                 'property'=>'name',
                 'multiple'=>true
             ));
@@ -54,6 +55,6 @@ class CustomerType extends AbstractType
 
     public function getName()
     {
-        return 'backend_userbundle_usertype';
+        return 'backend_customerbundle_usertype';
     }
 }

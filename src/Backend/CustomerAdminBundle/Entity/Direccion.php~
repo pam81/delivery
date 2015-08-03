@@ -1,0 +1,85 @@
+<?php
+ 
+namespace Backend\CustomerAdminBundle\Entity;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+
+/**
+ * @ORM\Table(name="direccion")
+ * @ORM\Entity()
+ */
+class Direccion 
+{
+    /**
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id()
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(name="calle", type="string", length=100)
+     */
+    private $calle;
+    
+    /**
+     * @ORM\Column(name="numero", type="string", length=10)
+     */
+    private $numero;
+	
+    /**
+     * @ORM\Column(name="piso", type="integer",nullable=true)
+     */
+    private $piso;
+	
+    /**
+     * @ORM\Column(name="depto", type="string", length=4,nullable=true)
+     */
+    private $depto;
+	
+    /**
+     * @ORM\Column(name="zip", type="string", length=8)
+     */
+    private $zip;
+	
+    /**
+     * @ORM\Column(name="default", type="boolean")
+     */
+    private $isDefault;
+	
+	
+    /**
+     * @ORM\ManyToOne(targetEntity="Zona", inversedBy="direcciones")
+     * @ORM\JoinColumn(name="zona_id", referencedColumnName="id")
+     */
+   
+    private $zona;
+	
+    /**
+     * @ORM\ManyToOne(targetEntity="Barrio", inversedBy="direcciones")
+     * @ORM\JoinColumn(name="barrio_id", referencedColumnName="id")
+     */
+   
+    private $barrio;
+	
+    /**
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    private $createdAt;
+    
+    
+    
+    public function __construct() {
+	
+		$this->isDefault = true;
+		$this->createdAt = new \DateTime('now');
+         
+    }
+    
+    public function __toString()
+    {
+          return $this->name;
+    }
+
+    
+}
