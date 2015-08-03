@@ -21,7 +21,7 @@ class AppKernel extends Kernel
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new Backend\AdminBundle\BackendAdminBundle(),
 			new Backend\CustomerBundle\BackendCustomerBundle(),
-			new Backend\AdminCustomerBundle\BackendAdminCustomerBundle(),
+			new Backend\CustomerAdminBundle\BackendCustomerAdminBundle(),
             new Frontend\HomeBundle\FrontendHomeBundle(),
             new Liuggio\ExcelBundle\LiuggioExcelBundle(),
         );
