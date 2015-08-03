@@ -24,7 +24,7 @@ class CustomerType extends AbstractType
             ));
             $builder->add('phone');
 			$builder->add('mobile');
-            $builder->add('plan');
+            
             $builder->add('password', 'repeated', array(
                         'type' => 'password',
                         'invalid_message' => 'No coincide la contraseña.',

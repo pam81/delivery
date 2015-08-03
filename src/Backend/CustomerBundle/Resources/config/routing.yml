@@ -25,9 +25,9 @@ customer_delete:
     defaults: { _controller: "BackendCustomerBundle:Customer:delete" }
     requirements: { _method: get|post|delete }
 
-profile:
-    path: /profile
-    defaults: { _controller:BackendUserBundle:User:profile }
+customer_profile:
+    path: /customer_profile
+    defaults: { _controller:BackendCustomerBundle:Customer:profile }
 
 customer:
     pattern:  /{search}

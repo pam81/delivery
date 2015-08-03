@@ -6,6 +6,10 @@ backend_user:
     resource: "@BackendUserBundle/Resources/config/routing.yml"
     prefix:   /panel/user
 
+backend_customer:
+    resource: "@BackendCustomerBundle/Resources/config/routing.yml"
+    prefix:   /panel/customer    
+
 frontend:
     resource: "@FrontendHomeBundle/Resources/config/routing.yml"
     prefix:   /

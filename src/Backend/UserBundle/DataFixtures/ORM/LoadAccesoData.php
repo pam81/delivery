@@ -133,35 +133,61 @@ class LoadAccesoData extends AbstractFixture implements OrderedFixtureInterface
         $manager->flush();
         $this->addReference('view-subcategoria', $accesoAdmin17);
         
-        $accesoAdmin34 = new Acceso();
-        $accesoAdmin34->setName('Nuevo Barrio');
-        $accesoAdmin34->setAcceso('ROLE_ADDBARRIO');
-        $manager->persist($accesoAdmin34);
+        $accesoAdmin18 = new Acceso();
+        $accesoAdmin18->setName('Nuevo Barrio');
+        $accesoAdmin18->setAcceso('ROLE_ADDBARRIO');
+        $manager->persist($accesoAdmin18);
         $manager->flush();
-        $this->addReference('add-barrio', $accesoAdmin34);
+        $this->addReference('add-barrio', $accesoAdmin18);
         
-        $accesoAdmin35 = new Acceso();
-        $accesoAdmin35->setName('Modificar Barrio');
-        $accesoAdmin35->setAcceso('ROLE_MODBARRIO');
-        $manager->persist($accesoAdmin35);
+        $accesoAdmin19 = new Acceso();
+        $accesoAdmin19->setName('Modificar Barrio');
+        $accesoAdmin19->setAcceso('ROLE_MODBARRIO');
+        $manager->persist($accesoAdmin19);
         $manager->flush();
-        $this->addReference('mod-barrio', $accesoAdmin35);
+        $this->addReference('mod-barrio', $accesoAdmin19);
 
-        $accesoAdmin36 = new Acceso();
-        $accesoAdmin36->setName('Borrar Barrio');
-        $accesoAdmin36->setAcceso('ROLE_DELBARRIO');
-        $manager->persist($accesoAdmin36);
+        $accesoAdmin20 = new Acceso();
+        $accesoAdmin20->setName('Borrar Barrio');
+        $accesoAdmin20->setAcceso('ROLE_DELBARRIO');
+        $manager->persist($accesoAdmin20);
         $manager->flush();
-        $this->addReference('del-barrio', $accesoAdmin36);
+        $this->addReference('del-barrio', $accesoAdmin20);
        
-        $accesoAdmin37= new Acceso();
-        $accesoAdmin37->setName('Listar Barrio');
-        $accesoAdmin37->setAcceso('ROLE_VIEWBARRIO');
-        $manager->persist($accesoAdmin37);
+        $accesoAdmin21= new Acceso();
+        $accesoAdmin21->setName('Listar Barrio');
+        $accesoAdmin21->setAcceso('ROLE_VIEWBARRIO');
+        $manager->persist($accesoAdmin21);
         $manager->flush();
-        $this->addReference('view-barrio', $accesoAdmin37);
+        $this->addReference('view-barrio', $accesoAdmin21);
         
-         
+        $accesoAdmin22 = new Acceso();
+        $accesoAdmin22->setName('Nuevo Cliente');
+        $accesoAdmin22->setAcceso('ROLE_ADDCUSTOMER');
+        $manager->persist($accesoAdmin22);
+        $manager->flush();
+        $this->addReference('add-customer', $accesoAdmin22);
+        
+        $accesoAdmin23 = new Acceso();
+        $accesoAdmin23->setName('Modificar Cliente');
+        $accesoAdmin23->setAcceso('ROLE_MODCUSTOMER');
+        $manager->persist($accesoAdmin23);
+        $manager->flush();
+        $this->addReference('mod-customer', $accesoAdmin23);
+
+        $accesoAdmin24 = new Acceso();
+        $accesoAdmin24->setName('Borrar Cliente');
+        $accesoAdmin24->setAcceso('ROLE_DELCUSTOMER');
+        $manager->persist($accesoAdmin24);
+        $manager->flush();
+        $this->addReference('del-customer', $accesoAdmin24);
+       
+        $accesoAdmin25= new Acceso();
+        $accesoAdmin25->setName('Listar Cliente');
+        $accesoAdmin25->setAcceso('ROLE_VIEWCUSTOMER');
+        $manager->persist($accesoAdmin25);
+        $manager->flush();
+        $this->addReference('view-customer', $accesoAdmin25); 
         
                
     }
