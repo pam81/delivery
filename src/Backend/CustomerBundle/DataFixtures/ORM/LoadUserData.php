@@ -1,14 +1,14 @@
 <?php 
-namespace Backend\UserBundle\DataFixtures\ORM;
+namespace Backend\CustomerBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Backend\UserBundle\Entity\User;
+use Backend\UserBundle\Entity\Customer;
 
-class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
+class LoadCustomerData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
 
 /**
@@ -26,17 +26,17 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
      */
     public function load(ObjectManager $manager)
     {
-        $userAdmin = new User();
-        $userAdmin->setPassword("123456");
-        $userAdmin->setEmail('admin@admin.com');
-        $userAdmin->setName("Admin");
-        $userAdmin->setLastname("Admin");
-        $userAdmin->setIsActive("1");
-        $userAdmin->setCreatedAt(new \DateTime('now'));
-        $userAdmin->addGroup($this->getReference('admin-group'));
-        $manager->persist($userAdmin);
+        $userCustomer = new Customer();
+        $userCustomer->setPassword("123456");
+        $userCustomer->setEmail('customer@customer.com');
+        $userCustomer->setName("Customer");
+        $userCustomer->setLastname("Customer");
+        $userCustomer->setIsActive("1");
+        $userCustomer->setCreatedAt(new \DateTime('now'));
+        $userCustomer->addGroup($this->getReference('admin-group'));
+        $manager->persist($userCustomer);
         $manager->flush();
-        $this->addReference('admin-user', $userAdmin);
+        $this->addReference('admin-user', $userCustomer);
     }
     
     public function getOrder()
