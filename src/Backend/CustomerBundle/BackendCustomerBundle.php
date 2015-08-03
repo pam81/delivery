@@ -1,6 +1,6 @@
 <?php
 
-namespace Backend\CustomersBundle;
+namespace Backend\CustomerBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

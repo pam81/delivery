@@ -1,10 +1,10 @@
 <?php
 
-namespace Backend\UserBundle\Controller;
+namespace Backend\CustomerBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\SecurityContext;
-use Backend\UserBundle\Entity\User;
+use Backend\CustomerBundle\Entity\Customer;
 use Symfony\Component\HttpFoundation\Request;
 use Backend\UserBundle\Form\Type\UserType;
 
@@ -13,7 +13,7 @@ class DefaultController extends Controller {
     public function loginAction() {
        
        if ( $user = $this->getUser())
-          return $this->redirect($this->generateUrl('backend_admin'));
+          return $this->redirect($this->generateUrl('backend_admin_customer'));
         
         $request = $this->getRequest();
         $session = $request->getSession();

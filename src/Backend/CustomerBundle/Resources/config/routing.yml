@@ -1,35 +1,35 @@
-user_show:
+customer_show:
     pattern:  /{id}/show
-    defaults: { _controller: "BackendUserBundle:User:show" }
+    defaults: { _controller: "BackendCustomerBundle:Customer:show" }
 
-user_new:
-    pattern:  /new_user
-    defaults: { _controller: "BackendUserBundle:User:new" }
+customer_new:
+    pattern:  /new_customer
+    defaults: { _controller: "BackendCustomerBundle:Customer:new" }
 
-user_create:
-    pattern:  /create_user
-    defaults: { _controller: "BackendUserBundle:User:create" }
+customer_create:
+    pattern:  /create_customer
+    defaults: { _controller: "BackendCustomerBundle:Customer:create" }
     requirements: { _method: post }
 
-user_edit:
-    pattern:  /{id}/edit_user
-    defaults: { _controller: "BackendUserBundle:User:edit" }
+customer_edit:
+    pattern:  /{id}/edit_customer
+    defaults: { _controller: "BackendCustomerBundle:Customer:edit" }
 
-user_update:
-    pattern:  /{id}/update_user
-    defaults: { _controller: "BackendUserBundle:User:update" }
+customer_update:
+    pattern:  /{id}/update_customer
+    defaults: { _controller: "BackendCustomerBundle:Customer:update" }
     requirements: { _method: post|put }
 
-user_delete:
-    pattern:  /{id}/delete_user
-    defaults: { _controller: "BackendUserBundle:User:delete" }
+customer_delete:
+    pattern:  /{id}/delete_customer
+    defaults: { _controller: "BackendCustomerBundle:Customer:delete" }
     requirements: { _method: get|post|delete }
 
 profile:
     path: /profile
     defaults: { _controller:BackendUserBundle:User:profile }
 
-user:
+customer:
     pattern:  /{search}
-    defaults: { _controller: "BackendUserBundle:User:index", search: '' }
+    defaults: { _controller: "BackendCustomerBundle:Customer:index", search: '' }
 
