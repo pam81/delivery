@@ -1,19 +1,29 @@
-backend_admin_customer_homepage:
+customer_principal:
     pattern:  /
-    defaults: { _controller: BackendCustomerAdminBundle:Default:index }
+    defaults: { _controller: BackendCustomerAdminBundle:Principal:index }
 
-blank:
+customer_blank:
     pattern:  /blank
-    defaults: { _controller: BackendCustomerAdminBundle:Default:blank }
+    defaults: { _controller: BackendCustomerAdminBundle:Principal:blank }
 
-backend_zona:
-    resource: "@BackendCustomerAdminBundle/Resources/config/routing/zona.yml"
-    prefix:   /zona
+customer_profile:
+    pattern:  /profile
+    defaults: { _controller: BackendCustomerAdminBundle:Principal:profile }
+
+customer_login:
+    pattern: /login
+    defaults: { _controller: BackendCustomerBundle:Default:login }
+
+customer_auth:
+    pattern: /login_check
+
+customer_logout:
+    path: /logout 
 
 
-backend_barrio:
-    resource: "@BackendCustomerAdminBundle/Resources/config/routing/barrio.yml"
-    prefix:   /barrio        
+    
+
+   
 
 
             
