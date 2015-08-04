@@ -45,18 +45,17 @@ class Direccion
     /**
      * @ORM\Column(name="default", type="boolean")
      */
-    private $isDefault;
-	
+    private $isDefault;	
 	
     /**
-     * @ORM\ManyToOne(targetEntity="Zona", inversedBy="direcciones")
+     * @ORM\ManyToOne(targetEntity="\Backend\AdminBundle\Entity\Zona", inversedBy="direcciones")
      * @ORM\JoinColumn(name="zona_id", referencedColumnName="id")
      */
    
     private $zona;
 	
     /**
-     * @ORM\ManyToOne(targetEntity="Barrio", inversedBy="direcciones")
+     * @ORM\ManyToOne(targetEntity="\Backend\AdminBundle\Entity\Barrio", inversedBy="direcciones")
      * @ORM\JoinColumn(name="barrio_id", referencedColumnName="id")
      */
    
@@ -257,10 +256,10 @@ class Direccion
     /**
      * Set zona
      *
-     * @param \Backend\CustomerAdminBundle\Entity\Zona $zona
+     * @param \Backend\AdminBundle\Entity\Zona $zona
      * @return Direccion
      */
-    public function setZona(\Backend\CustomerAdminBundle\Entity\Zona $zona = null)
+    public function setZona(\Backend\AdminBundle\Entity\Zona $zona = null)
     {
         $this->zona = $zona;
 
@@ -270,7 +269,7 @@ class Direccion
     /**
      * Get zona
      *
-     * @return \Backend\CustomerAdminBundle\Entity\Zona 
+     * @return \Backend\AdminBundle\Entity\Zona 
      */
     public function getZona()
     {
@@ -280,10 +279,10 @@ class Direccion
     /**
      * Set barrio
      *
-     * @param \Backend\CustomerAdminBundle\Entity\Barrio $barrio
+     * @param \Backend\AdminBundle\Entity\Barrio $barrio
      * @return Direccion
      */
-    public function setBarrio(\Backend\CustomerAdminBundle\Entity\Barrio $barrio = null)
+    public function setBarrio(\Backend\AdminBundle\Entity\Barrio $barrio = null)
     {
         $this->barrio = $barrio;
 
@@ -293,7 +292,7 @@ class Direccion
     /**
      * Get barrio
      *
-     * @return \Backend\CustomerAdminBundle\Entity\Barrio 
+     * @return \Backend\AdminBundle\Entity\Barrio 
      */
     public function getBarrio()
     {

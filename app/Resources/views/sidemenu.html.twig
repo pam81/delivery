@@ -9,6 +9,11 @@
                         <a href="{{ path('user') }}"><i class="fa fa-users"></i> Usuarios</a>
                     </li>
                     {% endif %}
+                    {% if is_granted('ROLE_VIEWCUSTOMER') %}
+                    <li>
+                        <a href="{{ path('customer') }}"><i class="fa fa-users"></i> Clientes</a>
+                    </li>
+                    {% endif %}
                     {% if  is_granted('ROLE_SETEO') or is_granted('ROLE_ADMIN') or  is_granted('ROLE_VIEWZONA')
                         or is_granted('ROLE_VIEWBARRIO')
                     %}
@@ -33,7 +38,17 @@
                             
                             {% if is_granted('ROLE_VIEWBARRIO') %}
                             <li>
-                                <a href="{{ path('barrio') }}">Localidad / Barrios</a>
+                                <a href="{{ path('barrio') }}"> Barrios</a>
+                            </li>
+                            {% endif %}
+                            {% if is_granted('ROLE_VIEWCATEGORIA') %}
+                            <li>
+                                <a href="{{ path('categoria') }}"> Categorías</a>
+                            </li>
+                            {% endif %}
+                            {% if is_granted('ROLE_VIEWSUBCATEGORIA') %}
+                            <li>
+                                <a href="{{ path('subcategoria') }}"> Subcategorías</a>
                             </li>
                             {% endif %}
                         </ul>

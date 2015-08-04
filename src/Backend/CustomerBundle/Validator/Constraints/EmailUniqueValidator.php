@@ -20,7 +20,7 @@ class EmailUniqueValidator extends ConstraintValidator
     {
        
      
-     $user = $this->em->getRepository("BackendUserBundle:User")
+     $user = $this->em->getRepository("BackendCustomerBundle:Customer")
                 ->findOneBy(array("email"=>$object->getEmail(), "isDelete"=>false));
       
       if ($user != null)

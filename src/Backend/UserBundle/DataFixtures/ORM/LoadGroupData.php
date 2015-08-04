@@ -30,30 +30,21 @@ class LoadGroupData extends AbstractFixture implements OrderedFixtureInterface
         $groupAdmin->addAcceso($this->getReference('mod-barrio'));
         $groupAdmin->addAcceso($this->getReference('del-barrio'));
         $groupAdmin->addAcceso($this->getReference('view-barrio'));
-        $groupAdmin->addAcceso($this->getReference('add-prestador'));
-        $groupAdmin->addAcceso($this->getReference('mod-prestador'));
-        $groupAdmin->addAcceso($this->getReference('del-prestador'));
-        $groupAdmin->addAcceso($this->getReference('view-prestador'));
-        $groupAdmin->addAcceso($this->getReference('add-plan'));
-        $groupAdmin->addAcceso($this->getReference('mod-plan'));
-        $groupAdmin->addAcceso($this->getReference('del-plan'));
-        $groupAdmin->addAcceso($this->getReference('view-plan'));
-        $groupAdmin->addAcceso($this->getReference('add-cartilla'));
-        $groupAdmin->addAcceso($this->getReference('mod-cartilla'));
-        $groupAdmin->addAcceso($this->getReference('del-cartilla'));
-        $groupAdmin->addAcceso($this->getReference('view-cartilla'));
-        $groupAdmin->addAcceso($this->getReference('add-especialidad'));
-        $groupAdmin->addAcceso($this->getReference('mod-especialidad'));
-        $groupAdmin->addAcceso($this->getReference('del-especialidad'));
-        $groupAdmin->addAcceso($this->getReference('view-especialidad'));
-        $groupAdmin->addAcceso($this->getReference('add-farmacia'));
-        $groupAdmin->addAcceso($this->getReference('mod-farmacia'));
-        $groupAdmin->addAcceso($this->getReference('del-farmacia'));
-        $groupAdmin->addAcceso($this->getReference('view-farmacia'));
-        $groupAdmin->addAcceso($this->getReference('add-idioma'));
-        $groupAdmin->addAcceso($this->getReference('mod-idioma'));
-        $groupAdmin->addAcceso($this->getReference('del-idioma'));
-        $groupAdmin->addAcceso($this->getReference('view-idioma'));
+        
+        $groupAdmin->addAcceso($this->getReference('add-categoria'));
+        $groupAdmin->addAcceso($this->getReference('mod-categoria'));
+        $groupAdmin->addAcceso($this->getReference('del-categoria'));
+        $groupAdmin->addAcceso($this->getReference('view-categoria'));
+        
+        $groupAdmin->addAcceso($this->getReference('add-subcategoria'));
+        $groupAdmin->addAcceso($this->getReference('mod-subcategoria'));
+        $groupAdmin->addAcceso($this->getReference('del-subcategoria'));
+        $groupAdmin->addAcceso($this->getReference('view-subcategoria'));
+        
+        $groupAdmin->addAcceso($this->getReference('add-customer'));
+        $groupAdmin->addAcceso($this->getReference('mod-customer'));
+        $groupAdmin->addAcceso($this->getReference('del-customer'));
+        $groupAdmin->addAcceso($this->getReference('view-customer'));
         
         
         $manager->persist($groupAdmin);

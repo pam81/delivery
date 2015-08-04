@@ -14,7 +14,7 @@ use Backend\UserBundle\Validator\Constraints\EmailUnique;
  * Backend\CustomerBundle\Entity\Customer
  *
  * @ORM\Table(name="customer")
- * @ORM\Entity(repositoryClass="Backend\UserBundle\Entity\UserRepository")
+ * @ORM\Entity(repositoryClass="Backend\CustomerBundle\Entity\CustomerRepository")
  * @ORM\HasLifecycleCallbacks 
  * @UsuarioUnique()
  * @EmailUnique()  
@@ -90,7 +90,7 @@ class Customer implements AdvancedUserInterface, \Serializable {
     private $mobile;
 	
     /**
-     * @ORM\ManyToMany(targetEntity="Group", inversedBy="users")
+     * @ORM\ManyToMany(targetEntity="\Backend\UserBundle\Entity\Group", inversedBy="users")
      *
      */
     private $groups;
@@ -101,6 +101,12 @@ class Customer implements AdvancedUserInterface, \Serializable {
 	
     private $isComercio;
 	
+    /**
+     * @ORM\ManyToOne(targetEntity="Status", inversedBy="customers")
+     * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
+     */
+   
+    private $status;
     
     /**
      * @ORM\Column(name="created_at", type="datetime")
@@ -565,4 +571,142 @@ class Customer implements AdvancedUserInterface, \Serializable {
 
    
 
+
+    /**
+     * Set cuit
+     *
+     * @param string $cuit
+     * @return Customer
+     */
+    public function setCuit($cuit)
+    {
+        $this->cuit = $cuit;
+
+        return $this;
+    }
+
+    /**
+     * Get cuit
+     *
+     * @return string 
+     */
+    public function getCuit()
+    {
+        return $this->cuit;
+    }
+
+    /**
+     * Set mobile
+     *
+     * @param string $mobile
+     * @return Customer
+     */
+    public function setMobile($mobile)
+    {
+        $this->mobile = $mobile;
+
+        return $this;
+    }
+
+    /**
+     * Get mobile
+     *
+     * @return string 
+     */
+    public function getMobile()
+    {
+        return $this->mobile;
+    }
+
+    /**
+     * Set isComercio
+     *
+     * @param boolean $isComercio
+     * @return Customer
+     */
+    public function setIsComercio($isComercio)
+    {
+        $this->isComercio = $isComercio;
+
+        return $this;
+    }
+
+    /**
+     * Get isComercio
+     *
+     * @return boolean 
+     */
+    public function getIsComercio()
+    {
+        return $this->isComercio;
+    }
+
+    /**
+     * Set validatedAt
+     *
+     * @param \DateTime $validatedAt
+     * @return Customer
+     */
+    public function setValidatedAt($validatedAt)
+    {
+        $this->validatedAt = $validatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get validatedAt
+     *
+     * @return \DateTime 
+     */
+    public function getValidatedAt()
+    {
+        return $this->validatedAt;
+    }
+
+    /**
+     * Set rejected
+     *
+     * @param string $rejected
+     * @return Customer
+     */
+    public function setRejected($rejected)
+    {
+        $this->rejected = $rejected;
+
+        return $this;
+    }
+
+    /**
+     * Get rejected
+     *
+     * @return string 
+     */
+    public function getRejected()
+    {
+        return $this->rejected;
+    }
+
+    /**
+     * Set status
+     *
+     * @param \Backend\CustomerBundle\Entity\Status $status
+     * @return Customer
+     */
+    public function setStatus(\Backend\CustomerBundle\Entity\Status $status = null)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return \Backend\CustomerBundle\Entity\Status 
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
 }

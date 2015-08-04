@@ -22,9 +22,9 @@ class CustomerType extends AbstractType
                 'format' => 'dd-MM-yyyy',
                 'years'=> range(date('Y') -100, date('Y'))
             ));
-            $builder->add('phone');
+            
 			$builder->add('mobile');
-            $builder->add('plan');
+            
             $builder->add('password', 'repeated', array(
                         'type' => 'password',
                         'invalid_message' => 'No coincide la contraseña.',
@@ -38,7 +38,13 @@ class CustomerType extends AbstractType
                 'property'=>'name',
                 'multiple'=>true
             ));
-          
+			
+            $builder->add('is_comercio','checkbox',array(
+             'value'=>1,
+             'label'=>"Cliente Comercio",
+             'required'=>false
+            ));
+		  
             $builder->add('is_active','checkbox',array(
              'value'=>1,
              'label'=>"Activo",

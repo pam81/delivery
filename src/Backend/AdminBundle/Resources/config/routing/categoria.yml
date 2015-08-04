@@ -1,0 +1,34 @@
+categoria_new:
+    pattern:  /new
+    defaults: { _controller: "BackendAdminBundle:Categoria:new" }
+
+categoria_exportar:
+    pattern:  /exportar
+    defaults: { _controller: "BackendAdminBundle:Categoria:exportar" }
+    
+categoria_create:
+    pattern:  /create
+    defaults: { _controller: "BackendAdminBundle:Categoria:create" }
+    requirements: { _method: post }
+
+categoria_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "BackendAdminBundle:Categoria:edit" }
+
+categoria_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "BackendAdminBundle:Categoria:update" }
+    requirements: { _method: post|put }
+
+categoria_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "BackendAdminBundle:Categoria:delete" }
+    requirements: { _method: post|delete }
+
+categoria_all: 
+    pattern:  /all
+    defaults: { _controller: "BackendAdminBundle:Categoria:getCategorias" }
+    
+categoria:
+    pattern:  /{search}
+    defaults: { _controller: "BackendAdminBundle:Categoria:index" , search: ''}

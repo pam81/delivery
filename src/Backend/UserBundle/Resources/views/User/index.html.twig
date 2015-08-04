@@ -59,7 +59,7 @@
                                                   <td>   {% if user.isActive == 1 %} <span class="label label-success">Activo</span> {% else %} <span class="label label-danger">Inhabilitado</span>  {% endif %} </td>
                                                   <td>
                                                   <a href="{{ path('user_edit', { 'id': user.id }) }}"><i class="fa fa-pencil"></i></a>
-                                                  <a href="#" class="btn confirm-delete"   data-toggle="modal" data-id={{ user.id }}  data-target="#myModal"><i class="fa fa-trash"></i></a>
+                                                  <a href="#" class="btn confirm-delete"   data-toggle="modal" data-id={{ user.id }}  data-target="#myModal"><i class="fa fa-trash" title="Borrar"></i></a>
                                                   </td>
                                       </tr>
                                       

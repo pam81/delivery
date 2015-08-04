@@ -14,7 +14,7 @@ use Backend\UserBundle\Validator\Constraints\EmailUnique;
  * Backend\CustomerBundle\Entity\Customer
  *
  * @ORM\Table(name="customer")
- * @ORM\Entity(repositoryClass="Backend\UserBundle\Entity\UserRepository")
+ * @ORM\Entity(repositoryClass="Backend\CustomerBundle\Entity\CustomerRepository")
  * @ORM\HasLifecycleCallbacks 
  * @UsuarioUnique()
  * @EmailUnique()  
@@ -90,7 +90,7 @@ class Customer implements AdvancedUserInterface, \Serializable {
     private $mobile;
 	
     /**
-     * @ORM\ManyToMany(targetEntity="Group", inversedBy="users")
+     * @ORM\ManyToMany(targetEntity="\Backend\UserBundle\Entity\Group", inversedBy="users")
      *
      */
     private $groups;
@@ -101,6 +101,12 @@ class Customer implements AdvancedUserInterface, \Serializable {
 	
     private $isComercio;
 	
+    /**
+     * @ORM\ManyToOne(targetEntity="Status", inversedBy="customers")
+     * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
+     */
+   
+    private $status;
     
     /**
      * @ORM\Column(name="created_at", type="datetime")
@@ -679,5 +685,28 @@ class Customer implements AdvancedUserInterface, \Serializable {
     public function getRejected()
     {
         return $this->rejected;
+    }
+
+    /**
+     * Set status
+     *
+     * @param \Backend\CustomerBundle\Entity\Status $status
+     * @return Customer
+     */
+    public function setStatus(\Backend\CustomerBundle\Entity\Status $status = null)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return \Backend\CustomerBundle\Entity\Status 
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 }

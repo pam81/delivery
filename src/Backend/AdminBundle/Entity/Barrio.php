@@ -29,12 +29,15 @@ class Barrio
    
     private $zona;
     
-    
+    /**
+     * @ORM\OneToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Direccion", mappedBy="barrio")
+     */
+    private $direcciones;
     
     
     public function __construct() {
 	
-	       
+	       $this->direcciones = new ArrayCollection(); 
          
     }
     
@@ -109,4 +112,37 @@ class Barrio
     }
 
     
+
+    /**
+     * Add direcciones
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Direccion $direcciones
+     * @return Barrio
+     */
+    public function addDireccione(\Backend\CustomerAdminBundle\Entity\Direccion $direcciones)
+    {
+        $this->direcciones[] = $direcciones;
+
+        return $this;
+    }
+
+    /**
+     * Remove direcciones
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Direccion $direcciones
+     */
+    public function removeDireccione(\Backend\CustomerAdminBundle\Entity\Direccion $direcciones)
+    {
+        $this->direcciones->removeElement($direcciones);
+    }
+
+    /**
+     * Get direcciones
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getDirecciones()
+    {
+        return $this->direcciones;
+    }
 }
