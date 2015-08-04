@@ -42,22 +42,29 @@
                                 <thead>
                                     <tr>
                                         <th {% if pagination.isSorted('u.Email') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Email', 'u.email') }}</th>
+										<th>Nombre y Apellido</td>
                                         <th>Tipo Cliente</th>
                                         <th>Estado</th>
+										<th>Validacion</th>
                                         <th style="width: 36px;">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                      {% for customer in pagination %}
                                        <tr>
-                                                 
+                                            
                                                   <td>{{ customer.email }}</td>
-                                                  <td>{% for item in customer.groups %}
-                                                       {{ item.name }}<br/>
-                                                       {% endfor %} </td>
+                                                  <td>{{ customer.name ~ " " ~ customer.lastname }}</td>
+												  <td>
+                                                       {% if customer.isComercio  %}
+													  	 Comercio
+														{% else %} Comprador 
+                                                       {% endif %} </td>
                                                   
                                                   <td>   {% if customer.isActive == 1 %} <span class="label label-success">Activo</span> {% else %} <span class="label label-danger">Inhabilitado</span>  {% endif %} </td>
-                                                  <td>
+                                                  
+												  <td> {% if customer.getStatus.getName == "Pendiente" %}<span class="label label-warning">{{ customer.getStatus.getName }}</span>{% endif %}</td>
+												  <td>
                                                   <a href="{{ path('customer_edit', { 'id': customer.id }) }}"><i class="fa fa-pencil"></i></a>
                                                   <a href="#" class="btn confirm-delete"   data-toggle="modal" data-id={{ customer.id }}  data-target="#myModal"><i class="fa fa-trash"></i></a>
                                                   </td>

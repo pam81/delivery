@@ -1,11 +1,11 @@
 <?php 
-namespace Backend\UserBundle\Validator\Constraints;
+namespace Backend\CustomerBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Doctrine\ORM\EntityManager;
 
-class UsuarioUniqueValidator extends ConstraintValidator
+class CustomerUniqueValidator extends ConstraintValidator
 {
     
     private $em;
@@ -20,7 +20,7 @@ class UsuarioUniqueValidator extends ConstraintValidator
     {
        
      
-     $user = $this->em->getRepository("BackendUserBundle:User")
+     $user = $this->em->getRepository("BackendCustomerBundle:Customer")
                 ->findOneBy(array("email"=>$object->getEmail(), "isDelete"=>false));
       
       if ($user != null)

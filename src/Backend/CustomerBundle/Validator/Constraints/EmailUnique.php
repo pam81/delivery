@@ -1,5 +1,5 @@
 <?php 
-namespace Backend\UserBundle\Validator\Constraints;
+namespace Backend\CustomerBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 

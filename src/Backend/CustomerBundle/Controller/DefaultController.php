@@ -6,14 +6,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\SecurityContext;
 use Backend\CustomerBundle\Entity\Customer;
 use Symfony\Component\HttpFoundation\Request;
-use Backend\UserBundle\Form\Type\UserType;
+use Backend\CustomerBundle\Form\Type\CustomerType;
 
 class DefaultController extends Controller {
 
     public function loginAction() {
        
        if ( $user = $this->getUser())
-          return $this->redirect($this->generateUrl('backend_admin_customer'));
+          return $this->redirect($this->generateUrl('customer_principal'));
         
         $request = $this->getRequest();
         $session = $request->getSession();
@@ -31,9 +31,9 @@ class DefaultController extends Controller {
             if ($error)
                $this->get('session')->getFlashBag()->add('error' , 'Usuario y/o clave incorrectas.');
         }
-
+          echo $error;
         return $this->render(
-            'BackendUserBundle:Security:login.html.twig', array(
+            'BackendCustomerBundle:Security:login.html.twig', array(
             // last username entered by the user
             'last_username' => $session->get(SecurityContext::LAST_USERNAME),
             'error' => $error,)

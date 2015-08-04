@@ -45,8 +45,7 @@ class Direccion
     /**
      * @ORM\Column(name="default", type="boolean")
      */
-    private $isDefault;
-	
+    private $isDefault;	
 	
     /**
      * @ORM\ManyToOne(targetEntity="\Backend\AdminBundle\Entity\Zona", inversedBy="direcciones")

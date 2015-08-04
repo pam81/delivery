@@ -8,7 +8,11 @@ backend_user:
 
 backend_customer:
     resource: "@BackendCustomerBundle/Resources/config/routing.yml"
-    prefix:   /panel/customer    
+    prefix:   /panel/customer
+
+customer_administrador:
+    resource: "@BackendCustomerAdminBundle/Resources/config/routing.yml"
+    prefix:   /customer        
 
 frontend:
     resource: "@FrontendHomeBundle/Resources/config/routing.yml"

@@ -101,6 +101,12 @@ class Customer implements AdvancedUserInterface, \Serializable {
 	
     private $isComercio;
 	
+    /**
+     * @ORM\ManyToOne(targetEntity="Status", inversedBy="customers")
+     * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
+     */
+   
+    private $status;
     
     /**
      * @ORM\Column(name="created_at", type="datetime")
@@ -679,5 +685,28 @@ class Customer implements AdvancedUserInterface, \Serializable {
     public function getRejected()
     {
         return $this->rejected;
+    }
+
+    /**
+     * Set status
+     *
+     * @param \Backend\CustomerBundle\Entity\Status $status
+     * @return Customer
+     */
+    public function setStatus(\Backend\CustomerBundle\Entity\Status $status = null)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return \Backend\CustomerBundle\Entity\Status 
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 }

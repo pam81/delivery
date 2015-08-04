@@ -30,7 +30,7 @@ class Barrio
     private $zona;
     
     /**
-     * @ORM\OneToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Direccion", mappedBy="zona")
+     * @ORM\OneToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Direccion", mappedBy="barrio")
      */
     private $direcciones;
     
