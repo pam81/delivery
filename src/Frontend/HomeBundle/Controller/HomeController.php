@@ -96,5 +96,27 @@ class HomeController extends Controller
        return $resultado;
     }
     
+    public function getTiendasAction(Request $request){
+    
+      
+     
+      $listado=array();
+      for($i=0; $i< 6; $i++){
+            $record=array();
+            $record["id"]=$i;
+            $record["name"]="";
+            $record["imagen"]="images/home/product1.jpg";
+            $record["estado"]=rand(0,1); //0:cerrado 1: abierto
+            $listado[] = $record;
+       }
+       $response = new Response(json_encode($listado));
+        
+       $response->headers->set('Content-Type', 'application/json');
+  
+       return $response;
+    
+    }
+    
+    
 } 
  
