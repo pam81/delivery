@@ -8,5 +8,10 @@ frontend_menuZona:
     
 frontend_menuCategoria:
     pattern:  /menuCategoria
-    defaults: { _controller: FrontendHomeBundle:Home:menuCategoria }    
+    defaults: { _controller: FrontendHomeBundle:Home:menuCategoria } 
+
+frontend_tiendas:
+    pattern:  /tiendas
+    defaults: { _controller: FrontendHomeBundle:Home:getTiendas }
+       
     
