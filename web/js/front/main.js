@@ -27,4 +27,52 @@ $(document).ready(function(){
 	        zIndex: 2147483647 // Z-Index for the overlay
 		});
 	});
+  
+  var jqxMenuZona = $.getJSON( $("#menuZona").data("url"))
+              .done(function(data) {
+                  $.each(data,function(index){ 
+                      var submenu = $('<ul class="submenu">');
+                      var barrios = data[index].barrios;
+                      $.each(barrios, function(j){
+                          submenu.append(
+                              $('<li>').append('<a data-id="'+barrios[j].id+'">'+barrios[j].name+'</a>')
+                          
+                          );
+                      });
+                      $('#menuZona').append(
+                              $('<li>').append(  
+                                     '<a data-id="'+data[index].id+'">'+data[index].name+'</a>',submenu                                        
+                                          
+                                ));
+                  }); 
+                  
+              })
+              .fail(function() {
+                console.log( "can't load menuZona" );
+              });
+  
+   var jqxMenuCategoria = $.getJSON( $("#menuCategoria").data("url"))
+              .done(function(data) {
+                  $.each(data,function(index){ 
+                      var submenu = $('<ul class="submenu">');
+                      var subcategorias = data[index].subcategorias;
+                      $.each(subcategorias, function(j){
+                          submenu.append(
+                              $('<li>').append('<a data-id="'+subcategorias[j].id+'">'+subcategorias[j].name+'</a>')
+                          
+                          );
+                      });
+                    
+                      $('#menuCategoria').append(
+                              $('<li>').append(  
+                                     '<a data-id="'+data[index].id+'">'+data[index].name+'</a>',submenu                                        
+                                          
+                                ));
+                  }); 
+                  
+              })
+              .fail(function() {
+                console.log( "can't load menuCategoria" );
+              });
+  
 });
