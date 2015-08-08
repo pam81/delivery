@@ -37,12 +37,8 @@
 									<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 										Elegi tu zona<span class="caret"></span>
 									</button> 
-									<ul class="dropdown-menu pull-right" role="menu">
-									  <li><a href="#">CABA</a></li>
-									  <li><a href="#">Cordoba</a></li>
-									  <li><a href="#">Acción #3</a></li>
-									  <li class="divider"></li>
-									  <li><a href="#">Acción #4</a></li>
+									<ul id="menuZona" class="dropdown-menu pull-right" role="menu" data-url="{{ path('frontend_menuZona')}}">
+
 									</ul>                      
 							</div>     
 						</div>
@@ -56,12 +52,7 @@
 							Todas las categorías<span class="caret"></span>
 							</button>
 	 
-							<ul class="dropdown-menu pull-right" role="menu">
-							  <li><a href="#">Acción #1</a></li>
-							  <li><a href="#">Acción #2</a></li>
-							  <li><a href="#">Acción #3</a></li>
-							  <li class="divider"></li>
-							  <li><a href="#">Acción #4</a></li>
+							<ul id="menuCategoria" class="dropdown-menu pull-right" role="menu" data-url="{{ path('frontend_menuCategoria')}}">
 							</ul>                      
 						</div>		
 						<input type="text" class="form-control"> 
