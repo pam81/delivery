@@ -13,8 +13,7 @@ class ProfileType extends AbstractType
           
             $builder->add('name', 'text');
             $builder->add('lastname','text');
-            $builder->add('email','email');
-           
+            $builder->add('email','email');          
             
     }
 

@@ -36,7 +36,7 @@ class CustomerController extends Controller
       if ( $this->get('security.context')->isGranted('ROLE_VIEWCUSTOMER')) {
         $em = $this->getDoctrine()->getManager();
          //setear la busqueda del place para direccionar luego
-        $this->get('session')->set('user_search',$search);
+        $this->get('session')->set('customer_search',$search);
         
         $dql="SELECT u FROM BackendCustomerBundle:Customer u where u.isDelete=0 ";
         if($search)
@@ -83,7 +83,7 @@ class CustomerController extends Controller
             $em->persist($entity);
             $em->flush();
             $this->get('session')->getFlashBag()->add('success' , 'Se ha creado un nuevo cliente.');
-            return $this->redirect($this->generateUrl('user_edit', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('customer_edit', array('id' => $entity->getId())));
         }
         
         
@@ -127,7 +127,7 @@ class CustomerController extends Controller
       if ( $this->get('security.context')->isGranted('ROLE_VIEWCUSTOMER')) {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('BackendCustoerBundle:Customer')->find($id);
+        $entity = $em->getRepository('BackendCustomerBundle:Customer')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('No se ha encontrado el cliente.');
@@ -135,7 +135,7 @@ class CustomerController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('BackendCustoerBundle:Customer:show.html.twig', array(
+        return $this->render('BackendCustomerBundle:Customer:show.html.twig', array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),        ));
       }
@@ -161,7 +161,7 @@ class CustomerController extends Controller
         $editForm = $this->createForm(new CustomerType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('BackendCustoerBundle:Customer:edit.html.twig', array(
+        return $this->render('BackendCustomerBundle:Customer:edit.html.twig', array(
             'entity'      => $entity,
             'form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -195,7 +195,7 @@ class CustomerController extends Controller
             $em->persist($entity);
             $em->flush();
              $this->get('session')->getFlashBag()->add('success' , 'Se ha actualizado el cliente.');
-            return $this->redirect($this->generateUrl('user_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('customer_edit', array('id' => $id)));
         }
 
         return $this->render('BackendCustomerBundle:Customer:edit.html.twig', array(
@@ -356,8 +356,8 @@ class CustomerController extends Controller
     		if ($respuesta->status == 0) //se creo el cliente envio mail
     		{
     		  $em = $this->getDoctrine()->getManager();
-          	  $empresa = $em->getRepository('BackendCustoerBundle:Seteo')->findOneByName("empresa");
-    		  $email_site = $em->getRepository('BackendCustoerBundle:Seteo')->findOneByName("email");
+          	  $empresa = $em->getRepository('BackendCustomerBundle:Seteo')->findOneByName("empresa");
+    		  $email_site = $em->getRepository('BackendCustomerBundle:Seteo')->findOneByName("email");
     		  
     		  $url= $this->generateUrl(
             'activate_account',
@@ -401,8 +401,8 @@ class CustomerController extends Controller
       if ($respuesta->status == 0) //se creo el cliente envio mail
     		{
     		  $em = $this->getDoctrine()->getManager();
-          $empresa = $em->getRepository('BackendCustoerBundle:Seteo')->findOneByName("empresa");
-    		  $email_site = $em->getRepository('BackendCustoerBundle:Seteo')->findOneByName("email");
+          $empresa = $em->getRepository('BackendCustomerBundle:Seteo')->findOneByName("empresa");
+    		  $email_site = $em->getRepository('BackendCustomerBundle:Seteo')->findOneByName("email");
     		  $url= $this->generateUrl(
             'change_pass',
             array('codigo' =>$respuesta->codigo ), true );
@@ -452,8 +452,8 @@ class CustomerController extends Controller
       	if ($respuesta->status == 0) //se cambio la contraseña
     		{
     		  $em = $this->getDoctrine()->getManager();
-          	  $empresa = $em->getRepository('BackendCustoerBundle:Seteo')->findOneByName("empresa");
-    		  $email_site = $em->getRepository('BackendCustoerBundle:Seteo')->findOneByName("email");
+          	  $empresa = $em->getRepository('BackendCustomerBundle:Seteo')->findOneByName("empresa");
+    		  $email_site = $em->getRepository('BackendCustomerBundle:Seteo')->findOneByName("email");
     		  
           $message = \Swift_Message::newInstance()
                     ->setSubject("Cambio de Contraseña para el sitio ".$empresa->getValue())
