@@ -188,7 +188,35 @@ class LoadAccesoData extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($accesoAdmin25);
         $manager->flush();
         $this->addReference('view-customer', $accesoAdmin25); 
+			
+        $accesoAdmin26 = new Acceso();
+        $accesoAdmin26->setName('Nueva Direccion');
+        $accesoAdmin26->setAcceso('ROLE_ADDDIRECCION');
+        $manager->persist($accesoAdmin26);
+        $manager->flush();
+        $this->addReference('add-direccion', $accesoAdmin26);
         
+        $accesoAdmin27 = new Acceso();
+        $accesoAdmin27->setName('Modificar Direccion');
+        $accesoAdmin27->setAcceso('ROLE_MODDIRECCION');
+        $manager->persist($accesoAdmin27);
+        $manager->flush();
+        $this->addReference('mod-direccion', $accesoAdmin27);
+
+        $accesoAdmin28 = new Acceso();
+        $accesoAdmin28->setName('Borrar Direccion');
+        $accesoAdmin28->setAcceso('ROLE_DELDIRECCION');
+        $manager->persist($accesoAdmin28);
+        $manager->flush();
+        $this->addReference('del-direccion', $accesoAdmin28);
+       
+        $accesoAdmin29= new Acceso();
+        $accesoAdmin29->setName('Listar Direcciones');
+        $accesoAdmin29->setAcceso('ROLE_VIEWDIRECCION');
+        $manager->persist($accesoAdmin29);
+        $manager->flush();
+        $this->addReference('view-direccion', $accesoAdmin29); 
+			
                
     }
 

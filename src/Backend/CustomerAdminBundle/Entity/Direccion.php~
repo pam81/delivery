@@ -43,7 +43,7 @@ class Direccion
     private $zip;
 	
     /**
-     * @ORM\Column(name="default", type="boolean")
+     * @ORM\Column(name="is_default", type="boolean")
      */
     private $isDefault;	
 	
@@ -62,11 +62,23 @@ class Direccion
     private $barrio;
 	
     /**
+     * @ORM\ManyToMany(targetEntity="\Backend\CustomerBundle\Entity\Customer", inversedBy="direcciones")
+     */
+    protected $customers;
+	
+    /**
+     * @ORM\ManyToOne(targetEntity="TipoDireccion", inversedBy="direcciones")
+     * @ORM\JoinColumn(name="tipo_id", referencedColumnName="id")
+     */
+   
+    private $tipo;
+	
+		
+    /**
      * @ORM\Column(name="created_at", type="datetime")
      */
     private $createdAt;
-    
-    
+			
     
     public function __construct() {
 	
@@ -297,5 +309,61 @@ class Direccion
     public function getBarrio()
     {
         return $this->barrio;
+    }
+
+    /**
+     * Add customers
+     *
+     * @param \Backend\CustomerBundle\Entity\Customer $customers
+     * @return Direccion
+     */
+    public function addCustomer(\Backend\CustomerBundle\Entity\Customer $customers)
+    {
+        $this->customers[] = $customers;
+
+        return $this;
+    }
+
+    /**
+     * Remove customers
+     *
+     * @param \Backend\CustomerBundle\Entity\Customer $customers
+     */
+    public function removeCustomer(\Backend\CustomerBundle\Entity\Customer $customers)
+    {
+        $this->customers->removeElement($customers);
+    }
+
+    /**
+     * Get customers
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCustomers()
+    {
+        return $this->customers;
+    }
+
+    /**
+     * Set tipo
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\TipoDireccion $tipo
+     * @return Direccion
+     */
+    public function setTipo(\Backend\CustomerAdminBundle\Entity\TipoDireccion $tipo = null)
+    {
+        $this->tipo = $tipo;
+
+        return $this;
+    }
+
+    /**
+     * Get tipo
+     *
+     * @return \Backend\CustomerAdminBundle\Entity\TipoDireccion 
+     */
+    public function getTipo()
+    {
+        return $this->tipo;
     }
 }

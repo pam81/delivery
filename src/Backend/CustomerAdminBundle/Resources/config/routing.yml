@@ -20,8 +20,9 @@ customer_auth:
 customer_logout:
     path: /logout 
 
-
-    
+customer_direccion:
+    resource: "@BackendCustomerAdminBundle/Resources/config/routing/direccion.yml"
+    prefix:   /direccion    
 
    
 

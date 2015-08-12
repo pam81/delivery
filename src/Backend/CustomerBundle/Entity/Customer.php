@@ -127,6 +127,12 @@ class Customer implements AdvancedUserInterface, \Serializable {
 	 */
 	private $rejected;
 	
+    /**
+    * @ORM\ManyToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Direccion", mappedBy="customers")
+    */
+  
+   protected $direcciones;
+	
        
     public function __construct() {
         $this->isActive = true;
@@ -708,5 +714,38 @@ class Customer implements AdvancedUserInterface, \Serializable {
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * Add direcciones
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Direccion $direcciones
+     * @return Customer
+     */
+    public function addDireccione(\Backend\CustomerAdminBundle\Entity\Direccion $direcciones)
+    {
+        $this->direcciones[] = $direcciones;
+
+        return $this;
+    }
+
+    /**
+     * Remove direcciones
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Direccion $direcciones
+     */
+    public function removeDireccione(\Backend\CustomerAdminBundle\Entity\Direccion $direcciones)
+    {
+        $this->direcciones->removeElement($direcciones);
+    }
+
+    /**
+     * Get direcciones
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getDirecciones()
+    {
+        return $this->direcciones;
     }
 }

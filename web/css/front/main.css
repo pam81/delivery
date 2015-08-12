@@ -52,7 +52,7 @@ a#scrollUp {
   bottom: 0px;
   right: 10px;
   padding: 5px 10px;
-  background: #4C711F;
+  background: #FE980F;
   color: #FFF;
   -webkit-animation: bounce 2s ease infinite;
   animation: bounce 2s ease infinite;
@@ -367,7 +367,7 @@ ul.sub-menu {
 }
 
 .companyinfo h2  span{
-  color:#4C711F;
+  color:#FE980F;
 }
 
 .companyinfo p {
@@ -835,7 +835,7 @@ h2.title:before{
 
 
 h2.title {
-  color: #4C711F;
+  color: #FE980F;
   font-family: 'Roboto', sans-serif;
   font-size: 18px;
   font-weight: 700;
@@ -1054,7 +1054,7 @@ h2.title {
 }
 
 .recommended-item-control i {
-  background: none repeat scroll 0 0 #4C711F;
+  background: none repeat scroll 0 0 #FE980F;
   color: #FFFFFF;
   font-size: 20px;
   padding: 4px 10px;

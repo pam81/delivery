@@ -1,0 +1,30 @@
+direccion_new:
+    pattern:  /new
+    defaults: { _controller: "BackendCustomerAdminBundle:Direccion:new" }
+
+direccion_exportar:
+    pattern:  /exportar
+    defaults: { _controller: "BackendCustomerAdminBundle:Direccion:exportar" }
+    
+direccion_create:
+    pattern:  /create
+    defaults: { _controller: "BackendCustomerAdminBundle:Direccion:create" }
+    requirements: { _method: post }
+
+direccion_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "BackendCustomerAdminBundle:Direccion:edit" }
+
+direccion_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "BackendCustomerAdminBundle:Direccion:update" }
+    requirements: { _method: post|put }
+
+direccion_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "BackendCustomerAdminBundle:Direccion:delete" }
+    requirements: { _method: post|delete }
+        
+direccion:
+    pattern:  /{search}
+    defaults: { _controller: "BackendCustomerAdminBundle:Direccion:index" , search: ''}
