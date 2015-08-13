@@ -45,7 +45,7 @@ class Status {
     
        
     public function __construct() {
-        $this->isActive = true;
+       
         $this->isDelete = false;
         $this->createdAt = new \DateTime('now');
         
