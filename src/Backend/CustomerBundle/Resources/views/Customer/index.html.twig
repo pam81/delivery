@@ -65,11 +65,11 @@
                                                   
 												  <td> {% if customer.getStatus.getName == "Pendiente" %}<span class="label label-warning">{{ customer.getStatus.getName }}</span>{% endif %}</td>
 												  <td>
-												  <a href="{{ path('customer_edit', { 'id': customer.id }) }}"><i class="fa fa-eye"></i></a>
+												                          <a  href="{{ path('customer_edit', { 'id': customer.id }) }}"><i class="fa fa-eye"></i></a>
                                                   <a href="{{ path('customer_edit', { 'id': customer.id }) }}"><i class="fa fa-pencil"></i></a>
-                                                  <a href="#" class="btn confirm-delete"   data-toggle="modal" data-id={{ customer.id }}  data-target="#myModal"><i class="fa fa-trash"></i></a>
-                                                  </td>
-                                      </tr>
+                                                  <a href="#" class=" confirm-delete"   data-toggle="modal" data-id={{ customer.id }}  data-target="#myModal"><i class="fa fa-trash"></i></a>
+                          </td>
+                          </tr>
                                       
                                       {% endfor %}
                                     
