@@ -37,8 +37,9 @@ security:
         secured_area:
             remember_me:
                 key:      "%secret%"
+                name: admin
                 lifetime: 31536000 # 365 days in seconds
-                path:     /
+                path:     /panel
                 domain:   ~
             pattern:    /panel
             provider: administrators
@@ -48,9 +49,20 @@ security:
             logout:
                 path: /panel/logout
                 target: /panel/login
-
+        
+        customer_login:
+            pattern:  ^/customer/login$
+            #security: false
+            anonymous:  ~
+        
         customer:
-            anonymous: ~
+            remember_me:
+                key:      "%secret%"
+                name: customer
+                lifetime: 31536000 # 365 days in seconds
+                path:     /customer
+                domain:   ~
+            access_denied_url: customer_access_denied
             pattern: /customer
             form_login:
                 login_path: customer_login

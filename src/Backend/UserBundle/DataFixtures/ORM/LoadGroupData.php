@@ -46,6 +46,11 @@ class LoadGroupData extends AbstractFixture implements OrderedFixtureInterface
         $groupAdmin->addAcceso($this->getReference('del-customer'));
         $groupAdmin->addAcceso($this->getReference('view-customer'));
         
+        $groupAdmin->addAcceso($this->getReference('add-direccion'));
+        $groupAdmin->addAcceso($this->getReference('mod-direccion'));
+        $groupAdmin->addAcceso($this->getReference('del-direccion'));
+        $groupAdmin->addAcceso($this->getReference('view-direccion'));
+        
         
         $manager->persist($groupAdmin);
         $manager->flush();
@@ -54,6 +59,11 @@ class LoadGroupData extends AbstractFixture implements OrderedFixtureInterface
         $groupAdmin5 = new Group();
         $groupAdmin5->setName('Visitante');
         $groupAdmin5->setRole('ROLE_VISITOR');
+        $groupAdmin5->addAcceso($this->getReference('add-direccion'));
+        $groupAdmin5->addAcceso($this->getReference('mod-direccion'));
+        $groupAdmin5->addAcceso($this->getReference('del-direccion'));
+        $groupAdmin5->addAcceso($this->getReference('view-direccion'));
+        
         $manager->persist($groupAdmin5);
         $manager->flush();
         $this->addReference('visitor-group', $groupAdmin5);

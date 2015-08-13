@@ -60,3 +60,7 @@ access_denied:
 principal:
    pattern: /panel/principal
    defaults: { _controller: BackendAdminBundle:Default:index  }        
+
+customer_access_denied:
+    pattern: /access_denied
+    defaults: { _controller: BackendCustomerAdminBundle:Principal:access }
