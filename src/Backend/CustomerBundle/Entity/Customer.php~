@@ -58,12 +58,18 @@ class Customer implements AdvancedUserInterface, \Serializable {
      * @ORM\Column(name="name", type="string",length=100, nullable=true)
      */
     private $name;
-    /**
+    
+	/**
      * @ORM\Column(name="lastname", type="string", length=100, nullable=true)
      */
     private $lastname;
     
-    /**
+	/**
+     * @ORM\Column(name="nickname", type="string", length=100, nullable=true)
+     */
+    private $nickname;
+	
+	/**
      * @ORM\Column(name="dni", type="string", length=100, nullable=true)
      */
     private $dni;
@@ -747,5 +753,28 @@ class Customer implements AdvancedUserInterface, \Serializable {
     public function getDirecciones()
     {
         return $this->direcciones;
+    }
+
+    /**
+     * Set nickname
+     *
+     * @param string $nickname
+     * @return Customer
+     */
+    public function setNickname($nickname)
+    {
+        $this->nickname = $nickname;
+
+        return $this;
+    }
+
+    /**
+     * Get nickname
+     *
+     * @return string 
+     */
+    public function getNickname()
+    {
+        return $this->nickname;
     }
 }

@@ -24,8 +24,6 @@ class CustomerType extends AbstractType
                 'years'=> range(date('Y') -100, date('Y'))
             ));
             
-			
-            
             $builder->add('password', 'repeated', array(
                         'type' => 'password',
                         'invalid_message' => 'No coincide la contraseña.',

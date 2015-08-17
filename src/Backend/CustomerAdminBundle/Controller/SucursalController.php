@@ -6,27 +6,32 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Backend\CustomerAdminBundle\Entity\Direccion;
-use Backend\CustomerAdminBundle\Form\DireccionType;
+use Backend\CustomerAdminBundle\Entity\Sucursal;
+use Backend\CustomerAdminBundle\Form\SucursalType;
 
+use Backend\CustomerAdminBundle\Entity\Customer;
 /**
  * Direccion controller.
  *
  */
-class DireccionController extends Controller
+class SucursalController extends Controller
 {
 
-     public function generateSQL($search){
+     public function generateCustomerSQL($search, $customerId){
      
-        $dql="SELECT u FROM BackendCustomerAdminBundle:Direccion u "  ;
-        $search=mb_convert_case($search,MB_CASE_LOWER);
+        //$dql="SELECT u FROM BackendCustomerAdminBundle:Sucursal u "  ;
+        
+		$dql="SELECT u FROM BackendCustomerAdminBundle:Sucursal u JOIN u.customer c  
+		              where u.is_active =true and c.id = $customerId " ;
+		
+		$search=mb_convert_case($search,MB_CASE_LOWER);
         
        
         if ($search)
           
-		  $dql.=" where u.calle like '%$search%' ";
+		  $dql.=" and u.name like '%$search%' ";
           
-          $dql .=" order by u.calle"; 
+          $dql .=" order by u.id"; 
         
         return $dql;
      
@@ -36,7 +41,9 @@ class DireccionController extends Controller
      * Lists all Direcciones entities.
      *
      */
-    public function indexAction(Request $request,$search)
+    public function indexAction(Request $request,$search){
+		/*
+   
     {
        if ( $this->get('security.context')->isGranted('ROLE_VIEWDIRECCION')) {
         $em = $this->getDoctrine()->getManager();
@@ -47,12 +54,12 @@ class DireccionController extends Controller
         $paginator  = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
         $query,
-        $this->get('request')->query->get('page', 1)/*page number*/,
-        $this->container->getParameter('max_on_listepage')/*limit per page*/
-    );
+        $this->get('request')->query->get('page', 1) /*page number*//*,
+        $this->container->getParameter('max_on_listepage') /*limit per page*/
+    /*);
         
         $deleteForm = $this->createDeleteForm(0);
-        return $this->render('BackendCustomerAdminBundle:Direccion:index.html.twig', 
+        return $this->render('BackendCustomerAdminBundle:Sucursal:index.html.twig', 
         array('pagination' => $pagination,
         'delete_form' => $deleteForm->createView(),
         'search'=>$search
@@ -62,6 +69,72 @@ class DireccionController extends Controller
      else
          throw new AccessDeniedException(); 
     }
+	*/
+        if ( $this->get('security.context')->isGranted('ROLE_VIEWSUCURSAL')) {
+       
+         
+        	if (!$this->get('security.context')->isGranted('ROLE_VISITOR')){
+				
+            	$search=$this->generateAdminSQL($request);
+	
+			}else{
+				
+             	$user=$this->getUser();
+             	if (!$user->getId()){
+                $this->get('session')->getFlashBag()->add('error' , 'Debe crear un usuario para la sucursal');
+                return $this->redirect($this->generateUrl('home'));
+            
+		 		}else{
+                	$search =  $this->generateCustomerSQL($request,$user->getId());
+        		}
+     
+		        $em = $this->getDoctrine()->getManager();
+        
+		        //$dql=$this->generateSQL($search);
+		        $query = $em->createQuery($search);
+	 
+	    }
+       
+        
+		/*
+        
+        if (!$this->get('security.context')->isGranted('ROLE_VISITOR')){
+            return $this->render('BackendCustomerAdminBundle:Cuenta:index.html.twig', 
+            array(
+            'resultados' => $search["resultados"],
+            'search'=>$search
+            ));
+        }else{
+            return $this->render('BackendAdminBundle:Cuenta:indexClient.html.twig', 
+            array(
+            'resultados' => $search,
+            'clienteId'=>$user=$this->getUser()->getCliente()->getId()
+            
+            ));
+        
+        } 
+		*/
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+        $query,
+        $this->get('request')->query->get('page', 1) /*page number*/,
+        $this->container->getParameter('max_on_listepage') /*limit per page*/
+        );
+        
+        $deleteForm = $this->createDeleteForm(0);
+        return $this->render('BackendCustomerAdminBundle:Sucursal:index.html.twig', 
+        array('pagination' => $pagination,
+        'delete_form' => $deleteForm->createView(),
+        'search'=>$search
+        ));   
+        
+    }
+     else
+         throw new AccessDeniedException(); 
+    }
+	
+	
+	
     /**
      * Creates a new Direccion entity.
      *

@@ -61,10 +61,23 @@ class Direccion
    
     private $barrio;
 	
+    
+	/**
+     * @ORM\Column(name="coordenadas",type="json_array",nullable=true)
+	 */
+   	
+	private $coordenadas;
+	
     /**
      * @ORM\ManyToMany(targetEntity="\Backend\CustomerBundle\Entity\Customer", inversedBy="direcciones")
      */
+
     protected $customers;
+	
+    /**
+     * @ORM\OneToOne(targetEntity="Sucursal", mappedBy="direccion")
+     */
+    private $sucursal;
 	
     /**
      * @ORM\ManyToOne(targetEntity="TipoDireccion", inversedBy="direcciones")
@@ -72,7 +85,7 @@ class Direccion
      */
    
     private $tipo;
-	
+
 		
     /**
      * @ORM\Column(name="created_at", type="datetime")
@@ -365,5 +378,51 @@ class Direccion
     public function getTipo()
     {
         return $this->tipo;
+    }
+
+    /**
+     * Set sucursal
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Sucursal $sucursal
+     * @return Direccion
+     */
+    public function setSucursal(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursal = null)
+    {
+        $this->sucursal = $sucursal;
+
+        return $this;
+    }
+
+    /**
+     * Get sucursal
+     *
+     * @return \Backend\CustomerAdminBundle\Entity\Sucursal 
+     */
+    public function getSucursal()
+    {
+        return $this->sucursal;
+    }
+
+    /**
+     * Set coordenadas
+     *
+     * @param array $coordenadas
+     * @return Direccion
+     */
+    public function setCoordenadas($coordenadas)
+    {
+        $this->coordenadas = $coordenadas;
+
+        return $this;
+    }
+
+    /**
+     * Get coordenadas
+     *
+     * @return array 
+     */
+    public function getCoordenadas()
+    {
+        return $this->coordenadas;
     }
 }

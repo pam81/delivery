@@ -26,6 +26,12 @@ class Categoria
      * @ORM\OneToMany(targetEntity="Subcategoria", mappedBy="categoria")
      */
     private $subcategorias;
+	
+    /**
+    * @ORM\ManyToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Sucursal", mappedBy="categorias")
+    */
+  
+   protected $sucursales;
 
     /**
      * Constructor
@@ -104,5 +110,38 @@ class Categoria
     public function getSubcategorias()
     {
         return $this->subcategorias;
+    }
+
+    /**
+     * Add sucursales
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Sucursal $sucursales
+     * @return Categoria
+     */
+    public function addSucursale(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
+    {
+        $this->sucursales[] = $sucursales;
+
+        return $this;
+    }
+
+    /**
+     * Remove sucursales
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Sucursal $sucursales
+     */
+    public function removeSucursale(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
+    {
+        $this->sucursales->removeElement($sucursales);
+    }
+
+    /**
+     * Get sucursales
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSucursales()
+    {
+        return $this->sucursales;
     }
 }

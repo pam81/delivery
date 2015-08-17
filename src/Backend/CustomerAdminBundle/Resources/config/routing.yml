@@ -24,6 +24,10 @@ customer_direccion:
     resource: "@BackendCustomerAdminBundle/Resources/config/routing/direccion.yml"
     prefix:   /direccion    
 
+customer_sucursal:
+    resource: "@BackendCustomerAdminBundle/Resources/config/routing/sucursal.yml"
+    prefix:   /sucursal    
+
    
 
 

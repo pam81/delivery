@@ -1,0 +1,30 @@
+sucursal_new:
+    pattern:  /new
+    defaults: { _controller: "BackendCustomerAdminBundle:Sucursal:new" }
+
+sucursal_exportar:
+    pattern:  /exportar
+    defaults: { _controller: "BackendCustomerAdminBundle:Sucursal:exportar" }
+    
+sucursal_create:
+    pattern:  /create
+    defaults: { _controller: "BackendCustomerAdminBundle:Sucursal:create" }
+    requirements: { _method: post }
+
+sucursal_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "BackendCustomerAdminBundle:Sucursal:edit" }
+
+sucursal_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "BackendCustomerAdminBundle:Sucursal:update" }
+    requirements: { _method: post|put }
+
+sucursal_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "BackendCustomerAdminBundle:Sucursal:delete" }
+    requirements: { _method: post|delete }
+        
+sucursal:
+    pattern:  /{search}
+    defaults: { _controller: "BackendCustomerAdminBundle:Sucursal:index" , search: ''}
