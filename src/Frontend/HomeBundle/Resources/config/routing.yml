@@ -13,5 +13,10 @@ frontend_menuCategoria:
 frontend_tiendas:
     pattern:  /tiendas
     defaults: { _controller: FrontendHomeBundle:Home:getTiendas }
+
+
+frontend_premium:
+    pattern:  /tiendas_premium
+    defaults: { _controller: FrontendHomeBundle:Home:getTiendasPremium }    
        
     
