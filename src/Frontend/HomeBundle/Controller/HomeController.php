@@ -117,6 +117,26 @@ class HomeController extends Controller
     
     }
     
+    public function getTiendasPremiumAction(Request $request){
+        $listado=array();
+        $images=array("images/home/recommend1.jpg", "images/home/recommend2.jpg", "images/home/recommend3.jpg");
+        for($i=0; $i< 6; $i++){
+              $record=array();
+              $record["id"]=$i;
+              $record["name"]="";
+              $record["imagen"]=$images[rand(0,2)];
+              $record["estado"]=rand(0,1); //0:cerrado 1: abierto
+              $listado[] = $record;
+         }
+    
+       $response = new Response(json_encode($listado));
+        
+       $response->headers->set('Content-Type', 'application/json');
+  
+       return $response;
+    
+    }
+    
     
 } 
  
