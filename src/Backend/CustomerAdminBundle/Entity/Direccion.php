@@ -102,7 +102,8 @@ class Direccion
     
     public function __toString()
     {
-          return $this->name;
+		$direccion = $this->calle." ".$this->numero;
+		  return $direccion;
     }
 
     

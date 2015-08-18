@@ -11,19 +11,23 @@ class SucursalType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
           
-          	$builder->add('phone','text');
+			$builder->add('name','text');
+			$builder->add('phone','text');
+			$builder->add('email','email');
+			$builder->add('website','text');
 			$builder->add('cuit');
-            $builder->add('zona','entity',array(
-                'class'=>'BackendAdminBundle:Zona',
-                'property'=>'name',
+            $builder->add('direccion','entity',array(
+                'class'=>'BackendCustomerAdminBundle:Direccion',
+                //'property'=>'calle',
                 'multiple'=>false
             ));
-            $builder->add('barrio','entity',array(
-                'class'=>'BackendAdminBundle:Barrio',
-                'property'=>'name',
-                'multiple'=>false
+            $builder->add('open','checkbox',array(
+             'value'=>1,
+             'label'=>"Open 24 hs",
+             'required'=>false
             ));
-            $builder->add('is_unica','checkbox',array(
+            
+			$builder->add('is_unica','checkbox',array(
              'value'=>1,
              'label'=>"Unica sucursal",
              'required'=>false
