@@ -11,90 +11,10 @@
 						<h2 class="title text-center">Sugeridos</h2>
 						
 						<div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
-							<div class="carousel-inner">
-								<div class="item active">	
-									
-                  <div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="{{ asset("images/home/recommend1.jpg")}}" alt="" />
-												
-													<p></p>
-													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Ver productos</a>
-												</div>
-												
-											</div>
-										</div>
-									</div>
-									
-                  <div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="{{ asset("images/home/recommend2.jpg")}}" alt="" />
-												
-													<p></p>
-													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Ver productos</a>
-												</div>
-												
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="{{ asset("images/home/recommend3.jpg")}}" alt="" />
-												
-													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Ver productos</a>
-												</div>
-												
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="item">	
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="{{ asset("images/home/recommend1.jpg")}}" alt="" />
-													<h2></h2>
-													<p></p>
-													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Ver productos</a>
-												</div>
-												
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="{{ asset("images/home/recommend2.jpg")}}" alt="" />
-													<h2></h2>
-													<p></p>
-													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Ver productos</a>
-												</div>
-												
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="{{ asset("images/home/recommend3.jpg")}}" alt="" />
-													<h2></h2>
-													<p></p>
-													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Ver productos</a>
-												</div>
-												
-											</div>
-										</div>
-									</div>
-								</div>
+							<div class="carousel-inner" id="sugeridos" data-url="{{ path('frontend_premium') }}">
+							
+          
+								</div>  <!-- items-->
 							</div>
 							 <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
 								<i class="fa fa-angle-left"></i>
@@ -111,7 +31,7 @@
 					</div><!--features_items-->
           
           	<div class="col-sm-12 ">
-                    <a>queres ver más!</a>
+                    <a class="btn" id="see_more">queres ver más!</a>
             </div>
 				</div>
 			</div>

@@ -84,8 +84,6 @@ $(document).ready(function(){
                       	element += '							<div class="single-products">';
                       	element += '									<div class="productinfo text-center">';
                       	element += '										<img src="'+data[index].imagen+'" alt="" />';
-                      	//element += '										<h2></h2>';
-                      	//element += '										<p></p>';
                       	element += '										<a href="#" class="btn btn-default add-to-cart" ><i class="fa fa-shopping-cart"></i>Ver productos</a>';
                       	element += '									</div> ';
                         if (data[index].estado == 1){
@@ -95,8 +93,7 @@ $(document).ready(function(){
                         element +='    <div class="choose">';
     									  element +='       <ul class="nav nav-pills nav-justified">';
     										element +='         <li><a href="#"><i class="fa fa-clock-o"></i>Consultar horario </a></li>';
-                        element +='         <li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>';
-					              element +='<li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>';
+                        element +='         <li><a href="#"><i class="fa fa-plus-square"></i>Agregar a Favoritos</a></li>';
                         element +=' 			</ul>';
     								    element +='    </div>';
                       	element += '						</div>';
@@ -112,6 +109,36 @@ $(document).ready(function(){
                 console.log( "can't load tiendas" );
               });          
               
+   var jqxTiendasPremium = $.getJSON( $("#sugeridos").data("url"))
+              .done(function(data) {
+                 var element = '<div class="item active">';
+                 var i=0;
+                  $.each(data,function(index){ 
+                    
+                    element += '<div class="col-sm-4">';
+										element += '<div class="product-image-wrapper">';
+										element += ' <div class="single-products">';
+										element +='		<div class="productinfo text-center">';
+										element +='			<img src="'+data[index].imagen+'" alt="" />';
+										element +='			<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Ver productos</a>';
+										element +='		</div> ';
+                    element +='  </div>';
+										element +=' </div>';
+									  element +=' </div>';
+                    i++;
+                    if (i == 3){
+                      element +='</div> <div class="item">';
+                      i=0;
+                    }
+                       
+                  });
+                  element += "</div>"; 
                   
+                  $('#sugeridos').append(element);
+                  
+              })
+              .fail(function() {
+                console.log( "can't load tiendas premium" );
+              });               
   
 });
