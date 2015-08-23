@@ -1,0 +1,476 @@
+<?php
+ 
+namespace Backend\CustomerAdminBundle\Entity;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
+/**
+ * @ORM\Table(name="producto")
+ * @ORM\Entity()
+ * @ORM\HasLifecycleCallbacks  
+ */
+class Producto 
+{
+    /**
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id()
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+    
+    /**
+     * @ORM\Column(name="name", type="string", length=200)
+     */
+    private $name;
+    
+    /**
+     * @ORM\Column(name="description", type="text", nullable=true)
+     */
+    private $description;
+    
+    /**
+     * @ORM\Column(name="code", type="string", length=100, nullable=true)
+     */
+    private $code;
+
+    /**
+     * @ORM\Column(name="price", type="string", length=100)
+     */
+    private $precio;
+    
+    /**
+     * @ORM\Column(name="always_available", type="boolean")
+     */
+    private $alwaysAvailable;
+    
+    /**
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    private $createdAt;
+    
+     /**
+     * @ORM\Column(name="modified_at", type="datetime", nullable=true)
+     */
+    private $modifiedAt;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="\Backend\CustomerBundle\Entity\Customer", inversedBy="productos")
+     * @ORM\JoinColumn(name="customer_id", referencedColumnName="id")
+     */
+    private $customer;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="\Backend\AdminBundle\Entity\Categoria", inversedBy="productos")
+     * @ORM\JoinColumn(name="categoria_id", referencedColumnName="id")
+     */
+    private $categoria;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="\Backend\AdminBundle\Entity\Subcategoria", inversedBy="productos")
+     * @ORM\JoinColumn(name="subcategoria_id", referencedColumnName="id")
+     */
+    private $subcategoria;
+    
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    
+    private $path;
+    
+    private $temp;
+    private $file;
+    
+    public function __construct() {
+	
+		  $this->alwaysAvailable = true;
+		  $this->createdAt = new \DateTime('now');
+         
+    }
+    
+    public function __toString()
+    {
+          return $this->name;
+    }
+    
+    
+     /**
+     * Sets file.
+     *
+     * @param UploadedFile $file
+     */
+    public function setFile(UploadedFile $file = null)
+    {
+        $this->file = $file;
+        // check if we have an old image path
+        if (isset($this->path)) {
+            // store the old name to delete after the update
+            $this->temp = $this->path;
+            $this->path = null;
+        } else {
+            $this->path = 'initial';
+        }
+    }
+
+     /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function preUpload()
+    {
+        if (null !== $this->getFile()) {
+            // do whatever you want to generate a unique name
+            $filename = sha1(uniqid(mt_rand(), true));
+            $this->path = $filename.'.'.$this->getFile()->guessExtension();
+        }
+    }
+    
+    /**
+     * @ORM\PostPersist()
+     * @ORM\PostUpdate()
+     */
+    public function upload()
+    {
+        if (null === $this->getFile()) {
+            return;
+        }
+
+        // if there is an error when moving the file, an exception will
+        // be automatically thrown by move(). This will properly prevent
+        // the entity from being persisted to the database on error
+        $this->getFile()->move($this->getUploadRootDir(), $this->path);
+
+        // check if we have an old image
+        if (isset($this->temp)) {
+            // delete the old image
+            @unlink($this->getUploadRootDir().'/'.$this->temp);
+            // clear the temp image path
+            $this->temp = null;
+        }
+        $this->file = null;
+    }
+    
+    /**
+     * @ORM\PostRemove()
+     */
+    public function removeUpload()
+    {
+        if ($file = $this->getAbsolutePath()) {
+            @unlink($file);
+        }
+    }
+    
+    
+    
+    public function getFile()
+    {
+        return $this->file;
+    }
+    
+
+    
+    public function getAbsolutePath()
+    {
+        return null === $this->path
+            ? null
+            : $this->getUploadRootDir().'/'.$this->path;
+    }
+
+    public function getWebPath()
+    {
+        return null === $this->path
+            ? null
+            : $this->getUploadDir().'/'.$this->path;
+    }
+    
+    
+
+    protected function getUploadRootDir()
+    {
+        // the absolute directory path where uploaded
+        // documents should be saved
+        return __DIR__.'/../../../../web/'.$this->getUploadDir();
+    }
+
+    protected function getUploadDir()
+    {
+        // get rid of the __DIR__ so it doesn't screw up
+        // when displaying uploaded doc/image in the view.
+        return 'uploads/productos';
+    }
+    
+    
+     /**
+     * @ORM\PreUpdate()
+     * 
+     */
+     
+    public function modifiedUpdate(){
+    
+      $this->setModifiedAt(new \DateTime('now'));
+    }
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return Producto
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set code
+     *
+     * @param string $code
+     * @return Producto
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string 
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * Set precio
+     *
+     * @param string $precio
+     * @return Producto
+     */
+    public function setPrecio($precio)
+    {
+        $this->precio = $precio;
+
+        return $this;
+    }
+
+    /**
+     * Get precio
+     *
+     * @return string 
+     */
+    public function getPrecio()
+    {
+        return $this->precio;
+    }
+
+    /**
+     * Set alwaysAvailable
+     *
+     * @param boolean $alwaysAvailable
+     * @return Producto
+     */
+    public function setAlwaysAvailable($alwaysAvailable)
+    {
+        $this->alwaysAvailable = $alwaysAvailable;
+
+        return $this;
+    }
+
+    /**
+     * Get alwaysAvailable
+     *
+     * @return boolean 
+     */
+    public function getAlwaysAvailable()
+    {
+        return $this->alwaysAvailable;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     * @return Producto
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime 
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set modifiedAt
+     *
+     * @param \DateTime $modifiedAt
+     * @return Producto
+     */
+    public function setModifiedAt($modifiedAt)
+    {
+        $this->modifiedAt = $modifiedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get modifiedAt
+     *
+     * @return \DateTime 
+     */
+    public function getModifiedAt()
+    {
+        return $this->modifiedAt;
+    }
+
+    /**
+     * Set customer
+     *
+     * @param \Backend\CustomerBundle\Entity\Customer $customer
+     * @return Producto
+     */
+    public function setCustomer(\Backend\CustomerBundle\Entity\Customer $customer = null)
+    {
+        $this->customer = $customer;
+
+        return $this;
+    }
+
+    /**
+     * Get customer
+     *
+     * @return \Backend\CustomerBundle\Entity\Customer 
+     */
+    public function getCustomer()
+    {
+        return $this->customer;
+    }
+
+    /**
+     * Set categoria
+     *
+     * @param \Backend\AdminBundle\Entity\Categoria $categoria
+     * @return Producto
+     */
+    public function setCategoria(\Backend\AdminBundle\Entity\Categoria $categoria = null)
+    {
+        $this->categoria = $categoria;
+
+        return $this;
+    }
+
+    /**
+     * Get categoria
+     *
+     * @return \Backend\AdminBundle\Entity\Categoria 
+     */
+    public function getCategoria()
+    {
+        return $this->categoria;
+    }
+
+    /**
+     * Set subcategoria
+     *
+     * @param \Backend\AdminBundle\Entity\Subcategoria $subcategoria
+     * @return Producto
+     */
+    public function setSubcategoria(\Backend\AdminBundle\Entity\Subcategoria $subcategoria = null)
+    {
+        $this->subcategoria = $subcategoria;
+
+        return $this;
+    }
+
+    /**
+     * Get subcategoria
+     *
+     * @return \Backend\AdminBundle\Entity\Subcategoria 
+     */
+    public function getSubcategoria()
+    {
+        return $this->subcategoria;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return Producto
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set path
+     *
+     * @param string $path
+     * @return Producto
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+
+        return $this;
+    }
+
+    /**
+     * Get path
+     *
+     * @return string 
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+}

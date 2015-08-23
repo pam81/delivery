@@ -16,7 +16,7 @@ class LoadSeteoData extends AbstractFixture implements OrderedFixtureInterface
     {
         $seteoAdmin = new Seteo();
         $seteoAdmin->setName('email');
-        $seteoAdmin->setValue('info@hope.com.ar');
+        $seteoAdmin->setValue('info@zonadelivery.com.ar');
 
         $manager->persist($seteoAdmin);
         $manager->flush();
@@ -24,7 +24,7 @@ class LoadSeteoData extends AbstractFixture implements OrderedFixtureInterface
         
         $seteoAdmin2 = new Seteo();
         $seteoAdmin2->setName('empresa');
-        $seteoAdmin2->setValue('william hope');
+        $seteoAdmin2->setValue('zona delivery');
 
         $manager->persist($seteoAdmin2);
         $manager->flush();
@@ -32,7 +32,7 @@ class LoadSeteoData extends AbstractFixture implements OrderedFixtureInterface
         
         $seteoAdmin3 = new Seteo();
         $seteoAdmin3->setName('cercania');
-        $seteoAdmin3->setValue('30');
+        $seteoAdmin3->setValue('10');
 
         $manager->persist($seteoAdmin3);
         $manager->flush();

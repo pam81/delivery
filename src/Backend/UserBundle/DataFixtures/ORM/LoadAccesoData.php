@@ -215,7 +215,63 @@ class LoadAccesoData extends AbstractFixture implements OrderedFixtureInterface
         $accesoAdmin29->setAcceso('ROLE_VIEWDIRECCION');
         $manager->persist($accesoAdmin29);
         $manager->flush();
-        $this->addReference('view-direccion', $accesoAdmin29); 
+        $this->addReference('view-direccion', $accesoAdmin29);
+        
+        $accesoAdmin30 = new Acceso();
+        $accesoAdmin30->setName('Nuevo Producto');
+        $accesoAdmin30->setAcceso('ROLE_ADDPRODUCTO');
+        $manager->persist($accesoAdmin30);
+        $manager->flush();
+        $this->addReference('add-producto', $accesoAdmin30);
+        
+        $accesoAdmin31 = new Acceso();
+        $accesoAdmin31->setName('Modificar Producto');
+        $accesoAdmin31->setAcceso('ROLE_MODPRODUCTO');
+        $manager->persist($accesoAdmin31);
+        $manager->flush();
+        $this->addReference('mod-producto', $accesoAdmin31);
+
+        $accesoAdmin32 = new Acceso();
+        $accesoAdmin32->setName('Borrar Producto');
+        $accesoAdmin32->setAcceso('ROLE_DELPRODUCTO');
+        $manager->persist($accesoAdmin32);
+        $manager->flush();
+        $this->addReference('del-producto', $accesoAdmin32);
+       
+        $accesoAdmin33= new Acceso();
+        $accesoAdmin33->setName('Listar Producto');
+        $accesoAdmin33->setAcceso('ROLE_VIEWPRODUCTO');
+        $manager->persist($accesoAdmin33);
+        $manager->flush();
+        $this->addReference('view-producto', $accesoAdmin33); 
+        
+        $accesoAdmin34 = new Acceso();
+        $accesoAdmin34->setName('Nueva Sucursal');
+        $accesoAdmin34->setAcceso('ROLE_ADDSUCURSAL');
+        $manager->persist($accesoAdmin34);
+        $manager->flush();
+        $this->addReference('add-sucursal', $accesoAdmin34);
+        
+        $accesoAdmin35 = new Acceso();
+        $accesoAdmin35->setName('Modificar Sucursal');
+        $accesoAdmin35->setAcceso('ROLE_MODSUCURSAL');
+        $manager->persist($accesoAdmin35);
+        $manager->flush();
+        $this->addReference('mod-sucursal', $accesoAdmin35);
+
+        $accesoAdmin36 = new Acceso();
+        $accesoAdmin36->setName('Borrar Sucursal');
+        $accesoAdmin36->setAcceso('ROLE_DELSUCURSAL');
+        $manager->persist($accesoAdmin36);
+        $manager->flush();
+        $this->addReference('del-sucursal', $accesoAdmin36);
+       
+        $accesoAdmin37= new Acceso();
+        $accesoAdmin37->setName('Listar Sucursal');
+        $accesoAdmin37->setAcceso('ROLE_VIEWSUCURSAL');
+        $manager->persist($accesoAdmin37);
+        $manager->flush();
+        $this->addReference('view-sucursal', $accesoAdmin37);
 			
                
     }

@@ -21,7 +21,11 @@ backend_categoria:
 
 backend_subcategoria:
     resource: "@BackendAdminBundle/Resources/config/routing/subcategoria.yml"
-    prefix:   /subcategoria    
+    prefix:   /subcategoria
+
+backend_producto:
+    resource: "@BackendAdminBundle/Resources/config/routing/producto.yml"
+    prefix:   /producto        
 
 
             

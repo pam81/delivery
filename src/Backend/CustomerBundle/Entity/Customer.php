@@ -6,8 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\Common\Collections\ArrayCollection;
-use Backend\UserBundle\Validator\Constraints\UsuarioUnique;
-use Backend\UserBundle\Validator\Constraints\EmailUnique;
+use Backend\CustomerBundle\Validator\Constraints\CustomerUnique;
+use Backend\CustomerBundle\Validator\Constraints\EmailUnique;
 
 
 /**
@@ -16,8 +16,8 @@ use Backend\UserBundle\Validator\Constraints\EmailUnique;
  * @ORM\Table(name="customer")
  * @ORM\Entity(repositoryClass="Backend\CustomerBundle\Entity\CustomerRepository")
  * @ORM\HasLifecycleCallbacks 
- * @UsuarioUnique()
- * @EmailUnique()  
+ * @CustomerUnique()
+ *  
  */
 class Customer implements AdvancedUserInterface, \Serializable {
 
@@ -137,8 +137,11 @@ class Customer implements AdvancedUserInterface, \Serializable {
     * @ORM\ManyToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Direccion", mappedBy="customers")
     */
   
-   protected $direcciones;
-	
+    protected $direcciones;
+	  /**
+     * @ORM\OneToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Producto", mappedBy="customer")
+     */
+    private $productos;
        
     public function __construct() {
         $this->isActive = true;
@@ -151,7 +154,7 @@ class Customer implements AdvancedUserInterface, \Serializable {
 
    public function __toString(){
    
-         return $this->email;
+         return $this->name." ".$this->lastname;
    }
 
 
@@ -776,5 +779,38 @@ class Customer implements AdvancedUserInterface, \Serializable {
     public function getNickname()
     {
         return $this->nickname;
+    }
+
+    /**
+     * Add productos
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Producto $productos
+     * @return Customer
+     */
+    public function addProducto(\Backend\CustomerAdminBundle\Entity\Producto $productos)
+    {
+        $this->productos[] = $productos;
+
+        return $this;
+    }
+
+    /**
+     * Remove productos
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Producto $productos
+     */
+    public function removeProducto(\Backend\CustomerAdminBundle\Entity\Producto $productos)
+    {
+        $this->productos->removeElement($productos);
+    }
+
+    /**
+     * Get productos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProductos()
+    {
+        return $this->productos;
     }
 }

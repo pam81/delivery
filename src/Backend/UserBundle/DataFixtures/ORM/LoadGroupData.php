@@ -51,22 +51,41 @@ class LoadGroupData extends AbstractFixture implements OrderedFixtureInterface
         $groupAdmin->addAcceso($this->getReference('del-direccion'));
         $groupAdmin->addAcceso($this->getReference('view-direccion'));
         
+        $groupAdmin->addAcceso($this->getReference('add-producto'));
+        $groupAdmin->addAcceso($this->getReference('mod-producto'));
+        $groupAdmin->addAcceso($this->getReference('del-producto'));
+        $groupAdmin->addAcceso($this->getReference('view-producto'));
+        
+        $groupAdmin->addAcceso($this->getReference('add-sucursal'));
+        $groupAdmin->addAcceso($this->getReference('mod-sucursal'));
+        $groupAdmin->addAcceso($this->getReference('del-sucursal'));
+        $groupAdmin->addAcceso($this->getReference('view-sucursal'));
         
         $manager->persist($groupAdmin);
         $manager->flush();
         $this->addReference('admin-group', $groupAdmin);
         
-        $groupAdmin5 = new Group();
-        $groupAdmin5->setName('Visitante');
-        $groupAdmin5->setRole('ROLE_VISITOR');
-        $groupAdmin5->addAcceso($this->getReference('add-direccion'));
-        $groupAdmin5->addAcceso($this->getReference('mod-direccion'));
-        $groupAdmin5->addAcceso($this->getReference('del-direccion'));
-        $groupAdmin5->addAcceso($this->getReference('view-direccion'));
+        $groupAdmin1 = new Group();
+        $groupAdmin1->setName('Visitante');
+        $groupAdmin1->setRole('ROLE_VISITOR');
+        $groupAdmin1->addAcceso($this->getReference('add-direccion'));
+        $groupAdmin1->addAcceso($this->getReference('mod-direccion'));
+        $groupAdmin1->addAcceso($this->getReference('del-direccion'));
+        $groupAdmin1->addAcceso($this->getReference('view-direccion'));
         
-        $manager->persist($groupAdmin5);
+        $groupAdmin1->addAcceso($this->getReference('add-producto'));
+        $groupAdmin1->addAcceso($this->getReference('mod-producto'));
+        $groupAdmin1->addAcceso($this->getReference('del-producto'));
+        $groupAdmin1->addAcceso($this->getReference('view-producto'));
+        
+        $groupAdmin1->addAcceso($this->getReference('add-sucursal'));
+        $groupAdmin1->addAcceso($this->getReference('mod-sucursal'));
+        $groupAdmin1->addAcceso($this->getReference('del-sucursal'));
+        $groupAdmin1->addAcceso($this->getReference('view-sucursal'));
+        
+        $manager->persist($groupAdmin1);
         $manager->flush();
-        $this->addReference('visitor-group', $groupAdmin5);
+        $this->addReference('visitor-group', $groupAdmin1);
     }
 
     /**

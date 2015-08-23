@@ -85,3 +85,29 @@ knp_paginator:
     template:
         pagination: KnpPaginatorBundle:Pagination:twitter_bootstrap_v3_pagination.html.twig    
         sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig
+
+services:
+    usuario_unique_validator:
+        class: Backend\UserBundle\Validator\Constraints\UsuarioUniqueValidator
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            -
+                name: validator.constraint_validator
+                alias: usuario_unique 
+    customer_unique_validator:
+        class: Backend\CustomerBundle\Validator\Constraints\CustomerUniqueValidator
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            -
+                name: validator.constraint_validator
+                alias: customer_unique                    
+    email_unique_validator:
+        class: Backend\UserBundle\Validator\Constraints\EmailUniqueValidator
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            -
+                name: validator.constraint_validator
+                alias: email_unique        
