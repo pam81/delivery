@@ -46,6 +46,7 @@
                                 <thead>
                                     <tr>
                                         <th {% if pagination.isSorted('u.name') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nombre', 'u.name') }}</th>
+                                        <th>Imagen</th>
                                         <th style="width: 36px;">Acciones</th>
                                     </tr>
                                 </thead>
@@ -53,6 +54,11 @@
                                      {% for categoria in pagination %}
                                        <tr>
                                                   <td>{{ categoria.name |capitalize}}</td>
+                                                  <td>
+                                                  {% if categoria.getWebPath() %}
+                                                  <img src="{{ asset(categoria.getWebPath()) }}" width="100" height="100" />
+                                                  {% endif %}
+                                                  </td>
                                                   <td>
                                                   {% if is_granted("ROLE_MODCATEGORIA") %}
                                                   <a href="{{ path('categoria_edit', { 'id': categoria.id }) }}"><i class="fa fa-pencil"></i></a>

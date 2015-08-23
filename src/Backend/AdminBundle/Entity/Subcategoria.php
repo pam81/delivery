@@ -27,11 +27,17 @@ class Subcategoria
      * @ORM\JoinColumn(name="categoria_id", referencedColumnName="id")
      */
     private $categoria;
+    
+     /**
+     * @ORM\OneToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Producto", mappedBy="subcategoria")
+     */
+   private $productos;
 
 
      public function __toString()
     {
           return $this->name;
+          $this->productos = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -88,5 +94,45 @@ class Subcategoria
     public function getCategoria()
     {
         return $this->categoria;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->productos = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add productos
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Producto $productos
+     * @return Subcategoria
+     */
+    public function addProducto(\Backend\CustomerAdminBundle\Entity\Producto $productos)
+    {
+        $this->productos[] = $productos;
+
+        return $this;
+    }
+
+    /**
+     * Remove productos
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Producto $productos
+     */
+    public function removeProducto(\Backend\CustomerAdminBundle\Entity\Producto $productos)
+    {
+        $this->productos->removeElement($productos);
+    }
+
+    /**
+     * Get productos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProductos()
+    {
+        return $this->productos;
     }
 }

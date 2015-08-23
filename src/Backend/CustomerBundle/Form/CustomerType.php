@@ -17,6 +17,7 @@ class CustomerType extends AbstractType
             $builder->add('email','email');
             $builder->add('phone');
             $builder->add('mobile');
+            $builder->add('status');
 			$builder->add('dni');
             $builder->add('birthday','date', array(
                 'input'=> "string",
