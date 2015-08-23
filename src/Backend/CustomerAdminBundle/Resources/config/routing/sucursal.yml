@@ -15,6 +15,10 @@ sucursal_edit:
     pattern:  /{id}/edit
     defaults: { _controller: "BackendCustomerAdminBundle:Sucursal:edit" }
 
+sucursal_load_horario:
+    pattern:  /loadHorario
+    defaults: { _controller: "BackendCustomerAdminBundle:Sucursal:loadHorario" }
+
 sucursal_update:
     pattern:  /{id}/update
     defaults: { _controller: "BackendCustomerAdminBundle:Sucursal:update" }

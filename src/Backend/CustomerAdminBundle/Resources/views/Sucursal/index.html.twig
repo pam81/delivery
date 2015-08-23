@@ -48,7 +48,7 @@
 										<th>Direccion</th>
 										<th>Zona/Prov.</th>
 										<th>Barrio/Localidad</th>
-										<th>Estado</th>
+										<th>Horario de atención</th>
                                         <th style="width: 92px;">Acciones</th>
                                     </tr>
                                 </thead>
@@ -61,6 +61,7 @@
 												  <td>{{ direccion.zip }}</td>
 												  <td>{{ sucursal.getZona.getName }}</td>
 												  <td>{{ sucursal.getBarrio.getName }}</td>
+												  <td>{% if sucursal.open %} Abierto 24 hs {% else %}<a href="{{ path('sucursal_edit', { 'id': direccion.id }) }}"><i class="fa fa-pencil"></i></a>{% endif %}</td>
 												 
 												  <td>
                                                   <a href="{{ path('direccion_edit', { 'id': direccion.id }) }}"><i class="fa fa-pencil"></i></a>

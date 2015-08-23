@@ -28,6 +28,16 @@ class Sucursal
     private $phone;
 	
     /**
+     * @ORM\Column(name="email", type="string", length=100,nullable=true)
+     */
+    private $email;
+	
+    /**
+     * @ORM\Column(name="website", type="string", length=100,nullable=true)
+     */
+    private $website;
+	
+    /**
      * @ORM\Column(name="cuit", type="string", length=100)
      */
     private $cuit;
@@ -38,26 +48,16 @@ class Sucursal
     private $is_unica;	
 	
     /**
+     * @ORM\Column(name="open", type="boolean",nullable=true)
+     */
+    private $open;	
+	
+    /**
      * @ORM\ManyToOne(targetEntity="\Backend\CustomerBundle\Entity\Customer", inversedBy="sucursales")
      * @ORM\JoinColumn(name="customer_id", referencedColumnName="id")
      */
    
-    private $customer;
-	
-	
-	/**
-     * @ORM\ManyToOne(targetEntity="\Backend\AdminBundle\Entity\Zona", inversedBy="sucursales")
-     * @ORM\JoinColumn(name="zona_id", referencedColumnName="id")
-     */
-   
-    private $zona;
-	
-    /**
-     * @ORM\ManyToOne(targetEntity="\Backend\AdminBundle\Entity\Barrio", inversedBy="sucursales")
-     * @ORM\JoinColumn(name="barrio_id", referencedColumnName="id")
-     */
-   
-    private $barrio;
+    private $customer;	
 	
     /**
      * @ORM\OneToOne(targetEntity="Direccion", inversedBy="sucursal")
@@ -71,6 +71,11 @@ class Sucursal
      */
     protected $categorias;
 	
+    /**
+     * @ORM\ManyToOne(targetEntity="\Backend\AdminBundle\Entity\Horario", inversedBy="sucursales")
+     * @ORM\JoinColumn(name="horario_id", referencedColumnName="id")
+     */
+    private $horario;
 		
     /**
      * @ORM\Column(name="created_at", type="datetime")
@@ -87,6 +92,8 @@ class Sucursal
     public function __construct() {
 	
 		$this->createdAt = new \DateTime('now');
+		$this->open = false;
+		$this->active = true;
          
     }
     
@@ -94,10 +101,7 @@ class Sucursal
     {
           return $this->name;
     }
-
-    
-
-   
+	
 
     /**
      * Get id
@@ -370,5 +374,97 @@ class Sucursal
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set open
+     *
+     * @param boolean $open
+     * @return Sucursal
+     */
+    public function setOpen($open)
+    {
+        $this->open = $open;
+
+        return $this;
+    }
+
+    /**
+     * Get open
+     *
+     * @return boolean 
+     */
+    public function getOpen()
+    {
+        return $this->open;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     * @return Sucursal
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string 
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set website
+     *
+     * @param string $website
+     * @return Sucursal
+     */
+    public function setWebsite($website)
+    {
+        $this->website = $website;
+
+        return $this;
+    }
+
+    /**
+     * Get website
+     *
+     * @return string 
+     */
+    public function getWebsite()
+    {
+        return $this->website;
+    }
+
+    /**
+     * Set horario
+     *
+     * @param \Backend\AdminBundle\Entity\Horario $horario
+     * @return Sucursal
+     */
+    public function setHorario(\Backend\AdminBundle\Entity\Horario $horario = null)
+    {
+        $this->horario = $horario;
+
+        return $this;
+    }
+
+    /**
+     * Get horario
+     *
+     * @return \Backend\AdminBundle\Entity\Horario 
+     */
+    public function getHorario()
+    {
+        return $this->horario;
     }
 }

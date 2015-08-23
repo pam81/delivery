@@ -85,6 +85,7 @@ class SucursalController extends Controller
                 return $this->redirect($this->generateUrl('home'));
             
 		 		}else{
+					
                 	$search =  $this->generateCustomerSQL($request,$user->getId());
         		}
      
@@ -141,22 +142,22 @@ class SucursalController extends Controller
      */
     public function createAction(Request $request)
     {
-        if ( $this->get('security.context')->isGranted('ROLE_ADDDIRECCION')) {
-        $entity  = new Direccion();
-        $form = $this->createForm(new DireccionType(), $entity);
+        if ( $this->get('security.context')->isGranted('ROLE_ADDSUCURSAL')) {
+        $entity  = new Sucursal();
+        $form = $this->createForm(new SucursalType(), $entity);
         $form->bind($request);
          
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-            $this->get('session')->getFlashBag()->add('success' , 'Se ha agregado una nueva direccion.');
-            return $this->redirect($this->generateUrl('direccion_edit', array('id' => $entity->getId())));
+            $this->get('session')->getFlashBag()->add('success' , 'Se ha agregado una nueva sucursal.');
+            return $this->redirect($this->generateUrl('sucursal_edit', array('id' => $entity->getId())));
         }
         
         
 
-        return $this->render('BackendCustomerAdminBundle:Direccion:new.html.twig', array(
+        return $this->render('BackendCustomerAdminBundle:Sucursal:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView()
            
@@ -173,10 +174,10 @@ class SucursalController extends Controller
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createCreateForm(Direccion $entity)
+    private function createCreateForm(Sucursal $entity)
     {
-        $form = $this->createForm(new DireccionType(), $entity, array(
-            'action' => $this->generateUrl('direccion_create'),
+        $form = $this->createForm(new SucursalType(), $entity, array(
+            'action' => $this->generateUrl('sucursal_create'),
             'method' => 'POST',
         ));
 
@@ -191,11 +192,11 @@ class SucursalController extends Controller
      */
     public function newAction()
     {
-       if ( $this->get('security.context')->isGranted('ROLE_ADDDIRECCION')) {
-        $entity = new Direccion();
-        $form   = $this->createForm(new DireccionType(), $entity);
+       if ( $this->get('security.context')->isGranted('ROLE_ADDSUCURSAL')) {
+        $entity = new Sucursal();
+        $form   = $this->createForm(new SucursalType(), $entity);
 
-        return $this->render('BackendCustomerAdminBundle:Direccion:new.html.twig', array(
+        return $this->render('BackendCustomerAdminBundle:Sucursal:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView()
             
@@ -223,7 +224,7 @@ class SucursalController extends Controller
              return $this->redirect($this->generateUrl('barrio'));
         }
 
-        $editForm = $this->createForm(new DireccionType(), $entity);
+        $editForm = $this->createForm(new SucursalType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('BackendCustomerAdminBundle:Direccion:edit.html.twig', array(
@@ -246,7 +247,7 @@ class SucursalController extends Controller
     */
     private function createEditForm(Barrio $entity)
     {
-        $form = $this->createForm(new DireccionType(), $entity, array(
+        $form = $this->createForm(new SucursalType(), $entity, array(
             'action' => $this->generateUrl('direccion_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
@@ -272,7 +273,7 @@ class SucursalController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new DireccionType(), $entity);
+        $editForm = $this->createForm(new SucursalType(), $entity);
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
@@ -342,6 +343,50 @@ class SucursalController extends Controller
             ->getForm()
         ;
     }
+	
+	/**
+	*  Load Dia Entity to create Horario 
+	*/
+	
+    public function loadHorarioAction(Request $request){
+		 
+       	$em = $this->getDoctrine()->getManager();
+
+		$dias = $em->getRepository('BackendAdminBundle:Dia')->findAll();
+			
+				if(!$dias){
+				
+					$data['existe']= false;
+				
+				}else{
+						$data['existe'] = true;				
+						
+						foreach($dias as $dia){
+							
+								$d['id'] = $dia->getId();
+								$d['name'] = $dia->getName();						
+																				
+								$resultados[] = $d;						
+						}
+						
+						
+						$data['resultados'] = $resultados;
+								
+				} 
+					
+			
+			$response = new Response(json_encode($data));
+			$response->headers->set('Content-Type', 'application/json');
+			
+			return $response;
+    }
+	
+	
+	/**
+	* Creates a excel file to export data
+	*
+	*/
+	
     
      public function exportarAction(Request $request)
     {
