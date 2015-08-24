@@ -3,6 +3,7 @@ $('#asociarHorario').on("click",function(){
 	var path=$(this).data("url");
 	console.log(path);
 	var dataString = "";
+	var guardar = '<button type="button" class="btn btn-primary" style="align:right;" >Guardar</button>';
 	
 $.ajax({
 			  type: "POST",
@@ -13,18 +14,19 @@ $.ajax({
 		.done(function(data){
 								
 			if (data.existe){
+			  $('#asociarHorario').hide();	
 			  $('#horarios').show();
-			  alert("hola");
-			  /*
-			  html = '<table class="table"><tr><th></th><th>Dia</th><th>Desde</th><th>Hasta</th><th>Cerrado</th></tr>';
+			  
+			  html = '<table class="table"><tr><th></th><th>Dia</th><th>Desde</th><th>Hasta</th><th align="center">Cerrado</th></tr>';
 			  $.each(data.resultados, function(i, item) {
-				  var f = JSON.stringify(item.formula);
-				  html += '<tr><td><input type="radio" value ='+JSON.parse(f)+' class="form_check" name="form" data-n="'+item.name+'">'+'</td><td>'+item.name+'"</td><td><input type="text" id="desde_'+item.id+'<td>'+item.name+'</td><td></td><td>'+item.name+'</td><td><input type="radio" value ="1"</td></tr>';
+				  html += '<tr><td><input type="checkbox" value ="dia_'+item.id+'">'+'</td><td>'+item.name+'</td><td><input type="text" id="desde_'+item.id+'"></td><td><input type="text" id="hasta_'+item.id+'"></td><td align="left"><input type="checkbox"></td></tr>';
 			   });
-			  html+= '</table'>
+			   html+= '</table'>
 			  
-			  $('#horarios').append(html);
-			  
+			   $('#horarios').append(html);
+			   $('#horarios').append(guardar);
+			   
+			  /*
 			  $('.form_check').on("change",function(){
 				
 					if($(this).is(':checked')){ 
@@ -33,12 +35,14 @@ $.ajax({
 																	
 					}
 			  });	
-				
+				*/
 			  }else{
 				
 				alert("se ha producido un error");				
-			}*/
-		  }
+			}
+		  
 		}); 
 
 });
+
+//$('#guardar').on(click,function)
