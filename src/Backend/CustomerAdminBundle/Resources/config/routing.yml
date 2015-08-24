@@ -7,8 +7,8 @@ customer_blank:
     defaults: { _controller: BackendCustomerAdminBundle:Principal:blank }
 
 customer_profile:
-    pattern:  /profile
-    defaults: { _controller: BackendCustomerAdminBundle:Principal:profile }
+    path: /customer_profile
+    defaults: { _controller:BackendCustomerAdminBundle:Principal:profile }
 
 customer_login:
     pattern: /login
