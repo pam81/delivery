@@ -109,3 +109,14 @@
             <span id='backend_customerbundle_usertype_is_active_errorloc' class="help-block"> {{ form_errors(form.is_active) }} </span>
         </div>
 </div>
+
+
+
+<div class="form-group">
+        
+        {{ form_label(form.status,"Estado", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
+        <div class="col-xs-6">
+            {{ form_widget(form.status, { 'attr': {'class': 'form-control'} }) }}
+            <span id='backend_userbundle_usertype_status_errorloc' class="help-block"> {{ form_errors(form.status) }} </span>
+        </div>
+</div>

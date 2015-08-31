@@ -72,10 +72,17 @@ class Sucursal
     protected $categorias;
 	
     /**
-     * @ORM\ManyToOne(targetEntity="\Backend\AdminBundle\Entity\Horario", inversedBy="sucursales")
-     * @ORM\JoinColumn(name="horario_id", referencedColumnName="id")
+     * @ORM\ManyToMany(targetEntity="Producto", inversedBy="sucursales")
+	 * @ORM\JoinTable(name="sucursal_producto")
      */
-    private $horario;
+    protected $productos;
+	
+    /**
+    * @ORM\ManyToMany(targetEntity="\Backend\AdminBundle\Entity\Horario", inversedBy="sucursales")
+	* @ORM\JoinTable(name="sucursal_horario")
+    */
+	
+    private $horarios;
 		
     /**
      * @ORM\Column(name="created_at", type="datetime")
@@ -94,6 +101,7 @@ class Sucursal
 		$this->createdAt = new \DateTime('now');
 		$this->open = false;
 		$this->active = true;
+		$this->horarios = new \Doctrine\Common\Collections\ArrayCollection();
          
     }
     
@@ -446,25 +454,68 @@ class Sucursal
     }
 
     /**
-     * Set horario
+     * Add productos
      *
-     * @param \Backend\AdminBundle\Entity\Horario $horario
+     * @param \Backend\CustomerAdminBundle\Entity\Producto $productos
      * @return Sucursal
      */
-    public function setHorario(\Backend\AdminBundle\Entity\Horario $horario = null)
+    public function addProducto(\Backend\CustomerAdminBundle\Entity\Producto $productos)
     {
-        $this->horario = $horario;
+        $this->productos[] = $productos;
 
         return $this;
     }
 
     /**
-     * Get horario
+     * Remove productos
      *
-     * @return \Backend\AdminBundle\Entity\Horario 
+     * @param \Backend\CustomerAdminBundle\Entity\Producto $productos
      */
-    public function getHorario()
+    public function removeProducto(\Backend\CustomerAdminBundle\Entity\Producto $productos)
     {
-        return $this->horario;
+        $this->productos->removeElement($productos);
+    }
+
+    /**
+     * Get productos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProductos()
+    {
+        return $this->productos;
+    }
+
+    /**
+     * Add horarios
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Horario $horarios
+     * @return Sucursal
+     */
+    public function addHorario(\Backend\CustomerAdminBundle\Entity\Horario $horarios)
+    {
+        $this->horarios[] = $horarios;
+
+        return $this;
+    }
+
+    /**
+     * Remove horarios
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Horario $horarios
+     */
+    public function removeHorario(\Backend\CustomerAdminBundle\Entity\Horario $horarios)
+    {
+        $this->horarios->removeElement($horarios);
+    }
+
+    /**
+     * Get horarios
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getHorarios()
+    {
+        return $this->horarios;
     }
 }

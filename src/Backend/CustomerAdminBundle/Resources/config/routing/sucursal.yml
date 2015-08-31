@@ -19,6 +19,14 @@ sucursal_load_horario:
     pattern:  /loadHorario
     defaults: { _controller: "BackendCustomerAdminBundle:Sucursal:loadHorario" }
 
+sucursal_tosavehorario:
+    pattern:  /tosavehorario
+    defaults: { _controller: "BackendCustomerAdminBundle:Sucursal:toSaveHorario" }  
+
+sucursal_listar_horario:
+    pattern:  /{id}/listar_horario
+    defaults: { _controller: "BackendCustomerAdminBundle:Sucursal:listarHorario" }
+
 sucursal_update:
     pattern:  /{id}/update
     defaults: { _controller: "BackendCustomerAdminBundle:Sucursal:update" }

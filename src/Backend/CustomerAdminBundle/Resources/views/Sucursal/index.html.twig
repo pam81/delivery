@@ -48,7 +48,8 @@
 										<th>Direccion</th>
 										<th>Zona/Prov.</th>
 										<th>Barrio/Localidad</th>
-										<th>Horario de atención</th>
+										<th>Categoria</th>
+										<th>Horario</th>
                                         <th style="width: 92px;">Acciones</th>
                                     </tr>
                                 </thead>
@@ -56,16 +57,21 @@
                                      {% for sucursal in pagination %}
                                        <tr>
                                             
-                                                  <td>{{ sucursal.phone }}</td>
+                                                  <td>{{ sucursal.name }}</td>
+												  <td>{{ sucursal.phone }}</td>
+												  <td>{{ sucursal.cuit}}</td>
 												  <td>{{ sucursal.getDireccion.getCalle ~ " " ~  sucursal.getDireccion().getNumero() }}</td>
-												  <td>{{ direccion.zip }}</td>
-												  <td>{{ sucursal.getZona.getName }}</td>
-												  <td>{{ sucursal.getBarrio.getName }}</td>
-												  <td>{% if sucursal.open %} Abierto 24 hs {% else %}<a href="{{ path('sucursal_edit', { 'id': direccion.id }) }}"><i class="fa fa-pencil"></i></a>{% endif %}</td>
-												 
+												  <td>{{ sucursal.getDireccion.getZona.getName }}</td>
+												  <td>{{ sucursal.getDireccion.getBarrio.getName }}</td>
+												  <td>{% for categoria in sucursal.getCategorias %}
+												  		{{ categoria.getName }}
+													  {% endfor %}	
+												  </td>
+
+												 <td><a href="{{ path("sucursal_listar_horario", { 'id': sucursal.id }) }}" rel="shadowbox" role="button" class="btn"><i class="fa fa-calendar"></i></a></td>
 												  <td>
-                                                  <a href="{{ path('direccion_edit', { 'id': direccion.id }) }}"><i class="fa fa-pencil"></i></a>
-                                                  <a href="#" class="btn confirm-delete"   data-toggle="modal" data-id={{ direccion.id }}  data-target="#myModal"><i class="fa fa-trash"></i></a>
+                                                  <a href="{{ path('sucursal_edit', { 'id': sucursal.id }) }}"><i class="fa fa-pencil"></i></a>
+                                                  <a href="#" class="btn confirm-delete"   data-toggle="modal" data-id={{ sucursal.id }}  data-target="#myModal"><i class="fa fa-trash"></i></a>
                                                   </td>
                                       </tr>
                                       
@@ -98,13 +104,12 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-danger" data-id="0"  data-url="{{ path('direccion_delete', { 'id': 'id' }) }}">Borrar</button>
+                <button type="button" class="btn btn-danger" data-id="0"  data-url="{{ path('sucursal_delete', { 'id': 'id' }) }}">Borrar</button>
         </div>
     </div>
   </div>
 </div>
-    
-    
+ 
     
     
     
@@ -115,7 +120,7 @@
     
     </form>
     
-    
+	  
     {% endblock %}
 
 

@@ -7,8 +7,8 @@ customer_blank:
     defaults: { _controller: BackendCustomerAdminBundle:Principal:blank }
 
 customer_profile:
-    pattern:  /profile
-    defaults: { _controller: BackendCustomerAdminBundle:Principal:profile }
+    path: /customer_profile
+    defaults: { _controller:BackendCustomerAdminBundle:Principal:profile }
 
 customer_login:
     pattern: /login
@@ -28,7 +28,12 @@ customer_sucursal:
     resource: "@BackendCustomerAdminBundle/Resources/config/routing/sucursal.yml"
     prefix:   /sucursal    
 
+customer_producto:
+    resource: "@BackendCustomerAdminBundle/Resources/config/routing/producto.yml"
+    prefix:   /producto    
    
-
+customer_horario:
+    resource: "@BackendCustomerAdminBundle/Resources/config/routing/horario.yml"
+    prefix:   /horario  
 
             

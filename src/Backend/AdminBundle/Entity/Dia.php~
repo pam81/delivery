@@ -23,18 +23,16 @@ class Dia
     private $name;
 	
     /**
-    * @ORM\ManyToMany(targetEntity="Horario", mappedBy="dias")
+    * @ORM\OneToMany(targetEntity="Horario", mappedBy="dia")
     */
-  
-   protected $horarios;
-
+   private $horarios;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->subcategorias = new \Doctrine\Common\Collections\ArrayCollection();
+        
     }
 
     public function __toString()
@@ -74,109 +72,7 @@ class Dia
     {
         return $this->name;
     }
-
-    /**
-     * Set cerrado
-     *
-     * @param boolean $cerrado
-     * @return Dia
-     */
-    public function setCerrado($cerrado)
-    {
-        $this->cerrado = $cerrado;
-
-        return $this;
-    }
-
-    /**
-     * Get cerrado
-     *
-     * @return boolean 
-     */
-    public function getCerrado()
-    {
-        return $this->cerrado;
-    }
-
-    /**
-     * Set desde
-     *
-     * @param \String $desde
-     * @return Dia
-     */
-    public function setDesde(\String $desde)
-    {
-        $this->desde = $desde;
-
-        return $this;
-    }
-
-    /**
-     * Get desde
-     *
-     * @return \String 
-     */
-    public function getDesde()
-    {
-        return $this->desde;
-    }
-
-    /**
-     * Set hasta
-     *
-     * @param \String $hasta
-     * @return Dia
-     */
-    public function setHasta(\String $hasta)
-    {
-        $this->hasta = $hasta;
-
-        return $this;
-    }
-
-    /**
-     * Get hasta
-     *
-     * @return \String 
-     */
-    public function getHasta()
-    {
-        return $this->hasta;
-    }
-
-    /**
-     * Add sucursales
-     *
-     * @param \Backend\CustomerAdminBundle\Entity\Sucursal $sucursales
-     * @return Dia
-     */
-    public function addSucursale(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
-    {
-        $this->sucursales[] = $sucursales;
-
-        return $this;
-    }
-
-    /**
-     * Remove sucursales
-     *
-     * @param \Backend\CustomerAdminBundle\Entity\Sucursal $sucursales
-     */
-    public function removeSucursale(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
-    {
-        $this->sucursales->removeElement($sucursales);
-    }
-
-    /**
-     * Get sucursales
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getSucursales()
-    {
-        return $this->sucursales;
-    }
-
+    
     /**
      * Add horarios
      *

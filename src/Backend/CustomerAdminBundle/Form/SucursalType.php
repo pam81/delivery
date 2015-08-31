@@ -21,6 +21,11 @@ class SucursalType extends AbstractType
                 //'property'=>'calle',
                 'multiple'=>false
             ));
+            $builder->add('categorias','entity',array(
+                'class'=>'BackendAdminBundle:Categoria',
+                //'property'=>'calle',
+                'multiple'=>true
+            ));
             $builder->add('open','checkbox',array(
              'value'=>1,
              'label'=>"Open 24 hs",

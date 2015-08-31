@@ -18,11 +18,6 @@ class Horario
     private $id;
 
     /**
-     * @ORM\Column(name="name", type="string", length=100,nullable=true)
-     */
-    private $name;
-
-    /**
      * @ORM\Column(name="cerrado", type="boolean",nullable=true)
      */
     
@@ -41,15 +36,17 @@ class Horario
 	private $hasta;
 	
     /**
-    * @ORM\OneToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Sucursal", mappedBy="horario")
+    * @ORM\ManyToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Sucursal", mappedBy="horarios")
     */
+	
     private $sucursales;
 	
     /**
-    * @ORM\ManyToMany(targetEntity="Dia", mappedBy="horarios")
-    */
+     * @ORM\ManyToOne(targetEntity="Dia", inversedBy="horarios")
+     * @ORM\JoinColumn(name="dia_id", referencedColumnName="id")
+     */
   
-    protected $dias;
+    protected $dia;
 
 
 
@@ -58,7 +55,7 @@ class Horario
      */
     public function __construct()
     {
-        $this->subcategorias = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->sucursales = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function __toString()
@@ -126,10 +123,10 @@ class Horario
     /**
      * Set desde
      *
-     * @param \String $desde
+     * @param string $desde
      * @return Horario
      */
-    public function setDesde(\String $desde)
+    public function setDesde($desde)
     {
         $this->desde = $desde;
 
@@ -149,10 +146,10 @@ class Horario
     /**
      * Set hasta
      *
-     * @param \String $hasta
+     * @param string $hasta
      * @return Horario
      */
-    public function setHasta(\String $hasta)
+    public function setHasta($hasta)
     {
         $this->hasta = $hasta;
 
@@ -200,38 +197,28 @@ class Horario
     public function getSucursales()
     {
         return $this->sucursales;
-    }
+    }    
 
     /**
-     * Add dias
+     * Set dia
      *
-     * @param \Backend\AdminBundle\Entity\Dia $dias
+     * @param \Backend\AdminBundle\Entity\Dia $dia
      * @return Horario
      */
-    public function addDia(\Backend\AdminBundle\Entity\Dia $dias)
+    public function setDia(\Backend\AdminBundle\Entity\Dia $dia = null)
     {
-        $this->dias[] = $dias;
+        $this->dia = $dia;
 
         return $this;
     }
 
     /**
-     * Remove dias
+     * Get dia
      *
-     * @param \Backend\AdminBundle\Entity\Dia $dias
+     * @return \Backend\AdminBundle\Entity\Dia 
      */
-    public function removeDia(\Backend\AdminBundle\Entity\Dia $dias)
+    public function getDia()
     {
-        $this->dias->removeElement($dias);
-    }
-
-    /**
-     * Get dias
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getDias()
-    {
-        return $this->dias;
+        return $this->dia;
     }
 }

@@ -1,0 +1,31 @@
+producto_new:
+    pattern:  /new
+    defaults: { _controller: "BackendCustomerAdminBundle:Producto:new" }
+
+producto_exportar:
+    pattern:  /exportar
+    defaults: { _controller: "BackendCustomerAdminBundle:Producto:exportar" }
+    
+producto_create:
+    pattern:  /create
+    defaults: { _controller: "BackendCustomerAdminBundle:Producto:create" }
+    requirements: { _method: post }
+
+producto_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "BackendCustomerAdminBundle:Producto:edit" }
+
+
+producto_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "BackendCustomerAdminBundle:Producto:update" }
+    requirements: { _method: post|put }
+
+producto_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "BackendCustomerAdminBundle:Producto:delete" }
+    requirements: { _method: post|delete }
+        
+producto:
+    pattern:  /{search}
+    defaults: { _controller: "BackendCustomerAdminBundle:Producto:index" , search: ''}

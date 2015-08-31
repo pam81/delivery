@@ -1,4 +1,4 @@
-{% extends "::backend.html.twig"%}
+{% extends "::customer/backend.html.twig"%}
 {% block container %}
   
     
@@ -75,7 +75,25 @@
 </div>
 </div>
     
+  <div class="form-group">
+
+{{ form_label(form.dni,"DNI", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
+<div class="col-xs-6">
+{{ form_widget(form.dni, { 'attr': {'class': 'form-control'} }) }}
     
+ <div id='backend_customerbundle_usertype_dni_errorloc' class="help-block error" >{{ form_errors(form.dni) }}</div>   
+</div>
+</div>
+
+<div class="form-group">
+
+{{ form_label(form.birthday,"Fecha Nacimiento", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
+<div class="col-xs-6">
+{{ form_widget(form.birthday, { 'attr': {'class': 'input-large'} }) }}
+    
+ <div id='backend_customerbundle_usertype_birthday_errorloc' class="help-block error" >{{ form_errors(form.birthday) }}</div>   
+</div>
+</div>  
     
     
     {{ form_rest(form) }}

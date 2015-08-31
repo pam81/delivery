@@ -53,7 +53,7 @@ class Status {
 
    public function __toString(){
    
-         return $this->email;
+         return $this->name;
    }
 
 

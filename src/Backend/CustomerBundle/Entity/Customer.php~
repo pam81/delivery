@@ -6,8 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\Common\Collections\ArrayCollection;
-use Backend\UserBundle\Validator\Constraints\UsuarioUnique;
-use Backend\UserBundle\Validator\Constraints\EmailUnique;
+use Backend\CustomerBundle\Validator\Constraints\CustomerUnique;
+use Backend\CustomerBundle\Validator\Constraints\EmailUnique;
 
 
 /**
@@ -16,8 +16,8 @@ use Backend\UserBundle\Validator\Constraints\EmailUnique;
  * @ORM\Table(name="customer")
  * @ORM\Entity(repositoryClass="Backend\CustomerBundle\Entity\CustomerRepository")
  * @ORM\HasLifecycleCallbacks 
- * @UsuarioUnique()
- * @EmailUnique()  
+ * @CustomerUnique()
+ *  
  */
 class Customer implements AdvancedUserInterface, \Serializable {
 
@@ -129,7 +129,7 @@ class Customer implements AdvancedUserInterface, \Serializable {
     private $validatedAt;
 	
 	/**
-	     * @ORM\Column(name="rejected",type="text",nullable=true)
+     * @ORM\Column(name="rejected",type="text",nullable=true)
 	 */
 	private $rejected;
 	
@@ -137,7 +137,14 @@ class Customer implements AdvancedUserInterface, \Serializable {
     * @ORM\ManyToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Direccion", mappedBy="customers")
     */
   
-   protected $direcciones;
+    protected $direcciones;	
+   
+    /**
+     * @ORM\OneToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Sucursal", mappedBy="customer")
+     */
+    
+	private $sucursales;
+		
 	
        
     public function __construct() {
@@ -145,13 +152,14 @@ class Customer implements AdvancedUserInterface, \Serializable {
         $this->isDelete = false;
         $this->salt = md5(uniqid(null, true));
         $this->groups =  new ArrayCollection();
+		$this->sucursales = new ArrayCollection();
         $this->createdAt = new \DateTime('now');
         
     }
 
    public function __toString(){
    
-         return $this->email;
+         return $this->name." ".$this->lastname;
    }
 
 
@@ -776,5 +784,71 @@ class Customer implements AdvancedUserInterface, \Serializable {
     public function getNickname()
     {
         return $this->nickname;
+    }
+
+    /**
+     * Add productos
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Producto $productos
+     * @return Customer
+     */
+    public function addProducto(\Backend\CustomerAdminBundle\Entity\Producto $productos)
+    {
+        $this->productos[] = $productos;
+
+        return $this;
+    }
+
+    /**
+     * Remove productos
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Producto $productos
+     */
+    public function removeProducto(\Backend\CustomerAdminBundle\Entity\Producto $productos)
+    {
+        $this->productos->removeElement($productos);
+    }
+
+    /**
+     * Get productos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProductos()
+    {
+        return $this->productos;
+    }
+
+    /**
+     * Add sucursales
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Sucursal $sucursales
+     * @return Customer
+     */
+    public function addSucursale(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
+    {
+        $this->sucursales[] = $sucursales;
+
+        return $this;
+    }
+
+    /**
+     * Remove sucursales
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Sucursal $sucursales
+     */
+    public function removeSucursale(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
+    {
+        $this->sucursales->removeElement($sucursales);
+    }
+
+    /**
+     * Get sucursales
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSucursales()
+    {
+        return $this->sucursales;
     }
 }

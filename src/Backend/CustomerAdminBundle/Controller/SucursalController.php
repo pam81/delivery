@@ -7,29 +7,31 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Backend\CustomerAdminBundle\Entity\Sucursal;
+use Backend\AdminBundle\Entity\Horario;
 use Backend\CustomerAdminBundle\Form\SucursalType;
 
 use Backend\CustomerAdminBundle\Entity\Customer;
 /**
- * Direccion controller.
+ * Sucursal controller.
  *
  */
 class SucursalController extends Controller
 {
 
-     public function generateCustomerSQL($search, $customerId){
+     public function generateSQL($search){
      
-        //$dql="SELECT u FROM BackendCustomerAdminBundle:Sucursal u "  ;
-        
-		$dql="SELECT u FROM BackendCustomerAdminBundle:Sucursal u JOIN u.customer c  
-		              where u.is_active =true and c.id = $customerId " ;
-		
-		$search=mb_convert_case($search,MB_CASE_LOWER);
+        $dql="SELECT u FROM BackendCustomerAdminBundle:Sucursal u "  ;
+        /*
+		$dql="SELECT u FROM BackendCustomerAdminBundle:Sucursal u
+				JOIN u.customer c where 
+                c.id = $customerId " ;
+		*/
+		$search= mb_convert_case($search,MB_CASE_LOWER);
         
        
         if ($search)
           
-		  $dql.=" and u.name like '%$search%' ";
+		  $dql.=" where u.name like '%$search%' ";
           
           $dql .=" order by u.id"; 
         
@@ -42,6 +44,33 @@ class SucursalController extends Controller
      *
      */
     public function indexAction(Request $request,$search){
+		
+        if ( $this->get('security.context')->isGranted('ROLE_VIEWSUCURSAL')) {
+         $em = $this->getDoctrine()->getManager();
+        
+         $dql=$this->generateSQL($search);
+         $query = $em->createQuery($dql);
+        
+         $paginator  = $this->get('knp_paginator');
+         $pagination = $paginator->paginate(
+         $query,
+         $this->get('request')->query->get('page', 1)/*page number*/,
+         $this->container->getParameter('max_on_listepage')/*limit per page*/
+     		);
+        
+         $deleteForm = $this->createDeleteForm(0);
+         return $this->render('BackendCustomerAdminBundle:Sucursal:index.html.twig', 
+         array('pagination' => $pagination,
+         'delete_form' => $deleteForm->createView(),
+         'search'=>$search
+         ));
+        
+     	}
+      else
+          throw new AccessDeniedException(); 
+     }
+		
+		
 		/*
    
     {
@@ -69,11 +98,11 @@ class SucursalController extends Controller
      else
          throw new AccessDeniedException(); 
     }
-	*/
+	
         if ( $this->get('security.context')->isGranted('ROLE_VIEWSUCURSAL')) {
        
          
-        	if (!$this->get('security.context')->isGranted('ROLE_VISITOR')){
+        	if (!$this->get('security.context')->isGranted('ROLE_VENDEDOR')){
 				
             	$search=$this->generateAdminSQL($request);
 	
@@ -86,13 +115,13 @@ class SucursalController extends Controller
             
 		 		}else{
 					
-                	$search =  $this->generateCustomerSQL($request,$user->getId());
+                	$dql =  $this->generateSQL($request,$user->getId());
         		}
      
 		        $em = $this->getDoctrine()->getManager();
         
 		        //$dql=$this->generateSQL($search);
-		        $query = $em->createQuery($search);
+		        $query = $em->createQuery($qry);
 	 
 	    }
        
@@ -114,13 +143,15 @@ class SucursalController extends Controller
             ));
         
         } 
-		*/
+		
         $paginator  = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
         $query,
-        $this->get('request')->query->get('page', 1) /*page number*/,
-        $this->container->getParameter('max_on_listepage') /*limit per page*/
-        );
+        $this->get('request')->query->get('page', 1) /*page number*///,
+	
+	//    $this->container->getParameter('max_on_listepage') /*limit per page*/
+	/*
+	    );
         
         $deleteForm = $this->createDeleteForm(0);
         return $this->render('BackendCustomerAdminBundle:Sucursal:index.html.twig', 
@@ -134,7 +165,7 @@ class SucursalController extends Controller
          throw new AccessDeniedException(); 
     }
 	
-	
+	*/
 	
     /**
      * Creates a new Direccion entity.
@@ -213,21 +244,21 @@ class SucursalController extends Controller
      */
     public function editAction($id)
     {
-        if ( $this->get('security.context')->isGranted('ROLE_MODDIRECCION')) { 
+        if ( $this->get('security.context')->isGranted('ROLE_MODSUCURSAL')) { 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('BackendCustomerAdminBundle:Direccion')->find($id);
+        $entity = $em->getRepository('BackendCustomerAdminBundle:Sucursal')->find($id);
 
         if (!$entity) {
             
              $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado la direccion.');
-             return $this->redirect($this->generateUrl('barrio'));
+             return $this->redirect($this->generateUrl('sucursal'));
         }
 
         $editForm = $this->createForm(new SucursalType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('BackendCustomerAdminBundle:Direccion:edit.html.twig', array(
+        return $this->render('BackendCustomerAdminBundle:Sucursal:edit.html.twig', array(
             'entity'      => $entity,
             'form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -239,16 +270,16 @@ class SucursalController extends Controller
     }
 
     /**
-    * Creates a form to edit a Barrio entity.
+    * Creates a form to edit a Sucursal entity.
     *                                       
     * @param Direccion $entity The entity
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(Barrio $entity)
+    private function createEditForm(Sucursal $entity)
     {
         $form = $this->createForm(new SucursalType(), $entity, array(
-            'action' => $this->generateUrl('direccion_update', array('id' => $entity->getId())),
+            'action' => $this->generateUrl('sucursal_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
@@ -262,14 +293,14 @@ class SucursalController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
-        if ( $this->get('security.context')->isGranted('ROLE_MODDIRECCION')) {  
+        if ( $this->get('security.context')->isGranted('ROLE_MODSUCURSAL')) {  
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('BackendCustomerAdminBundle:Direccion')->find($id);
+        $entity = $em->getRepository('BackendCustomerAdminBundle:Sucursal')->find($id);
 
         if (!$entity) {
-             $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado la direccion.');
-             return $this->redirect($this->generateUrl('barrio'));
+             $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado la sucursal.');
+             return $this->redirect($this->generateUrl('sucursal'));
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -279,11 +310,11 @@ class SucursalController extends Controller
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
-             $this->get('session')->getFlashBag()->add('success' , 'Se han actualizado los datos de la direccion .');
+             $this->get('session')->getFlashBag()->add('success' , 'Se han actualizado los datos de la sucursal .');
             return $this->redirect($this->generateUrl('barrio_edit', array('id' => $id)));
         }
 
-        return $this->render('BackendCustomerAdminBundle:Direccion:edit.html.twig', array(
+        return $this->render('BackendCustomerAdminBundle:Sucursal:edit.html.twig', array(
             'entity'      => $entity,
             'form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -301,16 +332,16 @@ class SucursalController extends Controller
     
 	public function deleteAction(Request $request, $id)
     {
-        if ( $this->get('security.context')->isGranted('ROLE_DELDIRECCION')) { 
+        if ( $this->get('security.context')->isGranted('ROLE_DELSUCURSAL')) { 
         $form = $this->createDeleteForm($id);
         $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('BackendCustomerAdminBundle:Direccion')->find($id);
+            $entity = $em->getRepository('BackendCustomerAdminBundle:Sucursal')->find($id);
 
             if (!$entity) {
-                $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado la direccion.');
+                $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado la sucursal.');
              
             }
            else{
@@ -318,7 +349,7 @@ class SucursalController extends Controller
             
             $em->remove($entity);
             $em->flush();
-            $this->get('session')->getFlashBag()->add('success' , 'Se han borrado los datos de la direccion.');
+            $this->get('session')->getFlashBag()->add('success' , 'Se han borrado los datos de la sucursal.');
             
             }
         }
@@ -381,7 +412,42 @@ class SucursalController extends Controller
 			return $response;
     }
 	
+	/**
+	 *  Listar horarios de atencion para la Sucursal 
+	 */
 	
+	
+    public function listarHorarioAction($id){
+		 
+        if ( $this->get('security.context')->isGranted('ROLE_VIEWSUCURSAL')) { 
+         $em = $this->getDoctrine()->getManager();
+
+         $entity = $em->getRepository('BackendCustomerAdminBundle:Sucursal')->find($id);
+
+         if (!$entity) {
+             throw $this->createNotFoundException('No se ha encontrado al sucursal.');
+         }
+
+ 		$horarios = $entity->getHorarios();
+		$deleteForm = $this->createDeleteForm($id);
+		
+         return $this->render('BackendCustomerAdminBundle:Sucursal:listar_horarios.html.twig', array(
+            'entity'      => $entity,
+ 			'horarios' 	  => $horarios,
+ 			'delete_form'   => $deleteForm->createView()            
+         ));
+       }
+       else
+          throw new AccessDeniedException();    
+    }
+	
+	
+	/**
+	*  Load Dia Entity to create Horario 
+	*/
+	
+	
+    	
 	/**
 	* Creates a excel file to export data
 	*
