@@ -17,8 +17,10 @@ class DireccionController extends Controller
 {
 
      public function generateSQL($search){
+		 
+		$user=$this->getUser(); 
      
-        $dql="SELECT u FROM BackendCustomerAdminBundle:Direccion u "  ;
+        $dql="SELECT u FROM BackendCustomerAdminBundle:Direccion u JOIN u.customers c where c.id = ".$user->getId() ;
         $search=mb_convert_case($search,MB_CASE_LOWER);
         
        
@@ -72,17 +74,20 @@ class DireccionController extends Controller
         $entity  = new Direccion();
         $form = $this->createForm(new DireccionType(), $entity);
         $form->bind($request);
+		$customerId = $this->getUser()->getId();
+		$em = $this->getDoctrine()->getManager();
+		$customer = $em->getRepository('BackendCustomerBundle:Customer')->find($customerId);
+		
          
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            
+			$entity->addCustomer($customer);
             $em->persist($entity);
             $em->flush();
             $this->get('session')->getFlashBag()->add('success' , 'Se ha agregado una nueva direccion.');
             return $this->redirect($this->generateUrl('direccion_edit', array('id' => $entity->getId())));
         }
-        
-        
-
+                
         return $this->render('BackendCustomerAdminBundle:Direccion:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView()

@@ -20,14 +20,11 @@ class SucursalController extends Controller
 
      public function generateSQL($search){
      
-        $dql="SELECT u FROM BackendCustomerAdminBundle:Sucursal u "  ;
-        /*
-		$dql="SELECT u FROM BackendCustomerAdminBundle:Sucursal u
-				JOIN u.customer c where 
-                c.id = $customerId " ;
-		*/
-		$search= mb_convert_case($search,MB_CASE_LOWER);
-        
+        $user=$this->getUser();
+	 
+        $dql="SELECT u FROM BackendCustomerAdminBundle:Sucursal u JOIN u.customer c where c.id = ".$user->getId()  ;
+
+		$search= mb_convert_case($search,MB_CASE_LOWER);        
        
         if ($search)
           
@@ -173,14 +170,19 @@ class SucursalController extends Controller
      */
     public function createAction(Request $request)
     {
-        if ( $this->get('security.context')->isGranted('ROLE_ADDSUCURSAL')) {
-        $entity  = new Sucursal();
-        $form = $this->createForm(new SucursalType(), $entity);
-        $form->bind($request);
+        if ( $this->get('security.context')->isGranted('ROLE_VENDEDOR')) {
+        
+			$entity  = new Sucursal();
+			$customerId = $this->getUser()->getId();
+			$em = $this->getDoctrine()->getManager();
+			$customer = $em->getRepository('BackendCustomerBundle:Customer')->find($customerId);
+        	$form = $this->createForm(new SucursalType(), $entity);
+        	$form->bind($request);
          
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
+            
+			$entity->setCustomer($customer);
+			$em->persist($entity);
             $em->flush();
             $this->get('session')->getFlashBag()->add('success' , 'Se ha agregado una nueva sucursal.');
             return $this->redirect($this->generateUrl('sucursal_edit', array('id' => $entity->getId())));

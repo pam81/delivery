@@ -423,25 +423,6 @@ class HorarioController extends Controller
         }
     }
     
-    public function getBarrioByZonaAction(Request $request)
-    {
-     
-      $zona_id=$request->request->get("zona");
-      $barrios = $this->getDoctrine()->getRepository('BackendAdminBundle:Barrio')->findBy(array("zona"=>$zona_id));
-     
-      $resultado=array();
-      foreach($barrios as $v){
-            $r=array();
-            $r["id"]=$v->getId();
-            $r["text"]=$v->getName();
-            $resultado[] = $r;
-       }
-       $response = new Response(json_encode($resultado));
-        
-       $response->headers->set('Content-Type', 'application/json');
-  
-       return $response;
-    }
     
     
 }
