@@ -55,18 +55,28 @@ class Producto
     private $modifiedAt;
 	
     /**
+     * @ORM\Column(name="is_active", type="boolean")
+     */
+    private $isActive;
+		
+    /**
      * @ORM\ManyToMany(targetEntity="Sucursal", mappedBy="productos")
      */
 
     protected $sucursales;
 	
-    
+    /**
+     * @ORM\ManyToMany(targetEntity="Variedad", inversedBy="productos")
+	 * @ORM\JoinTable(name="producto_variedad")
+     */
+    protected $variedades;
+	
     /**
      * @ORM\ManyToOne(targetEntity="\Backend\AdminBundle\Entity\Categoria", inversedBy="productos")
      * @ORM\JoinColumn(name="categoria_id", referencedColumnName="id")
      */
     private $categoria;
-    
+   
     /**
      * @ORM\ManyToOne(targetEntity="\Backend\AdminBundle\Entity\Subcategoria", inversedBy="productos")
      * @ORM\JoinColumn(name="subcategoria_id", referencedColumnName="id")
@@ -85,6 +95,7 @@ class Producto
     public function __construct() {
 	
 		  $this->alwaysAvailable = true;
+		  $this->isActive = true;
 		  $this->createdAt = new \DateTime('now');
          
     }
@@ -458,7 +469,7 @@ class Producto
      * @param \Backend\CustomerAdminBundle\Entity\Sucursales $sucursales
      * @return Producto
      */
-    public function addSucursale(\Backend\CustomerAdminBundle\Entity\Sucursales $sucursales)
+    public function addSucursal(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
     {
         $this->sucursales[] = $sucursales;
 
@@ -470,7 +481,7 @@ class Producto
      *
      * @param \Backend\CustomerAdminBundle\Entity\Sucursales $sucursales
      */
-    public function removeSucursale(\Backend\CustomerAdminBundle\Entity\Sucursales $sucursales)
+    public function removeSucursal(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
     {
         $this->sucursales->removeElement($sucursales);
     }
@@ -484,4 +495,108 @@ class Producto
     {
         return $this->sucursales;
     }
+
+    /**
+     * Add variedades
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Variedad $variedades
+     * @return Producto
+     */
+    public function addVariedades(\Backend\CustomerAdminBundle\Entity\Variedad $variedades)
+    {
+        $this->variedades[] = $variedades;
+
+        return $this;
+    }
+
+    /**
+     * Remove variedades
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Variedad $variedades
+     */
+    public function removeVariedades(\Backend\CustomerAdminBundle\Entity\Variedad $variedades)
+    {
+        $this->variedades->removeElement($variedades);
+    }
+
+    /**
+     * Get variedades
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getVariedades()
+    {
+        return $this->variedades;
+    }
+
+    /**
+     * Set isActive
+     *
+     * @param boolean $isActive
+     * @return Producto
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get isActive
+     *
+     * @return boolean 
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * Add sucursales
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Sucursal $sucursales
+     * @return Producto
+     */
+    public function addSucursale(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
+    {
+        $this->sucursales[] = $sucursales;
+
+        return $this;
+    }
+
+    /**
+     * Remove sucursales
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Sucursal $sucursales
+     */
+    public function removeSucursale(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
+    {
+        $this->sucursales->removeElement($sucursales);
+    }
+
+    /**
+     * Add variedades
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Variedad $variedades
+     * @return Producto
+     */
+    public function addVariedade(\Backend\CustomerAdminBundle\Entity\Variedad $variedades)
+    {
+        $this->variedades[] = $variedades;
+
+        return $this;
+    }
+
+    /**
+     * Remove variedades
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Variedad $variedades
+     */
+    public function removeVariedade(\Backend\CustomerAdminBundle\Entity\Variedad $variedades)
+    {
+        $this->variedades->removeElement($variedades);
+    }
+
+    
 }

@@ -78,6 +78,12 @@ class Sucursal
     protected $productos;
 	
     /**
+     * @ORM\ManyToMany(targetEntity="\Backend\AdminBundle\Entity\PayMethod", inversedBy="sucursales")
+	 * @ORM\JoinTable(name="paymethod_sucursal")
+     */
+    protected $paymethods;	
+	
+    /**
     * @ORM\ManyToMany(targetEntity="\Backend\AdminBundle\Entity\Horario", inversedBy="sucursales")
 	* @ORM\JoinTable(name="sucursal_horario")
     */
@@ -101,6 +107,7 @@ class Sucursal
 		$this->createdAt = new \DateTime('now');
 		$this->open = false;
 		$this->active = true;
+		$this->productos = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->horarios = new \Doctrine\Common\Collections\ArrayCollection();
          
     }
@@ -517,5 +524,38 @@ class Sucursal
     public function getHorarios()
     {
         return $this->horarios;
+    }
+
+    /**
+     * Add paymethods
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\PayMethod $paymethods
+     * @return Sucursal
+     */
+    public function addPaymethod(\Backend\CustomerAdminBundle\Entity\PayMethod $paymethods)
+    {
+        $this->paymethods[] = $paymethods;
+
+        return $this;
+    }
+
+    /**
+     * Remove paymethods
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\PayMethod $paymethods
+     */
+    public function removePaymethod(\Backend\CustomerAdminBundle\Entity\PayMethod $paymethods)
+    {
+        $this->paymethods->removeElement($paymethods);
+    }
+
+    /**
+     * Get paymethods
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPaymethods()
+    {
+        return $this->paymethods;
     }
 }

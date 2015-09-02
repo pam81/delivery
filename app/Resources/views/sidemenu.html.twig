@@ -19,6 +19,12 @@
                         <a href="{{ path('producto') }}"><i class="fa fa-file"></i> Productos</a>
                     </li>
                     {% endif %}
+                    {% if is_granted('ROLE_VIEWCUSTOMER') %}
+                    <li>
+                        <a href="{{ path('paymethod') }}"><i class="fa fa-money"></i> Medios de Pago</a>
+                    </li>
+                    {% endif %}
+					
                     {% if  is_granted('ROLE_SETEO') or is_granted('ROLE_ADMIN') or  is_granted('ROLE_VIEWZONA')
                         or is_granted('ROLE_VIEWBARRIO')
                     %}

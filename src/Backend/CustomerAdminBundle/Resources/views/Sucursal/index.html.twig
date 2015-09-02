@@ -50,6 +50,8 @@
 										<th>Barrio/Localidad</th>
 										<th>Categoria</th>
 										<th>Horario</th>
+										<th>Pedidos <br/> 24 hs</th>
+										<th>Medios de Pago</th>
                                         <th style="width: 92px;">Acciones</th>
                                     </tr>
                                 </thead>
@@ -68,7 +70,14 @@
 													  {% endfor %}	
 												  </td>
 
-												 <td><a href="{{ path("sucursal_listar_horario", { 'id': sucursal.id }) }}" rel="shadowbox" role="button" class="btn"><i class="fa fa-calendar"></i></a></td>
+												 <td>
+												 <a href="{{ path("sucursal_listar_horario", { 'id': sucursal.id }) }}" rel="shadowbox" role="button" class="btn"><i class="fa fa-calendar"></i></a></td>
+												  <td>{% if sucursal.open %} <span class="label label-success"> Si  </span> {% else %} <span class="label label-danger"> No  </span>{% endif %}</td>
+												  <td>{% for pay in sucursal.getPaymethods %}
+												  	  {{ pay.getName }}
+												  	  <br/>
+													  {% endfor %}
+												  </td>
 												  <td>
                                                   <a href="{{ path('sucursal_edit', { 'id': sucursal.id }) }}"><i class="fa fa-pencil"></i></a>
                                                   <a href="#" class="btn confirm-delete"   data-toggle="modal" data-id={{ sucursal.id }}  data-target="#myModal"><i class="fa fa-trash"></i></a>

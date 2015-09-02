@@ -36,4 +36,8 @@ customer_horario:
     resource: "@BackendCustomerAdminBundle/Resources/config/routing/horario.yml"
     prefix:   /horario  
 
+customer_variedad:
+    resource: "@BackendCustomerAdminBundle/Resources/config/routing/variedad.yml"
+    prefix:   /variedad  
+
             

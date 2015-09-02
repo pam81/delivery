@@ -29,7 +29,11 @@ backend_producto:
 
 backend_horario:
     resource: "@BackendAdminBundle/Resources/config/routing/horario.yml"
-    prefix:   /horario        
+    prefix:   /horario
+        
+backend_paymethod:
+    resource: "@BackendAdminBundle/Resources/config/routing/paymethod.yml"
+    prefix:   /paymethod        
 
 
             

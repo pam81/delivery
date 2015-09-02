@@ -313,7 +313,7 @@ class SucursalController extends Controller
             $em->persist($entity);
             $em->flush();
              $this->get('session')->getFlashBag()->add('success' , 'Se han actualizado los datos de la sucursal .');
-            return $this->redirect($this->generateUrl('barrio_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('sucursal_edit', array('id' => $id)));
         }
 
         return $this->render('BackendCustomerAdminBundle:Sucursal:edit.html.twig', array(

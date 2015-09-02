@@ -1,0 +1,31 @@
+variedad_new:
+    pattern:  /new
+    defaults: { _controller: "BackendCustomerAdminBundle:Variedad:new" }
+
+variedad_exportar:
+    pattern:  /exportar
+    defaults: { _controller: "BackendCustomerAdminBundle:Variedad:exportar" }
+    
+variedad_create:
+    pattern:  /create
+    defaults: { _controller: "BackendCustomerAdminBundle:Variedad:create" }
+    requirements: { _method: post }
+
+variedad_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "BackendCustomerAdminBundle:Variedad:edit" }
+
+
+variedad_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "BackendCustomerAdminBundle:Variedad:update" }
+    requirements: { _method: post|put }
+
+variedad_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "BackendCustomerAdminBundle:Variedad:delete" }
+    requirements: { _method: post|delete }
+        
+variedad:
+    pattern:  /{search}
+    defaults: { _controller: "BackendCustomerAdminBundle:Variedad:index" , search: ''}

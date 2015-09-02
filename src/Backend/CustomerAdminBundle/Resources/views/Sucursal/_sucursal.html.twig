@@ -45,6 +45,17 @@
 
 <div class="form-group">
         
+        {{ form_label(form.paymethods,"Medios de Pago", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
+        <div class="col-xs-6">
+            {{ form_widget(form.paymethods, { 'attr': {'class': 'form-control'} }) }}
+            <span id='backend_customeradminbundle_sucursal_paymethods_errorloc' class="help-block"> {{ form_errors(form.paymethods) }} </span>
+        </div>
+</div>
+
+
+
+<div class="form-group">
+        
         {{ form_label(form.website,"Sitio web", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
         <div class="col-xs-6">
             {{ form_widget(form.website, { 'attr': {'class': 'form-control'} }) }}

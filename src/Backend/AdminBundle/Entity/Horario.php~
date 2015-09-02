@@ -123,10 +123,10 @@ class Horario
     /**
      * Set desde
      *
-     * @param \String $desde
+     * @param string $desde
      * @return Horario
      */
-    public function setDesde(\String $desde)
+    public function setDesde($desde)
     {
         $this->desde = $desde;
 
@@ -146,10 +146,10 @@ class Horario
     /**
      * Set hasta
      *
-     * @param \String $hasta
+     * @param string $hasta
      * @return Horario
      */
-    public function setHasta(\String $hasta)
+    public function setHasta($hasta)
     {
         $this->hasta = $hasta;
 

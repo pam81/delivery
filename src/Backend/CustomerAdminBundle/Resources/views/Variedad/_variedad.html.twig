@@ -1,0 +1,47 @@
+<div class="form-group">
+        
+        {{ form_label(form.code,"Código", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
+        <div class="col-xs-6">
+            {{ form_widget(form.code, { 'attr': {'class': 'form-control'} }) }}
+            <span id='backend_adminbundle_variedad_code_errorloc' class="help-block"> {{ form_errors(form.code) }} </span>
+        </div>
+</div>
+
+
+<div class="form-group">
+        
+        {{ form_label(form.name,"Nombre", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
+        <div class="col-xs-6">
+            {{ form_widget(form.name, { 'attr': {'class': 'form-control'} }) }}
+            <span id='backend_adminbundle_variedad_name_errorloc' class="help-block"> {{ form_errors(form.name) }} </span>
+        </div>
+</div>
+
+<div class="form-group">
+        
+        {{ form_label(form.description,"Descripción", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
+        <div class="col-xs-6">
+            {{ form_widget(form.description, { 'attr': {'class': 'form-control'} }) }}
+            <span id='backend_adminbundle_producto_description_errorloc' class="help-block"> {{ form_errors(form.description) }} </span>
+        </div>
+</div>
+
+<div class="form-group">
+        
+        {{ form_label(form.productos,"Productos", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
+        <div class="col-xs-6">
+            {{ form_widget(form.productos, { 'attr': {'class': 'form-control'} }) }}
+            <span id='backend_adminbundle_variedad_productos_errorloc' class="help-block"> {{ form_errors(form.productos) }} </span>
+        </div>
+</div>
+
+<div class="form-group">
+        
+        {{ form_label(form.active,"Disponible", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
+        <div class="col-xs-6">
+            {{ form_widget(form.active, { 'attr': {'class': ''} }) }}
+            <span id='backend_adminbundle_variedad_activa_errorloc' class="help-block"> {{ form_errors(form.active) }} </span>
+        </div>
+</div>
+
+

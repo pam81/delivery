@@ -21,6 +21,11 @@ class SucursalType extends AbstractType
                 //'property'=>'calle',
                 'multiple'=>false
             ));
+            $builder->add('paymethods','entity',array(
+                'class'=>'BackendAdminBundle:PayMethod',
+                'property'=>'name',
+                'multiple'=>true
+            ));
             $builder->add('categorias','entity',array(
                 'class'=>'BackendAdminBundle:Categoria',
                 //'property'=>'calle',

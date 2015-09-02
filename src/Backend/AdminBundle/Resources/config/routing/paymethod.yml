@@ -1,0 +1,30 @@
+paymethod_new:
+    pattern:  /new
+    defaults: { _controller: "BackendAdminBundle:PayMethod:new" }
+
+paymethod_exportar:
+    pattern:  /exportar
+    defaults: { _controller: "BackendAdminBundle:PayMethod:exportar" }
+    
+paymethod_create:
+    pattern:  /create
+    defaults: { _controller: "BackendAdminBundle:PayMethod:create" }
+    requirements: { _method: post }
+
+paymethod_edit:
+    pattern:  /{id}/edita
+    defaults: { _controller: "BackendAdminBundle:PayMethod:edit" }
+
+paymethod_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "BackendAdminBundle:PayMethod:update" }
+    requirements: { _method: post|put }
+
+paymethod_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "BackendAdminBundle:PayMethod:delete" }
+    requirements: { _method: post|delete }
+    
+paymethod:
+    pattern:  /{search}
+    defaults: { _controller: "BackendAdminBundle:PayMethod:index" , search: ''}
