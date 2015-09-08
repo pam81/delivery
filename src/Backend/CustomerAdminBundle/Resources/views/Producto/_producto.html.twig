@@ -56,6 +56,24 @@
 
 <div class="form-group">
         
+        {{ form_label(form.variedades,"Variedades", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
+        <div class="col-xs-6">
+            {{ form_widget(form.variedades, { 'attr': {'class': ''} }) }}
+            <span id='backend_adminbundle_producto_variedades_errorloc' class="help-block"> {{ form_errors(form.variedades) }} </span>
+        </div>
+</div>
+
+<div class="form-group">
+        
+        {{ form_label(form.isActive,"Publicado", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
+        <div class="col-xs-6">
+            {{ form_widget(form.isActive, { 'attr': {'class': ''} }) }}
+            <span id='backend_adminbundle_producto_isActive_errorloc' class="help-block"> {{ form_errors(form.isActive) }} </span>
+        </div>
+</div>
+
+<div class="form-group">
+        
         {{ form_label(form.alwaysAvailable,"Siempre Disponible", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
         <div class="col-xs-6">
             {{ form_widget(form.alwaysAvailable, { 'attr': {'class': ''} }) }}

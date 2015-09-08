@@ -72,7 +72,7 @@ class Sucursal
     protected $categorias;
 	
     /**
-     * @ORM\ManyToMany(targetEntity="Producto", inversedBy="sucursales")
+     * @ORM\ManyToMany(targetEntity="Producto", inversedBy="sucursales", cascade={"persist","remove"})
 	 * @ORM\JoinTable(name="sucursal_producto")
      */
     protected $productos;
@@ -496,10 +496,10 @@ class Sucursal
     /**
      * Add horarios
      *
-     * @param \Backend\CustomerAdminBundle\Entity\Horario $horarios
+     * @param \Backend\AdminBundle\Entity\Horario $horarios
      * @return Sucursal
      */
-    public function addHorario(\Backend\CustomerAdminBundle\Entity\Horario $horarios)
+    public function addHorario(\Backend\AdminBundle\Entity\Horario $horarios)
     {
         $this->horarios[] = $horarios;
 
@@ -509,9 +509,9 @@ class Sucursal
     /**
      * Remove horarios
      *
-     * @param \Backend\CustomerAdminBundle\Entity\Horario $horarios
+     * @param \Backend\AdminBundle\Entity\Horario $horarios
      */
-    public function removeHorario(\Backend\CustomerAdminBundle\Entity\Horario $horarios)
+    public function removeHorario(\Backend\AdminBundle\Entity\Horario $horarios)
     {
         $this->horarios->removeElement($horarios);
     }

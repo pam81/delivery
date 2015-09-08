@@ -47,8 +47,13 @@ class Horario
      */
   
     protected $dia;
-
-
+	
+	
+    /**
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    private $createdAt;
+	
 
     /**
      * Constructor
@@ -56,6 +61,8 @@ class Horario
     public function __construct()
     {
         $this->sucursales = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->createdAt = new \DateTime('now');
+		
     }
 
     public function __toString()

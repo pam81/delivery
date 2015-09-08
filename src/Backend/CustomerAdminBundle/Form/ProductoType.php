@@ -21,7 +21,7 @@ class ProductoType extends AbstractType
             ->add('name')
             ->add('code')
             ->add('file', 'file', array("required" => false))
-            ->add('sucursales', 'entity',array(
+			->add('sucursales', 'entity',array(
             'class'=>'BackendCustomerAdminBundle:Sucursal',
             'query_builder' => function(EntityRepository $er) {
                 return $er->createQueryBuilder("u")
@@ -29,9 +29,34 @@ class ProductoType extends AbstractType
                          ->where("u.is_active = true")
                          ->orderBy('u.name', 'ASC');
                       
-            },'mapped'=>true,'required'=>true,'multiple'=>true))	
-            ->add('precio')
+            },'mapped'=>true,'required'=>true,'multiple'=>true))
+			->add('variedades', 'entity',array(
+            'class'=>'BackendCustomerAdminBundle:Variedad',
+            'query_builder' => function(EntityRepository $er) {
+                return $er->createQueryBuilder("u")
+                         ->select("u")
+                         //->where("u.is_active = true")
+                         ->orderBy('u.name', 'ASC');
+                      
+            },'mapped'=>true,'required'=>true,'multiple'=>true))			
+            /*
+			->add('sucursales', 'collection',
+		            array(
+		                'type' => new Backend\CustomerAdminBundle\Entity\Sucursal(),
+		                'allow_add' => true,
+		                'allow_delete' => true,
+		                'prototype' => true,
+		                'property_path' => false
+		            )
+		        )
+			*/
+			->add('precio')
             ->add('alwaysAvailable')
+            ->add('isActive','checkbox',array(
+             'value'=>1,
+             'required'=>false
+            ))	
+			//->add('isActive')	
             ->add('description')
             ;
             

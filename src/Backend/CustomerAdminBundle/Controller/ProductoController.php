@@ -70,10 +70,27 @@ class ProductoController extends Controller
         if ( $this->get('security.context')->isGranted('ROLE_ADDPRODUCTO')) {
         $entity  = new Producto();
         $form = $this->createForm(new ProductoType(), $entity);
+		
+		$s = $request->request->get('backend_adminbundle_producto_sucursales');
+		$sucursales = $s['sucursales'];
+        //unset($s['sucursales']);
+		
+		
+		
         $form->bind($request);
          
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+			
+		    foreach ($sucursales as $id) {
+		                   
+		                   $sucursal = $em->getRepository('BackendCustomerAdminBundle:Sucursal')->find($id);		             	   
+		                   $sucursal->addProducto($entity);
+						   $em->persist($sucursal);
+						   $entity->addSucursal($sucursal);
+		                   
+	         }
+			
             $em->persist($entity);
             $em->flush();
             $this->get('session')->getFlashBag()->add('success' , 'Se ha agregado un nuevo producto.');

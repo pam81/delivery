@@ -60,6 +60,7 @@ class Variedad
 
 		  $this->active = true;
 		  $this->createdAt = new \DateTime('now');
+		  $this->productos = new \Doctrine\Common\Collections\ArrayCollection();
 
     }
 	
@@ -110,10 +111,10 @@ class Variedad
     public function setCode($code)
     {
         $this->code = $code;
-
         return $this;
-    }
 
+    }
+	
     /**
      * Get code
      *
@@ -122,52 +123,6 @@ class Variedad
     public function getCode()
     {
         return $this->code;
-    }
-
-    /**
-     * Set precio
-     *
-     * @param string $precio
-     * @return Producto
-     */
-    public function setPrecio($precio)
-    {
-        $this->precio = $precio;
-
-        return $this;
-    }
-
-    /**
-     * Get precio
-     *
-     * @return string 
-     */
-    public function getPrecio()
-    {
-        return $this->precio;
-    }
-
-    /**
-     * Set alwaysAvailable
-     *
-     * @param boolean $alwaysAvailable
-     * @return Producto
-     */
-    public function setAlwaysAvailable($alwaysAvailable)
-    {
-        $this->alwaysAvailable = $alwaysAvailable;
-
-        return $this;
-    }
-
-    /**
-     * Get alwaysAvailable
-     *
-     * @return boolean 
-     */
-    public function getAlwaysAvailable()
-    {
-        return $this->alwaysAvailable;
     }
 
     /**
@@ -222,46 +177,7 @@ class Variedad
      * @param \Backend\AdminBundle\Entity\Categoria $categoria
      * @return Producto
      */
-    public function setCategoria(\Backend\AdminBundle\Entity\Categoria $categoria = null)
-    {
-        $this->categoria = $categoria;
-
-        return $this;
-    }
-
-    /**
-     * Get categoria
-     *
-     * @return \Backend\AdminBundle\Entity\Categoria 
-     */
-    public function getCategoria()
-    {
-        return $this->categoria;
-    }
-
-    /**
-     * Set subcategoria
-     *
-     * @param \Backend\AdminBundle\Entity\Subcategoria $subcategoria
-     * @return Producto
-     */
-    public function setSubcategoria(\Backend\AdminBundle\Entity\Subcategoria $subcategoria = null)
-    {
-        $this->subcategoria = $subcategoria;
-
-        return $this;
-    }
-
-    /**
-     * Get subcategoria
-     *
-     * @return \Backend\AdminBundle\Entity\Subcategoria 
-     */
-    public function getSubcategoria()
-    {
-        return $this->subcategoria;
-    }
-
+    
     /**
      * Set description
      *
@@ -285,62 +201,8 @@ class Variedad
         return $this->description;
     }
 
-    /**
-     * Set path
-     *
-     * @param string $path
-     * @return Producto
-     */
-    public function setPath($path)
-    {
-        $this->path = $path;
 
-        return $this;
-    }
-
-    /**
-     * Get path
-     *
-     * @return string 
-     */
-    public function getPath()
-    {
-        return $this->path;
-    }
-
-    /**
-     * Add sucursales
-     *
-     * @param \Backend\CustomerAdminBundle\Entity\Sucursales $sucursales
-     * @return Producto
-     */
-    public function addSucursale(\Backend\CustomerAdminBundle\Entity\Sucursales $sucursales)
-    {
-        $this->sucursales[] = $sucursales;
-
-        return $this;
-    }
-
-    /**
-     * Remove sucursales
-     *
-     * @param \Backend\CustomerAdminBundle\Entity\Sucursales $sucursales
-     */
-    public function removeSucursale(\Backend\CustomerAdminBundle\Entity\Sucursales $sucursales)
-    {
-        $this->sucursales->removeElement($sucursales);
-    }
-
-    /**
-     * Get sucursales
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getSucursales()
-    {
-        return $this->sucursales;
-    }
-
+  
     /**
      * Set active
      *

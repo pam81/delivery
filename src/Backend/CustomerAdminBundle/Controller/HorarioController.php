@@ -62,7 +62,7 @@ class HorarioController extends Controller
          throw new AccessDeniedException(); 
     }
     /**
-     * Creates a new Barrio entity.
+     * Creates a new Horario entity.
      *
      */
     public function createAction(Request $request,$id)
@@ -74,10 +74,13 @@ class HorarioController extends Controller
          
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+			
 			$sucursal = $em->getRepository('BackendCustomerAdminBundle:Sucursal')->find($id);
             $em->persist($entity);
-			$sucursal->addHorarios($entity);
+			$sucursal->addHorario($entity);
 			$em->persist($sucursal);
+			$entity->addSucursal($sucursal);
+			$em->persist($entity);
             $em->flush();
             $this->get('session')->getFlashBag()->add('success' , 'Se ha agregado un nuevo horario.');
             return $this->redirect($this->generateUrl('horario_edit', array('id' => $entity->getId())));
@@ -249,7 +252,7 @@ class HorarioController extends Controller
         $editForm = $this->createForm(new HorarioType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('BackendAdminBundle:Horario:edit.html.twig', array(
+        return $this->render('BackendCustomerAdminBundle:Horario:edit.html.twig', array(
             'entity'      => $entity,
             'form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -328,14 +331,12 @@ class HorarioController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('BackendAdminBundle:Horario')->find($id);
-
+			//$sucursalId = 2;
             if (!$entity) {
                 $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado el horario.');
              
             }
-           else{
-            
-          
+           else{            
             
             $em->remove($entity);
             $em->flush();
@@ -344,7 +345,7 @@ class HorarioController extends Controller
             }
         }
 
-        return $this->redirect($this->generateUrl('horario_listar_horario'));
+        return $this->redirect($this->generateUrl('sucursal'));
       }
       else
        throw new AccessDeniedException(); 
@@ -404,7 +405,7 @@ class HorarioController extends Controller
         $excelService->excelObj->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
         
         
-        $fileName="barrios_".date("Ymd").".xls";
+        $fileName="horarios_".date("Ymd").".xls";
         //create the response
         $response = $excelService->getResponse();
         $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');

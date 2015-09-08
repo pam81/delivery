@@ -7,7 +7,7 @@ horario_exportar:
     defaults: { _controller: "BackendCustomerAdminBundle:Horario:exportar" }
     
 horario_create:
-    pattern:  /create
+    pattern:  /{id}/create
     defaults: { _controller: "BackendCustomerAdminBundle:Horario:create" }
     requirements: { _method: post }
 

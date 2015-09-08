@@ -27,10 +27,18 @@ class HorarioType extends AbstractType
                      ->orderBy('u.id', 'ASC');
                   
         },'mapped'=>true,'required'=>true,'multiple'=>false))
-			->add('desde')
-            ->add('hasta')           
-        	->add('cerrado')	
-          ;            
+		
+		//->add('desde')
+        //->add('hasta')           
+	   	->add('cerrado')	
+		->add('desde', 'time', array(
+		    'input'  => 'string',
+		    'widget' => 'choice',
+		))            
+		->add('hasta', 'time', array(
+		    'input'  => 'string',
+		    'widget' => 'choice',
+		));   
             
     }
     

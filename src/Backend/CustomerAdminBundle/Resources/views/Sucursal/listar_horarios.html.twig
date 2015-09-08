@@ -20,7 +20,7 @@
 
                  <div class="row">
                     <div class="col-lg-3">
-                        <button type="button" class="btn" id="new_button" data-url="{{ path('horario_new', { 'id': entity.id }) }}" >Nuevo horario</button>
+                        <button type="button" class="btn btn-primary" id="new_button" data-url="{{ path('horario_new', { 'id': entity.id }) }}" >Nuevo horario</button>
 						<br/>
                      </div>
                      <div class="col-lg-4">
@@ -34,11 +34,6 @@
                      </div> 
                  </div>
                     
-				<div class="row">
-				
-				<div id="horarios" class="col-lg-3">Hola que tal</div>
-				
-				</div>	
 
                  <div class="row">
                     <div class="col-lg-12">
@@ -65,7 +60,7 @@
 												  </td>
 												  <td>
                                                   <a href="{{ path('horario_edit', { 'id': horario.id }) }}"><i class="fa fa-pencil"></i></a>
-                                                  <a href="#" class="btn confirm-delete"   data-toggle="modal" data-id={{ entity.id }}  data-target="#myModal"><i class="fa fa-trash"></i></a>
+                                                  <a href="#" class="btn confirm-delete" data-toggle="modal" data-id={{ horario.id }} }} data-target="#myModal"><i class="fa fa-trash"></i></a>
                                                   </td>
                                       </tr>
                                       
@@ -88,7 +83,7 @@
             <h4 class="modal-title" id="myModalLabel">Confirmar Borrado</h4>
             </div>
             <div class="modal-body">
-                <p class="error-text">Esta seguro que desea borrar el cliente?</p>
+                <p class="error-text">Esta seguro que desea borrar el horario?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>

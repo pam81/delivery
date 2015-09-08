@@ -42,8 +42,8 @@ class Producto
     /**
      * @ORM\Column(name="always_available", type="boolean")
      */
-    private $alwaysAvailable;
-    
+    private $alwaysAvailable;    
+	
     /**
      * @ORM\Column(name="created_at", type="datetime")
      */
@@ -58,9 +58,14 @@ class Producto
      * @ORM\Column(name="is_active", type="boolean")
      */
     private $isActive;
-		
+
     /**
-     * @ORM\ManyToMany(targetEntity="Sucursal", mappedBy="productos")
+     * @ORM\Column(name="stock", type="integer",nullable=true)
+     */
+    private $stock;	
+			
+    /**
+     * @ORM\ManyToMany(targetEntity="Sucursal", mappedBy="productos", cascade={"persist","remove"})
      */
 
     protected $sucursales;
@@ -473,6 +478,7 @@ class Producto
     public function addSucursal(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
     {
         $this->sucursales[] = $sucursales;
+		$sucursales->addProducto($this);
 
         return $this;
     }
@@ -485,6 +491,7 @@ class Producto
     public function removeSucursal(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
     {
         $this->sucursales->removeElement($sucursales);
+		$sucursales->removeProducto($this);
     }
 
     /**
@@ -600,4 +607,27 @@ class Producto
     }
 
     
+
+    /**
+     * Set stock
+     *
+     * @param integer $stock
+     * @return Producto
+     */
+    public function setStock($stock)
+    {
+        $this->stock = $stock;
+
+        return $this;
+    }
+
+    /**
+     * Get stock
+     *
+     * @return integer 
+     */
+    public function getStock()
+    {
+        return $this->stock;
+    }
 }

@@ -49,11 +49,12 @@ class PayMethod
     /**
      * Constructor
      */
+	
     public function __construct()
     {
         $this->comercios = new \Doctrine\Common\Collections\ArrayCollection();
         $this->isActive = true;
-		$this->setModifiedAt(new \DateTime('now'));
+		$this->setCreatedAt(new \DateTime('now'));
     }
 
     public function __toString()

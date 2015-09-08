@@ -52,6 +52,7 @@
 										<th>Categoría</th>
 										<th>Variedades</th>
                                         <th>Imagen</th>
+										<th>Publicado</th>
 										<th>Sucursales</th>
                                         <th style="width: 36px;">Acciones</th>
                                     </tr>
@@ -75,6 +76,13 @@
                                                   <img src="{{ asset(producto.getWebPath()) }}" width="100" height="100" />
                                                   {% endif %}
                                                   </td>
+												  <td>
+												  {% if producto.isActive %}
+                                                  	<span class="label label-success"> Si </span>
+												  {% else %}
+												  	 <span class="label label-danger"> No </span>
+                                                  {% endif %}
+												  </td>
 												  <td>
 												  {% for sucursal in producto.getSucursales() %}
 												  	 {{ sucursal.getName() }} <br/>

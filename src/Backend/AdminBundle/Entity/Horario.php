@@ -47,8 +47,13 @@ class Horario
      */
   
     protected $dia;
-
-
+	
+	
+    /**
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    private $createdAt;
+	
 
     /**
      * Constructor
@@ -56,6 +61,8 @@ class Horario
     public function __construct()
     {
         $this->sucursales = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->createdAt = new \DateTime('now');
+		
     }
 
     public function __toString()
@@ -172,7 +179,7 @@ class Horario
      * @param \Backend\CustomerAdminBundle\Entity\Sucursal $sucursales
      * @return Horario
      */
-    public function addSucursale(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
+    public function addSucursal(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
     {
         $this->sucursales[] = $sucursales;
 
@@ -184,7 +191,7 @@ class Horario
      *
      * @param \Backend\CustomerAdminBundle\Entity\Sucursal $sucursales
      */
-    public function removeSucursale(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
+    public function removeSucursal(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
     {
         $this->sucursales->removeElement($sucursales);
     }
@@ -220,5 +227,28 @@ class Horario
     public function getDia()
     {
         return $this->dia;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     * @return Horario
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime 
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
     }
 }
