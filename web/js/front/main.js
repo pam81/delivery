@@ -75,7 +75,94 @@ $(document).ready(function(){
                 console.log( "can't load menuCategoria" );
               });
               
-    var jqxTiendasIndex = $.getJSON( $("#tiendas_listado").data("url"))
+     //LOGIN
+     $("[data-toggle=popover]").popover({
+          html: true, 
+	       content: function() {
+          return $('#popover-content').html();
+        }
+      });         
+    
+     var cookie = $.cookie(COOKIE_NAME);
+     var User = null;
+     if (cookie) {
+            var options = JSON.parse(cookie);
+            User = options;
+            $("#miCuenta").show();
+            $("#btnLogin").hide();
+    }else{
+            $("#miCuenta").hide();
+            $("#btnLogin").show();
+    }
+    
+    
+    /*var validateLogin = $("#formLogin").validate({
+			rules: {
+				"email": {
+					required:true,
+					maxlength:100,
+          email: true
+				},
+        "password":{
+        	required:true,
+          maxlength:100          	
+        }
+			},
+			
+			 messages: {
+            "email": {
+            required: "Olvido ingresar el usuario",
+            maxlength:  jQuery.validator.format("Máximo {0} carácteres!"),
+            email: "Email no válido"
+            },
+            "password": {
+            required: "Olvido ingresar su contraseña",
+            maxlength:  jQuery.validator.format("Máximo {0} carácteres!"),
+            }
+      },
+      
+      errorPlacement: function(error, element) {
+             
+            	error.appendTo( element.next() );
+        }
+			
+		});*/
+           
+    $("body").on("click","#btnSubmitLogin",function(){
+        
+        //var retorna = validateLogin.form();
+        var url =$(this).data("url");
+        var data = $("body #formLogin").serialize()
+        $.ajax({
+            type: "POST",
+            url: url,
+            dataType: 'json',
+            data: data,
+       })
+       .done(function(data) {
+             
+            $.cookie(COOKIE_NAME, JSON.stringify(data.user), { path: '/'});
+            User = data.user;
+            $("#miCuenta").show();
+            $("#btnLogin").hide();
+            $("[data-toggle=popover]").popover('hide');
+        
+        }).fail(function(data){
+           
+           $("body #message").text("Usuario / Contraseña incorrectos").show();
+        });
+    });      
+  
+});
+
+function getTiendas(ubicacion){
+
+      $.ajax({
+            type: "POST",
+            url: $("#tiendas_listado").data("url"),
+            dataType: 'json',
+            data: ubicacion,
+       })
               .done(function(data) {
                   $.each(data,function(index){ 
                     
@@ -107,9 +194,16 @@ $(document).ready(function(){
               })
               .fail(function() {
                 console.log( "can't load tiendas" );
-              });          
+              });        
               
-   var jqxTiendasPremium = $.getJSON( $("#sugeridos").data("url"))
+              
+      
+              $.ajax({
+            type: "POST",
+            url: $("#sugeridos").data("url"),
+            dataType: 'json',
+            data: ubicacion,
+       })
               .done(function(data) {
                  var element = '<div class="item active">';
                  var i=0;
@@ -139,6 +233,6 @@ $(document).ready(function(){
               })
               .fail(function() {
                 console.log( "can't load tiendas premium" );
-              });               
-  
-});
+              });        
+
+}

@@ -54,7 +54,7 @@ security:
             pattern:  ^/customer/login$
             #security: false
             anonymous:  ~
-        
+            
         customer:
             remember_me:
                 key:      "%secret%"
@@ -71,7 +71,17 @@ security:
             logout:
                 path: customer_logout
                 target: /
-
+        
+        frontend:
+            anonymous: ~
+            pattern: ^/$
+            form_login:
+                login_path: customer_login
+                check_path: customer_auth
+            provider: customers
+            logout:
+                path: customer_logout
+                target: /
 
     access_control:
         - { path: ^/panel/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }

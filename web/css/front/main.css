@@ -2521,3 +2521,9 @@ h2.title {
 }
 
 
+.login-registrarse-home{
+  padding: 0;
+}
+.login-registrarse-home .btn-link{
+  text-decoration: none;
+}

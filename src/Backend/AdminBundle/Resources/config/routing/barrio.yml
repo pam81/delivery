@@ -28,7 +28,8 @@ barrio_delete:
 barrio_zona:
     pattern:  /getbarrio
     defaults: { _controller: "BackendAdminBundle:Barrio:getBarrioByZona" }
-    
+
+
 barrio:
     pattern:  /{search}
     defaults: { _controller: "BackendAdminBundle:Barrio:index" , search: ''}

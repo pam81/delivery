@@ -33,3 +33,7 @@ customer:
     pattern:  /{search}
     defaults: { _controller: "BackendCustomerBundle:Customer:index", search: '' }
 
+customer_front_login:
+    pattern:  /login/frontlogin
+    defaults: { _controller: "BackendCustomerBundle:Customer:login" }
+    
