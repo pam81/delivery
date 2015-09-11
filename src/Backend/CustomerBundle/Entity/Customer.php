@@ -142,10 +142,24 @@ class Customer implements AdvancedUserInterface, \Serializable {
     /**
      * @ORM\OneToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Sucursal", mappedBy="customer")
      */
-    
+
 	private $sucursales;
 		
 	
+    /*falta*/
+    private $productos;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Favorito", mappedBy="comercio")
+     */
+    private $favoritosComercios;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Favorito", mappedBy="customer")
+     */
+    private $favoritos;
+    
+
        
     public function __construct() {
         $this->isActive = true;
@@ -154,6 +168,8 @@ class Customer implements AdvancedUserInterface, \Serializable {
         $this->groups =  new ArrayCollection();
 		$this->sucursales = new ArrayCollection();
         $this->createdAt = new \DateTime('now');
+        $this->favoritos =  new ArrayCollection();
+        $this->favoritosComercios =  new ArrayCollection();
         
     }
 
@@ -850,5 +866,71 @@ class Customer implements AdvancedUserInterface, \Serializable {
     public function getSucursales()
     {
         return $this->sucursales;
+    }
+
+    /**
+     * Add favoritosComercios
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Favorito $favoritosComercios
+     * @return Customer
+     */
+    public function addFavoritosComercio(\Backend\CustomerAdminBundle\Entity\Favorito $favoritosComercios)
+    {
+        $this->favoritosComercios[] = $favoritosComercios;
+
+        return $this;
+    }
+
+    /**
+     * Remove favoritosComercios
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Favorito $favoritosComercios
+     */
+    public function removeFavoritosComercio(\Backend\CustomerAdminBundle\Entity\Favorito $favoritosComercios)
+    {
+        $this->favoritosComercios->removeElement($favoritosComercios);
+    }
+
+    /**
+     * Get favoritosComercios
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFavoritosComercios()
+    {
+        return $this->favoritosComercios;
+    }
+
+    /**
+     * Add favoritos
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Favorito $favoritos
+     * @return Customer
+     */
+    public function addFavorito(\Backend\CustomerAdminBundle\Entity\Favorito $favoritos)
+    {
+        $this->favoritos[] = $favoritos;
+
+        return $this;
+    }
+
+    /**
+     * Remove favoritos
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Favorito $favoritos
+     */
+    public function removeFavorito(\Backend\CustomerAdminBundle\Entity\Favorito $favoritos)
+    {
+        $this->favoritos->removeElement($favoritos);
+    }
+
+    /**
+     * Get favoritos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFavoritos()
+    {
+        return $this->favoritos;
     }
 }

@@ -40,14 +40,16 @@
     {% endblock %}
     {% block javascripts %}
         <script type="text/javascript" src="//maps.google.com/maps/api/js?sensor=true"></script>
-        <script src="{{ asset("js/front/jquery.js") }}"></script>
-      	<script src="{{ asset("js/front/bootstrap.min.js") }}"></script>
+        <script src="{{ asset("js/constants.js") }}"></script>
+        <script src="{{ asset("js/jquery.js") }}"></script>
+      	<script src="{{ asset("js/bootstrap.min.js") }}"></script>
       	<script src="{{ asset("js/front/jquery.scrollUp.min.js") }}"></script>
       	<script src="{{ asset("js/front/price-range.js") }}"></script>
         <script src="{{ asset("js/front/jquery.prettyPhoto.js") }}"></script>
-        <script src="{{ asset("js/front/main.js") }}"></script>
         <script src="{{ asset("js/front/geolocalizar.js") }}"></script>
-        
+        <script src="{{ asset("js/front/jquery.cookie.js") }}"></script>
+        <script src="{{ asset('js/jquery.validate.min.js') }}"></script> 
+        <script src="{{ asset("js/front/main.js") }}"></script> 
     {% endblock %}
     </body>
 </html>    

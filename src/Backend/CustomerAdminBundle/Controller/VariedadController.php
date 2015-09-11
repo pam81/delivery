@@ -70,20 +70,21 @@ class VariedadController extends Controller
         if ( $this->get('security.context')->isGranted('ROLE_ADDVARIEDAD')) {
         $entity  = new Variedad();
         $form = $this->createForm(new VariedadType(), $entity);
-		//$p = $request->request->get('backend_customeradminbundle_variedad');
-        //$productos = $p['productos'];
-        $form->bind($request);
+		$p = $request->request->get('backend_customeradminbundle_variedad');
+        $productos = $p['productos'];
+        unset($p['productos']);
+		$form->bind($request);
 		
          
         if ($form->isValid()) {
 			
-			/*
-            foreach ($productos as $id => $value) {
+			$em = $this->getDoctrine()->getManager();
+            foreach ($productos as $id) {
 				
                 //$pr = new Producto();
                 $prod = $em->getRepository('BackendCustomerAdminBundle:Producto')->find($id);
-				//$prod->addVariedad($entity);
-				//$em->persist($prod);
+				$prod->addVariedades($entity);
+				$em->persist($prod);
                 $entity->addProducto($prod);
                 
                 
@@ -91,12 +92,10 @@ class VariedadController extends Controller
 			
 			$em->persist($entity);
             $em->flush();
-			*/
 			
-			
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+            //$em = $this->getDoctrine()->getManager();
+            //$em->persist($entity);
+            //$em->flush();
             $this->get('session')->getFlashBag()->add('success' , 'Se ha agregado una nueva variedad.');
             return $this->redirect($this->generateUrl('producto_edit', array('id' => $entity->getId())));
         	
