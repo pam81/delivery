@@ -69,12 +69,7 @@
                     <div class="input-group">
       <div class="input-group-btn">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tu zona<span class="caret"></span></button>
-        <ul class="dropdown-menu">
-          <li><a href="#">Action</a></li>
-          <li><a href="#">Another action</a></li>
-          <li><a href="#">Something else here</a></li>
-          <li role="separator" class="divider"></li>
-          <li><a href="#">Separated link</a></li>
+        <ul class="dropdown-menu" id="menuZona" role="menu" data-url="{{ path('frontend_menuZona')}}">
         </ul>
       </div><!-- /btn-group -->
       <input type="text" class="form-control" placeholder="Ej. Av. Cabildo 350" aria-label="...">
@@ -87,12 +82,8 @@
 					  <input type="text" class="form-control" placeholder="Comida, indumentaria, libros,..." aria-label="...">
 					  <div class="input-group-btn">
 						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categorías<span class="caret"></span></button>
-						<ul class="dropdown-menu dropdown-menu-right">
-						  <li><a href="#">Action</a></li>
-						  <li><a href="#">Another action</a></li>
-						  <li><a href="#">Something else here</a></li>
-						  <li role="separator" class="divider"></li>
-						  <li><a href="#">Separated link</a></li>
+						<ul class="dropdown-menu dropdown-menu-right" id="menuCategoria" role="menu" data-url="{{ path('frontend_menuCategoria')}}">
+						  
 						</ul>
 					  </div><!-- /btn-group -->
 					</div><!-- /input-group -->
@@ -114,164 +105,4 @@
             </div>
         </div>
     </header>
-
-<header id="header"><!--header-->
-		<div class="header_top"><!--header_top-->
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-6">
-						<div class="contactinfo">
-							<ul class="nav nav-pills">
-								<li><a href="#"><i class="fa fa-phone"></i> +2 95 01 88 821</a></li>
-								<li><a href="#"><i class="fa fa-envelope"></i> info@zonadelivery.com</a></li>
-								<li><a href="#"><i class="fa fa-question-circle"></i> Ayuda</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-sm-6">
-						<div class="social-icons pull-right">
-							<ul class="nav navbar-nav">
-                 
-								 
-								 
-                <li><a href="#" id="miCuenta"><i class="fa fa-user"></i> Mi cuenta</a></li>
-               
-                <li><a id="btnLogin" data-placement="bottom" data-toggle="popover" data-title="Login" data-container="body" type="button" data-html="true" href="javascript:void(0)" ><i class="fa fa-lock"></i>Ingresar</a></li>
-                  <div id="popover-content" class="hide">
-                    <form class="form-inline" role="form" id="formLogin" name="formLogin"  method="POST">
-                        <div class="form-group">
-                        <input type="email" placeholder="Email" class="form-control" name="email" id="email" >
-                        <div id='formLogin_email_errorloc' class="help-block error" ></div>
-                        </div>
-                        
-                        <div class="form-group">
-                        <input type="password" placeholder="Contraseña" class="form-control" name="password" id="password" >
-                        <div id='formLogin_password_errorloc' class="help-block error" ></div>
-                        </div>
-                        
-                        <button type="button" data-url="{{ path('customer_front_login')}}" id="btnSubmitLogin" class="btn btn-primary">Ingresar »</button>
-                        <div class="alert alert-danger" role="alert" id="message" style="display: none;"></div>
-                        <div class="col-sm-12 login-registrarse-home">
-                        <a href="#">Registrarse</a> | <button type="button" id="btnRecover" class="btn-link">Recuperar Contraseña</button>
-                        </div>
-                         <input type="hidden" name="_target_path" value="frontend_homepage" />
-                         
-                    </form>
-                    
-                   
-           
-                  </div>
-                 
-                <li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Carrito</a></li>
-								
-                
-                								
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div><!--/header_top-->
-
-		<div class="header-middle"><!--header-middle-->
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-4">
-						<div class="logo pull-left">
-							<a href="index.html"><img src="{{ asset("images/home/logo.png")}}" alt="" /></a>
-						</div>
-						<div class="btn-group pull-right">
-							<div class="input-group">
-								<div class="input-group-btn">		 
-									<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-										Elegi tu zona<span class="caret"></span>
-									</button> 
-									<ul id="menuZona" class="dropdown-menu pull-right" role="menu" data-url="{{ path('frontend_menuZona')}}">
-
-									</ul>                      
-							</div>     
-						</div>
-					</div>
-				</div>
-										
-				<div class="col-lg-6">
-					<div class="input-group">
-						<div class="input-group-btn">		 
-							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-							Todas las categorías<span class="caret"></span>
-							</button>
-	 
-							<ul id="menuCategoria" class="dropdown-menu pull-right" role="menu" data-url="{{ path('frontend_menuCategoria')}}">
-							</ul>                      
-						</div>		
-						<input type="text" class="form-control"> 
-						<span class="input-group-btn">
-						<button class="btn btn-default" type="button">Buscar</button>
-						</span>        
-					</div>
-				</div>
-
-				<div class="col-sm-8">
-						<div class="shop-menu pull-right">
-							<ul class="nav navbar-nav">
-								<!--
-								<li><a href="#"><i class="fa fa-user"></i> Account</a></li>
-								
-								<li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li>
-								
-								<li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-								<li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-								<li><a href="login.html"><i class="fa fa-lock"></i> Login</a></li>
-								-->
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div><!--/header-middle-->
-	
-		<div class="header-bottom"><!--header-bottom-->
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-9">
-						<div class="navbar-header">
-							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-								<span class="sr-only">Toggle navigation</span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-							</button>
-						</div>
-						<div class="mainmenu pull-left">
-							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a href="index.html" class="active">Home</a></li>
-								<!--
-								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
-                                    <ul role="menu" class="sub-menu">
-                                        <li><a href="shop.html">Products</a></li>
-										<li><a href="product-details.html">Product Details</a></li> 
-										<li><a href="checkout.html">Checkout</a></li> 
-										<li><a href="cart.html">Cart</a></li> 
-										<li><a href="login.html">Login</a></li> 
-                                    </ul>
-                                </li>
-                                --> 
-                                <!--
-								<li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
-                                    <ul role="menu" class="sub-menu">
-                                        <li><a href="blog.html">Blog List</a></li>
-										<li><a href="blog-single.html">Blog Single</a></li>
-                                    </ul>
-                                </li>
-                                --> 
-								<li><a href="404.html">FAQS</a></li>
-								<li><a href="contact-us.html">Contacto</a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div><!--/header-bottom-->
-
-</header><!--/header-->
 
