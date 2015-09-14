@@ -80,6 +80,11 @@ class Direccion
     private $sucursal;
 	
     /**
+     * @ORM\OneToMany(targetEntity="Pedido", mappedBy="direccion")
+     */
+    private $pedidos;
+	
+    /**
      * @ORM\ManyToOne(targetEntity="TipoDireccion", inversedBy="direcciones")
      * @ORM\JoinColumn(name="tipo_id", referencedColumnName="id")
      */

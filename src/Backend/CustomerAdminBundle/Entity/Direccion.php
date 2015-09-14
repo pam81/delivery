@@ -80,6 +80,11 @@ class Direccion
     private $sucursal;
 	
     /**
+     * @ORM\OneToMany(targetEntity="Pedido", mappedBy="direccion")
+     */
+    private $pedidos;
+	
+    /**
      * @ORM\ManyToOne(targetEntity="TipoDireccion", inversedBy="direcciones")
      * @ORM\JoinColumn(name="tipo_id", referencedColumnName="id")
      */
@@ -425,5 +430,38 @@ class Direccion
     public function getCoordenadas()
     {
         return $this->coordenadas;
+    }
+
+    /**
+     * Add pedidos
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Pedido $pedidos
+     * @return Direccion
+     */
+    public function addPedido(\Backend\CustomerAdminBundle\Entity\Pedido $pedidos)
+    {
+        $this->pedidos[] = $pedidos;
+
+        return $this;
+    }
+
+    /**
+     * Remove pedidos
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Pedido $pedidos
+     */
+    public function removePedido(\Backend\CustomerAdminBundle\Entity\Pedido $pedidos)
+    {
+        $this->pedidos->removeElement($pedidos);
+    }
+
+    /**
+     * Get pedidos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPedidos()
+    {
+        return $this->pedidos;
     }
 }

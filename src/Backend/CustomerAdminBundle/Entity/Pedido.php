@@ -6,44 +6,68 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
- * @ORM\Table(name="producto")
+ * @ORM\Table(name="pedido")
  * @ORM\Entity()
- * @ORM\HasLifecycleCallbacks  
+ * @ORM\HasLifecycleCallbacks 
  */
-class Producto 
+class Pedido 
 {
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
-    
-    /**
-     * @ORM\Column(name="name", type="string", length=200)
-     */
-    private $name;
-    
-    /**
-     * @ORM\Column(name="description", type="text", nullable=true)
-     */
-    private $description;
-    
-    /**
-     * @ORM\Column(name="code", type="string", length=100, nullable=true)
-     */
-    private $code;
+    private $id;    
 
     /**
-     * @ORM\Column(name="price", type="string", length=100)
+     * @ORM\Column(name="total", type="float")
      */
-    private $precio;
+    private $total;
+	
+    /**
+     * @ORM\ManyToOne(targetEntity="Sucursal", inversedBy="pedidos")
+     * @ORM\JoinColumn(name="sucursal_id", referencedColumnName="id")
+     */
+
+    protected $sucursal;
+	
+    /**
+     * @ORM\ManyToMany(targetEntity="Producto", inversedBy="pedidos")
+	 * @ORM\JoinTable(name="pedido_producto")
+     */
+    protected $productos;
+   
+    /**
+     * @ORM\ManyToOne(targetEntity="\Backend\AdminBundle\Entity\PayMethod", inversedBy="pedidos")
+     * @ORM\JoinColumn(name="pay_id", referencedColumnName="id")
+     */
+    private $paymethod;
     
     /**
-     * @ORM\Column(name="always_available", type="boolean")
+     * @ORM\ManyToOne(targetEntity="Status", inversedBy="pedidos")
+     * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
      */
-    private $alwaysAvailable;    
+    private $status;
 	
+    /**
+     * @ORM\ManyToOne(targetEntity="\Backend\CustomerBundle\Entity\Customer", inversedBy="pedidos")
+     * @ORM\JoinColumn(name="customer_id", referencedColumnName="id")
+     */
+    private $customer;	
+	
+    /**
+     * @ORM\ManyToOne(targetEntity="Direccion", inversedBy="pedidos")
+     * @ORM\JoinColumn(name="direccion_id", referencedColumnName="id")
+     */
+    private $direccion;
+	
+	
+	
+    /**
+     * @ORM\Column(name="observaciones", type="text", nullable=true)
+     */
+    private $observaciones;
+    
     /**
      * @ORM\Column(name="created_at", type="datetime")
      */
@@ -52,187 +76,23 @@ class Producto
      /**
      * @ORM\Column(name="modified_at", type="datetime", nullable=true)
      */
-    private $modifiedAt;
-	
-    /**
-     * @ORM\Column(name="is_active", type="boolean")
-     */
-    private $isActive;
-
-    /**
-     * @ORM\Column(name="stock", type="integer",nullable=true)
-     */
-    private $stock;	
-			
-    /**
-     * @ORM\ManyToMany(targetEntity="Sucursal", mappedBy="productos", cascade={"persist","remove"})
-     */
-
-    protected $sucursales;
-	
-    /**
-     * @ORM\ManyToMany(targetEntity="Variedad", inversedBy="productos")
-	 * @ORM\JoinTable(name="producto_variedad")
-     */
-    protected $variedades;
-	
-    /**
-     * @ORM\ManyToOne(targetEntity="\Backend\AdminBundle\Entity\Categoria", inversedBy="productos")
-     * @ORM\JoinColumn(name="categoria_id", referencedColumnName="id")
-     */
-    private $categoria;
-   
-    /**
-     * @ORM\ManyToOne(targetEntity="\Backend\AdminBundle\Entity\Subcategoria", inversedBy="productos")
-     * @ORM\JoinColumn(name="subcategoria_id", referencedColumnName="id")
-     */
-    private $subcategoria;
+    private $modifiedAt;	
     
-    /**
-     * @ORM\ManyToMany(targetEntity="Pedido", mappedBy="productos")
-     */
 
-    protected $pedidos;
-	
-    
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    
-    private $path;
-    private $temp;
-    private $file;
     public function __construct() {
-
+	
 		  $this->alwaysAvailable = true;
 		  $this->isActive = true;
 		  $this->createdAt = new \DateTime('now');
 		  $this->variedades = new \Doctrine\Common\Collections\ArrayCollection();
          
     }
+    
     public function __toString()
     {
           return $this->name;
     }
     
-    
-     /**
-     * Sets file.
-     *
-     * @param UploadedFile $file
-     */
-    public function setFile(UploadedFile $file = null)
-    {
-        $this->file = $file;
-        // check if we have an old image path
-        if (isset($this->path)) {
-            // store the old name to delete after the update
-            $this->temp = $this->path;
-            $this->path = null;
-        } else {
-            $this->path = 'initial';
-        }
-    }
-
-     /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
-     */
-    public function preUpload()
-    {
-        if (null !== $this->getFile()) {
-            // do whatever you want to generate a unique name
-            $filename = sha1(uniqid(mt_rand(), true));
-            $this->path = $filename.'.'.$this->getFile()->guessExtension();
-        }
-    }
-    
-    /**
-     * @ORM\PostPersist()
-     * @ORM\PostUpdate()
-     */
-    public function upload()
-    {
-        if (null === $this->getFile()) {
-            return;
-        }
-
-        // if there is an error when moving the file, an exception will
-        // be automatically thrown by move(). This will properly prevent
-        // the entity from being persisted to the database on error
-        $this->getFile()->move($this->getUploadRootDir(), $this->path);
-
-        // check if we have an old image
-        if (isset($this->temp)) {
-            // delete the old image
-            @unlink($this->getUploadRootDir().'/'.$this->temp);
-            // clear the temp image path
-            $this->temp = null;
-        }
-        $this->file = null;
-    }
-    
-    /**
-     * @ORM\PostRemove()
-     */
-    public function removeUpload()
-    {
-        if ($file = $this->getAbsolutePath()) {
-            @unlink($file);
-        }
-    }
-    
-    
-    
-    public function getFile()
-    {
-        return $this->file;
-    }
-    
-
-    
-    public function getAbsolutePath()
-    {
-        return null === $this->path
-            ? null
-            : $this->getUploadRootDir().'/'.$this->path;
-    }
-
-    public function getWebPath()
-    {
-        return null === $this->path
-            ? null
-            : $this->getUploadDir().'/'.$this->path;
-    }
-    
-    
-
-    protected function getUploadRootDir()
-    {
-        // the absolute directory path where uploaded
-        // documents should be saved
-        return __DIR__.'/../../../../web/'.$this->getUploadDir();
-    }
-
-    protected function getUploadDir()
-    {
-        // get rid of the __DIR__ so it doesn't screw up
-        // when displaying uploaded doc/image in the view.
-        return 'uploads/productos';
-    }
-    
-    
-     /**
-     * @ORM\PreUpdate()
-     * 
-     */
-     
-    public function modifiedUpdate(){
-    
-      $this->setModifiedAt(new \DateTime('now'));
-    }
-
-
     /**
      * Get id
      *
@@ -393,40 +253,7 @@ class Producto
 
         return $this;
     }
-
-    /**
-     * Get categoria
-     *
-     * @return \Backend\AdminBundle\Entity\Categoria 
-     */
-    public function getCategoria()
-    {
-        return $this->categoria;
-    }
-
-    /**
-     * Set subcategoria
-     *
-     * @param \Backend\AdminBundle\Entity\Subcategoria $subcategoria
-     * @return Producto
-     */
-    public function setSubcategoria(\Backend\AdminBundle\Entity\Subcategoria $subcategoria = null)
-    {
-        $this->subcategoria = $subcategoria;
-
-        return $this;
-    }
-
-    /**
-     * Get subcategoria
-     *
-     * @return \Backend\AdminBundle\Entity\Subcategoria 
-     */
-    public function getSubcategoria()
-    {
-        return $this->subcategoria;
-    }
-
+ 
     /**
      * Set description
      *
@@ -448,29 +275,6 @@ class Producto
     public function getDescription()
     {
         return $this->description;
-    }
-
-    /**
-     * Set path
-     *
-     * @param string $path
-     * @return Producto
-     */
-    public function setPath($path)
-    {
-        $this->path = $path;
-
-        return $this;
-    }
-
-    /**
-     * Get path
-     *
-     * @return string 
-     */
-    public function getPath()
-    {
-        return $this->path;
     }
 
     /**
@@ -636,35 +440,209 @@ class Producto
     }
 
     /**
-     * Add pedidos
+     * Set total
      *
-     * @param \Backend\CustomerAdminBundle\Entity\Pedido $pedidos
-     * @return Producto
+     * @param float $total
+     * @return Pedido
      */
-    public function addPedido(\Backend\CustomerAdminBundle\Entity\Pedido $pedidos)
+    public function setTotal($total)
     {
-        $this->pedidos[] = $pedidos;
+        $this->total = $total;
 
         return $this;
     }
 
     /**
-     * Remove pedidos
+     * Get total
      *
-     * @param \Backend\CustomerAdminBundle\Entity\Pedido $pedidos
+     * @return float 
      */
-    public function removePedido(\Backend\CustomerAdminBundle\Entity\Pedido $pedidos)
+    public function getTotal()
     {
-        $this->pedidos->removeElement($pedidos);
+        return $this->total;
     }
 
     /**
-     * Get pedidos
+     * Set observaciones
+     *
+     * @param string $observaciones
+     * @return Pedido
+     */
+    public function setObservaciones($observaciones)
+    {
+        $this->observaciones = $observaciones;
+
+        return $this;
+    }
+
+    /**
+     * Get observaciones
+     *
+     * @return string 
+     */
+    public function getObservaciones()
+    {
+        return $this->observaciones;
+    }
+
+    /**
+     * Set sucursales
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Sucursal $sucursales
+     * @return Pedido
+     */
+    public function setSucursales(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales = null)
+    {
+        $this->sucursales = $sucursales;
+
+        return $this;
+    }
+
+    /**
+     * Add productos
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Producto $productos
+     * @return Pedido
+     */
+    public function addProducto(\Backend\CustomerAdminBundle\Entity\Producto $productos)
+    {
+        $this->productos[] = $productos;
+
+        return $this;
+    }
+
+    /**
+     * Remove productos
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Producto $productos
+     */
+    public function removeProducto(\Backend\CustomerAdminBundle\Entity\Producto $productos)
+    {
+        $this->productos->removeElement($productos);
+    }
+
+    /**
+     * Get productos
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getPedidos()
+    public function getProductos()
     {
-        return $this->pedidos;
+        return $this->productos;
+    }
+
+    /**
+     * Set paymethod
+     *
+     * @param \Backend\AdminBundle\Entity\PayMethod $paymethod
+     * @return Pedido
+     */
+    public function setPaymethod(\Backend\AdminBundle\Entity\PayMethod $paymethod = null)
+    {
+        $this->paymethod = $paymethod;
+
+        return $this;
+    }
+
+    /**
+     * Get paymethod
+     *
+     * @return \Backend\AdminBundle\Entity\PayMethod 
+     */
+    public function getPaymethod()
+    {
+        return $this->paymethod;
+    }
+
+    /**
+     * Set status
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Status $status
+     * @return Pedido
+     */
+    public function setStatus(\Backend\CustomerAdminBundle\Entity\Status $status = null)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return \Backend\CustomerAdminBundle\Entity\Status 
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set customer
+     *
+     * @param \Backend\CustomerBundle\Entity\Customer $customer
+     * @return Pedido
+     */
+    public function setCustomer(\Backend\CustomerBundle\Entity\Customer $customer = null)
+    {
+        $this->customer = $customer;
+
+        return $this;
+    }
+
+    /**
+     * Get customer
+     *
+     * @return \Backend\CustomerBundle\Entity\Customer 
+     */
+    public function getCustomer()
+    {
+        return $this->customer;
+    }
+
+    /**
+     * Set sucursal
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Sucursal $sucursal
+     * @return Pedido
+     */
+    public function setSucursal(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursal = null)
+    {
+        $this->sucursal = $sucursal;
+
+        return $this;
+    }
+
+    /**
+     * Get sucursal
+     *
+     * @return \Backend\CustomerAdminBundle\Entity\Sucursal 
+     */
+    public function getSucursal()
+    {
+        return $this->sucursal;
+    }
+
+    /**
+     * Set direccion
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Direccion $direccion
+     * @return Pedido
+     */
+    public function setDireccion(\Backend\CustomerAdminBundle\Entity\Direccion $direccion = null)
+    {
+        $this->direccion = $direccion;
+
+        return $this;
+    }
+
+    /**
+     * Get direccion
+     *
+     * @return \Backend\CustomerAdminBundle\Entity\Direccion 
+     */
+    public function getDireccion()
+    {
+        return $this->direccion;
     }
 }

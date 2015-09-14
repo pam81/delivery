@@ -40,4 +40,7 @@ customer_variedad:
     resource: "@BackendCustomerAdminBundle/Resources/config/routing/variedad.yml"
     prefix:   /variedad  
 
+customer_pedido:
+    resource: "@BackendCustomerAdminBundle/Resources/config/routing/pedido.yml"
+    prefix:   /pedido  
             

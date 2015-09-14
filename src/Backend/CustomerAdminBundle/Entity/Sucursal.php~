@@ -89,6 +89,11 @@ class Sucursal
     */
 	
     private $horarios;
+	
+    /**
+     * @ORM\OneToMany(targetEntity="Pedido", mappedBy="sucursal")
+     */
+    private $pedidos;
 		
     /**
      * @ORM\Column(name="created_at", type="datetime")
@@ -496,10 +501,10 @@ class Sucursal
     /**
      * Add horarios
      *
-     * @param \Backend\CustomerAdminBundle\Entity\Horario $horarios
+     * @param \Backend\AdminBundle\Entity\Horario $horarios
      * @return Sucursal
      */
-    public function addHorario(\Backend\CustomerAdminBundle\Entity\Horario $horarios)
+    public function addHorario(\Backend\AdminBundle\Entity\Horario $horarios)
     {
         $this->horarios[] = $horarios;
 
@@ -509,9 +514,9 @@ class Sucursal
     /**
      * Remove horarios
      *
-     * @param \Backend\CustomerAdminBundle\Entity\Horario $horarios
+     * @param \Backend\AdminBundle\Entity\Horario $horarios
      */
-    public function removeHorario(\Backend\CustomerAdminBundle\Entity\Horario $horarios)
+    public function removeHorario(\Backend\AdminBundle\Entity\Horario $horarios)
     {
         $this->horarios->removeElement($horarios);
     }
@@ -557,5 +562,38 @@ class Sucursal
     public function getPaymethods()
     {
         return $this->paymethods;
+    }
+
+    /**
+     * Add pedidos
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Pedido $pedidos
+     * @return Sucursal
+     */
+    public function addPedido(\Backend\CustomerAdminBundle\Entity\Pedido $pedidos)
+    {
+        $this->pedidos[] = $pedidos;
+
+        return $this;
+    }
+
+    /**
+     * Remove pedidos
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Pedido $pedidos
+     */
+    public function removePedido(\Backend\CustomerAdminBundle\Entity\Pedido $pedidos)
+    {
+        $this->pedidos->removeElement($pedidos);
+    }
+
+    /**
+     * Get pedidos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPedidos()
+    {
+        return $this->pedidos;
     }
 }

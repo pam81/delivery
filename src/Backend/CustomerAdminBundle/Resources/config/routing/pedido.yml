@@ -1,0 +1,35 @@
+pedido_new:
+    pattern:  /new
+    defaults: { _controller: "BackendCustomerAdminBundle:Pedido:new" }
+
+pedido_exportar:
+    pattern:  /exportar
+    defaults: { _controller: "BackendCustomerAdminBundle:Pedido:exportar" }
+    
+pedido_create:
+    pattern:  /create
+    defaults: { _controller: "BackendCustomerAdminBundle:Pedido:create" }
+    requirements: { _method: post }
+
+pedido_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "BackendCustomerAdminBundle:Pedido:edit" }
+
+
+pedido_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "BackendCustomerAdminBundle:Pedido:update" }
+    requirements: { _method: post|put }
+
+pedido_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "BackendCustomerAdminBundle:Pedido:delete" }
+    requirements: { _method: post|delete }
+
+pedido_print:
+    pattern:  /{id}/print
+    defaults: { _controller: "BackendCustomerAdminBundle:Pedido:print" }
+        
+pedido:
+    pattern:  /{search}
+    defaults: { _controller: "BackendCustomerAdminBundle:Pedido:index" , search: ''}

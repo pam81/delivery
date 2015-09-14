@@ -68,7 +68,8 @@ a#scrollUp i{
 **************************/
 
 .header_top {
-  background: none repeat scroll 0 0 #ededed;
+  background: none repeat scroll 0 0 #FFFF99;
+  height: 50px;
 }
 
 .contactinfo ul li:first-child{
@@ -92,6 +93,7 @@ a#scrollUp i{
   border-radius: 0;
   color: #696763;
   padding:0px;
+  margin-top:5px;
 }
 
 
@@ -108,7 +110,7 @@ a#scrollUp i{
 }
 
 .social-icons ul li a i:hover{
-  color: #fff;
+  color: #FFFFFF;
    transition: all 0.9s ease 0s;
   -moz-transition: all 0.9s ease 0s;
   -webkit-transition: all 0.9s ease 0s;
@@ -141,7 +143,8 @@ a#scrollUp i{
   margin-left: 0;
   margin-right: 0;
   padding-bottom: 20px;
-  padding-top: 20px;
+  padding-top: 40px;
+  height:180px;
 }
 
 .header-middle .container .row .col-sm-4{
@@ -843,6 +846,18 @@ h2.title {
   text-transform: uppercase;
   margin-bottom: 30px;
   position: relative;
+}
+
+h1.slogan {
+  color: #FE980F;
+  font-family: 'abel', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 15px;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+  position: relative;
+  text-align: center;
 }
 
 .product-image-wrapper{
@@ -2391,12 +2406,14 @@ h2.title {
   border: 1px solid#F7F7F0
 }
 
+/*
 .btn.btn-primary {
   background:#FE980F;
   border: 0 none;
   border-radius: 0;
   margin-top: 16px;
 }
+*/
 
 .blank-arrow {
   position: relative;

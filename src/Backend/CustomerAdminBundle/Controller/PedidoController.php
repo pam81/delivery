@@ -6,38 +6,38 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Backend\CustomerAdminBundle\Entity\Variedad;
-use Backend\CustomerAdminBundle\Form\VariedadType;
+use Backend\CustomerAdminBundle\Entity\Producto;
+use Backend\CustomerAdminBundle\Form\ProductoType;
 
 /**
- * Variedad controller.
+ * Producto controller.
  *
  */
-class VariedadController extends Controller
+class PedidoController extends Controller
 {
 
      public function generateSQL($search){
      
-        $dql="SELECT u FROM BackendCustomerAdminBundle:Variedad u "  ;
+        $dql="SELECT u FROM BackendCustomerAdminBundle:Pedido u "  ;
         $search=mb_convert_case($search,MB_CASE_LOWER);
         
        
         if ($search)
-          $dql.=" where u.name like '%$search%' ";
+          $dql.=" where u.id like '%$search%' ";
           
-        $dql .=" order by u.name"; 
+        $dql .=" order by u.id"; 
         
         return $dql;
      
      }
 
     /**
-     * Lists all Variedad entities.
+     * Lists all Pedido entities.
      *
      */
     public function indexAction(Request $request,$search)
     {
-       if ( $this->get('security.context')->isGranted('ROLE_VIEWVARIEDAD')) {
+       if ( $this->get('security.context')->isGranted('ROLE_VIEWPRODUCTO')) {
         $em = $this->getDoctrine()->getManager();
         
         $dql=$this->generateSQL($search);
@@ -51,7 +51,7 @@ class VariedadController extends Controller
     );
         
         $deleteForm = $this->createDeleteForm(0);
-        return $this->render('BackendCustomerAdminBundle:Variedad:index.html.twig', 
+        return $this->render('BackendCustomerAdminBundle:Pedido:index.html.twig', 
         array('pagination' => $pagination,
         'delete_form' => $deleteForm->createView(),
         'search'=>$search
@@ -67,36 +67,38 @@ class VariedadController extends Controller
      */
     public function createAction(Request $request)
     {
-        if ( $this->get('security.context')->isGranted('ROLE_ADDVARIEDAD')) {
-        $entity  = new Variedad();
-        $form = $this->createForm(new VariedadType(), $entity);
-		$p = $request->request->get('backend_customeradminbundle_variedad');
-        $productos = $p['productos'];
-        unset($p['productos']);
-		$form->bind($request);
+        if ( $this->get('security.context')->isGranted('ROLE_ADDPRODUCTO')) {
+        $entity  = new Producto();
+        $form = $this->createForm(new ProductoType(), $entity);
 		
+		$s = $request->request->get('backend_customeradminbundle_producto');
+		$sucursales = $s['sucursales'];
+        unset($s['sucursales']);
+		
+        $form->bind($request);
          
         if ($form->isValid()) {
 			
-			$em = $this->getDoctrine()->getManager();
-            foreach ($productos as $id) {
-				
-                $prod = $em->getRepository('BackendCustomerAdminBundle:Producto')->find($id);
-				$prod->addVariedades($entity);
-				$em->persist($prod);
-                $entity->addProducto($prod);                
-                
-            }
+            $em = $this->getDoctrine()->getManager();
 			
-			$em->persist($entity);
+		    foreach ($sucursales as $id) {
+		                   
+		         $sucursal = $em->getRepository('BackendCustomerAdminBundle:Sucursal')->find($id);		             	   
+                 $sucursal->addProducto($entity);
+   			     $em->persist($sucursal);
+	     		 $entity->addSucursal($sucursal);
+		                   
+	         }
+			
+            $em->persist($entity);
             $em->flush();
-			
-            $this->get('session')->getFlashBag()->add('success' , 'Se ha agregado una nueva variedad.');
-            return $this->redirect($this->generateUrl('variedad_edit', array('id' => $entity->getId())));
-        	
-		}        
+            $this->get('session')->getFlashBag()->add('success' , 'Se ha agregado un nuevo producto.');
+            return $this->redirect($this->generateUrl('producto_edit', array('id' => $entity->getId())));
+        }
+        
+        
 
-        return $this->render('BackendCustomerAdminBundle:Variedad:new.html.twig', array(
+        return $this->render('BackendCustomerAdminBundle:Producto:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView()
            
@@ -113,9 +115,9 @@ class VariedadController extends Controller
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createCreateForm(Variedad $entity)
+    private function createCreateForm(Producto $entity)
     {
-        $form = $this->createForm(new VariedadType(), $entity, array(
+        $form = $this->createForm(new ProductoType(), $entity, array(
             'action' => $this->generateUrl('producto_create'),
             'method' => 'POST',
         ));
@@ -131,11 +133,11 @@ class VariedadController extends Controller
      */
     public function newAction()
     {
-       if ( $this->get('security.context')->isGranted('ROLE_ADDVARIEDAD')) {
-        $entity = new Variedad();
-        $form   = $this->createForm(new VariedadType(), $entity);
+       if ( $this->get('security.context')->isGranted('ROLE_ADDPRODUCTO')) {
+        $entity = new Producto();
+        $form   = $this->createForm(new ProductoType(), $entity);
 
-        return $this->render('BackendCustomerAdminBundle:Variedad:new.html.twig', array(
+        return $this->render('BackendCustomerAdminBundle:Producto:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView()
             
@@ -152,21 +154,21 @@ class VariedadController extends Controller
      */
     public function editAction($id)
     {
-        if ( $this->get('security.context')->isGranted('ROLE_MODVARIEDAD')) { 
+        if ( $this->get('security.context')->isGranted('ROLE_MODPRODUCTO')) { 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('BackendCustomerAdminBundle:Variedad')->find($id);
+        $entity = $em->getRepository('BackendCustomerAdminBundle:Producto')->find($id);
 
         if (!$entity) {
             
-             $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado la variedad.');
-             return $this->redirect($this->generateUrl('variedad'));
+             $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado el producto.');
+             return $this->redirect($this->generateUrl('producto'));
         }
 
-        $editForm = $this->createForm(new VariedadType(), $entity);
+        $editForm = $this->createForm(new ProductoType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('BackendCustomerAdminBundle:Variedad:edit.html.twig', array(
+        return $this->render('BackendCustomerAdminBundle:Producto:edit.html.twig', array(
             'entity'      => $entity,
             'form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -184,10 +186,10 @@ class VariedadController extends Controller
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(Variedad $entity)
+    private function createEditForm(Producto $entity)
     {
-        $form = $this->createForm(new VariedadType(), $entity, array(
-            'action' => $this->generateUrl('variedad_update', array('id' => $entity->getId())),
+        $form = $this->createForm(new ProductoType(), $entity, array(
+            'action' => $this->generateUrl('producto_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
@@ -201,72 +203,28 @@ class VariedadController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
-        if ( $this->get('security.context')->isGranted('ROLE_MODVARIEDAD')) {  
+        if ( $this->get('security.context')->isGranted('ROLE_MODPRODUCTO')) {  
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('BackendCustomerAdminBundle:Variedad')->find($id);
+        $entity = $em->getRepository('BackendCustomerAdminBundle:Producto')->find($id);
 
         if (!$entity) {
-             $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado la variedad.');
-             return $this->redirect($this->generateUrl('variedad'));
+             $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado el producto.');
+             return $this->redirect($this->generateUrl('producto'));
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new VariedadType(), $entity);
-		$p = $request->request->get('backend_customeradminbundle_variedad');
-        $productos = $p['productos'];
-        unset($p['productos']);
+        $editForm = $this->createForm(new ProductoType(), $entity);
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
-			
-			$em = $this->getDoctrine()->getManager();
-            
-			foreach ($productos as $id) {
-				
-				$existe = false;
-                $prod = $em->getRepository('BackendCustomerAdminBundle:Producto')->find($id);
-				$variedades  = $prod->getVariedades();
-				
-				foreach($variedades as $v){
-					
-					if($v->getId() == $entity->getId()){
-						
-						$existe = true; 						
-					}					
-				}
-				
-				if(!$existe){ 
-					
-					$prod->addVariedades($entity); 
-					$em->persist($prod);
-				}
-				
-				$prods = $entity->getProductos();
-				
-				foreach($prods as $pr){
-										
-					if (!in_array($pr->getId(), $productos, true)){ 
-					
-						$prod = $em->getRepository('BackendCustomerAdminBundle:Producto')->find($pr->getId());
-						$prod->removeVariedades($entity);
-						$em->persist($prod);
-						$entity->removeProducto($prod);
-					}										
-				}
-				
-				$em->persist($prod);
-                //$entity->addProducto($prod);                
-                
-            } // foreach de productos (esto no cierra aca)
-			
             $em->persist($entity);
             $em->flush();
-             $this->get('session')->getFlashBag()->add('success' , 'Se han actualizado los datos de la variedad.');
-            return $this->redirect($this->generateUrl('variedad_edit', array('id' => $id)));
+             $this->get('session')->getFlashBag()->add('success' , 'Se han actualizado los datos del producto .');
+            return $this->redirect($this->generateUrl('producto_edit', array('id' => $id)));
         }
 
-        return $this->render('BackendCustomerAdminBundle:Variedad:edit.html.twig', array(
+        return $this->render('BackendCustomerAdminBundle:Producto:edit.html.twig', array(
             'entity'      => $entity,
             'form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -277,33 +235,35 @@ class VariedadController extends Controller
          throw new AccessDeniedException();  
     }
     /**
-     * Deletes a Variedad entity.
+     * Deletes a Producto entity.
      *
      */
     public function deleteAction(Request $request, $id)
     {
-        if ( $this->get('security.context')->isGranted('ROLE_DELVARIEDAD')) { 
+        if ( $this->get('security.context')->isGranted('ROLE_DELPRODUCTO')) { 
         $form = $this->createDeleteForm($id);
         $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('BackendCustomerAdminBundle:Variedad')->find($id);
+            $entity = $em->getRepository('BackendCustomerAdminBundle:Producto')->find($id);
 
             if (!$entity) {
-                $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado la variedad.');
+                $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado el producto.');
              
             }
            else{
+            
          
+            
             $em->remove($entity);
             $em->flush();
-            $this->get('session')->getFlashBag()->add('success' , 'Se han borrado los datos de la variedad.');
+            $this->get('session')->getFlashBag()->add('success' , 'Se han borrado los datos del producto.');
             
             }
         }
 
-        return $this->redirect($this->generateUrl('variedad'));
+        return $this->redirect($this->generateUrl('producto'));
       }
       else
        throw new AccessDeniedException(); 
@@ -324,9 +284,45 @@ class VariedadController extends Controller
         ;
     }
     
+	
+    public function printAction(Request $request, $id)
+   {
+      if ( $this->get('security.context')->isGranted('ROLE_VIEWPRODUCTO')) {
+          $em = $this->getDoctrine()->getManager();
+          $entity = $em->getRepository('BackendCustomerAdminBundle:Pedido')->find($id);
+    
+          if (!$entity) {
+              $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado el pedido.');
+              return $this->redirect($this->generateUrl('pedido' ));
+          }
+          else{
+            require_once($this->get('kernel')->getRootDir().'/config/dompdf_config.inc.php');
+            $dompdf = new \DOMPDF();
+            
+            $html= $this->renderView('BackendCustomerAdminBundle:Pedido:constancia.html.twig',
+              array('entity'=>$entity)
+            );
+            $dompdf->load_html($html);
+            $dompdf->render();
+            $fileName="pedido_".$id.".pdf";
+            $response= new Response($dompdf->output(), 200, array(
+            	'Content-Type' => 'application/pdf; charset=utf-8'
+            ));
+            $response->headers->set('Content-Disposition', 'attachment;filename='.$fileName);
+            return $response;
+          }
+      }
+        else{
+           throw new AccessDeniedException(); 
+        }
+   
+   }
+	
+	
+	
      public function exportarAction(Request $request)
     {
-     if ( $this->get('security.context')->isGranted('ROLE_VIEWVARIEDAD')) {
+     if ( $this->get('security.context')->isGranted('ROLE_VIEWPRODUCTO')) {
          
          $em = $this->getDoctrine()->getManager();
 

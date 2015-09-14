@@ -179,7 +179,7 @@ class Horario
      * @param \Backend\CustomerAdminBundle\Entity\Sucursal $sucursales
      * @return Horario
      */
-    public function addSucursale(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
+    public function addSucursal(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
     {
         $this->sucursales[] = $sucursales;
 
@@ -191,7 +191,7 @@ class Horario
      *
      * @param \Backend\CustomerAdminBundle\Entity\Sucursal $sucursales
      */
-    public function removeSucursale(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
+    public function removeSucursal(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
     {
         $this->sucursales->removeElement($sucursales);
     }
@@ -227,5 +227,51 @@ class Horario
     public function getDia()
     {
         return $this->dia;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     * @return Horario
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime 
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Add sucursales
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Sucursal $sucursales
+     * @return Horario
+     */
+    public function addSucursale(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
+    {
+        $this->sucursales[] = $sucursales;
+
+        return $this;
+    }
+
+    /**
+     * Remove sucursales
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Sucursal $sucursales
+     */
+    public function removeSucursale(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
+    {
+        $this->sucursales->removeElement($sucursales);
     }
 }

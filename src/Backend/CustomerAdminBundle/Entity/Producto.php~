@@ -89,23 +89,27 @@ class Producto
     private $subcategoria;
     
     /**
+     * @ORM\ManyToMany(targetEntity="Pedido", mappedBy="productos")
+     */
+
+    protected $pedidos;
+	
+    
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     
     private $path;
-    
     private $temp;
     private $file;
-    
     public function __construct() {
-	
+
 		  $this->alwaysAvailable = true;
 		  $this->isActive = true;
 		  $this->createdAt = new \DateTime('now');
 		  $this->variedades = new \Doctrine\Common\Collections\ArrayCollection();
          
     }
-    
     public function __toString()
     {
           return $this->name;
@@ -629,5 +633,38 @@ class Producto
     public function getStock()
     {
         return $this->stock;
+    }
+
+    /**
+     * Add pedidos
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Pedido $pedidos
+     * @return Producto
+     */
+    public function addPedido(\Backend\CustomerAdminBundle\Entity\Pedido $pedidos)
+    {
+        $this->pedidos[] = $pedidos;
+
+        return $this;
+    }
+
+    /**
+     * Remove pedidos
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Pedido $pedidos
+     */
+    public function removePedido(\Backend\CustomerAdminBundle\Entity\Pedido $pedidos)
+    {
+        $this->pedidos->removeElement($pedidos);
+    }
+
+    /**
+     * Get pedidos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPedidos()
+    {
+        return $this->pedidos;
     }
 }

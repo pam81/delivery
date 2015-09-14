@@ -251,4 +251,27 @@ class Horario
     {
         return $this->createdAt;
     }
+
+    /**
+     * Add sucursales
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Sucursal $sucursales
+     * @return Horario
+     */
+    public function addSucursale(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
+    {
+        $this->sucursales[] = $sucursales;
+
+        return $this;
+    }
+
+    /**
+     * Remove sucursales
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Sucursal $sucursales
+     */
+    public function removeSucursale(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
+    {
+        $this->sucursales->removeElement($sucursales);
+    }
 }

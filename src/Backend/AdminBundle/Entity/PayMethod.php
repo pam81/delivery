@@ -31,6 +31,11 @@ class PayMethod
     private $sucursales; 
 	
     /**
+    * @ORM\OneToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Pedido", mappedBy="paymethod")
+    */
+   private $pedidos;
+	
+    /**
      * @ORM\Column(name="is_active", type="boolean")
      */
     private $isActive;	
@@ -52,7 +57,7 @@ class PayMethod
 	
     public function __construct()
     {
-        $this->comercios = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->sucursales = new \Doctrine\Common\Collections\ArrayCollection();
         $this->isActive = true;
 		$this->setCreatedAt(new \DateTime('now'));
     }
@@ -102,7 +107,7 @@ class PayMethod
      * @param \Backend\CustomerAdminBundle\Entity\Sucursal $sucursales
      * @return Categoria
      */
-    public function addSucursale(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
+    public function addSucursales(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
     {
         $this->sucursales[] = $sucursales;
 
@@ -114,7 +119,7 @@ class PayMethod
      *
      * @param \Backend\CustomerAdminBundle\Entity\Sucursal $sucursales
      */
-    public function removeSucursale(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
+    public function removeSucursales(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
     {
         $this->sucursales->removeElement($sucursales);
     }
@@ -197,5 +202,38 @@ class PayMethod
     public function getModifiedAt()
     {
         return $this->modifiedAt;
+    }
+
+    /**
+     * Add pedidos
+     *
+     * @param \Backend\AdminBundle\Entity\Pedido $pedidos
+     * @return PayMethod
+     */
+    public function addPedido(\Backend\CustomerAdminBundle\Entity\Pedido $pedidos)
+    {
+        $this->pedidos[] = $pedidos;
+
+        return $this;
+    }
+
+    /**
+     * Remove pedidos
+     *
+     * @param \Backend\AdminBundle\Entity\Pedido $pedidos
+     */
+    public function removePedido(\Backend\CustomerAdminBundle\Entity\Pedido $pedidos)
+    {
+        $this->pedidos->removeElement($pedidos);
+    }
+
+    /**
+     * Get pedidos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPedidos()
+    {
+        return $this->pedidos;
     }
 }

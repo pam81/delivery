@@ -329,8 +329,8 @@ class SubcategoriaController extends Controller
     public function getSubcategoriaByCategoriaAction(Request $request)
     {
      
-      $zona_id=$request->request->get("categoria");
-      $subcategorias = $this->getDoctrine()->getRepository('BackendAdminBundle:Subcategoria')->findBy(array("zona"=>$zona_id));
+      $categoria_id=$request->request->get("categoria");
+      $subcategorias = $this->getDoctrine()->getRepository('BackendAdminBundle:Subcategoria')->findBy(array("categoria"=>$categoria_id));
      
       $resultado=array();
       foreach($subcategorias as $v){
