@@ -1,0 +1,107 @@
+{% extends '::front/base_front.html.twig' %}
+{% block container %}
+
+<div id="loginModal" class="modal show" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content">
+      <div class="modal-header">
+	     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h2 class="text-center">Registrate</h2>
+      </div>
+      <div class="modal-body" style="height: 460px;">
+       {% include '::messages.html.twig' %}
+          <form class="form col-md-12 center-block" action="{{ path('frontend_register') }}" method="POST" id="formRegister" name="formRegister">
+            <div class="form-group col-xs-12">
+              <label class="control-label col-xs-2">Nombre</label>
+              <div class="col-xs-10">
+                <input type="text" id="inputNombre" placeholder="Nombre" name="name" value="" class="form-control">
+                <span id='backend_userbundle_usertype_name_errorloc' class="help-block ">  </span>
+              </div>
+            </div>
+            <div class="form-group  col-xs-12">
+              <label class="control-label col-xs-2">Apellido</label>
+              <div class="col-xs-10">
+                <input type="text" id="inputApellido" placeholder="Apellido" name="lastname" value="" class="form-control">
+                <span id='backend_userbundle_usertype_name_errorloc' class="help-block"> </span>
+              </div>
+            </div>
+            <div class="form-group  col-xs-12">
+              <label class="control-label col-xs-2">Email</label>
+              <div class="col-xs-10">
+                <input type="text" id="inputEmail" placeholder="Email" name="email" value="" class="form-control">
+                <span id='backend_userbundle_usertype_name_errorloc' class="help-block">  </span>
+              </div>
+            </div>
+            
+            <div class="form-group  col-xs-12">
+              <label class="control-label col-xs-2">Contraseña</label>
+              <div class="col-xs-10">
+                <input type="password" id="inputPass" placeholder="" name="password" value="" class="form-control">
+                <span id='backend_userbundle_usertype_name_errorloc' class="help-block">  </span>
+              </div>
+            </div>
+            <div class="form-group  col-xs-12">
+              <label class="control-label col-xs-2">Repetir Contraseña</label>
+              <div class="col-xs-10">
+                <input type="password" id="inputConfirmPass" placeholder="" name="confirmPassword" value="" class="form-control">
+                <span id='backend_userbundle_usertype_name_errorloc' class="help-block">  </span>
+              </div>
+            </div>
+			<div class="form-group">
+			    <div class="col-sm-offset-2 col-xs-12">
+			      <div class="checkbox">
+			        <label class="control-label">
+			          <input type="checkbox" id="comercio">Usuario Comercial
+			        </label>
+			      </div>
+			    </div>
+			 </div>
+			<div class="form-group">
+			    <div class="col-sm-offset-2 col-xs-12">
+			      <div class="checkbox">
+			        <label>
+			          <input type="checkbox" id="terminos"><a href="#" data-toggle="modal" data-target="#myModal">Comprendo y acepto los términos y condiciones.</a>
+			        </label>
+			      </div>
+			    </div>
+			  </div>
+            <div class="form-group col-xs-12 text-center">
+              <button class="btn btn-primary btn-lg" type="submit" id="btn_reg">Registrarse</button>
+            </div>
+            
+          </form>
+      </div>
+      <div class="modal-footer">
+      </div>
+  </div>
+  </div>
+</div>
+
+	  <div class="modal fade" id="myModal" tabindex="-2" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	            <h4 class="modal-title" id="myModalLabel">Terminos y Condiciones</h4>
+	            </div>
+	            <div class="modal-body">
+	                {% include 'FrontendHomeBundle:Registro:Terminos.html.twig' %}
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-warning" data-dismiss="modal">Aceptar</button>
+	                
+	        </div>
+	    </div>
+	  </div>
+	</div>
+
+
+
+{% endblock %}
+{% block javascripts %}
+  {{ parent() }}
+ {% javascripts '@BackendUserBundle/Resources/public/js/register_user.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+{% endblock %}

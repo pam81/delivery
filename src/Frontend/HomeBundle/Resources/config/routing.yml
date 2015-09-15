@@ -19,4 +19,14 @@ frontend_premium:
     pattern:  /tiendas_premium
     defaults: { _controller: FrontendHomeBundle:Home:getTiendasPremium }    
        
-    
+frontend_checkbarrio:
+    pattern:  /checkbarrio
+    defaults: { _controller: "FrontendHomeBundle:Home:checkBarrio" }
+
+frontend_register:        
+    pattern:  /frontregister
+    defaults: { _controller: "FrontendHomeBundle:Home:register" }
+
+#frontend_login:        
+#    pattern:  /frontlogin
+#    defaults: { _controller: "FrontendHomeBundle:Home:login" }

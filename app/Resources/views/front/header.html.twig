@@ -20,11 +20,14 @@
                         <a href="#page-top"></a>
                     </li>
                     <li class="page-scroll">
-                        <a href="#portfolio"><img src="{{ asset("images/home/usr.png")}}" class="icon"></a>
+                        <a href="{{ path('frontend_register')}}" title="Registrarse" ><img src="{{ asset("images/home/usr.png")}}" class="icon"></a>
                     </li>
                     <li class="page-scroll">
-                        <a href="#about"><img src="{{ asset("images/home/bicy.png")}}" class="icon"></a>
+                        <a href="{{ path('customer_login')}}" title="Ingresar"><img src="{{ asset("images/home/lock.png")}}" class="icon"></a>
                     </li>
+					<li class="page-scroll">
+						<a href="{{ path('customer_login')}}" title="Carrito"><img src="{{ asset("images/home/bicy.png")}}" class="icon"></a>
+					</li>
                     <!--
                     <li class="page-scroll">
                         <a href="#contact">Contact</a>
