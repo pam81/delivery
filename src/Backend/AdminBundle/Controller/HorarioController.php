@@ -18,7 +18,7 @@ class HorarioController extends Controller
 
      public function generateSQL($search){
      
-        $dql="SELECT u FROM BackendAdminBundle:Barrio u "  ;
+        $dql="SELECT u FROM BackendAdminBundle:Horario u "  ;
         $search=mb_convert_case($search,MB_CASE_LOWER);
         
        
@@ -32,12 +32,12 @@ class HorarioController extends Controller
      }
 
     /**
-     * Lists all Barrios entities.
+     * Lists all Horarios entities.
      *
      */
     public function indexAction(Request $request,$search)
     {
-       if ( $this->get('security.context')->isGranted('ROLE_VIEWBARRIO')) {
+       if ( $this->get('security.context')->isGranted('ROLE_VIEWHORARIO')) {
         $em = $this->getDoctrine()->getManager();
         
         $dql=$this->generateSQL($search);
@@ -51,7 +51,7 @@ class HorarioController extends Controller
     );
         
         $deleteForm = $this->createDeleteForm(0);
-        return $this->render('BackendAdminBundle:Barrio:index.html.twig', 
+        return $this->render('BackendAdminBundle:Horario:index.html.twig', 
         array('pagination' => $pagination,
         'delete_form' => $deleteForm->createView(),
         'search'=>$search
@@ -62,7 +62,7 @@ class HorarioController extends Controller
          throw new AccessDeniedException(); 
     }
     /**
-     * Creates a new Barrio entity.
+     * Creates a new Horario entity.
      *
      */
     public function createAction(Request $request)
@@ -82,7 +82,7 @@ class HorarioController extends Controller
         
         
 
-        return $this->render('BackendAdminBundle:Barrio:new.html.twig', array(
+        return $this->render('BackendAdminBundle:Horario:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView()
            
@@ -95,7 +95,7 @@ class HorarioController extends Controller
     /**
     * Creates a form to create a Cliente entity.
     *
-    * @param Barrio $entity The entity
+    * @param Horario $entity The entity
     *
     * @return \Symfony\Component\Form\Form The form
     */
@@ -112,7 +112,7 @@ class HorarioController extends Controller
     }
 
     /**
-     * Displays a form to create a new Barrio entity.
+     * Displays a form to create a new Horario entity.
      *
      */
     public function newAction()
@@ -208,15 +208,15 @@ class HorarioController extends Controller
 
   
     /**
-     * Displays a form to edit an existing Barrio entity.
+     * Displays a form to edit an existing Horario entity.
      *
      */
     public function editAction($id)
     {
-        if ( $this->get('security.context')->isGranted('ROLE_MODBARRIO')) { 
+        if ( $this->get('security.context')->isGranted('ROLE_MODHORARIO')) { 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('BackendAdminBundle:Barrio')->find($id);
+        $entity = $em->getRepository('BackendAdminBundle:Horario')->find($id);
 
         if (!$entity) {
             
@@ -224,10 +224,10 @@ class HorarioController extends Controller
              return $this->redirect($this->generateUrl('barrio'));
         }
 
-        $editForm = $this->createForm(new BarrioType(), $entity);
+        $editForm = $this->createForm(new HorarioType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('BackendAdminBundle:Barrio:edit.html.twig', array(
+        return $this->render('BackendAdminBundle:Horario:edit.html.twig', array(
             'entity'      => $entity,
             'form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -239,15 +239,15 @@ class HorarioController extends Controller
     }
 
     /**
-    * Creates a form to edit a Barrio entity.
+    * Creates a form to edit a Horario entity.
     *                                       
-    * @param Barrio $entity The entity
+    * @param Horario $entity The entity
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(Barrio $entity)
+    private function createEditForm(Horario $entity)
     {
-        $form = $this->createForm(new BarrioType(), $entity, array(
+        $form = $this->createForm(new HorarioType(), $entity, array(
             'action' => $this->generateUrl('barrio_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
@@ -257,15 +257,15 @@ class HorarioController extends Controller
         return $form;
     }
     /**
-     * Edits an existing Barrio entity.
+     * Edits an existing Horario entity.
      *
      */
     public function updateAction(Request $request, $id)
     {
-        if ( $this->get('security.context')->isGranted('ROLE_MODBARRIO')) {  
+        if ( $this->get('security.context')->isGranted('ROLE_MODHORARIO')) {  
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('BackendAdminBundle:Barrio')->find($id);
+        $entity = $em->getRepository('BackendAdminBundle:Horario')->find($id);
 
         if (!$entity) {
              $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado el barrio.');
@@ -273,7 +273,7 @@ class HorarioController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new BarrioType(), $entity);
+        $editForm = $this->createForm(new HorarioType(), $entity);
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
@@ -283,7 +283,7 @@ class HorarioController extends Controller
             return $this->redirect($this->generateUrl('barrio_edit', array('id' => $id)));
         }
 
-        return $this->render('BackendAdminBundle:Barrio:edit.html.twig', array(
+        return $this->render('BackendAdminBundle:Horario:edit.html.twig', array(
             'entity'      => $entity,
             'form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -294,18 +294,18 @@ class HorarioController extends Controller
          throw new AccessDeniedException();  
     }
     /**
-     * Deletes a Barrio entity.
+     * Deletes a Horario entity.
      *
      */
     public function deleteAction(Request $request, $id)
     {
-        if ( $this->get('security.context')->isGranted('ROLE_DELBARRIO')) { 
+        if ( $this->get('security.context')->isGranted('ROLE_DELHORARIO')) { 
         $form = $this->createDeleteForm($id);
         $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('BackendAdminBundle:Barrio')->find($id);
+            $entity = $em->getRepository('BackendAdminBundle:Horario')->find($id);
 
             if (!$entity) {
                 $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado el barrio.');
@@ -329,7 +329,7 @@ class HorarioController extends Controller
     }
 
     /**
-     * Creates a form to delete a Barrio entity by id.
+     * Creates a form to delete a Horario entity by id.
      *
      * @param mixed $id The entity id
      *
@@ -345,7 +345,7 @@ class HorarioController extends Controller
     
      public function exportarAction(Request $request)
     {
-     if ( $this->get('security.context')->isGranted('ROLE_VIEWBARRIO')) {
+     if ( $this->get('security.context')->isGranted('ROLE_VIEWHORARIO')) {
          
          $em = $this->getDoctrine()->getManager();
 
@@ -355,10 +355,10 @@ class HorarioController extends Controller
        
         $query = $em->createQuery($search);
         
-        $excelService = $this->get('xls.service_xls5');
+        $excelService = $this->get('phpexcel')->createPHPExcelObject();
                          
                             
-        $excelService->excelObj->setActiveSheetIndex(0)
+        $excelService->setActiveSheetIndex(0)
                     ->setCellValue('A1', 'Zona')
                     ->setCellValue('B1', 'Nombre')
                     
@@ -375,16 +375,17 @@ class HorarioController extends Controller
           $i++;
         }
                             
-        $excelService->excelObj->getActiveSheet()->setTitle('Listado de Barrios');
+        $excelService->getActiveSheet()->setTitle('Listado de Horarios');
         // Set active sheet index to the first sheet, so Excel opens this as the first sheet
-        $excelService->excelObj->setActiveSheetIndex(0);
-        $excelService->excelObj->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
-        $excelService->excelObj->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+        $excelService->setActiveSheetIndex(0);
+        $excelService->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+        $excelService->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
         
         
         $fileName="barrios_".date("Ymd").".xls";
-        //create the response
-        $response = $excelService->getResponse();
+        $writer = $this->get('phpexcel')->createWriter($excelService, 'Excel5');
+        // create the response
+        $response = $this->get('phpexcel')->createStreamedResponse($writer);
         $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
         //$response->headers->set('Content-Disposition', 'filename='.$fileName);
         echo header("Content-Disposition: attachment; filename=$fileName");
@@ -401,11 +402,11 @@ class HorarioController extends Controller
         }
     }
     
-    public function getBarrioByZonaAction(Request $request)
+    public function getHorarioByZonaAction(Request $request)
     {
      
       $zona_id=$request->request->get("zona");
-      $barrios = $this->getDoctrine()->getRepository('BackendAdminBundle:Barrio')->findBy(array("zona"=>$zona_id));
+      $barrios = $this->getDoctrine()->getRepository('BackendAdminBundle:Horario')->findBy(array("zona"=>$zona_id));
      
       $resultado=array();
       foreach($barrios as $v){

@@ -851,4 +851,70 @@ class Customer implements AdvancedUserInterface, \Serializable {
     {
         return $this->sucursales;
     }
+
+    /**
+     * Add favoritosComercios
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Favorito $favoritosComercios
+     * @return Customer
+     */
+    public function addFavoritosComercio(\Backend\CustomerAdminBundle\Entity\Favorito $favoritosComercios)
+    {
+        $this->favoritosComercios[] = $favoritosComercios;
+
+        return $this;
+    }
+
+    /**
+     * Remove favoritosComercios
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Favorito $favoritosComercios
+     */
+    public function removeFavoritosComercio(\Backend\CustomerAdminBundle\Entity\Favorito $favoritosComercios)
+    {
+        $this->favoritosComercios->removeElement($favoritosComercios);
+    }
+
+    /**
+     * Get favoritosComercios
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFavoritosComercios()
+    {
+        return $this->favoritosComercios;
+    }
+
+    /**
+     * Add favoritos
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Favorito $favoritos
+     * @return Customer
+     */
+    public function addFavorito(\Backend\CustomerAdminBundle\Entity\Favorito $favoritos)
+    {
+        $this->favoritos[] = $favoritos;
+
+        return $this;
+    }
+
+    /**
+     * Remove favoritos
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Favorito $favoritos
+     */
+    public function removeFavorito(\Backend\CustomerAdminBundle\Entity\Favorito $favoritos)
+    {
+        $this->favoritos->removeElement($favoritos);
+    }
+
+    /**
+     * Get favoritos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFavoritos()
+    {
+        return $this->favoritos;
+    }
 }

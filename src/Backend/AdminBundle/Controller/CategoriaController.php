@@ -238,12 +238,15 @@ class CategoriaController extends Controller
             }
            else{
             
-            /*TODO: SI BORRO CATEGORIA BORRO SUBCATEGORIAS*/
+           $subcategorias=$em->getRepository("BackendAdminBundle:Subcategoria")->findBy(array("categoria"=>$id));
+            if (count($subcategorias) > 0){
+                $this->get('session')->getFlashBag()->add('error' , 'Se deben borrar las subcategorias asignadas a la categoría previamente.');
+            }else{
             
-            $em->remove($entity);
-            $em->flush();
-            $this->get('session')->getFlashBag()->add('success' , 'Se han borrado los datos de la categoria.');
-            
+                $em->remove($entity);
+                $em->flush();
+                $this->get('session')->getFlashBag()->add('success' , 'Se han borrado los datos de la categoria.');
+            }
             }
         }
 
@@ -280,10 +283,11 @@ class CategoriaController extends Controller
        
         $query = $em->createQuery($search);
         
-        $excelService = $this->get('xls.service_xls5');
+        
+        $excelService = $this->get('phpexcel')->createPHPExcelObject();
                          
                             
-        $excelService->excelObj->setActiveSheetIndex(0)
+        $excelService->setActiveSheetIndex(0)
                     ->setCellValue('A1', 'Nombre')
                     ;
                     
@@ -291,20 +295,23 @@ class CategoriaController extends Controller
         $i=2;
         foreach($resultados as $r)
         {
-           $excelService->excelObj->setActiveSheetIndex(0)
+           $excelService->setActiveSheetIndex(0)
                          ->setCellValue("A$i",$r->getName())
                          ;
           $i++;
         }
                             
-        $excelService->excelObj->getActiveSheet()->setTitle('Listado de Categorias');
+        $excelService->getActiveSheet()->setTitle('Listado de Categorias');
         // Set active sheet index to the first sheet, so Excel opens this as the first sheet
-        $excelService->excelObj->setActiveSheetIndex(0);
-        $excelService->excelObj->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+        $excelService->setActiveSheetIndex(0);
+        $excelService->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
         
         $fileName="categorias_".date("Ymd").".xls";
         //create the response
-        $response = $excelService->getResponse();
+        $writer = $this->get('phpexcel')->createWriter($excelService, 'Excel5');
+        // create the response
+        $response = $this->get('phpexcel')->createStreamedResponse($writer);
+        
         $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
         //$response->headers->set('Content-Disposition', 'filename='.$fileName);
         echo header("Content-Disposition: attachment; filename=$fileName");

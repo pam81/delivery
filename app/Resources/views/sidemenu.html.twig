@@ -16,7 +16,7 @@
                     {% endif %}
                     {% if is_granted('ROLE_VIEWPRODUCTO') %}
                     <li>
-                        <a href="{{ path('producto') }}"><i class="fa fa-file"></i> Productos</a>
+                        <a href="{{ path('admin_producto') }}"><i class="fa fa-file"></i> Productos</a>
                     </li>
                     {% endif %}
                     {% if is_granted('ROLE_VIEWCUSTOMER') %}

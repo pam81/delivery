@@ -49,9 +49,9 @@ class ProductoController extends Controller
         $this->get('request')->query->get('page', 1)/*page number*/,
         $this->container->getParameter('max_on_listepage')/*limit per page*/
     );
-        
+                                 
         $deleteForm = $this->createDeleteForm(0);
-        return $this->render('BackendCustomerAdminBundle:Producto:index.html.twig', 
+        return $this->render('BackendAdminBundle:Producto:index.html.twig', 
         array('pagination' => $pagination,
         'delete_form' => $deleteForm->createView(),
         'search'=>$search
@@ -280,10 +280,10 @@ class ProductoController extends Controller
        
         $query = $em->createQuery($search);
         
-        $excelService = $this->get('xls.service_xls5');
+        $excelService = $this->get('phpexcel')->createPHPExcelObject();
                          
                             
-        $excelService->excelObj->setActiveSheetIndex(0)
+        $excelService->setActiveSheetIndex(0)
                     ->setCellValue('A1', 'Nombre')
                     ;
                     
@@ -291,20 +291,21 @@ class ProductoController extends Controller
         $i=2;
         foreach($resultados as $r)
         {
-           $excelService->excelObj->setActiveSheetIndex(0)
+           $excelService->setActiveSheetIndex(0)
                          ->setCellValue("A$i",$r->getName())
                          ;
           $i++;
         }
                             
-        $excelService->excelObj->getActiveSheet()->setTitle('Listado de Productos');
+        $excelService->getActiveSheet()->setTitle('Listado de Productos');
         // Set active sheet index to the first sheet, so Excel opens this as the first sheet
-        $excelService->excelObj->setActiveSheetIndex(0);
-        $excelService->excelObj->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+        $excelService->setActiveSheetIndex(0);
+        $excelService->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
         
         $fileName="categorias_".date("Ymd").".xls";
-        //create the response
-        $response = $excelService->getResponse();
+        $writer = $this->get('phpexcel')->createWriter($excelService, 'Excel5');
+        // create the response
+        $response = $this->get('phpexcel')->createStreamedResponse($writer);
         $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
         //$response->headers->set('Content-Disposition', 'filename='.$fileName);
         echo header("Content-Disposition: attachment; filename=$fileName");

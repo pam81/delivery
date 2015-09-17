@@ -51,15 +51,45 @@ class LoadGroupData extends AbstractFixture implements OrderedFixtureInterface
         $groupAdmin->addAcceso($this->getReference('del-direccion'));
         $groupAdmin->addAcceso($this->getReference('view-direccion'));
         
-        $groupAdmin->addAcceso($this->getReference('add-producto'));
-        $groupAdmin->addAcceso($this->getReference('mod-producto'));
-        $groupAdmin->addAcceso($this->getReference('del-producto'));
-        $groupAdmin->addAcceso($this->getReference('view-producto'));
+
+        $groupAdmin->addAcceso($this->getReference('add-metodopago'));
+        $groupAdmin->addAcceso($this->getReference('mod-metodopago'));
+        $groupAdmin->addAcceso($this->getReference('del-metodopago'));
+        $groupAdmin->addAcceso($this->getReference('view-metodopago'));
+
         
         $groupAdmin->addAcceso($this->getReference('add-sucursal'));
         $groupAdmin->addAcceso($this->getReference('mod-sucursal'));
         $groupAdmin->addAcceso($this->getReference('del-sucursal'));
         $groupAdmin->addAcceso($this->getReference('view-sucursal'));
+
+        
+        $groupAdmin->addAcceso($this->getReference('add-producto'));
+        $groupAdmin->addAcceso($this->getReference('mod-producto'));
+        $groupAdmin->addAcceso($this->getReference('del-producto'));
+        $groupAdmin->addAcceso($this->getReference('view-producto'));
+        
+        $groupAdmin->addAcceso($this->getReference('add-venta'));
+        $groupAdmin->addAcceso($this->getReference('mod-venta'));
+        $groupAdmin->addAcceso($this->getReference('del-venta'));
+        $groupAdmin->addAcceso($this->getReference('view-venta'));
+        
+        $groupAdmin->addAcceso($this->getReference('add-compra'));
+        $groupAdmin->addAcceso($this->getReference('mod-compra'));
+        $groupAdmin->addAcceso($this->getReference('del-compra'));
+        $groupAdmin->addAcceso($this->getReference('view-compra'));
+        
+        $groupAdmin->addAcceso($this->getReference('add-favorito'));
+        $groupAdmin->addAcceso($this->getReference('mod-favorito'));
+        $groupAdmin->addAcceso($this->getReference('del-favorito'));
+        $groupAdmin->addAcceso($this->getReference('view-favorito'));
+        
+        $groupAdmin->addAcceso($this->getReference('add-horario'));
+        $groupAdmin->addAcceso($this->getReference('mod-horario'));
+        $groupAdmin->addAcceso($this->getReference('del-horario'));
+        $groupAdmin->addAcceso($this->getReference('view-horario'));
+        
+
         
         $manager->persist($groupAdmin);
         $manager->flush();

@@ -47,6 +47,7 @@
                                     <tr>
                                         <th {% if pagination.isSorted('u.name') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nombre', 'u.name') }}</th>
                                         <th>Imagen</th>
+                                        <th>Restringida</th>
                                         <th style="width: 36px;">Acciones</th>
                                     </tr>
                                 </thead>
@@ -58,6 +59,11 @@
                                                   {% if categoria.getWebPath() %}
                                                   <img src="{{ asset(categoria.getWebPath()) }}" width="100" height="100" />
                                                   {% endif %}
+                                                  </td>
+                                                  <td>
+                                                   {% if categoria.getIsRestrict() %}
+                                                       <span class="label label-danger">Restringida</span>
+                                                   {% endif %} 
                                                   </td>
                                                   <td>
                                                   {% if is_granted("ROLE_MODCATEGORIA") %}

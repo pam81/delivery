@@ -8,15 +8,16 @@
         </div>
 </div>
 
+
+
 <div class="form-group">
-        
-        {{ form_label(form.isActive,"Activo", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
-        <div class="col-xs-6">
-            {{ form_widget(form.isActive, { 'attr': {'class': 'form-control'} }) }}
-            <span id='backend_adminbundle_paymethod_isActive_errorloc' class="help-block"> {{ form_errors(form.isActive) }} </span>
+        <div class="col-xs-offset-2 col-xs-10">
+            <div class="checkbox">
+                <label>{{ form_widget(form.isActive) }}
+                 {{ form_label(form.isActive,"Activo") }}</label>
+            </div>
+            <span id='backend_userbundle_usertype_isActive_errorloc' class="help-block"> {{ form_errors(form.isActive) }} </span>
         </div>
-</div>
-
-
+    </div>
 
 

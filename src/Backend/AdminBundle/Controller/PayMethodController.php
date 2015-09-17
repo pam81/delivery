@@ -37,7 +37,7 @@ class PayMethodController extends Controller
      */
     public function indexAction(Request $request,$search)
     {
-       if ( $this->get('security.context')->isGranted('ROLE_VIEWCATEGORIA')) {
+       if ( $this->get('security.context')->isGranted('ROLE_VIEWMETODOPAGO')) {
         $em = $this->getDoctrine()->getManager();
         
         $dql=$this->generateSQL($search);
@@ -67,7 +67,7 @@ class PayMethodController extends Controller
      */
     public function createAction(Request $request)
     {
-        if ( $this->get('security.context')->isGranted('ROLE_ADDCATEGORIA')) {
+        if ( $this->get('security.context')->isGranted('ROLE_ADDMETODOPAGO')) {
         $entity  = new PayMethod();
         $form = $this->createForm(new PayMethodType(), $entity);
         $form->bind($request);
@@ -117,7 +117,7 @@ class PayMethodController extends Controller
      */
     public function newAction()
     {
-       if ( $this->get('security.context')->isGranted('ROLE_ADDCATEGORIA')) {
+       if ( $this->get('security.context')->isGranted('ROLE_ADDMETODOPAGO')) {
         $entity = new PayMethod();
         $form   = $this->createForm(new PayMethodType(), $entity);
 
@@ -138,7 +138,7 @@ class PayMethodController extends Controller
      */
     public function editAction($id)
     {
-        if ( $this->get('security.context')->isGranted('ROLE_MODCATEGORIA')) { 
+        if ( $this->get('security.context')->isGranted('ROLE_MODMETODOPAGO')) { 
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('BackendAdminBundle:PayMethod')->find($id);
@@ -187,7 +187,7 @@ class PayMethodController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
-        if ( $this->get('security.context')->isGranted('ROLE_MODCATEGORIA')) {  
+        if ( $this->get('security.context')->isGranted('ROLE_MODMETODOPAGO')) {  
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('BackendAdminBundle:PayMethod')->find($id);
@@ -224,7 +224,7 @@ class PayMethodController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-        if ( $this->get('security.context')->isGranted('ROLE_DELCATEGORIA')) { 
+        if ( $this->get('security.context')->isGranted('ROLE_DELMETODOPAGO')) { 
         $form = $this->createDeleteForm($id);
         $form->bind($request);
 
@@ -238,7 +238,7 @@ class PayMethodController extends Controller
             }
            else{
             
-            /*TODO: SI BORRO CATEGORIA BORRO SUBCATEGORIAS*/
+            
             
             $em->remove($entity);
             $em->flush();
@@ -270,7 +270,7 @@ class PayMethodController extends Controller
     
      public function exportarAction(Request $request)
     {
-     if ( $this->get('security.context')->isGranted('ROLE_VIEWCATEGORIA')) {
+     if ( $this->get('security.context')->isGranted('ROLE_VIEWMETODOPAGO')) {
          
          $em = $this->getDoctrine()->getManager();
 
@@ -280,10 +280,10 @@ class PayMethodController extends Controller
        
         $query = $em->createQuery($search);
         
-        $excelService = $this->get('xls.service_xls5');
+        $excelService = $this->get('phpexcel')->createPHPExcelObject();
                          
                             
-        $excelService->excelObj->setActiveSheetIndex(0)
+        $excelService->setActiveSheetIndex(0)
                     ->setCellValue('A1', 'Nombre')
                     ;
                     
@@ -291,20 +291,21 @@ class PayMethodController extends Controller
         $i=2;
         foreach($resultados as $r)
         {
-           $excelService->excelObj->setActiveSheetIndex(0)
+           $excelService->setActiveSheetIndex(0)
                          ->setCellValue("A$i",$r->getName())
                          ;
           $i++;
         }
                             
-        $excelService->excelObj->getActiveSheet()->setTitle('Listado de Categorias');
+        $excelService->getActiveSheet()->setTitle('Listado de Métodos de Pago');
         // Set active sheet index to the first sheet, so Excel opens this as the first sheet
-        $excelService->excelObj->setActiveSheetIndex(0);
-        $excelService->excelObj->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+        $excelService->setActiveSheetIndex(0);
+        $excelService->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
         
-        $fileName="categorias_".date("Ymd").".xls";
-        //create the response
-        $response = $excelService->getResponse();
+        $fileName="mpago_".date("Ymd").".xls";
+        $writer = $this->get('phpexcel')->createWriter($excelService, 'Excel5');
+        // create the response
+        $response = $this->get('phpexcel')->createStreamedResponse($writer);
         $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
         //$response->headers->set('Content-Disposition', 'filename='.$fileName);
         echo header("Content-Disposition: attachment; filename=$fileName");
@@ -320,23 +321,6 @@ class PayMethodController extends Controller
            throw new AccessDeniedException(); 
         }
     }
-    public function getCategoriasAction(Request $request)
-    {
-      
-      $categorias = $this->getDoctrine()->getRepository('BackendAdminBundle:Categoria')->findAll();
-     
-      $resultado=array();
-      foreach($categorias as $v){
-            $r=array();
-            $r["id"]=$v->getId();
-            $r["text"]=$v->getName();
-            $resultado[] = $r;
-       }
-       $response = new Response(json_encode($resultado));
-        
-       $response->headers->set('Content-Type', 'application/json');
-  
-       return $response;
-    }
+    
     
 }

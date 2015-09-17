@@ -6,8 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\Common\Collections\ArrayCollection;
-use Backend\UserBundle\Validator\Constraints\UsuarioUnique;
-use Backend\UserBundle\Validator\Constraints\EmailUnique;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 
 /**
@@ -16,8 +15,9 @@ use Backend\UserBundle\Validator\Constraints\EmailUnique;
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="Backend\UserBundle\Entity\UserRepository")
  * @ORM\HasLifecycleCallbacks 
- * @UsuarioUnique()
- * @EmailUnique()  
+ * @UniqueEntity("email")
+ * @UniqueEntity("dni") 
+ *   
  */
 class User implements AdvancedUserInterface, \Serializable {
 

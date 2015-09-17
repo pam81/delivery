@@ -272,7 +272,63 @@ class LoadAccesoData extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($accesoAdmin37);
         $manager->flush();
         $this->addReference('view-sucursal', $accesoAdmin37);
-			
+	
+        $accesoAdmin58 = new Acceso();
+        $accesoAdmin58->setName('Nuevo M Pago');
+        $accesoAdmin58->setAcceso('ROLE_ADDMETODOPAGO');
+        $manager->persist($accesoAdmin58);
+        $manager->flush();
+        $this->addReference('add-metodopago', $accesoAdmin58);
+        
+        $accesoAdmin59 = new Acceso();
+        $accesoAdmin59->setName('Modificar M Pago');
+        $accesoAdmin59->setAcceso('ROLE_MODMETODOPAGO');
+        $manager->persist($accesoAdmin59);
+        $manager->flush();
+        $this->addReference('mod-metodopago', $accesoAdmin59);
+
+        $accesoAdmin60 = new Acceso();
+        $accesoAdmin60->setName('Borrar  M Pago');
+        $accesoAdmin60->setAcceso('ROLE_DELMETODOPAGO');
+        $manager->persist($accesoAdmin60);
+        $manager->flush();
+        $this->addReference('del-metodopago', $accesoAdmin60);
+       
+        $accesoAdmin61= new Acceso();
+        $accesoAdmin61->setName('Listar  M Pago');
+        $accesoAdmin61->setAcceso('ROLE_VIEWMETODOPAGO');
+        $manager->persist($accesoAdmin61);
+        $manager->flush();
+        $this->addReference('view-metodopago', $accesoAdmin61);
+        
+        $accesoAdmin62 = new Acceso();
+        $accesoAdmin62->setName('Nuevo Horario');
+        $accesoAdmin62->setAcceso('ROLE_ADDHORARIO');
+        $manager->persist($accesoAdmin62);
+        $manager->flush();
+        $this->addReference('add-horario', $accesoAdmin62);
+        
+        $accesoAdmin63 = new Acceso();
+        $accesoAdmin63->setName('Modificar Horario');
+        $accesoAdmin63->setAcceso('ROLE_MODHORARIO');
+        $manager->persist($accesoAdmin63);
+        $manager->flush();
+        $this->addReference('mod-horario', $accesoAdmin63);
+
+        $accesoAdmin64 = new Acceso();
+        $accesoAdmin64->setName('Borrar  Horario');
+        $accesoAdmin64->setAcceso('ROLE_DELHORARIO');
+        $manager->persist($accesoAdmin64);
+        $manager->flush();
+        $this->addReference('del-horario', $accesoAdmin64);
+       
+        $accesoAdmin65= new Acceso();
+        $accesoAdmin65->setName('Listar Horario');
+        $accesoAdmin65->setAcceso('ROLE_VIEWHORARIO');
+        $manager->persist($accesoAdmin65);
+        $manager->flush();
+        $this->addReference('view-horario', $accesoAdmin65);
+
                
     }
 
