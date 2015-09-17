@@ -16,7 +16,6 @@ class PayMethodType extends AbstractType
     {
         $builder
             ->add('name')
-			//->add('isActive');	
             ->add('isActive','checkbox',array(
          	   'value'=>1,
          	   'label'=>"Habilitado",

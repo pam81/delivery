@@ -9,17 +9,27 @@
 </div>
 
 
+
+
+<div class="form-group">
+        <div class="col-xs-offset-2 col-xs-10">
+            <div class="checkbox">
+                <label>{{ form_widget(form.isRestrict) }}
+                 {{ form_label(form.isRestrict,"Restringida") }}</label>
+            </div>
+            <span id='backend_userbundle_usertype_isRestrict_errorloc' class="help-block"> {{ form_errors(form.isRestrict) }} </span>
+        </div>
+    </div>
+
 <div class="form-group">
         
-        {{ form_label(form.file,"Imagen (tamaño recomendado: 300x300 px)", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
+        {{ form_label(form.file,"Imagen", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
         <div class="col-xs-6">
-            {{ form_widget(form.file, { 'attr': {'class': 'input-xlarge'} }) }}
+            {{ form_widget(form.file, { 'attr': {'class': 'form-control'} }) }}
             <span id='backend_adminbundle_categoria_file_errorloc' class="help-block"> {{ form_errors(form.file) }} </span>
         </div>
         {% if entity.getWebPath() %}
-          <img src="{{ asset(entity.getWebPath()) }}" width="100" height="100" />
+        <img src="{{ asset(entity.getWebPath()) }}" width="100" height="100" />
         {% endif %}
 </div>
-
-
 
