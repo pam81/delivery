@@ -272,7 +272,127 @@ class LoadAccesoData extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($accesoAdmin37);
         $manager->flush();
         $this->addReference('view-sucursal', $accesoAdmin37);
-	
+        
+        $accesoAdmin38 = new Acceso();
+        $accesoAdmin38->setName('Nuevo Compra');
+        $accesoAdmin38->setAcceso('ROLE_ADDCOMPRA');
+        $manager->persist($accesoAdmin38);
+        $manager->flush();
+        $this->addReference('add-compra', $accesoAdmin38);
+        
+        $accesoAdmin39 = new Acceso();
+        $accesoAdmin39->setName('Modificar Compra');
+        $accesoAdmin39->setAcceso('ROLE_MODCOMPRA');
+        $manager->persist($accesoAdmin39);
+        $manager->flush();
+        $this->addReference('mod-compra', $accesoAdmin39);
+
+        $accesoAdmin40 = new Acceso();
+        $accesoAdmin40->setName('Borrar Compra');
+        $accesoAdmin40->setAcceso('ROLE_DELCOMPRA');
+        $manager->persist($accesoAdmin40);
+        $manager->flush();
+        $this->addReference('del-compra', $accesoAdmin40);
+       
+        $accesoAdmin41= new Acceso();
+        $accesoAdmin41->setName('Listar Compra');
+        $accesoAdmin41->setAcceso('ROLE_VIEWCOMPRA');
+        $manager->persist($accesoAdmin41);
+        $manager->flush();
+        $this->addReference('view-compra', $accesoAdmin41);
+         
+	      $accesoAdmin42 = new Acceso();
+        $accesoAdmin42->setName('Nueva Venta');
+        $accesoAdmin42->setAcceso('ROLE_ADDVENTA');
+        $manager->persist($accesoAdmin42);
+        $manager->flush();
+        $this->addReference('add-venta', $accesoAdmin42);
+        
+        
+
+        $accesoAdmin43 = new Acceso();
+        $accesoAdmin43->setName('Borrar Venta');
+        $accesoAdmin43->setAcceso('ROLE_DELVENTA');
+        $manager->persist($accesoAdmin43);
+        $manager->flush();
+        $this->addReference('del-venta', $accesoAdmin43);
+       
+        $accesoAdmin44= new Acceso();
+        $accesoAdmin44->setName('Listar Venta');
+        $accesoAdmin44->setAcceso('ROLE_VIEWVENTA');
+        $manager->persist($accesoAdmin44);
+        $manager->flush();
+        $this->addReference('view-venta', $accesoAdmin44); 
+  
+       $accesoAdmin45 = new Acceso();
+        $accesoAdmin45->setName('Modificar Venta');
+        $accesoAdmin45->setAcceso('ROLE_MODVENTA');
+        $manager->persist($accesoAdmin45);
+        $manager->flush();
+        $this->addReference('mod-venta', $accesoAdmin45);
+        
+        
+        $accesoAdmin46 = new Acceso();
+        $accesoAdmin46->setName('Nuevo Favorito');
+        $accesoAdmin46->setAcceso('ROLE_ADDFAVORITO');
+        $manager->persist($accesoAdmin46);
+        $manager->flush();
+        $this->addReference('add-favorito', $accesoAdmin46);
+        
+        
+
+        $accesoAdmin47 = new Acceso();
+        $accesoAdmin47->setName('Borrar Favorito');
+        $accesoAdmin47->setAcceso('ROLE_DELFAVORITO');
+        $manager->persist($accesoAdmin47);
+        $manager->flush();
+        $this->addReference('del-favorito', $accesoAdmin47);
+       
+        $accesoAdmin48= new Acceso();
+        $accesoAdmin48->setName('Listar Favoritos');
+        $accesoAdmin48->setAcceso('ROLE_VIEWFAVORITO');
+        $manager->persist($accesoAdmin48);
+        $manager->flush();
+        $this->addReference('view-favorito', $accesoAdmin48); 
+  
+       $accesoAdmin49 = new Acceso();
+        $accesoAdmin49->setName('Modificar Favorito');
+        $accesoAdmin49->setAcceso('ROLE_MODFAVORITO');
+        $manager->persist($accesoAdmin49);
+        $manager->flush();
+        $this->addReference('mod-favorito', $accesoAdmin49);
+        
+        
+        $accesoAdmin50 = new Acceso();
+        $accesoAdmin50->setName('Nueva Variedad');
+        $accesoAdmin50->setAcceso('ROLE_ADDVARIEDAD');
+        $manager->persist($accesoAdmin50);
+        $manager->flush();
+        $this->addReference('add-variedad', $accesoAdmin50);
+        
+        
+
+        $accesoAdmin51 = new Acceso();
+        $accesoAdmin51->setName('Borrar Variedad');
+        $accesoAdmin51->setAcceso('ROLE_DELVARIEDAD');
+        $manager->persist($accesoAdmin51);
+        $manager->flush();
+        $this->addReference('del-variedad', $accesoAdmin51);
+       
+        $accesoAdmin52= new Acceso();
+        $accesoAdmin52->setName('Listar Variedad');
+        $accesoAdmin52->setAcceso('ROLE_VIEWVARIEDAD');
+        $manager->persist($accesoAdmin52);
+        $manager->flush();
+        $this->addReference('view-variedad', $accesoAdmin52); 
+  
+       $accesoAdmin53 = new Acceso();
+        $accesoAdmin53->setName('Modificar Variedad');
+        $accesoAdmin53->setAcceso('ROLE_MODVARIEDAD');
+        $manager->persist($accesoAdmin53);
+        $manager->flush();
+        $this->addReference('mod-variedad', $accesoAdmin53);
+        
         $accesoAdmin58 = new Acceso();
         $accesoAdmin58->setName('Nuevo M Pago');
         $accesoAdmin58->setAcceso('ROLE_ADDMETODOPAGO');

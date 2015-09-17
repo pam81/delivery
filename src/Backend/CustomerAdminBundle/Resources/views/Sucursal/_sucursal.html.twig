@@ -72,32 +72,39 @@
         </div>
 </div>
 
+
 <div class="form-group">
-        
-        {{ form_label(form.is_unica,"Sucursal unica", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
-        <div class="col-xs-1">
-            {{ form_widget(form.is_unica, { 'attr': {'class': 'form-control'} }) }}
+        <div class="col-xs-offset-2 col-xs-10">
+            <div class="checkbox">
+                <label>{{ form_widget(form.is_unica) }}
+                 {{ form_label(form.is_unica,"Sucursal unica") }}</label>
+            </div>
             <span id='backend_customeradminbundle_sucursal_is_unica_errorloc' class="help-block"> {{ form_errors(form.is_unica) }} </span>
         </div>
-</div>
+    </div>
 
 <div class="form-group">
-        
-        {{ form_label(form.open,"Open 24 hs", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
-        <div class="col-xs-1">
-            {{ form_widget(form.open, { 'attr': {'class': 'form-control'} }) }}
+        <div class="col-xs-offset-2 col-xs-10">
+            <div class="checkbox">
+                <label>{{ form_widget(form.open) }}
+                 {{ form_label(form.open,"Abierto 24 hs") }}</label>
+            </div>
             <span id='backend_customeradminbundle_sucursal_open_errorloc' class="help-block"> {{ form_errors(form.open) }} </span>
         </div>
-</div>
+    </div>
+
 
 <div class="form-group">
-        
-        {{ form_label(form.is_active,"Activa", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
-        <div class="col-xs-1">
-            {{ form_widget(form.is_active, { 'attr': {'class': 'form-control'} }) }}
+        <div class="col-xs-offset-2 col-xs-10">
+            <div class="checkbox">
+                <label>{{ form_widget(form.is_active) }}
+                 {{ form_label(form.is_active,"Activa") }}</label>
+            </div>
             <span id='backend_customeradminbundle_sucursal_is_active_errorloc' class="help-block"> {{ form_errors(form.is_active) }} </span>
         </div>
-</div>
+    </div>
+
+
 <div class="form-group">
 <input class="btn" type="button" id="asociarHorario" value="Definir horarios atencion" style="float:right;margin-right:45%" data-url="{{ path('sucursal_load_horario')}}">
 

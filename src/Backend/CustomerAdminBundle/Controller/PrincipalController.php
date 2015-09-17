@@ -18,7 +18,7 @@ class PrincipalController extends Controller
     public function accessAction()
     {
        $this->get('session')->getFlashBag()->add('error' , 'Su usuario no tiene acceso a esta sección.');    
-      return $this->redirect($this->generateUrl('login_customer'));
+      return $this->redirect($this->generateUrl('customer_login'));
     }
     
     public function blankAction()

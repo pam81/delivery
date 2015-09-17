@@ -35,10 +35,24 @@ class LoadCustomerData extends AbstractFixture implements OrderedFixtureInterfac
         $userAdmin->setIsActive("1");
         $userAdmin->setIsComercio("0");
         $userAdmin->setCreatedAt(new \DateTime('now'));
-        $userAdmin->addGroup($this->getReference('visitor-group'));
+        $userAdmin->addGroup($this->getReference('cliente-group'));
         $manager->persist($userAdmin);
         $manager->flush();
         $this->addReference('customer-one', $userAdmin);
+        
+        $userAdmin1 = new customer();
+        $userAdmin1->setPassword("123456");
+        $userAdmin1->setEmail('comercio@admin.com');
+        $userAdmin1->setName("Comercio");
+        $userAdmin1->setLastname("ComercioLast");
+        $userAdmin1->setStatus($this->getReference('status-pendiente'));
+        $userAdmin1->setIsActive("1");
+        $userAdmin1->setIsComercio("1");
+        $userAdmin1->setCreatedAt(new \DateTime('now'));
+        $userAdmin1->addGroup($this->getReference('comercio-group'));
+        $manager->persist($userAdmin1);
+        $manager->flush();
+        $this->addReference('customer-comercio', $userAdmin1);
     }
     
     public function getOrder()
