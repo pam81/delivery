@@ -62,11 +62,15 @@ class Direccion
     private $barrio;
 	
     
-	/**
-     * @ORM\Column(name="coordenadas",type="json_array",nullable=true)
-	 */
-   	
-	private $coordenadas;
+	 /**
+     * @ORM\Column(name="lat", type="string", length=100, nullable=true)
+     */
+    private $lat;
+    
+    /**
+     * @ORM\Column(name="lon", type="string", length=100, nullable=true)
+     */
+    private $lon;
 	
     /**
      * @ORM\ManyToMany(targetEntity="\Backend\CustomerBundle\Entity\Customer", inversedBy="direcciones")
@@ -409,29 +413,7 @@ class Direccion
         return $this->sucursal;
     }
 
-    /**
-     * Set coordenadas
-     *
-     * @param array $coordenadas
-     * @return Direccion
-     */
-    public function setCoordenadas($coordenadas)
-    {
-        $this->coordenadas = $coordenadas;
-
-        return $this;
-    }
-
-    /**
-     * Get coordenadas
-     *
-     * @return array 
-     */
-    public function getCoordenadas()
-    {
-        return $this->coordenadas;
-    }
-
+    
     /**
      * Add pedidos
      *
@@ -463,5 +445,51 @@ class Direccion
     public function getPedidos()
     {
         return $this->pedidos;
+    }
+
+    /**
+     * Set lat
+     *
+     * @param string $lat
+     * @return Direccion
+     */
+    public function setLat($lat)
+    {
+        $this->lat = $lat;
+
+        return $this;
+    }
+
+    /**
+     * Get lat
+     *
+     * @return string 
+     */
+    public function getLat()
+    {
+        return $this->lat;
+    }
+
+    /**
+     * Set lon
+     *
+     * @param string $lon
+     * @return Direccion
+     */
+    public function setLon($lon)
+    {
+        $this->lon = $lon;
+
+        return $this;
+    }
+
+    /**
+     * Get lon
+     *
+     * @return string 
+     */
+    public function getLon()
+    {
+        return $this->lon;
     }
 }

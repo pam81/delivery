@@ -71,11 +71,15 @@
         </div>
 </div>
 
+
+
+
 <div class="form-group">
-        
-        {{ form_label(form.isDefault,"Por defecto", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
-        <div class="col-xs-2">
-            {{ form_widget(form.isDefault, { 'attr': {'class': 'form-control'} }) }}
+        <div class="col-xs-offset-2 col-xs-10">
+            <div class="checkbox">
+                <label>{{ form_widget(form.isDefault) }}
+                 {{ form_label(form.isDefault,"Por defecto") }}</label>
+            </div>
             <span id='backend_customeradminbundle_direccion_isDefault_errorloc' class="help-block"> {{ form_errors(form.isDefault) }} </span>
         </div>
-</div>
+    </div>

@@ -88,38 +88,28 @@ class LoadGroupData extends AbstractFixture implements OrderedFixtureInterface
         $groupAdmin->addAcceso($this->getReference('mod-horario'));
         $groupAdmin->addAcceso($this->getReference('del-horario'));
         $groupAdmin->addAcceso($this->getReference('view-horario'));
-        
+       
+        $groupAdmin->addAcceso($this->getReference('add-variedad'));
+        $groupAdmin->addAcceso($this->getReference('mod-variedad'));
+        $groupAdmin->addAcceso($this->getReference('del-variedad'));
+        $groupAdmin->addAcceso($this->getReference('view-variedad')); 
 
         
         $manager->persist($groupAdmin);
         $manager->flush();
         $this->addReference('admin-group', $groupAdmin);
         
+        //aun no tiene roles asignados
         $groupAdmin1 = new Group();
         $groupAdmin1->setName('Visitante');
         $groupAdmin1->setRole('ROLE_VISITOR');
-        $groupAdmin1->addAcceso($this->getReference('add-direccion'));
-        $groupAdmin1->addAcceso($this->getReference('mod-direccion'));
-        $groupAdmin1->addAcceso($this->getReference('del-direccion'));
-        $groupAdmin1->addAcceso($this->getReference('view-direccion'));
         
-        $groupAdmin1->addAcceso($this->getReference('add-producto'));
-        $groupAdmin1->addAcceso($this->getReference('mod-producto'));
-        $groupAdmin1->addAcceso($this->getReference('del-producto'));
-        $groupAdmin1->addAcceso($this->getReference('view-producto'));
-        
-        $groupAdmin1->addAcceso($this->getReference('add-sucursal'));
-        $groupAdmin1->addAcceso($this->getReference('mod-sucursal'));
-        $groupAdmin1->addAcceso($this->getReference('del-sucursal'));
-        $groupAdmin1->addAcceso($this->getReference('view-sucursal'));
         
         $manager->persist($groupAdmin1);
         $manager->flush();
         $this->addReference('visitor-group', $groupAdmin1);
 
-        $manager->persist($groupAdmin1);
-        $manager->flush();
-        $this->addReference('visitor-group', $groupAdmin1);
+        
         
         $groupAdmin2 = new Group();
         $groupAdmin2->setName('Comercio');
@@ -138,6 +128,10 @@ class LoadGroupData extends AbstractFixture implements OrderedFixtureInterface
         $groupAdmin2->addAcceso($this->getReference('mod-sucursal'));
         $groupAdmin2->addAcceso($this->getReference('del-sucursal'));
         $groupAdmin2->addAcceso($this->getReference('view-sucursal'));
+        $groupAdmin2->addAcceso($this->getReference('add-variedad'));
+        $groupAdmin2->addAcceso($this->getReference('mod-variedad'));
+        $groupAdmin2->addAcceso($this->getReference('del-variedad'));
+        $groupAdmin2->addAcceso($this->getReference('view-variedad'));
         $groupAdmin2->addAcceso($this->getReference('view-favorito'));
         $groupAdmin2->addAcceso($this->getReference('del-favorito'));
         $groupAdmin2->addAcceso($this->getReference('view-compra'));
