@@ -14,6 +14,14 @@ class ProfileType extends AbstractType
             $builder->add('name', 'text');
             $builder->add('lastname','text');
             $builder->add('email','email');
+             $builder->add('phone');
+            $builder->add('dni');
+            $builder->add('birthday','date', array(
+                'input'=> "string",
+                'format' => 'dd-MM-yyyy',
+                'years'=> range(date('Y') -100, date('Y'))
+            ));
+            $builder->add('phone');
            
             
     }

@@ -238,11 +238,15 @@ class ZonaController extends Controller
             }
            else{
             
-          
+            $barrios=$em->getRepository("BackendAdminBundle:Barrio")->findBy(array("zona"=>$id));
+            if (count($barrios) > 0){
+                $this->get('session')->getFlashBag()->add('error' , 'Se deben borrar los barrios asignados a la zona previamente.');
+            }else{
             
-            $em->remove($entity);
-            $em->flush();
-            $this->get('session')->getFlashBag()->add('success' , 'Se han borrado los datos de la zona.');
+                $em->remove($entity);
+                $em->flush();
+                $this->get('session')->getFlashBag()->add('success' , 'Se han borrado los datos de la zona.');
+            }
             
             }
         }
@@ -280,10 +284,10 @@ class ZonaController extends Controller
        
         $query = $em->createQuery($search);
         
-        $excelService = $this->get('xls.service_xls5');
+        $excelService = $this->get('phpexcel')->createPHPExcelObject();
                          
                             
-        $excelService->excelObj->setActiveSheetIndex(0)
+        $excelService->setActiveSheetIndex(0)
                     ->setCellValue('A1', 'Nombre')
                     ;
                     
@@ -291,20 +295,21 @@ class ZonaController extends Controller
         $i=2;
         foreach($resultados as $r)
         {
-           $excelService->excelObj->setActiveSheetIndex(0)
+           $excelService->setActiveSheetIndex(0)
                          ->setCellValue("A$i",$r->getName())
                          ;
           $i++;
         }
                             
-        $excelService->excelObj->getActiveSheet()->setTitle('Listado de Zonas');
+        $excelService->getActiveSheet()->setTitle('Listado de Zonas');
         // Set active sheet index to the first sheet, so Excel opens this as the first sheet
-        $excelService->excelObj->setActiveSheetIndex(0);
-        $excelService->excelObj->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+        $excelService->setActiveSheetIndex(0);
+        $excelService->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
         
         $fileName="zonas_".date("Ymd").".xls";
-        //create the response
-        $response = $excelService->getResponse();
+        $writer = $this->get('phpexcel')->createWriter($excelService, 'Excel5');
+        // create the response
+        $response = $this->get('phpexcel')->createStreamedResponse($writer);
         $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
         //$response->headers->set('Content-Disposition', 'filename='.$fileName);
         echo header("Content-Disposition: attachment; filename=$fileName");

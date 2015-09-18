@@ -280,10 +280,10 @@ class SubcategoriaController extends Controller
        
         $query = $em->createQuery($search);
         
-        $excelService = $this->get('xls.service_xls5');
+        $excelService = $this->get('phpexcel')->createPHPExcelObject();
                          
                             
-        $excelService->excelObj->setActiveSheetIndex(0)
+        $excelService->setActiveSheetIndex(0)
                     ->setCellValue('A1', 'Categoría')
                     ->setCellValue('B1', 'Nombre')
                     
@@ -293,23 +293,24 @@ class SubcategoriaController extends Controller
         $i=2;
         foreach($resultados as $r)
         {
-           $excelService->excelObj->setActiveSheetIndex(0)
+           $excelService->setActiveSheetIndex(0)
                          ->setCellValue("A$i",$r->getZona()->getName())
                          ->setCellValue("B$i",$r->getName())
                          ;
           $i++;
         }
                             
-        $excelService->excelObj->getActiveSheet()->setTitle('Listado de Subcategorías');
+        $excelService->getActiveSheet()->setTitle('Listado de Subcategorías');
         // Set active sheet index to the first sheet, so Excel opens this as the first sheet
-        $excelService->excelObj->setActiveSheetIndex(0);
-        $excelService->excelObj->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
-        $excelService->excelObj->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+        $excelService->setActiveSheetIndex(0);
+        $excelService->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+        $excelService->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
         
         
         $fileName="subcategorias_".date("Ymd").".xls";
-        //create the response
-        $response = $excelService->getResponse();
+        $writer = $this->get('phpexcel')->createWriter($excelService, 'Excel5');
+        // create the response
+        $response = $this->get('phpexcel')->createStreamedResponse($writer);
         $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
         //$response->headers->set('Content-Disposition', 'filename='.$fileName);
         echo header("Content-Disposition: attachment; filename=$fileName");
