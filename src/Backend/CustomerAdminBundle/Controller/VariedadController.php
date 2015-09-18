@@ -221,7 +221,7 @@ class VariedadController extends Controller
         if ($editForm->isValid()) {
 			
 			$em = $this->getDoctrine()->getManager();
-            
+			
 			foreach ($productos as $id) {
 				
 				$existe = false;
@@ -234,36 +234,51 @@ class VariedadController extends Controller
 						
 						$existe = true; 						
 					}					
-				}
-				
+				}				
 				if(!$existe){ 
 					
 					$prod->addVariedades($entity); 
 					$em->persist($prod);
-				}
-				
-				$prods = $entity->getProductos();
+					$entity->addProducto($prod);
+				}				
+			 }	
+			
+			$prods = $entity->getProductos();
+			
+			//if(count($productos) < count($prods)){
 				
 				foreach($prods as $pr){
-										
-					if (!in_array($pr->getId(), $productos, true)){ 
 					
-						$prod = $em->getRepository('BackendCustomerAdminBundle:Producto')->find($pr->getId());
-						$prod->removeVariedades($entity);
-						$em->persist($prod);
-						$entity->removeProducto($prod);
-					}										
-				}
-				
-				$em->persist($prod);
-                //$entity->addProducto($prod);                
-                
-            } // foreach de productos (esto no cierra aca)
-			
-            $em->persist($entity);
+					$existe = false;					
+					/*if (in_array($pr->getId(), $productos) == false){ 
+					
+						$pr->removeVariedades($entity);
+						$em->persist($pr);
+						$entity->removeProducto($pr);
+					}*/
+						foreach($productos as $id){
+							
+							if($id == $pr->getId()){
+								
+								$existe = true;
+							}
+						}
+					if(!$existe){
+						
+						$p = $em->getRepository('BackendCustomerAdminBundle:Producto')->find($pr->getId());
+						$p->removeVariedades($entity);
+						$em->persist($p);
+						$entity->removeProducto($p);
+						
+					}											
+				}               
+			//}
+			    			
+			$em->persist($entity);
             $em->flush();
-             $this->get('session')->getFlashBag()->add('success' , 'Se han actualizado los datos de la variedad.');
-            return $this->redirect($this->generateUrl('variedad_edit', array('id' => $id)));
+			
+            $this->get('session')->getFlashBag()->add('success' , 'Se han actualizado los datos de la variedad.');
+            return $this->redirect($this->generateUrl('variedad_edit', array('id' => $entity->getId())));
         }
 
         return $this->render('BackendCustomerAdminBundle:Variedad:edit.html.twig', array(
