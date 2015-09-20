@@ -23,7 +23,7 @@
                     <li class="page-scroll {%if not app.session.get("login")  %} hideOption {%endif%} " id="liMiCuenta">
                         <a href="{{ path('customer_principal')}}"  id="miCuenta" title="Mi cuenta" ><img src="{{ asset("images/home/usr.png")}}" class="icon"></a>
                     </li>
-                       
+                                   
                     <li class="page-scroll {%if app.session.get("login") %} hideOption {%endif%} ">
                         <a id="btnLogin" data-placement="bottom" data-toggle="popover" data-title="Login" data-container="body" type="button" data-html="true" href="javascript:void(0)" title="Ingresar"><img src="{{ asset("images/home/lock.png")}}" class="icon"></a>
                         
