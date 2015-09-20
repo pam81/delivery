@@ -54,6 +54,12 @@ security:
             pattern:  ^/customer/login$
             #security: false
             anonymous:  ~
+        
+        customer_loginFront:
+            pattern:  ^/customer/loginFront$
+            #security: false
+            anonymous:  ~
+
             
         customer:
             remember_me:

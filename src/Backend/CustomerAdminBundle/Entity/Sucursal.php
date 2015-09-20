@@ -106,6 +106,11 @@ class Sucursal
      */
     private $is_active;
 		
+     /**
+     * @ORM\OneToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Favorito", mappedBy="sucursal")
+     */
+    private $favoritos;
+    
     
     public function __construct() {
 	
@@ -114,7 +119,7 @@ class Sucursal
 		$this->active = true;
 		$this->productos = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->horarios = new \Doctrine\Common\Collections\ArrayCollection();
-         
+    $this->favoritos =  new ArrayCollection();     
     }
     
     public function __toString()
@@ -595,5 +600,38 @@ class Sucursal
     public function getPedidos()
     {
         return $this->pedidos;
+    }
+
+    /**
+     * Add favoritos
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Favorito $favoritos
+     * @return Sucursal
+     */
+    public function addFavorito(\Backend\CustomerAdminBundle\Entity\Favorito $favoritos)
+    {
+        $this->favoritos[] = $favoritos;
+
+        return $this;
+    }
+
+    /**
+     * Remove favoritos
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Favorito $favoritos
+     */
+    public function removeFavorito(\Backend\CustomerAdminBundle\Entity\Favorito $favoritos)
+    {
+        $this->favoritos->removeElement($favoritos);
+    }
+
+    /**
+     * Get favoritos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFavoritos()
+    {
+        return $this->favoritos;
     }
 }

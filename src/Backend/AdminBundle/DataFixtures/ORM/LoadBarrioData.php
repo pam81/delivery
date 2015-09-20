@@ -43,32 +43,296 @@ class LoadBarrioData extends AbstractFixture implements OrderedFixtureInterface
         $this->addReference('barrio-liniers', $barrio3);
         
         $barrio4 = new Barrio();
-        $barrio4->setName('QUILMES');
-        $barrio4->setZona($this->getReference('zona-surgba'));
+        $barrio4->setName('Balvanera');
+        $barrio4->setZona($this->getReference('zona-capfed'));
         $manager->persist($barrio4);
         $manager->flush();
-        $this->addReference('barrio-quilmes', $barrio4);
+        $this->addReference('barrio-balvanera', $barrio4);
         
         $barrio5 = new Barrio();
-        $barrio5->setName('AVELLANEDA');
-        $barrio5->setZona($this->getReference('zona-surgba'));
+        $barrio5->setName('Barracas');
+        $barrio5->setZona($this->getReference('zona-capfed'));
         $manager->persist($barrio5);
         $manager->flush();
-        $this->addReference('barrio-avellaneda', $barrio5);
+        $this->addReference('barrio-barracas', $barrio5);
         
         $barrio6 = new Barrio();
-        $barrio6->setName('BERNAL');
-        $barrio6->setZona($this->getReference('zona-surgba'));
+        $barrio6->setName('Belgrano');
+        $barrio6->setZona($this->getReference('zona-capfed'));
         $manager->persist($barrio6);
         $manager->flush();
-        $this->addReference('barrio-bernal', $barrio6);
+        $this->addReference('barrio-belgrano', $barrio6);
         
         $barrio7 = new Barrio();
-        $barrio7->setName('ADROGUE');
-        $barrio7->setZona($this->getReference('zona-surgba'));
+        $barrio7->setName('Boca');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-boca', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('Boedo');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-boedo', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('Caballito');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-caballito', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('Chacarita');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-chacarita', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('Coghlan');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-coghlan', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('Colegiales');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-colegiales', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('Constitución');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-constitucion', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('Flores');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-flores', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('Floresta');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-floresta', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('Monserrat');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-monserrat', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('Monte Castro');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-montecastro', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('Nueva Pompeya');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-nuevapompeya', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('Nuñez');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-nunez', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('Parque Avellaneda');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-parqueavellaneda', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('Parque Chacabuco');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-parquechacabuco', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('Parque Patricios');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-parquepatricios', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('Paternal');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-paternal', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('Puerto Madero');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-puertomadero', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('Recoleta');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-recoleta', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('Retiro');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-retiro', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('Saavedra');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-saavedra', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('San Cristobal');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-sancristobal', $barrio7);
+        
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('San Nicolas');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-sannicolas', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('San Telmo');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-santelmo', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('Velez Sarsfield');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-velezsarsfield', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('Versalles');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-versalles', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('Villa del Parque');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-villaparque', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('Villa Devoto');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-villadevoto', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('Villa Gral. Mitre');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-villamitre', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('Villa Lugano');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-villalugano', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('Villa Ortuzar');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-villaortuzar', $barrio7);
+        
+        
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('Villa Pueyrredón');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-villapueyrredon', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('Villa Real');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-villareal', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('Villa Riachuelo');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-villariachuelo', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('Villa Santa Rita');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-villasantarita', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('Villa Soldati');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-villasoldati', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('Villa Urquiza');
+        $barrio7->setZona($this->getReference('zona-capfed'));
+        $manager->persist($barrio7);
+        $manager->flush();
+        $this->addReference('barrio-villaurquiza', $barrio7);
+        
+        $barrio7 = new Barrio();
+        $barrio7->setName('Adrogué');
+        $barrio7->setZona($this->getReference('zona-bsas'));
         $manager->persist($barrio7);
         $manager->flush();
         $this->addReference('barrio-adrogue', $barrio7);
+        
+        
      
         
     }

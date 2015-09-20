@@ -176,7 +176,7 @@ class DireccionController extends Controller
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(Barrio $entity)
+    private function createEditForm(Direccion $entity)
     {
         $form = $this->createForm(new DireccionType(), $entity, array(
             'action' => $this->generateUrl('direccion_update', array('id' => $entity->getId())),
@@ -188,7 +188,7 @@ class DireccionController extends Controller
         return $form;
     }
     /**
-     * Edits an existing Barrio entity.
+     * Edits an existing Direccion entity.
      *
      */
     public function updateAction(Request $request, $id)
@@ -261,7 +261,7 @@ class DireccionController extends Controller
     }
 
     /**
-     * Creates a form to delete a Barrio entity by id.
+     * Creates a form to delete a Direccion entity by id.
      *
      * @param mixed $id The entity id
      *

@@ -75,129 +75,7 @@ $(document).ready(function(){
                 console.log( "can't load menuCategoria" );
               });
               
-     //LOGIN
-     $("[data-toggle=popover]").popover({
-          html: true, 
-	       content: function() {
-          return $('#popover-content').html();
-        }
-      });         
-    
-     var cookie = $.cookie(COOKIE_NAME);
-     var User = null;
-     if (cookie) {
-            var options = JSON.parse(cookie);
-            User = options;
-            $("#miCuenta").show();
-            $("#btnLogin").hide();
-    }else{
-            $("#miCuenta").hide();
-            $("#btnLogin").show();
-    }
-    
-    
-    /*var validateLogin = $("#formLogin").validate({
-			rules: {
-				"email": {
-					required:true,
-					maxlength:100,
-          email: true
-				},
-        "password":{
-        	required:true,
-          maxlength:100          	
-        }
-			},
-			
-			 messages: {
-            "email": {
-            required: "Olvido ingresar el usuario",
-            maxlength:  jQuery.validator.format("Máximo {0} carácteres!"),
-            email: "Email no válido"
-            },
-            "password": {
-            required: "Olvido ingresar su contraseña",
-            maxlength:  jQuery.validator.format("Máximo {0} carácteres!"),
-            }
-      },
-      
-      errorPlacement: function(error, element) {
-             
-            	error.appendTo( element.next() );
-        }
-			
-		});*/
-           
-    $("body").on("click","#btnSubmitLogin",function(){
-        
-        //var retorna = validateLogin.form();
-        var url =$(this).data("url");
-        var data = $("body #formLogin").serialize()
-        $.ajax({
-            type: "POST",
-            url: url,
-            dataType: 'json',
-            data: data,
-       })
-       .done(function(data) {
-             
-            $.cookie(COOKIE_NAME, JSON.stringify(data.user), { path: '/'});
-            User = data.user;
-            $("#miCuenta").show();
-            $("#btnLogin").hide();
-            $("[data-toggle=popover]").popover('hide');
-        
-        }).fail(function(data){
-           
-           $("body #message").text("Usuario / Contraseña incorrectos").show();
-        });
-    });      
-  
-});
 
-function getTiendas(ubicacion){
-
-      $.ajax({
-            type: "POST",
-            url: $("#tiendas_listado").data("url"),
-            dataType: 'json',
-            data: ubicacion,
-       })
-              .done(function(data) {
-                  $.each(data,function(index){ 
-                    
-                    var element = '         <div class="col-sm-4">';
-                      	element += '						<div class="product-image-wrapper">';
-                      	element += '							<div class="single-products">';
-                      	element += '									<div class="productinfo text-center">';
-                      	element += '										<img src="'+data[index].imagen+'" alt="" />';
-                      	element += '										<a href="#" class="btn btn-default add-to-cart" ><i class="fa fa-shopping-cart"></i>Ver productos</a>';
-                      	element += '									</div> ';
-                        if (data[index].estado == 1){
-                      	   element += '									<img src="images/home/sale.png" class="new" alt="open" />';
-                        }
-                      	element += '							</div>';
-                        element +='    <div class="choose">';
-    									  element +='       <ul class="nav nav-pills nav-justified">';
-    										element +='         <li><a href="#"><i class="fa fa-clock-o"></i>Consultar horario </a></li>';
-                        element +='         <li><a href="#"><i class="fa fa-plus-square"></i>Agregar a Favoritos</a></li>';
-                        element +=' 			</ul>';
-    								    element +='    </div>';
-                      	element += '						</div>';
-                      	element += '					</div>';
-                                                                                                       
-                    
-                    $('#tiendas_listado').append(element);
-                       
-                  }); 
-                  
-              })
-              .fail(function() {
-                console.log( "can't load tiendas" );
-              });        
-              
-              
-      
               $.ajax({
             type: "POST",
             url: $("#sugeridos").data("url"),
@@ -233,6 +111,5 @@ function getTiendas(ubicacion){
               })
               .fail(function() {
                 console.log( "can't load tiendas premium" );
-              });        
 
 }

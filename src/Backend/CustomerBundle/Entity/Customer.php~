@@ -39,6 +39,10 @@ class Customer implements AdvancedUserInterface, \Serializable {
      * @ORM\Column(type="string", length=40)
      */
     private $password;
+    /**
+     * @ORM\Column(name="codigo", type="string", length=200, nullable= true)
+     */
+    private $codigo; 
     
     /**
      * @ORM\Column(type="string", length=200)
@@ -65,10 +69,7 @@ class Customer implements AdvancedUserInterface, \Serializable {
      */
     private $lastname;
     
-	/**
-     * @ORM\Column(name="nickname", type="string", length=100, nullable=true)
-     */
-    private $nickname;
+
 	
 	/**
      * @ORM\Column(name="dni", type="string", length=100, nullable=true)
@@ -150,10 +151,7 @@ class Customer implements AdvancedUserInterface, \Serializable {
     /*falta*/
     private $productos;
     
-    /**
-     * @ORM\OneToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Favorito", mappedBy="comercio")
-     */
-    private $favoritosComercios;
+   
     
     /**
      * @ORM\OneToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Favorito", mappedBy="customer")
@@ -164,13 +162,14 @@ class Customer implements AdvancedUserInterface, \Serializable {
        
     public function __construct() {
         $this->isActive = true;
+        $this->isComercio = false;
         $this->isDelete = false;
         $this->salt = md5(uniqid(null, true));
         $this->groups =  new ArrayCollection();
 		    $this->sucursales = new ArrayCollection();
         $this->createdAt = new \DateTime('now');
         $this->favoritos =  new ArrayCollection();
-        $this->favoritosComercios =  new ArrayCollection();
+        
         
     }
 
@@ -933,5 +932,28 @@ class Customer implements AdvancedUserInterface, \Serializable {
     public function getFavoritos()
     {
         return $this->favoritos;
+    }
+
+    /**
+     * Set codigo
+     *
+     * @param string $codigo
+     * @return Customer
+     */
+    public function setCodigo($codigo)
+    {
+        $this->codigo = $codigo;
+
+        return $this;
+    }
+
+    /**
+     * Get codigo
+     *
+     * @return string 
+     */
+    public function getCodigo()
+    {
+        return $this->codigo;
     }
 }

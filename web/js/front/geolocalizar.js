@@ -8,7 +8,6 @@
 			var lon = objPosition.coords.longitude;
 			var lat = objPosition.coords.latitude;
 
-			
       codeLatLng(lat, lon);
 		}, function(objPositionError)
 		{
@@ -58,7 +57,9 @@ function codeLatLng(lat, lng) {
             success: function(data) {
                 console.log("zona"+data.zonaId+"barrio"+data.barrioId);
                 $.cookie('delivery-ubicacion', data , { expires: 30, path: '/' });
-                getTiendas(data);
+
+                getTiendas(data); //se la ubicacion y traigo las tiendas de esa zona
+
             }
         });
       } else {
