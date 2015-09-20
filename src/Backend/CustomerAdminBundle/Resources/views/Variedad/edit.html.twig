@@ -12,9 +12,6 @@
     <form class="form-horizontal" id="tab" method="post" novalidate  {{ form_enctype(form) }} action="{{ path('variedad_update', { 'id': entity.id }) }}" >
     <input type="hidden" name="_method" value="PUT" />
      {{ form_errors(form) }}
-     
-     
-   
     
      {% include 'BackendCustomerAdminBundle:Variedad:_variedad.html.twig' %} 
         

@@ -152,7 +152,7 @@ class DireccionController extends Controller
         if (!$entity) {
             
              $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado la direccion.');
-             return $this->redirect($this->generateUrl('barrio'));
+             return $this->redirect($this->generateUrl('direccion'));
         }
 
         $editForm = $this->createForm(new DireccionType(), $entity);
@@ -200,7 +200,7 @@ class DireccionController extends Controller
 
         if (!$entity) {
              $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado la direccion.');
-             return $this->redirect($this->generateUrl('barrio'));
+             return $this->redirect($this->generateUrl('direccion'));
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -211,7 +211,7 @@ class DireccionController extends Controller
             $em->persist($entity);
             $em->flush();
              $this->get('session')->getFlashBag()->add('success' , 'Se han actualizado los datos de la direccion .');
-            return $this->redirect($this->generateUrl('barrio_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('direccion_edit', array('id' => $id)));
         }
 
         return $this->render('BackendCustomerAdminBundle:Direccion:edit.html.twig', array(

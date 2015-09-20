@@ -28,7 +28,7 @@ class Direccion
     private $numero;
 	
     /**
-     * @ORM\Column(name="piso", type="integer",nullable=true)
+     * @ORM\Column(name="piso", type="string",nullable=true)
      */
     private $piso;
 	

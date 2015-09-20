@@ -13,10 +13,23 @@ $(document).ready(function() {
 					minlength:2,
 					maxlength:10,
 				},
+				"backend_customeradminbundle_direccion[piso]": {
+					required:false,
+					minlength:1,
+					maxlength:4,
+				},
+				"backend_customeradminbundle_direccion[depto]": {
+					required:false,
+					minlength:1,
+					maxlength:4,
+				},
 				"backend_customeradminbundle_direccion[zip]": {
 					required:true,
 					minlength:4,
 					maxlength:10,
+				},
+				"backend_customeradminbundle_direccion[zona]": {
+					required:true,
 				}
 			},
 			
@@ -36,7 +49,9 @@ $(document).ready(function() {
             maxlength: jQuery.format("Máximo {0} carácteres!"),
             minlength: jQuery.format("Mínimo {0} carácteres!")
             },
-			
+            "backend_customeradminbundle_direccion[zona]": {
+            required: "Debe seleccionar una zona"
+            },
 				
       },
       
