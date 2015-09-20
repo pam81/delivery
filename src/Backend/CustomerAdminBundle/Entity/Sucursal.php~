@@ -106,6 +106,11 @@ class Sucursal
      */
     private $is_active;
 		
+     /**
+     * @ORM\OneToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Favorito", mappedBy="sucursal")
+     */
+    private $favoritos;
+    
     
     public function __construct() {
 	
@@ -114,7 +119,7 @@ class Sucursal
 		$this->active = true;
 		$this->productos = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->horarios = new \Doctrine\Common\Collections\ArrayCollection();
-         
+    $this->favoritos =  new ArrayCollection();     
     }
     
     public function __toString()
@@ -537,7 +542,7 @@ class Sucursal
      * @param \Backend\CustomerAdminBundle\Entity\PayMethod $paymethods
      * @return Sucursal
      */
-    public function addPaymethod(\Backend\CustomerAdminBundle\Entity\PayMethod $paymethods)
+    public function addPaymethod(\Backend\AdminBundle\Entity\PayMethod $paymethods)
     {
         $this->paymethods[] = $paymethods;
 
@@ -549,7 +554,7 @@ class Sucursal
      *
      * @param \Backend\CustomerAdminBundle\Entity\PayMethod $paymethods
      */
-    public function removePaymethod(\Backend\CustomerAdminBundle\Entity\PayMethod $paymethods)
+    public function removePaymethod(\Backend\AdminBundle\Entity\PayMethod $paymethods)
     {
         $this->paymethods->removeElement($paymethods);
     }

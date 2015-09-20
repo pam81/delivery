@@ -107,7 +107,7 @@ class PayMethod
      * @param \Backend\CustomerAdminBundle\Entity\Sucursal $sucursales
      * @return Categoria
      */
-    public function addSucursale(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
+    public function addSucursales(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
     {
         $this->sucursales[] = $sucursales;
 
@@ -119,7 +119,7 @@ class PayMethod
      *
      * @param \Backend\CustomerAdminBundle\Entity\Sucursal $sucursales
      */
-    public function removeSucursale(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
+    public function removeSucursales(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
     {
         $this->sucursales->removeElement($sucursales);
     }
@@ -210,7 +210,7 @@ class PayMethod
      * @param \Backend\AdminBundle\Entity\Pedido $pedidos
      * @return PayMethod
      */
-    public function addPedido(\Backend\AdminBundle\Entity\Pedido $pedidos)
+    public function addPedido(\Backend\CustomerAdminBundle\Entity\Pedido $pedidos)
     {
         $this->pedidos[] = $pedidos;
 
@@ -222,7 +222,7 @@ class PayMethod
      *
      * @param \Backend\AdminBundle\Entity\Pedido $pedidos
      */
-    public function removePedido(\Backend\AdminBundle\Entity\Pedido $pedidos)
+    public function removePedido(\Backend\CustomerAdminBundle\Entity\Pedido $pedidos)
     {
         $this->pedidos->removeElement($pedidos);
     }
@@ -235,5 +235,28 @@ class PayMethod
     public function getPedidos()
     {
         return $this->pedidos;
+    }
+
+    /**
+     * Add sucursales
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Sucursal $sucursales
+     * @return PayMethod
+     */
+    public function addSucursale(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
+    {
+        $this->sucursales[] = $sucursales;
+
+        return $this;
+    }
+
+    /**
+     * Remove sucursales
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Sucursal $sucursales
+     */
+    public function removeSucursale(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
+    {
+        $this->sucursales->removeElement($sucursales);
     }
 }

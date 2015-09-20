@@ -599,4 +599,50 @@ class Pedido
     {
         return $this->customer;
     }
+
+    /**
+     * Set sucursal
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Sucursal $sucursal
+     * @return Pedido
+     */
+    public function setSucursal(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursal = null)
+    {
+        $this->sucursal = $sucursal;
+
+        return $this;
+    }
+
+    /**
+     * Get sucursal
+     *
+     * @return \Backend\CustomerAdminBundle\Entity\Sucursal 
+     */
+    public function getSucursal()
+    {
+        return $this->sucursal;
+    }
+
+    /**
+     * Set direccion
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Direccion $direccion
+     * @return Pedido
+     */
+    public function setDireccion(\Backend\CustomerAdminBundle\Entity\Direccion $direccion = null)
+    {
+        $this->direccion = $direccion;
+
+        return $this;
+    }
+
+    /**
+     * Get direccion
+     *
+     * @return \Backend\CustomerAdminBundle\Entity\Direccion 
+     */
+    public function getDireccion()
+    {
+        return $this->direccion;
+    }
 }

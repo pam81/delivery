@@ -10,6 +10,11 @@ customer_profile:
     path: /customer_profile
     defaults: { _controller:BackendCustomerAdminBundle:Principal:profile }
 
+
+frontend_login:        
+    pattern:  /loginFront
+    defaults: { _controller: "BackendCustomerAdminBundle:Principal:loginFront" }
+
 customer_login:
     pattern: /login
     defaults: { _controller: BackendCustomerBundle:Default:login }
@@ -43,4 +48,5 @@ customer_variedad:
 customer_pedido:
     resource: "@BackendCustomerAdminBundle/Resources/config/routing/pedido.yml"
     prefix:   /pedido  
+
             

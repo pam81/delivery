@@ -1,9 +1,9 @@
 <?php 
-namespace Backend\UserBundle\Services;
-use Backend\UserBundle\Entity\User;
+namespace Backend\CustomerBundle\Services;
+use Backend\CustomerBundle\Entity\Customer;
 use Backend\UserBundle\Entity\Group;
 use Symfony\Component\HttpFoundation\Response;
-class UserService
+class CustomerService
 {
     private $em;
     
@@ -17,7 +17,7 @@ class UserService
     public function login($email,$pass)
     {
           $retorna=array("status"=>1,"message"=>'');
-       $entity = $this->em->getRepository('BackendUserBundle:User')->findOneByEmail($email);
+       $entity = $this->em->getRepository('BackendCustomerBundle:Customer')->findOneByEmail($email);
         if ($entity)
          {
          
@@ -53,7 +53,7 @@ class UserService
     
     public function validateEmail($email)
     {
-      $user = $this->em->getRepository("BackendUserBundle:User")
+      $user = $this->em->getRepository("BackendCustomerBundle:Customer")
                 ->findOneBy(array("email"=>$email, "isDelete"=>false));
       if ($user != null)
         return false;
@@ -95,16 +95,16 @@ class UserService
      else
      {  
           
-            
-         $user = new User();
+         
+         $user = new Customer();
          $grupo=$this->em->getRepository('BackendUserBundle:Group')->findOneByRole($usuario["role"]);
-          
+         
           
            $user->setEmail($usuario["email"]);
            $user->setPassword($usuario["password"]);
            $user->setName($usuario["name"]);
            $user->setLastname($usuario["lastname"]);
-          
+           $user->setIsComercio($usuario["isComercio"]);
            $user->setIsActive(true);
            $user->setIsDelete(false);
            $codigo=md5($usuario["email"].rand().date("now"));
@@ -115,6 +115,7 @@ class UserService
          
           $this->em->persist($user);
           $this->em->flush();
+         
           $retorna["status"]=0;
           $retorna["message"]="Se ha creado su cuenta de usuario";
           $retorna["codigo"]=$codigo;
@@ -134,10 +135,9 @@ class UserService
     {
         $retorna=array("status"=>1,"message"=>'');
       try {
-       $q=$this->em->getRepository('BackendUserBundle:User')
+       $q=$this->em->getRepository('BackendCustomerBundle:Customer')
               ->createQueryBuilder('u')
-              ->where('u.username = :username OR u.email = :email')
-              ->setParameter('username', $email)
+              ->where(' u.email = :email')
               ->setParameter('email', $email) 
               ->getQuery();
      $entity=$q->getOneOrNullResult();         
@@ -185,7 +185,7 @@ class UserService
     {
     $retorna=array("status"=>1,"message"=>'');
     try{
-    $entity = $this->em->getRepository('BackendUserBundle:User')->findOneByCodigo($cambio["codigo"]);
+    $entity = $this->em->getRepository('BackendCustomerBundle:Customer')->findOneByCodigo($cambio["codigo"]);
     
     if ($entity)
     { 
@@ -224,7 +224,7 @@ class UserService
     {
     $retorna=array("status"=>1,"message"=>'');
     try{
-    $entity = $this->em->getRepository('BackendUserBundle:User')->findOneByCodigo($codigo);
+    $entity = $this->em->getRepository('BackendCustomerBundle:Customer')->findOneByCodigo($codigo);
     
     if ($entity)
     { 

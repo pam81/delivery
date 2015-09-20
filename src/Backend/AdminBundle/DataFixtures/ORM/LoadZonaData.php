@@ -161,35 +161,8 @@ class LoadZonaData extends AbstractFixture implements OrderedFixtureInterface
         $manager->flush();
         $this->addReference('zona-tucuman', $zona23);
         
-        $zona24 = new Zona();
-        $zona24->setName('Uruguay');
-        $manager->persist($zona24);
-        $manager->flush();
-        $this->addReference('zona-uruguay', $zona24);
+       
         
-        $zona25 = new Zona();
-        $zona25->setName('Noroeste GBA');
-        $manager->persist($zona25);
-        $manager->flush();
-        $this->addReference('zona-noroestegba', $zona25);
-        
-        $zona26 = new Zona();
-        $zona26->setName('Norte GBA');
-        $manager->persist($zona26);
-        $manager->flush();
-        $this->addReference('zona-nortegba', $zona26);
-        
-        $zona27 = new Zona();
-        $zona27->setName('Oeste GBA');
-        $manager->persist($zona27);
-        $manager->flush();
-        $this->addReference('zona-oestegba', $zona27);
-        
-        $zona28 = new Zona();
-        $zona28->setName('Sur GBA');
-        $manager->persist($zona28);
-        $manager->flush();
-        $this->addReference('zona-surgba', $zona28);
         
         
     }

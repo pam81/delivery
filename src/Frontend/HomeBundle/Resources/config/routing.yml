@@ -1,32 +1,4 @@
-frontend_homepage:
-    pattern:  /
-    defaults: { _controller: FrontendHomeBundle:Home:index }
+frontend_homecontroller:
+    resource: "@FrontendHomeBundle/Resources/config/routing/home.yml"
+    prefix:   /
 
-frontend_menuZona:
-    pattern:  /menuZona
-    defaults: { _controller: FrontendHomeBundle:Home:menuZona }
-    
-frontend_menuCategoria:
-    pattern:  /menuCategoria
-    defaults: { _controller: FrontendHomeBundle:Home:menuCategoria } 
-
-frontend_tiendas:
-    pattern:  /tiendas
-    defaults: { _controller: FrontendHomeBundle:Home:getTiendas }
-
-
-frontend_premium:
-    pattern:  /tiendas_premium
-    defaults: { _controller: FrontendHomeBundle:Home:getTiendasPremium }    
-       
-frontend_checkbarrio:
-    pattern:  /checkbarrio
-    defaults: { _controller: "FrontendHomeBundle:Home:checkBarrio" }
-
-frontend_register:        
-    pattern:  /frontregister
-    defaults: { _controller: "FrontendHomeBundle:Home:register" }
-
-#frontend_login:        
-#    pattern:  /frontlogin
-#    defaults: { _controller: "FrontendHomeBundle:Home:login" }

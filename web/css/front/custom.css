@@ -1,0 +1,17 @@
+.nav>li.hideOption{
+display: none;
+}
+
+#formRegister .help-block, #formRegister .help-block label{
+ color: #d44950;
+ font-weight: normal;
+}
+
+#formLogin .btn-link{
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.hideElement{
+  display: none;
+}

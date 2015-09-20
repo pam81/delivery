@@ -252,4 +252,27 @@ class Subcategoria
         return 'uploads/subcategorias';
     }
     
+
+    /**
+     * Set path
+     *
+     * @param string $path
+     * @return Subcategoria
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+
+        return $this;
+    }
+
+    /**
+     * Get path
+     *
+     * @return string 
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
 }

@@ -55,6 +55,11 @@ security:
             #security: false
             anonymous:  ~
         
+        customer_loginFront:
+            pattern:  ^/customer/loginFront$
+            #security: false
+            anonymous:  ~
+            
         customer:
             remember_me:
                 key:      "%secret%"

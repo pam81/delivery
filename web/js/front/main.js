@@ -75,39 +75,7 @@ $(document).ready(function(){
                 console.log( "can't load menuCategoria" );
               });
               
-    var jqxTiendasIndex = $.getJSON( $("#tiendas_listado").data("url"))
-              .done(function(data) {
-                  $.each(data,function(index){ 
-                    
-                    var element = '         <div class="col-sm-4">';
-                      	element += '						<div class="product-image-wrapper">';
-                      	element += '							<div class="single-products">';
-                      	element += '									<div class="productinfo text-center">';
-                      	element += '										<img src="'+data[index].imagen+'" alt="" />';
-                      	element += '										<a href="#" class="btn btn-default add-to-cart" ><i class="fa fa-shopping-cart"></i>Ver productos</a>';
-                      	element += '									</div> ';
-                        if (data[index].estado == 1){
-                      	   element += '									<img src="images/home/sale.png" class="new" alt="open" />';
-                        }
-                      	element += '							</div>';
-                        element +='    <div class="choose">';
-    									  element +='       <ul class="nav nav-pills nav-justified">';
-    										element +='         <li><a href="#"><i class="fa fa-clock-o"></i>Consultar horario </a></li>';
-                        element +='         <li><a href="#"><i class="fa fa-plus-square"></i>Agregar a Favoritos</a></li>';
-                        element +=' 			</ul>';
-    								    element +='    </div>';
-                      	element += '						</div>';
-                      	element += '					</div>';
-                                                                                                       
-                    
-                    $('#tiendas_listado').append(element);
-                       
-                  }); 
-                  
-              })
-              .fail(function() {
-                console.log( "can't load tiendas" );
-              });          
+            
               
    var jqxTiendasPremium = $.getJSON( $("#sugeridos").data("url"))
               .done(function(data) {
@@ -139,6 +107,210 @@ $(document).ready(function(){
               })
               .fail(function() {
                 console.log( "can't load tiendas premium" );
-              });               
+              });
+              
+              
+      //LOGIN
+     $("[data-toggle=popover]").popover({
+          html: true, 
+	       content: function() {
+          return $('#popover-content').html();
+        }
+      });         
+    
+     
+     
+     
+     
+    
+     $("body").on("click","#btnSubmitLogin",function(){
+         var email = $(".popover #email").val();
+         var pass = $(".popover #password").val();
+        if (validateLogin(email, pass)){
+            var url =$(this).data("url");
+            var data = $("body #formLogin").serialize() ;
+            $.ajax({
+                type: "POST",
+                url: url,
+                dataType: 'json',
+                data: data,
+           })
+           .done(function(data) {
+                 
+                
+                $("#liMiCuenta").show();
+                $("#btnLogin").hide();
+                $("[data-toggle=popover]").popover('hide');
+            
+            }).fail(function(data){
+               
+               $("body #message").text("Email / Contraseña incorrectos").show();
+            });
+         }else{
+              
+              $("body #message").text("Email / Contraseña incorrectos").show();
+         }   
+    });  
+   
+   
+    $("body").on("click","#btnRegistrarse",function(){
+      $("[data-toggle=popover]").popover('hide');
+      $('#registrarModal').modal("show");
+    
+    });
+    
+    $("body").on("click","#btnRecover",function(){
+       $("body #formLogin").hide();
+       $("body #formForgot").show();
+    });
+    
+    $("body").on("click","#btnLoginBack", function(){
+        $("body #formLogin").show();
+        $("body #formForgot").hide();
+    });
+    
+    $("body").on("click","#btn_reg",function(){
+            var url =$(this).data("url");
+            if ( $("#formRegister").valid() ){
+               
+               var data =  $("#formRegister").serialize(); 
+               $.ajax({
+                  type: "POST",
+                  url: url,
+                  dataType: 'json',
+                  data: data,
+               })
+               .done(function(data) {
+                   if (data.status == 1){
+                      $("body #messageRegister").text(data.message).show();     
+                   }else{  
+                      $("body #messageRegister").text("Bienvenido! Se ha enviado un email a su cuenta.").show();
+                      //clear register form
+                      $('body #formRegister :input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
+                      $('body #formRegister :checkbox, :radio').prop('checked', false); 
+                      window.setTimeout( function(){ 
+                            $('#registrarModal').modal("hide");
+                            $("body #messageRegister").text('');
+                            $("body #messageRegister").hide();
+                            }, 3000 );
+                            
+                   } 
+                
+                }).fail(function(data){
+                   
+                   $("body #messageRegister").text("Verifique sus datos. No se ha posido crear su cuenta").show();
+                });
+            
+            }
+    
+    });
+    
+    $("body").on("click","#btnSubmitForgot",function(){
+        var email = $(".popover #emailForgot").val();
+        if (validateEmail(email)){
+         var url =$(this).data("url");
+         var data = "email="+email; 
+         $.ajax({
+            type: "POST",
+            url: url,
+            dataType: 'json',
+            data: data,
+         })
+         .done(function(data) {
+             if (data.status == 1){
+                $("body #messageForgot").text(data.message).show();     
+             }else{  
+                $("body #messageForgot").text("Se le ha mandado un email a su cuenta para restablecer la contraseña").show();
+             } 
+          
+          }).fail(function(data){
+             
+             $("body #messageForgot").text("Verifique sus datos. No se ha podido recuperar su contraseña").show();
+          });
+        
+        }else{
+           $("body #messageForgot").text("Ingrese un email válido").show();
+        } 
+    
+    });
+    
+      $("body").on("click",".horarios_modal",function(){
+            var texto=$(this).data("texto");
+            $("#horarioModal .modal-body").html(texto);
+            $('#horarioModal').modal("show");
+      });
+      
+      $("body").on("click",".add_favorito",function(){
+             var sucursal=$(this).data("sucursal");
+             var data="sucursal="+sucursal;
+             var url=$("#tiendas_listado").data("urlfavorito");
+              $.ajax({
+                type: "POST",
+                url: url,
+                dataType: 'json',
+                data: data,
+             })
+             .done(function(data) {
+                 if (data.status == 1){
+                    alert(data.message);     
+                 }else{  
+                    alert(data.message); // deberia quitar la opción o marcarla como que esta favorito
+                 } 
+              
+              }).fail(function(data){
+                 
+                 alert("No se pudo agregar como favorito");
+              });
+      
+      });       
+                         
   
 });
+
+
+function getTiendas(ubicacion){
+
+      $.ajax({
+            type: "POST",
+            url: $("#tiendas_listado").data("url"),
+            dataType: 'json',
+            data: ubicacion,
+       })
+              .done(function(data) {
+                  $.each(data,function(index){ 
+                    
+                    var element = '         <div class="col-sm-4">';
+                      	element += '						<div class="product-image-wrapper">';
+                      	element += '							<div class="single-products">';
+                      	element += '									<div class="productinfo text-center">';
+                      	element += '										<img src="'+data[index].imagen+'" alt="" />';
+                      	element += '										<a href="#" class="btn btn-default add-to-cart" ><i class="fa fa-shopping-cart"></i>Ver productos</a>';
+                      	element += '									</div> ';
+                        if (data[index].estado == 1){
+                      	   element += '									<img src="images/home/sale.png" class="new" alt="open" />';
+                        }
+                      	element += '							</div>';
+                        element +='    <div class="choose">';
+    									  element +='       <ul class="nav nav-pills nav-justified">';
+    										element +='         <li><a href="javascript:void(0)" class="horarios_modal" data-texto="'+data[index].horario+'"  ><i class="fa fa-clock-o"></i>Consultar horario</a>  </li>';
+                        element +='         <li><a href="javascript:void(0)" class="add_favorito" data-sucursal="'+data[index].id+'"><i class="fa fa-plus-square"></i>Agregar a Favoritos</a></li>';
+                        element +=' 			</ul>';
+    								    element +='    </div>';
+                      	element += '						</div>';
+                      	element += '					</div>';
+                                                                                                       
+                    
+                    $('#tiendas_listado').append(element);
+                       
+                  }); 
+                    
+              })
+              .fail(function() {
+                console.log( "can't load tiendas" );
+              });        
+              
+              
+      
+               
+
+}
