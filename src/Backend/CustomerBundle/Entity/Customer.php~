@@ -69,7 +69,10 @@ class Customer implements AdvancedUserInterface, \Serializable {
      */
     private $lastname;
     
-
+	/**
+     * @ORM\Column(name="nickname", type="string",length=100, nullable=true)
+     */
+    private $nickname;
 	
 	/**
      * @ORM\Column(name="dni", type="string", length=100, nullable=true)

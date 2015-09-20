@@ -601,4 +601,37 @@ class Sucursal
     {
         return $this->pedidos;
     }
+
+    /**
+     * Add favoritos
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Favorito $favoritos
+     * @return Sucursal
+     */
+    public function addFavorito(\Backend\CustomerAdminBundle\Entity\Favorito $favoritos)
+    {
+        $this->favoritos[] = $favoritos;
+
+        return $this;
+    }
+
+    /**
+     * Remove favoritos
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Favorito $favoritos
+     */
+    public function removeFavorito(\Backend\CustomerAdminBundle\Entity\Favorito $favoritos)
+    {
+        $this->favoritos->removeElement($favoritos);
+    }
+
+    /**
+     * Get favoritos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFavoritos()
+    {
+        return $this->favoritos;
+    }
 }

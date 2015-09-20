@@ -27,9 +27,6 @@ $(document).ready(function() {
 					required:true,
 					minlength:4,
 					maxlength:10,
-				},
-				"backend_customeradminbundle_direccion[zona]": {
-					required:true,
 				}
 			},
 			
@@ -48,9 +45,6 @@ $(document).ready(function() {
             required: "Ingrese el codigo postal",
             maxlength: jQuery.format("Máximo {0} carácteres!"),
             minlength: jQuery.format("Mínimo {0} carácteres!")
-            },
-            "backend_customeradminbundle_direccion[zona]": {
-            required: "Debe seleccionar una zona"
             },
 				
       },

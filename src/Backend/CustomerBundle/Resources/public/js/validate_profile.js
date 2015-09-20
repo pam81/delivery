@@ -17,8 +17,19 @@ $(document).ready(function() {
 					minlength:2,
 					maxlength:60,
 					email: true,
-				}
-				
+				},
+				"backend_userbundle_profiletype[phone]": {
+					required:false,
+					minlength:9,
+					maxlength:20,
+					
+				},
+				"backend_userbundle_profiletype[mobile]": {
+					required:false,
+					minlength:9,
+					maxlength:20,
+					
+				},
 			
 			},
 			
@@ -38,8 +49,15 @@ $(document).ready(function() {
                 email: "Ingrese un email con formato válido name@domain.com",
                 maxlength:  jQuery.validator.format("Máximo {0} carácteres!"),
                 minlength: jQuery.validator.format("Mínimo {0} carácteres!")
-            }
-             
+            },
+            "backend_userbundle_profiletype[phone]": {
+                maxlength:  jQuery.validator.format("Máximo {0} carácteres!"),
+                minlength: jQuery.validator.format("Mínimo {0} carácteres!")
+            },
+            "backend_userbundle_profiletype[mobile]": {
+                maxlength:  jQuery.validator.format("Máximo {0} carácteres!"),
+                minlength: jQuery.validator.format("Mínimo {0} carácteres!")
+            } 
             
             
       },

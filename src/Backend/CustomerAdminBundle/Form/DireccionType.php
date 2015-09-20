@@ -16,7 +16,7 @@ class DireccionType extends AbstractType
             $builder->add('numero','text');
             $builder->add('piso');
             $builder->add('depto');
-            $builder->add('zip','text');
+            $builder->add('zip','text',array('required'=>true));
             $builder->add('zona','entity',array(
                 'class'=>'BackendAdminBundle:Zona',
                 'property'=>'name',
