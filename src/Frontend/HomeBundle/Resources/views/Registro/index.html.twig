@@ -9,15 +9,14 @@
 					<div class="login-form"><!--login form-->
 						<h2>Ingresar a su cuenta</h2>
 						<form action="#">
-							<input type="email" placeholder="Email" />
-							<input type="password" placeholder="Contraseña" />
-							<!--
-							<span>
-								<input type="checkbox" class="checkbox"> 
-								Permanecer conectado
-							</span>
-							-->
-							<button type="submit" class="btn btn-default">Login</button>
+							<div class="form-group">
+							  <input type="text" class="form-control" id="email" name="email" placeholder="Email">
+							</div>
+							<div class="form-group">
+							  <label for="pwd">Password:</label>
+							  <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Contraseña">
+							</div>
+							<a href="{{ path('login_Customer')}}" class="btn btn-warning" role="button">Ingresar</a>
 						</form>
 					</div><!--/login form-->
 				</div>
@@ -33,12 +32,13 @@
 							<input type="password" placeholder="Contraseña"/>
 							<input type="password" placeholder="Repetir contraseña"/>
 							<span>
-								<input type="checkbox" class="checkbox">¿Es un comercio?
+								<input type="checkbox" class="checkbox" id="comercio" name="comercio">¿Es un comercio?
 							</span>
 							<span>
-								<input type="checkbox" class="checkbox">Entiende y acepta los terminos y condiciones.
+								<input type="checkbox" class="checkbox" id="terminos" name="terminos">Entiende y acepta los terminos y condiciones.
 							</span>
-							<button type="submit" class="btn btn-default">Signup</button>
+							
+							<a href="{{ path('regristrar_Customer')}}" class="btn btn-warning" role="button">Registrarse</a>
 						</form>
 					</div><!--/sign up form-->
 				</div>

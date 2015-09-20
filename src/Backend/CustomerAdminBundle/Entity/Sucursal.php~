@@ -537,7 +537,7 @@ class Sucursal
      * @param \Backend\CustomerAdminBundle\Entity\PayMethod $paymethods
      * @return Sucursal
      */
-    public function addPaymethod(\Backend\CustomerAdminBundle\Entity\PayMethod $paymethods)
+    public function addPaymethod(\Backend\AdminBundle\Entity\PayMethod $paymethods)
     {
         $this->paymethods[] = $paymethods;
 
@@ -549,7 +549,7 @@ class Sucursal
      *
      * @param \Backend\CustomerAdminBundle\Entity\PayMethod $paymethods
      */
-    public function removePaymethod(\Backend\CustomerAdminBundle\Entity\PayMethod $paymethods)
+    public function removePaymethod(\Backend\AdminBundle\Entity\PayMethod $paymethods)
     {
         $this->paymethods->removeElement($paymethods);
     }

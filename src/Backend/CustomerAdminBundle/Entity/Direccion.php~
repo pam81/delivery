@@ -28,7 +28,7 @@ class Direccion
     private $numero;
 	
     /**
-     * @ORM\Column(name="piso", type="integer",nullable=true)
+     * @ORM\Column(name="piso", type="string",nullable=true)
      */
     private $piso;
 	
@@ -62,11 +62,15 @@ class Direccion
     private $barrio;
 	
     
-	/**
-     * @ORM\Column(name="coordenadas",type="json_array",nullable=true)
-	 */
-   	
-	private $coordenadas;
+	 /**
+     * @ORM\Column(name="lat", type="string", length=100, nullable=true)
+     */
+    private $lat;
+    
+    /**
+     * @ORM\Column(name="lon", type="string", length=100, nullable=true)
+     */
+    private $lon;
 	
     /**
      * @ORM\ManyToMany(targetEntity="\Backend\CustomerBundle\Entity\Customer", inversedBy="direcciones")
@@ -409,26 +413,83 @@ class Direccion
         return $this->sucursal;
     }
 
+    
     /**
-     * Set coordenadas
+     * Add pedidos
      *
-     * @param array $coordenadas
+     * @param \Backend\CustomerAdminBundle\Entity\Pedido $pedidos
      * @return Direccion
      */
-    public function setCoordenadas($coordenadas)
+    public function addPedido(\Backend\CustomerAdminBundle\Entity\Pedido $pedidos)
     {
-        $this->coordenadas = $coordenadas;
+        $this->pedidos[] = $pedidos;
 
         return $this;
     }
 
     /**
-     * Get coordenadas
+     * Remove pedidos
      *
-     * @return array 
+     * @param \Backend\CustomerAdminBundle\Entity\Pedido $pedidos
      */
-    public function getCoordenadas()
+    public function removePedido(\Backend\CustomerAdminBundle\Entity\Pedido $pedidos)
     {
-        return $this->coordenadas;
+        $this->pedidos->removeElement($pedidos);
+    }
+
+    /**
+     * Get pedidos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPedidos()
+    {
+        return $this->pedidos;
+    }
+
+    /**
+     * Set lat
+     *
+     * @param string $lat
+     * @return Direccion
+     */
+    public function setLat($lat)
+    {
+        $this->lat = $lat;
+
+        return $this;
+    }
+
+    /**
+     * Get lat
+     *
+     * @return string 
+     */
+    public function getLat()
+    {
+        return $this->lat;
+    }
+
+    /**
+     * Set lon
+     *
+     * @param string $lon
+     * @return Direccion
+     */
+    public function setLon($lon)
+    {
+        $this->lon = $lon;
+
+        return $this;
+    }
+
+    /**
+     * Get lon
+     *
+     * @return string 
+     */
+    public function getLon()
+    {
+        return $this->lon;
     }
 }

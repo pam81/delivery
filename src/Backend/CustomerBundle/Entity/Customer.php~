@@ -6,8 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\Common\Collections\ArrayCollection;
-use Backend\CustomerBundle\Validator\Constraints\CustomerUnique;
-use Backend\CustomerBundle\Validator\Constraints\EmailUnique;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 
 /**
@@ -16,7 +15,9 @@ use Backend\CustomerBundle\Validator\Constraints\EmailUnique;
  * @ORM\Table(name="customer")
  * @ORM\Entity(repositoryClass="Backend\CustomerBundle\Entity\CustomerRepository")
  * @ORM\HasLifecycleCallbacks 
- * @CustomerUnique()
+ * @UniqueEntity("email")
+ * @UniqueEntity("dni") 
+ * @UniqueEntity("cuit")   
  *  
  */
 class Customer implements AdvancedUserInterface, \Serializable {
@@ -166,7 +167,7 @@ class Customer implements AdvancedUserInterface, \Serializable {
         $this->isDelete = false;
         $this->salt = md5(uniqid(null, true));
         $this->groups =  new ArrayCollection();
-		$this->sucursales = new ArrayCollection();
+		    $this->sucursales = new ArrayCollection();
         $this->createdAt = new \DateTime('now');
         $this->favoritos =  new ArrayCollection();
         $this->favoritosComercios =  new ArrayCollection();

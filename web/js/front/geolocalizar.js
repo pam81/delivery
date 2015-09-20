@@ -8,7 +8,7 @@
 			var lon = objPosition.coords.longitude;
 			var lat = objPosition.coords.latitude;
 
-			console.log("Latitud:" + lat + " Longitud: " + lon );
+			
       codeLatLng(lat, lon);
 		}, function(objPositionError)
 		{
@@ -26,13 +26,14 @@
 				default:
 					console.log ("Error desconocido.");
 			}
+      getTiendas();
 		}, {
 			maximumAge: 75000,
 			timeout: 15000
 		});
 	}
 	else
-	{
+	{ getTiendas();
 		console.log ("Su navegador no soporta la API de geolocalización.");
 	}
 })();
@@ -43,13 +44,30 @@ function codeLatLng(lat, lng) {
   geocoder.geocode({'location': latlng}, function(results, status) {
     if (status == google.maps.GeocoderStatus.OK) {
       if (results[1]) {
-        alert("Ud esta en :"+results[1].formatted_address);
-        console.log(results);
+        //alert("Ud esta en :"+results[1].formatted_address);
+        var zonas =results[1].formatted_address.split(",");
+        console.log(zonas); 
+        //console.log(results);
+        var dataString = 'zona=' + zonas[1]+"&barrio="+zonas[0];
+        var path = $("#check").val();
+        $.ajax({
+            type: "POST",
+            url: path,
+            dataType: 'json',
+            data: dataString,
+            success: function(data) {
+                console.log("zona"+data.zonaId+"barrio"+data.barrioId);
+                $.cookie('delivery-ubicacion', data , { expires: 30, path: '/' });
+                getTiendas(data);
+            }
+        });
       } else {
         console.log('No results found');
+        getTiendas();
       }
     } else {
       console.log('Geocoder failed due to: ' + status);
+      getTiendas();
     }
   });
 }
