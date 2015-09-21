@@ -17,3 +17,6 @@
    
 }
 
+#backend_customerbundle_profiletype_birthday .select2-container{
+  width: 80px !important;
+}

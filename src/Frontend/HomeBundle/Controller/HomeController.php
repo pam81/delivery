@@ -237,7 +237,7 @@ class HomeController extends Controller
         		  $email_site = $em->getRepository('BackendUserBundle:Seteo')->findOneByName("email");
         		  
         		  $url= $this->generateUrl(
-              'change_pass',
+              'frontend_change_pass',
               array('codigo' =>$respuesta->codigo ), true );
         
               $message = \Swift_Message::newInstance()
@@ -275,6 +275,7 @@ class HomeController extends Controller
     public function registerAction(Request $request)
     {
        	$resultado=array("status"=>1,"message"=>'');
+        $em = $this->getDoctrine()->getManager();
        if ($request->getMethod() == 'POST') {  
         
         $customer=array();
@@ -284,11 +285,16 @@ class HomeController extends Controller
         $customer["lastname"] = $request->get("lastname");
 		
     		if($request->get("comercio") == 1){
-            	$customer["role"]="ROLE_COMERCIO";
+            	$customer["role"]="ROLE_COMERCIO"; //el comercio se da de alta como pendiente
               $customer["isComercio"] = true;
+              $status=$em->getRepository('BackendCustomerBundle:Status')->findOneByName("Pendiente");
+              $customer["status"]=$status;
+         
     		}else{
-    			$customer["role"]="ROLE_CLIENTE";
-          $customer["isComercio"] = false;			
+    			$customer["role"]="ROLE_CLIENTE";  //el usuario se da de alta como habilitado
+          $customer["isComercio"] = false;
+          $status=$em->getRepository('BackendCustomerBundle:Status')->findOneByName("Pendiente");
+          $customer["status"]=$status;			
         }        
         
     		$service = new \Backend\CustomerBundle\Services\CustomerService($this->get('doctrine.orm.default_entity_manager'));
@@ -298,12 +304,12 @@ class HomeController extends Controller
     		
     		if ($respuesta->status == 0) //se creo el cliente envio mail
     		{
-    		  $em = $this->getDoctrine()->getManager();
+    		  
           $empresa = $em->getRepository('BackendUserBundle:Seteo')->findOneByName("empresa");
     		  $email_site = $em->getRepository('BackendUserBundle:Seteo')->findOneByName("email");
     		  
     		  $url= $this->generateUrl(
-            'activate_account',
+            'frontend_activate_account',
             array('codigo' =>$respuesta->codigo ), true );
     		  
     		  $message = \Swift_Message::newInstance()
@@ -341,7 +347,7 @@ class HomeController extends Controller
     
     
     public function changePasswordAction(Request $request, $codigo){
-     	$resultado=array("status"=>1,"message"=>'');
+     
        
     if ($request->getMethod() == 'POST') {
        if ($codigo != '')
@@ -377,30 +383,27 @@ class HomeController extends Controller
         
          
           @$this->get('mailer')->send($message);
-          $resultado["status"]=0;
-       
+         
+          $this->get('session')->getFlashBag()->add('success' , 'Se ha enviado un mail con los datos de su cuenta.');
          
     		}
     	else{
           
-            $resultado["message"]='Link incorrecto o ya ha activado su cuenta.';
+           
+             $this->get('session')->getFlashBag()->add('error' , 'Link incorrecto o ya ha activado su cuenta');
       }	
     
        }
        else{
-       
-           $resultado["message"]= 'Link incorrecto.';
+            $this->get('session')->getFlashBag()->add('error' , 'Link incorrecto.');
+          
        }
     
     
     }
        
-     $response = new Response(json_encode($resultado));
-        
-        $response->headers->set('Content-Type', 'application/json');
-  
-        return $response;       
-       
+          
+     return $this->render('FrontendHomeBundle:Home:changePass.html.twig',array('codigo'=>$codigo));  
        
     
     }
@@ -408,7 +411,7 @@ class HomeController extends Controller
     
     public function activateAccountAction(Request $request, $codigo){
     
-      $resultado=array("status"=>1,"message"=>'');
+     
    
        if ($codigo != '')
        {
@@ -440,26 +443,21 @@ class HomeController extends Controller
          
           @$this->get('mailer')->send($message);
           
-          $resultado["status"]=0;
-          $resultado["message"]='Se ha activado su cuenta correctamente.';  
+           $this->get('session')->getFlashBag()->add('success' , 'Se ha activado su cuenta correctamente.');    
     		}
     	else{
-          $resultado["message"]= 'No se ha podido activar la cuenta.';
+          $this->get('session')->getFlashBag()->add('error' , 'No se ha podido activar la cuenta.');
       }	
     
        }
        else{
        
-       $resultado["message"]= 'Link incorrecto.';
+       $this->get('session')->getFlashBag()->add('error' , 'Link incorrecto.');
        }
     
     
     
-        $response = new Response(json_encode($resultado));
-        
-        $response->headers->set('Content-Type', 'application/json');
-  
-        return $response; 
+         return $this->render('FrontendHomeBundle:Home:activate_account.html.twig', array('codigo'=>$codigo));
        
        
     
