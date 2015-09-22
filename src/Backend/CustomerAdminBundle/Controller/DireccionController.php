@@ -78,9 +78,6 @@ class DireccionController extends Controller
      * Creates a new Direccion entity.
      *
      */
-<<<<<<< HEAD
-    public function createAction(Request $request,$type)
-=======
      
     private function oneDefault(){
          
@@ -96,15 +93,12 @@ class DireccionController extends Controller
             $r->setIsDefault(false);
             $em->persist($r);
             $em->flush();
-        }
-        
-       
-         
+        }  
     
     } 
      
     public function createAction(Request $request)
->>>>>>> 3755747bdac6835931f2f6b9465f0cfd596a02b8
+
     {
         if ( $this->get('security.context')->isGranted('ROLE_ADDDIRECCION')) {
         $entity  = new Direccion();
