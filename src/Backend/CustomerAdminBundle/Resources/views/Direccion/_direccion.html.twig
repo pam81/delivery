@@ -71,7 +71,23 @@
         </div>
 </div>
 
+<div class="form-group">
+        
+        {{ form_label(form.lat,"Latitud.", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
+        <div class="col-xs-6">
+            {{ form_widget(form.lat, { 'attr': {'class': 'form-control'} }) }}
+            <span id='backend_customeradminbundle_direccion_lat_errorloc' class="help-block"> {{ form_errors(form.lat) }} </span>
+        </div>
+</div>
 
+<div class="form-group">
+        
+        {{ form_label(form.lon,"Longitud", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
+        <div class="col-xs-6">
+            {{ form_widget(form.lon, { 'attr': {'class': 'form-control'} }) }}
+            <span id='backend_customeradminbundle_direccion_lon_errorloc' class="help-block"> {{ form_errors(form.lon) }} </span>
+        </div>
+</div>
 
 
 <div class="form-group">

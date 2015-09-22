@@ -35,3 +35,20 @@ function validateLogin(email, pass){
    return true;
   
 }
+
+function getLatLon(address, calling){
+
+ GMaps.geocode({
+  address: address,
+  callback: function(results, status) {
+    var coordenadas=null;
+    if (status == 'OK') {
+      var latlng = results[0].geometry.location;
+      coordenadas ={ lat: latlng.lat(), lng: latlng.lng()}; 
+       
+    }
+     calling(coordenadas);
+  }
+});
+
+}

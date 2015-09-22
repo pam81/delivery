@@ -23,21 +23,21 @@ $(document).ready(function() {
 		    messages: {
             "backend_customeradminbundle_sucursaltype[name]": {
             required: "Ingrese el nombre de la sucursal",
-            maxlength: jQuery.format("Máximo {0} carácteres!"),
-            minlength: jQuery.format("Mínimo {0} carácteres!")
+            maxlength: jQuery.validator.format("Máximo {0} carácteres!"),
+            minlength: jQuery.validator.format("Mínimo {0} carácteres!")
             },
 		 	messages: {
            "backend_customeradminbundle_sucursaltype[cuit]": {
            required: "Ingrese el numero de cuit",
 		   numeric: "Ingrese los numeros sin guiones",	   
-           maxlength: jQuery.format("Máximo {0} carácteres!"),
-           minlength: jQuery.format("Mínimo {0} carácteres!")
+           maxlength: jQuery.validator.format("Máximo {0} carácteres!"),
+           minlength: jQuery.validator.format("Mínimo {0} carácteres!")
            },
 		 	messages: {
            "backend_customeradminbundle_sucursaltype[telefono]": {
            required: "Ingrese el numero de telefono",
-           maxlength: jQuery.format("Máximo {0} carácteres!"),
-           minlength: jQuery.format("Mínimo {0} carácteres!")
+           maxlength: jQuery.validator.format("Máximo {0} carácteres!"),
+           minlength: jQuery.validator.format("Mínimo {0} carácteres!")
            },
       },
       
