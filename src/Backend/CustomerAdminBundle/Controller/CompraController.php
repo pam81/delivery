@@ -13,22 +13,22 @@ use Backend\CustomerAdminBundle\Form\PedidoType;
  * Pedido controller.
  *
  */
-class PedidoController extends Controller
+class CompraController extends Controller
 {
 
      public function generateSQL($search){
      
-		$user=$this->getUser();	
+		$user=$this->getUser();
      
-		$dql="SELECT u FROM BackendCustomerAdminBundle:Pedido u JOIN u.sucursal s where s.customer = ".$user->getId();
-               
+     	$dql="SELECT u FROM BackendCustomerAdminBundle:Pedido u where u.customer = ".$user->getId();
+
         $search=mb_convert_case($search,MB_CASE_LOWER);
                
         if ($search)
           
           $dql.=" where u.id like '%$search%' ";
           
-		  $dql .=" order by u.id"; 
+		  $dql .=" order by u.id desc"; 
         
         return $dql;
      
@@ -40,7 +40,7 @@ class PedidoController extends Controller
      */
     public function indexAction(Request $request,$search)
     {
-       if ( $this->get('security.context')->isGranted('ROLE_VIEWPRODUCTO')) {
+       if ( $this->get('security.context')->isGranted('ROLE_VIEWCOMPRA')) {
         $em = $this->getDoctrine()->getManager();
         
         $dql=$this->generateSQL($search);
@@ -54,7 +54,7 @@ class PedidoController extends Controller
     );
         
         $deleteForm = $this->createDeleteForm(0);
-        return $this->render('BackendCustomerAdminBundle:Pedido:index.html.twig', 
+        return $this->render('BackendCustomerAdminBundle:Compra:index.html.twig', 
         array('pagination' => $pagination,
         'delete_form' => $deleteForm->createView(),
         'search'=>$search
@@ -65,13 +65,13 @@ class PedidoController extends Controller
          throw new AccessDeniedException(); 
     }
     /**
-     * Creates a new Producto entity.
+     * Creates a new Pedido entity.
      *
      */
     public function createAction(Request $request)
     {
-        if ( $this->get('security.context')->isGranted('ROLE_ADDPRODUCTO')) {
-        $entity  = new Pedido();
+        if ( $this->get('security.context')->isGranted('ROLE_ADDCOMPRA')) {
+        $entity  = new Producto();
         $form = $this->createForm(new PedidoType(), $entity);
 		
 		$s = $request->request->get('backend_customeradminbundle_producto');

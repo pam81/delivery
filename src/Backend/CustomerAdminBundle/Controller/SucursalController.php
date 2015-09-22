@@ -176,7 +176,7 @@ class SucursalController extends Controller
 			$customerId = $this->getUser()->getId();
 			$em = $this->getDoctrine()->getManager();
 			$customer = $em->getRepository('BackendCustomerBundle:Customer')->find($customerId);
-        	$form = $this->createForm(new SucursalType(), $entity);
+        	$form = $this->createForm(new SucursalType(),$customerId, $entity);
         	$form->bind($request);
          
         if ($form->isValid()) {
@@ -192,6 +192,7 @@ class SucursalController extends Controller
 
         return $this->render('BackendCustomerAdminBundle:Sucursal:new.html.twig', array(
             'entity' => $entity,
+            'customerId' => $customerId,
             'form'   => $form->createView()
            
         ));
@@ -209,11 +210,16 @@ class SucursalController extends Controller
     */
     private function createCreateForm(Sucursal $entity)
     {
-        $form = $this->createForm(new SucursalType(), $entity, array(
+        $customerId = $this->getUser()->getId();
+        /*
+        $form = $this->createForm(new SucursalType(), $entity,array(
+            'foo' => 'baz',
             'action' => $this->generateUrl('sucursal_create'),
             'method' => 'POST',
         ));
-
+        */ 
+		$form = $this->createForm(new SucursalType(), $entity, array('user' => 1));
+        
         $form->add('submit', 'submit', array('label' => 'Create'));
 
         return $form;
@@ -227,10 +233,12 @@ class SucursalController extends Controller
     {
        if ( $this->get('security.context')->isGranted('ROLE_ADDSUCURSAL')) {
         $entity = new Sucursal();
-        $form   = $this->createForm(new SucursalType(), $entity);
+        $customerId = $this->getUser()->getId();
+        $form  = $this->createForm(new SucursalType(),$entity);
 
         return $this->render('BackendCustomerAdminBundle:Sucursal:new.html.twig', array(
             'entity' => $entity,
+            'customerId' => $customerId,
             'form'   => $form->createView()
             
         ));

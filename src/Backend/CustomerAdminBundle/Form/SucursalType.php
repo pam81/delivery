@@ -9,18 +9,35 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class SucursalType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-          
-			$builder->add('name','text');
-			$builder->add('phone','text');
+    {  
+            $myCustomVar = $options['user'];
+			
+			$builder->add('name','text',array('required'=>true));
+			$builder->add('phone','text',array('required'=>true));
 			$builder->add('email','email');
 			$builder->add('website','text');
-			$builder->add('cuit');
+			$builder->add('cuit','text',array('required'=>true));
+            /*
             $builder->add('direccion','entity',array(
                 'class'=>'BackendCustomerAdminBundle:Direccion',
                 //'property'=>'calle',
                 'multiple'=>false
             ));
+            */
+            
+            $builder->add('direccion', 'entity',array(
+            'class'=>'BackendCustomerAdminBundle:Direccion',
+            'mapped'=>true,
+            'required'=>true,
+            function(EntityRepository $er) use ($user){
+                $qb = $er->createQueryBuilder("u")
+                          ->innerJoin('u.customers', 'c')
+                          ->where('c.id = :user_id')
+                          ->setParameter('user_id', $user)
+						  ->orderBy('u.name', 'ASC');		
+				return $qb;		  	                      
+            }));
+            
             $builder->add('paymethods','entity',array(
                 'class'=>'BackendAdminBundle:PayMethod',
                 'property'=>'name',
@@ -54,7 +71,17 @@ class SucursalType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Backend\CustomerAdminBundle\Entity\Sucursal'
+            'data_class' => 'Backend\CustomerAdminBundle\Entity\Sucursal',
+            
+        ));
+        
+        $resolver->setNormalizers(array(
+                  'query_builder' => function (Options $options, $configs) {
+                          return function (EntityRepository $er) use ( $options ) {
+                              return $er->getSomething( $options['user'] );
+
+                       };
+                  },
         ));
     }
 
