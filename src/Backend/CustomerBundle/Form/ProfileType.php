@@ -17,6 +17,7 @@ class ProfileType extends AbstractType
       			$builder->add('phone','text',array('required'=>false));
       			$builder->add('mobile','text',array('required'=>false));
       			$builder->add('dni');
+            $builder->add('cuit');
                   $builder->add('birthday','date', array(
                       'input'=> "string",
                       'format' => 'dd-MM-yyyy',

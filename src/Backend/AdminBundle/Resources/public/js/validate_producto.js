@@ -37,8 +37,8 @@ $("#backend_adminbundle_producto_categoria").change(function() {
 			 messages: {
             "backend_adminbundle_producto[name]": {
             required: "Ingrese el nombre del producto",
-            maxlength: jQuery.format("Máximo {0} carácteres!"),
-            minlength: jQuery.format("Mínimo {0} carácteres!")
+            maxlength: jQuery.validator.format("Máximo {0} carácteres!"),
+            minlength: jQuery.validator.format("Mínimo {0} carácteres!")
             },
       },
       

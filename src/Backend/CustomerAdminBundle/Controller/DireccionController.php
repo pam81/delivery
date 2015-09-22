@@ -18,15 +18,16 @@ class DireccionController extends Controller
 
      public function generateSQL($search){
 		 
-		$user=$this->getUser(); 
+		    $user=$this->getUser(); 
      
         $dql="SELECT u FROM BackendCustomerAdminBundle:Direccion u JOIN u.customers c where c.id = ".$user->getId() ;
         $search=mb_convert_case($search,MB_CASE_LOWER);
         
        
-        if ($search)
+        if ($search) {
           
-		  $dql.=" where u.calle like '%$search%' ";
+		     $dql.=" and u.calle like '%$search%' ";
+         }
           
           $dql .=" order by u.calle"; 
         
@@ -77,20 +78,48 @@ class DireccionController extends Controller
      * Creates a new Direccion entity.
      *
      */
+<<<<<<< HEAD
     public function createAction(Request $request,$type)
+=======
+     
+    private function oneDefault(){
+         
+       	$customerId = $this->getUser()->getId();
+        $dql="SELECT u FROM BackendCustomerAdminBundle:Direccion u JOIN u.customers c where c.id = ".$customerId ;
+   		  $dql.=" and u.isDefault = 1 ";
+          
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery($dql);
+        
+        $resultados = $query->getResult();
+        foreach($resultados as $r){
+            $r->setIsDefault(false);
+            $em->persist($r);
+            $em->flush();
+        }
+        
+       
+         
+    
+    } 
+     
+    public function createAction(Request $request)
+>>>>>>> 3755747bdac6835931f2f6b9465f0cfd596a02b8
     {
         if ( $this->get('security.context')->isGranted('ROLE_ADDDIRECCION')) {
         $entity  = new Direccion();
         $form = $this->createForm(new DireccionType(), $entity);
         $form->bind($request);
-		$customerId = $this->getUser()->getId();
-		$em = $this->getDoctrine()->getManager();
-		$customer = $em->getRepository('BackendCustomerBundle:Customer')->find($customerId);
+    		$customerId = $this->getUser()->getId();
+    		$em = $this->getDoctrine()->getManager();
+    		$customer = $em->getRepository('BackendCustomerBundle:Customer')->find($customerId);
 		
          
         if ($form->isValid()) {
-            
-			$entity->addCustomer($customer);
+            if ($entity->getIsDefault()){
+              $this->oneDefault(); //quito el default a las demas direcciones
+            }
+			      $entity->addCustomer($customer);
             $em->persist($entity);
             $em->flush();
             $this->get('session')->getFlashBag()->add('success' , 'Se ha agregado una nueva direccion.');
@@ -241,6 +270,10 @@ class DireccionController extends Controller
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
+        
+            if ($entity->getIsDefault()){
+              $this->oneDefault(); //quito el default a las demas direcciones
+            }
             $em->persist($entity);
             $em->flush();
              $this->get('session')->getFlashBag()->add('success' , 'Se han actualizado los datos de la direccion .');

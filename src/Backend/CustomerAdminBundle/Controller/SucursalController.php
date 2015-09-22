@@ -21,7 +21,7 @@ class SucursalController extends Controller
      public function generateSQL($search){
      
         $user=$this->getUser();
-	 
+	      
         $dql="SELECT u FROM BackendCustomerAdminBundle:Sucursal u JOIN u.customer c where c.id = ".$user->getId()  ;
 
 		$search= mb_convert_case($search,MB_CASE_LOWER);        

@@ -3,7 +3,7 @@ frontend_homepage:
     defaults: { _controller: FrontendHomeBundle:Home:index }
 
 frontend_faqs:
-    pattern:  /faq
+    pattern:  /faqs
     defaults: { _controller: FrontendHomeBundle:Home:faq }
 
 frontend_menuZona:
