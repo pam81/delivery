@@ -49,4 +49,7 @@ customer_pedido:
     resource: "@BackendCustomerAdminBundle/Resources/config/routing/pedido.yml"
     prefix:   /pedido  
 
+customer_compra:
+    resource: "@BackendCustomerAdminBundle/Resources/config/routing/compra.yml"
+    prefix:   /compra
             
