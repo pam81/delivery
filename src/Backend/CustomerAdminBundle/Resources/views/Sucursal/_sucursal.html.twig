@@ -121,7 +121,7 @@
         {{ form_label(form.file,"Imagen (tamaño recomendado: 300x300 px)", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
         <div class="col-xs-6">
             {{ form_widget(form.file, { 'attr': {'class': 'input-xlarge'} }) }}
-            <span id='backend_customeradminbundle_producto_file_errorloc' class="help-block"> {{ form_errors(form.file) }} </span>
+            <span id='backend_customeradminbundle_sucursal_file_errorloc' class="help-block"> {{ form_errors(form.file) }} </span>
         </div>
         {% if entity.getWebPath() %}
           <img src="{{ asset(entity.getWebPath()) }}" width="100" height="100" />
