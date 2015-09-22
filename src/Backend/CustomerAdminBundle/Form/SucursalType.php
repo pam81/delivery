@@ -10,21 +10,21 @@ class SucursalType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {  
-            $myCustomVar = $options['user'];
+           
 			
 			$builder->add('name','text',array('required'=>true));
 			$builder->add('phone','text',array('required'=>true));
 			$builder->add('email','email');
 			$builder->add('website','text');
 			$builder->add('cuit','text',array('required'=>true));
-            /*
+            $builder->add('file', 'file', array("required" => false));
             $builder->add('direccion','entity',array(
                 'class'=>'BackendCustomerAdminBundle:Direccion',
                 //'property'=>'calle',
                 'multiple'=>false
             ));
-            */
             
+            /*
             $builder->add('direccion', 'entity',array(
             'class'=>'BackendCustomerAdminBundle:Direccion',
             'mapped'=>true,
@@ -37,7 +37,7 @@ class SucursalType extends AbstractType
 						  ->orderBy('u.name', 'ASC');		
 				return $qb;		  	                      
             }));
-            
+            */
             $builder->add('paymethods','entity',array(
                 'class'=>'BackendAdminBundle:PayMethod',
                 'property'=>'name',
@@ -64,6 +64,11 @@ class SucursalType extends AbstractType
              'label'=>"Activa",
              'required'=>false
             ));
+            $builder->add('premium','checkbox',array(
+             'value'=>1,
+             'label'=>"Tienda Premium",
+             'required'=>false
+            ));
 			                
             
     }
@@ -75,14 +80,6 @@ class SucursalType extends AbstractType
             
         ));
         
-        $resolver->setNormalizers(array(
-                  'query_builder' => function (Options $options, $configs) {
-                          return function (EntityRepository $er) use ( $options ) {
-                              return $er->getSomething( $options['user'] );
-
-                       };
-                  },
-        ));
     }
 
     public function getName()

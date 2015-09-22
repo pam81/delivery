@@ -20,8 +20,10 @@
         
         {{ form_label(form.direccion,"Direccion", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
         <div class="col-xs-6">
+         <a href="{{ path("direccion_new",{'type': 0}) }}" rel="shadowbox" role="button" class="btn btn-info"  style="float:right; margin-right:-35%">Nueva Direccion</a>
+
             {{ form_widget(form.direccion, { 'attr': {'class': 'form-control'} }) }}
-            <span id='backend_customeradminbundle_sucursal_direccion_errorloc' class="help-block"> {{ form_errors(form.direccion) }} </span>
+                        <span id='backend_customeradminbundle_sucursal_direccion_errorloc' class="help-block"> {{ form_errors(form.direccion) }} </span>
         </div>
 </div>
 
@@ -103,4 +105,25 @@
             <span id='backend_customeradminbundle_sucursal_is_active_errorloc' class="help-block"> {{ form_errors(form.is_active) }} </span>
         </div>
     </div>
+    
+<div class="form-group">
+        <div class="col-xs-offset-2 col-xs-10">
+            <div class="checkbox">
+                <label>{{ form_widget(form.premium) }}
+                 {{ form_label(form.premium,"Tienda Premium") }}</label>
+            </div>
+            <span id='backend_customeradminbundle_sucursal_premium_errorloc' class="help-block"> {{ form_errors(form.premium) }} </span>
+        </div>
+</div>
 
+<div class="form-group">
+        
+        {{ form_label(form.file,"Imagen (tamaño recomendado: 300x300 px)", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
+        <div class="col-xs-6">
+            {{ form_widget(form.file, { 'attr': {'class': 'input-xlarge'} }) }}
+            <span id='backend_customeradminbundle_producto_file_errorloc' class="help-block"> {{ form_errors(form.file) }} </span>
+        </div>
+        {% if entity.getWebPath() %}
+          <img src="{{ asset(entity.getWebPath()) }}" width="100" height="100" />
+        {% endif %}
+</div>

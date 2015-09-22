@@ -47,11 +47,12 @@
 										<th>Cuit</th>
 										<th>Direccion</th>
 										<th>Zona/Prov.</th>
-										<th>Barrio/Localidad</th>
+										<th>Barrio<br/>Localidad</th>
 										<th>Categoria</th>
 										<th>Horario</th>
 										<th>Pedidos <br/> 24 hs</th>
 										<th>Medios de Pago</th>
+										<th>Premium</th>
                                         <th style="width: 92px;">Acciones</th>
                                     </tr>
                                 </thead>
@@ -78,6 +79,7 @@
 												  	  <br/>
 													  {% endfor %}
 												  </td>
+												  <td>{% if sucursal.premium %} <span class="label label-success"> Si  </span>{% endif %}</td>
 												  <td>
                                                   <a href="{{ path('sucursal_edit', { 'id': sucursal.id }) }}"><i class="fa fa-pencil"></i></a>
                                                   <a href="#" class="btn confirm-delete"   data-toggle="modal" data-id={{ sucursal.id }}  data-target="#myModal"><i class="fa fa-trash"></i></a>
