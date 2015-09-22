@@ -33,6 +33,15 @@ class DireccionController extends Controller
         return $dql;
      
      }
+ 
+	 public function getAddressByUser(){
+		 
+		 return $this->generateSQL("")
+            ->getQuery()
+            ->getResult();		 
+	}	
+     
+     
 
     /**
      * Lists all Direcciones entities.
@@ -68,7 +77,7 @@ class DireccionController extends Controller
      * Creates a new Direccion entity.
      *
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request,$type)
     {
         if ( $this->get('security.context')->isGranted('ROLE_ADDDIRECCION')) {
         $entity  = new Direccion();
@@ -85,14 +94,29 @@ class DireccionController extends Controller
             $em->persist($entity);
             $em->flush();
             $this->get('session')->getFlashBag()->add('success' , 'Se ha agregado una nueva direccion.');
-            return $this->redirect($this->generateUrl('direccion_edit', array('id' => $entity->getId())));
+            if ($type){
+                return $this->redirect($this->generateUrl('direccion'));
+            }else{
+                $addSucursal = true;
+            }
+            
+            //return $this->redirect($this->generateUrl('direccion_edit', array('id' => $entity->getId())));
         }
-                
+        /*        
         return $this->render('BackendCustomerAdminBundle:Direccion:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView()
            
         ));
+        */
+        return $this->render('BackendAdminBundle:Direccion:new.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+            'type' => $type,
+            'addEstudio'=>$addSucursal,
+            'direccionId'=>$entity->getId()
+           
+        )); 
       }
       else
        throw new AccessDeniedException();
@@ -121,17 +145,26 @@ class DireccionController extends Controller
      * Displays a form to create a new Barrio entity.
      *
      */
-    public function newAction()
+    public function newAction(Request $request, $type)
     {
        if ( $this->get('security.context')->isGranted('ROLE_ADDDIRECCION')) {
         $entity = new Direccion();
         $form   = $this->createForm(new DireccionType(), $entity);
-
+		$addSucursal = false;
+        return $this->render('BackendCustomerAdminBundle:Direccion:new.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+            'type' => $type,
+            'addSucursal'=>$addSucursal
+            
+        ));
+		/*
         return $this->render('BackendCustomerAdminBundle:Direccion:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView()
             
         ));
+        */ 
        }
        else
           throw new AccessDeniedException();
