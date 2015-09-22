@@ -76,7 +76,20 @@
  <div id='backend_customerbundle_usertype_dni_errorloc' class="help-block error" >{{ form_errors(form.dni) }}</div>   
 </div>
 </div>
+ {% if entity.getIsComercio%}
+ <div class="form-group">
 
+{{ form_label(form.cuit,"CUIT", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
+<div class="col-xs-6">
+{{ form_widget(form.cuit, { 'attr': {'class': 'form-control'} }) }}
+    
+ <div id='backend_customerbundle_usertype_cuit_errorloc' class="help-block error" >{{ form_errors(form.cuit) }}</div>   
+</div>
+</div>
+ {%else %}
+    {% do form.cuit.setRendered %}
+ {% endif %}
+ 
 <div class="form-group">
 
 {{ form_label(form.birthday,"Fecha Nacimiento", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}

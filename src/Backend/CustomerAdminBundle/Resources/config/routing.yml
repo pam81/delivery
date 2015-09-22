@@ -27,7 +27,11 @@ customer_logout:
 
 customer_direccion:
     resource: "@BackendCustomerAdminBundle/Resources/config/routing/direccion.yml"
-    prefix:   /direccion    
+    prefix:   /direccion
+
+customer_favorito:
+    resource: "@BackendCustomerAdminBundle/Resources/config/routing/favorito.yml"
+    prefix:   /favorito        
 
 customer_sucursal:
     resource: "@BackendCustomerAdminBundle/Resources/config/routing/sucursal.yml"
