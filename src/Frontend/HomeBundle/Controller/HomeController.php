@@ -20,12 +20,16 @@ class HomeController extends Controller
 
    
     public function indexAction(Request $request)
-    {
-        
-        
-        return $this->render('FrontendHomeBundle:Home:index.html.twig');
-        
+    {        
+        return $this->render('FrontendHomeBundle:Home:index.html.twig');        
     }
+    
+    public function faqAction(Request $request)
+    {    
+        return $this->render('FrontendHomeBundle:Home:faqs.html.twig');
+                
+    }
+    
     //obtener listado de zonas y barrios 
     public function menuZonaAction(Request $request){
     

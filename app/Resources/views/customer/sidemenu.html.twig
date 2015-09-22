@@ -26,23 +26,23 @@
                      {% endif %}   
                      {% if is_granted('ROLE_VIEWPRODUCTO') %}       
           					<li class="active">
-                                  <a href="{{ path('producto') }}"><i class="fa fa-wa fa-shopping-cart"></i> Mis Productos</a>
+                                  <a href="{{ path('producto') }}"><i class="fa fa-wa fa-cube"></i> Mis Productos</a>
                               </li>               					
                      {% endif %}
                      {% if is_granted('ROLE_VIEWVARIEDAD') %} 
              					<li class="active">
-                          <a href="{{ path('variedad') }}"><i class="fa fa-wa fa-shopping-cart"></i> Variedades</a>
+                          <a href="{{ path('variedad') }}"><i class="fa fa-wa fa-cubes"></i> Variedades</a>
                       </li>
                      {% endif %}   
                      {% if is_granted('ROLE_VIEWCOMPRA') %}       
           					<li class="active">
-                                  <a href=""><i class="fa fa-wa fa-map-marker"></i> Mis Compras</a>
+                                  <a href="{{ path('compra') }}"><i class="fa fa-wa fa-shopping-cart"></i> Mis Compras</a>
                               </li>               					
                      {% endif %}      	 
                      {% if is_granted('ROLE_VIEWVENTA') %}       
           					<li class="active">
                                            						 
-                                <a href="{{ path('pedido') }}"><i class="fa fa-wa fa-map-marker"></i> Mis Ventas</a>
+                                <a href="{{ path('pedido') }}"><i class="fa fa-wa fa-shopping-cart"></i> Mis Ventas</a>
                        </li>               					
                      {% endif %}
 

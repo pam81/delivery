@@ -2,6 +2,10 @@ frontend_homepage:
     pattern:  /
     defaults: { _controller: FrontendHomeBundle:Home:index }
 
+frontend_faqs:
+    pattern:  /
+    defaults: { _controller: FrontendHomeBundle:Home:faq }
+
 frontend_menuZona:
     pattern:  /menuZona
     defaults: { _controller: FrontendHomeBundle:Home:menuZona }
