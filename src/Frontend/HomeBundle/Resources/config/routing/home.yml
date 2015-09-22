@@ -6,6 +6,10 @@ frontend_faqs:
     pattern:  /faqs
     defaults: { _controller: FrontendHomeBundle:Home:faq }
 
+frontend_terminos:
+    pattern:  /terminos
+    defaults: { _controller: FrontendHomeBundle:Home:terminos }
+
 frontend_menuZona:
     pattern:  /menuZona
     defaults: { _controller: FrontendHomeBundle:Home:menuZona }

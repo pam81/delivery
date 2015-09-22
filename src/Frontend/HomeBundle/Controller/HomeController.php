@@ -30,6 +30,12 @@ class HomeController extends Controller
                 
     }
     
+    public function terminosAction(Request $request)
+    {    
+        return $this->render('FrontendHomeBundle:Home:terminos.html.twig');
+                
+    }
+    
     //obtener listado de zonas y barrios 
     public function menuZonaAction(Request $request){
     
@@ -124,8 +130,8 @@ class HomeController extends Controller
     public function getTiendasPremiumAction(Request $request){
         
         //mostrar en el slider principal sucursales activas
-      /*$tiendas = $this->getDoctrine()->getRepository('BackendCustomerAdminBundle:Sucursal')
-                  ->findBy(array("is_active"=>true));*/
+        $tiendas = $this->getDoctrine()->getRepository('BackendCustomerAdminBundle:Sucursal')
+                  ->findBy(array("is_active"=>true,"premium"=>true));
         
         $listado=array();
         $images=array("images/home/recommend1.jpg", "images/home/recommend2.jpg", "images/home/recommend3.jpg");
@@ -296,9 +302,9 @@ class HomeController extends Controller
          
     		}else{
     			$customer["role"]="ROLE_CLIENTE";  //el usuario se da de alta como habilitado
-          $customer["isComercio"] = false;
-          $status=$em->getRepository('BackendCustomerBundle:Status')->findOneByName("Pendiente");
-          $customer["status"]=$status;			
+				$customer["isComercio"] = false;
+				$status=$em->getRepository('BackendCustomerBundle:Status')->findOneByName("Pendiente");
+				$customer["status"]=$status;			
         }        
         
     		$service = new \Backend\CustomerBundle\Services\CustomerService($this->get('doctrine.orm.default_entity_manager'));
@@ -309,7 +315,7 @@ class HomeController extends Controller
     		if ($respuesta->status == 0) //se creo el cliente envio mail
     		{
     		  
-          $empresa = $em->getRepository('BackendUserBundle:Seteo')->findOneByName("empresa");
+			  $empresa = $em->getRepository('BackendUserBundle:Seteo')->findOneByName("empresa");
     		  $email_site = $em->getRepository('BackendUserBundle:Seteo')->findOneByName("email");
     		  
     		  $url= $this->generateUrl(

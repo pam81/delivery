@@ -16,6 +16,32 @@ p.small {
     font-size: 16px;
 }
 
+p.faqs {
+
+	font-size: 14px;
+}
+
+h4.faqs {
+
+	font-size : 15px;
+	text-transform: none;
+	font-weight: 500;
+	color: #000000;
+}
+
+
+.panel {
+    margin-bottom: 20px;
+    background-color: #FFF;
+
+/*    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05); */
+}
+.panel-default  .panel-heading {
+    color: #333;
+    background-color: rgba(254, 152, 15, 0.47);
+    border-color: #DDD;
+}
+
 a,
 a:hover,
 a:focus,
@@ -99,7 +125,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f1e767', end
 
 header .container {
     padding-top: 100px;
-    padding-bottom: 50px;
+    padding-bottom: 20px;
 }
 
 header img {
@@ -124,8 +150,8 @@ header .intro-text .skills {
 
 @media(min-width:768px) {
     header .container {
-        padding-top: 150px;
-        padding-bottom: 50px;
+        padding-top: 100px;
+        padding-bottom: 20px;
     }
 
     header .intro-text .name {
@@ -189,7 +215,7 @@ header .intro-text .skills {
 }
 
 section {
-    padding: 100px 0;
+    padding: 50px 0;
 }
 
 section h2 {
@@ -580,4 +606,14 @@ footer a {
     color: #ffffff;
     background-color: #666663;
     border-color: #666663;
+}
+
+#see_more {
+		
+	float:right;		
+}
+
+#footer_social{
+
+	margin-left:5px;
 }

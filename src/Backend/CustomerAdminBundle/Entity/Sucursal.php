@@ -52,6 +52,11 @@ class Sucursal
      */
     private $open;	
 	
+	/**
+     * @ORM\Column(name="premium", type="boolean",nullable=true)
+     */
+    private $premium;	
+	
     /**
      * @ORM\ManyToOne(targetEntity="\Backend\CustomerBundle\Entity\Customer", inversedBy="sucursales")
      * @ORM\JoinColumn(name="customer_id", referencedColumnName="id")
@@ -633,5 +638,28 @@ class Sucursal
     public function getFavoritos()
     {
         return $this->favoritos;
+    }
+
+    /**
+     * Set premium
+     *
+     * @param boolean $premium
+     * @return Sucursal
+     */
+    public function setPremium($premium)
+    {
+        $this->premium = $premium;
+
+        return $this;
+    }
+
+    /**
+     * Get premium
+     *
+     * @return boolean 
+     */
+    public function getPremium()
+    {
+        return $this->premium;
     }
 }
