@@ -38,4 +38,12 @@ frontend_forgot:
 frontend_addFavorito:
     pattern:  /frontAddFavorito
     defaults: { _controller: "FrontendHomeBundle:Home:addFavorito" }          
+
+frontend_change_pass:
+    pattern:  /frontend_change_pass/{codigo}
+    defaults: { _controller: "FrontendHomeBundle:Home:changePassword", codigo: '' }
+
+frontend_activate_account:
+    pattern:  /frontend_activar/{codigo}
+    defaults: { _controller: "FrontendHomeBundle:Home:activateAccount", codigo: '' }                  
         

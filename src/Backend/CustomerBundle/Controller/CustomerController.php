@@ -351,7 +351,7 @@ class CustomerController extends Controller
           $empresa = $em->getRepository('BackendCustomerBundle:Seteo')->findOneByName("empresa");
     		  $email_site = $em->getRepository('BackendCustomerBundle:Seteo')->findOneByName("email");
     		  $url= $this->generateUrl(
-            'change_pass',
+            'customer_change_pass',
             array('codigo' =>$respuesta->codigo ), true );
         
           $message = \Swift_Message::newInstance()
