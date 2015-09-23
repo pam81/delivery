@@ -25,7 +25,11 @@ producto_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "BackendCustomerAdminBundle:Producto:delete" }
     requirements: { _method: post|delete }
-        
+
+producto_categoria:
+    pattern:  /getsubcategorias
+    defaults: { _controller: "BackendCustomerAdminBundle:Producto:getSubcategoriaByCategoria" }
+      
 producto:
     pattern:  /{search}
     defaults: { _controller: "BackendCustomerAdminBundle:Producto:index" , search: ''}

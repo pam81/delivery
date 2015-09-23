@@ -69,10 +69,11 @@ class ProductoController extends Controller
     {
         if ( $this->get('security.context')->isGranted('ROLE_ADDPRODUCTO')) {
         $entity  = new Producto();
-        $form = $this->createForm(new ProductoType(), $entity);
+        $customerId=$this->getUser()->getId();
+        $form = $this->createForm(new ProductoType(), $entity, array("customerId"=>$customerId));
 		
-		$s = $request->request->get('backend_customeradminbundle_producto');
-		$sucursales = $s['sucursales'];
+    		$s = $request->request->get('backend_customeradminbundle_producto');
+    		$sucursales = $s['sucursales'];
         unset($s['sucursales']);
 		
         $form->bind($request);
@@ -81,14 +82,7 @@ class ProductoController extends Controller
 			
             $em = $this->getDoctrine()->getManager();
 			
-		    foreach ($sucursales as $id) {
-		                   
-		         $sucursal = $em->getRepository('BackendCustomerAdminBundle:Sucursal')->find($id);		             	   
-                 $sucursal->addProducto($entity);
-   			     $em->persist($sucursal);
-	     		 $entity->addSucursal($sucursal);
-		                   
-	         }
+		        
 			
             $em->persist($entity);
             $em->flush();
@@ -133,7 +127,8 @@ class ProductoController extends Controller
     {
        if ( $this->get('security.context')->isGranted('ROLE_ADDPRODUCTO')) {
         $entity = new Producto();
-        $form   = $this->createForm(new ProductoType(), $entity);
+        $customerId=$this->getUser()->getId();
+        $form   = $this->createForm(new ProductoType(), $entity, array("customerId"=>$customerId));
 
         return $this->render('BackendCustomerAdminBundle:Producto:new.html.twig', array(
             'entity' => $entity,
@@ -162,14 +157,15 @@ class ProductoController extends Controller
              $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado el producto.');
              return $this->redirect($this->generateUrl('producto'));
         }
-
-        $editForm = $this->createForm(new ProductoType(), $entity);
+        $customerId=$this->getUser()->getId();
+        $editForm = $this->createForm(new ProductoType(), $entity, array("customerId"=>$customerId, "productoId"=>$entity->getId()));
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('BackendCustomerAdminBundle:Producto:edit.html.twig', array(
             'entity'      => $entity,
             'form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'showVariedades' => true
             
         ));
       }
@@ -212,7 +208,8 @@ class ProductoController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new ProductoType(), $entity);
+        $customerId=$this->getUser()->getId();
+        $editForm = $this->createForm(new ProductoType(), $entity, array("customerId"=>$customerId,"productoId"=>$entity->getId()));
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
@@ -226,6 +223,7 @@ class ProductoController extends Controller
             'entity'      => $entity,
             'form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'showVariedades' => true
             
         ));
       }
@@ -252,7 +250,7 @@ class ProductoController extends Controller
             }
            else{
             
-         
+              //TODO: si se borran y hay pedidos? hay compras?
             
             $em->remove($entity);
             $em->flush();
@@ -341,6 +339,26 @@ class ProductoController extends Controller
      
       $resultado=array();
       foreach($categorias as $v){
+            $r=array();
+            $r["id"]=$v->getId();
+            $r["text"]=$v->getName();
+            $resultado[] = $r;
+       }
+       $response = new Response(json_encode($resultado));
+        
+       $response->headers->set('Content-Type', 'application/json');
+  
+       return $response;
+    }
+    
+    public function getSubcategoriaByCategoriaAction(Request $request)
+    {
+     
+      $categoria_id=$request->request->get("categoria");
+      $subcategorias = $this->getDoctrine()->getRepository('BackendAdminBundle:Subcategoria')->findBy(array("categoria"=>$categoria_id));
+     
+      $resultado=array();
+      foreach($subcategorias as $v){
             $r=array();
             $r["id"]=$v->getId();
             $r["text"]=$v->getName();

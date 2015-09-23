@@ -54,6 +54,8 @@ class Variedad
      */
 
     protected $productos;
+    
+    
 	
 
     public function __construct() {
