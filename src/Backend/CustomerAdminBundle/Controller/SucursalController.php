@@ -28,7 +28,7 @@ class SucursalController extends Controller
        
         if ($search)
           
-		  $dql.=" where u.name like '%$search%' ";
+		  $dql.=" and u.name like '%$search%' ";
           
           $dql .=" order by u.id"; 
         
@@ -68,137 +68,86 @@ class SucursalController extends Controller
      }
 		
 		
-		/*
-   
-    {
-       if ( $this->get('security.context')->isGranted('ROLE_VIEWDIRECCION')) {
-        $em = $this->getDoctrine()->getManager();
-        
-        $dql=$this->generateSQL($search);
-        $query = $em->createQuery($dql);
-        
-        $paginator  = $this->get('knp_paginator');
-        $pagination = $paginator->paginate(
-        $query,
-        $this->get('request')->query->get('page', 1) /*page number*//*,
-        $this->container->getParameter('max_on_listepage') /*limit per page*/
-    /*);
-        
-        $deleteForm = $this->createDeleteForm(0);
-        return $this->render('BackendCustomerAdminBundle:Sucursal:index.html.twig', 
-        array('pagination' => $pagination,
-        'delete_form' => $deleteForm->createView(),
-        'search'=>$search
-        ));
-        
-    }
-     else
-         throw new AccessDeniedException(); 
-    }
 	
-        if ( $this->get('security.context')->isGranted('ROLE_VIEWSUCURSAL')) {
-       
-         
-        	if (!$this->get('security.context')->isGranted('ROLE_VENDEDOR')){
-				
-            	$search=$this->generateAdminSQL($request);
-	
-			}else{
-				
-             	$user=$this->getUser();
-             	if (!$user->getId()){
-                $this->get('session')->getFlashBag()->add('error' , 'Debe crear un usuario para la sucursal');
-                return $this->redirect($this->generateUrl('home'));
-            
-		 		}else{
-					
-                	$dql =  $this->generateSQL($request,$user->getId());
-        		}
-     
-		        $em = $this->getDoctrine()->getManager();
-        
-		        //$dql=$this->generateSQL($search);
-		        $query = $em->createQuery($qry);
-	 
-	    }
-       
-        
-		/*
-        
-        if (!$this->get('security.context')->isGranted('ROLE_VISITOR')){
-            return $this->render('BackendCustomerAdminBundle:Cuenta:index.html.twig', 
-            array(
-            'resultados' => $search["resultados"],
-            'search'=>$search
-            ));
-        }else{
-            return $this->render('BackendAdminBundle:Cuenta:indexClient.html.twig', 
-            array(
-            'resultados' => $search,
-            'clienteId'=>$user=$this->getUser()->getCliente()->getId()
-            
-            ));
-        
-        } 
-		
-        $paginator  = $this->get('knp_paginator');
-        $pagination = $paginator->paginate(
-        $query,
-        $this->get('request')->query->get('page', 1) /*page number*///,
-	
-	//    $this->container->getParameter('max_on_listepage') /*limit per page*/
-	/*
-	    );
-        
-        $deleteForm = $this->createDeleteForm(0);
-        return $this->render('BackendCustomerAdminBundle:Sucursal:index.html.twig', 
-        array('pagination' => $pagination,
-        'delete_form' => $deleteForm->createView(),
-        'search'=>$search
-        ));   
-        
-    }
-     else
-         throw new AccessDeniedException(); 
-    }
-	
-	*/
 	
     /**
      * Creates a new Direccion entity.
      *
      */
+     
+     
+     
     public function createAction(Request $request)
-    {
-        if ( $this->get('security.context')->isGranted('ROLE_VENDEDOR')) {
+    {   
+        if ( $this->get('security.context')->isGranted('ROLE_ADDSUCURSAL')) {
         
 			$entity  = new Sucursal();
 			$customerId = $this->getUser()->getId();
 			$em = $this->getDoctrine()->getManager();
 			$customer = $em->getRepository('BackendCustomerBundle:Customer')->find($customerId);
-        	$form = $this->createForm(new SucursalType(),$customerId, $entity);
-        	$form->bind($request);
-         
-        if ($form->isValid()) {
+
+      $form = $this->createForm(new SucursalType(), $entity, array("customerId"=>$customerId));
+      $form->bind($request);
+      $dias = $em->getRepository('BackendAdminBundle:Dia')->findAll();   
+      if ($form->isValid()) {
             
-			$entity->setCustomer($customer);
-			$em->persist($entity);
+            //add categorias
+            if ($request->get("categorias")){ 
+             $categorias=explode(",",$request->get("categorias"));
+             foreach($categorias as $id){
+                 $cat = $em->getRepository('BackendAdminBundle:Categoria')->find($id);
+                 $entity->addCategoria($cat);
+              }
+            }
+
+            
+            //add subcategorias
+            if ($request->get("subcategorias")){
+             $subcategorias=explode(",",$request->get("subcategorias"));
+             foreach($subcategorias as $id){
+                 $sub = $em->getRepository('BackendAdminBundle:Subcategoria')->find($id);
+                 $entity->addSubcategoria($sub);
+              }
+            }  
+             //add horarios
+             $fromH=$request->get("fromH");
+             $fromM=$request->get("fromM");
+             $toH=$request->get("toH");
+             $toM=$request->get("toM");
+             $closed=$request->get("closed");
+             foreach($dias as $d){
+                $horario = new Horario();
+                $horario->setDia($d);
+                if (isset($closed[$d->getId()]) &&  $closed[$d->getId()] == 1){
+                       $horario->setCerrado(true);                
+                }else{
+                       $horario->setCerrado(false);
+                       $horario->setDesde($fromH[$d->getId()].$fromM[$d->getId()]);
+                       $horario->setHasta($toH[$d->getId()].$toM[$d->getId()]);
+                }
+                $em->persist($horario);
+                $em->flush();
+                $entity->addHorario($horario);
+             }
+                         
+			      $entity->setCustomer($customer);
+			      $em->persist($entity);
             $em->flush();
             $this->get('session')->getFlashBag()->add('success' , 'Se ha agregado una nueva sucursal.');
             return $this->redirect($this->generateUrl('sucursal_edit', array('id' => $entity->getId())));
         }
         
+        $em = $this->getDoctrine()->getManager();
         
 
         return $this->render('BackendCustomerAdminBundle:Sucursal:new.html.twig', array(
             'entity' => $entity,
-            'customerId' => $customerId,
-            'form'   => $form->createView()
-           
+            'form'   => $form->createView(),
+            'dias' => $dias
         ));
       }
       else
-       throw new AccessDeniedException();
+       throw new AccessDeniedException(); 
     }
 
     /**
@@ -233,13 +182,17 @@ class SucursalController extends Controller
     {
        if ( $this->get('security.context')->isGranted('ROLE_ADDSUCURSAL')) {
         $entity = new Sucursal();
-        $customerId = $this->getUser()->getId();
-        $form  = $this->createForm(new SucursalType(),$entity);
+        $customerId=$this->getUser()->getId();
+        $em = $this->getDoctrine()->getManager();
+        $dias = $em->getRepository('BackendAdminBundle:Dia')->findAll();
+        $form   = $this->createForm(new SucursalType(), $entity, array("customerId"=>$customerId));
+
 
         return $this->render('BackendCustomerAdminBundle:Sucursal:new.html.twig', array(
             'entity' => $entity,
-            'customerId' => $customerId,
-            'form'   => $form->createView()
+            'form'   => $form->createView(),
+            'dias' => $dias
+
             
         ));
        }
@@ -264,14 +217,38 @@ class SucursalController extends Controller
              $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado la direccion.');
              return $this->redirect($this->generateUrl('sucursal'));
         }
-
-        $editForm = $this->createForm(new SucursalType(), $entity);
+        $customerId = $this->getUser()->getId();
+        $editForm = $this->createForm(new SucursalType(), $entity,array("customerId"=>$customerId) );
         $deleteForm = $this->createDeleteForm($id);
-
+        $dias = $em->getRepository('BackendAdminBundle:Dia')->findAll();
+        $horarios=array();
+        foreach($entity->getHorarios() as $h){
+              $id=$h->getDia()->getId();
+              if ($h->getDesde()){
+                $desde=explode(":",$h->getDesde());
+              }else{
+                $desde=array(0,0);
+              }
+              if ($h->getHasta()){
+                $hasta=explode(":",$h->getHasta()); 
+              }else{
+                $hasta=array(0,0);
+              }
+              
+              $horarios[$id]["fromH"]=$desde[0];
+              $horarios[$id]["fromM"]=":".$desde[1];
+              $horarios[$id]["toH"]=$hasta[0];
+              $horarios[$id]["toM"]=":".$hasta[1];
+              $horarios[$id]["closed"]=$h->getCerrado();
+              
+        }
+       
         return $this->render('BackendCustomerAdminBundle:Sucursal:edit.html.twig', array(
             'entity'      => $entity,
             'form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'dias' => $dias,
+            'horarios' => $horarios
             
         ));
       }
@@ -297,6 +274,8 @@ class SucursalController extends Controller
 
         return $form;
     }
+    
+      
     /**
      * Edits an existing Barrio entity.
      *
@@ -307,27 +286,125 @@ class SucursalController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('BackendCustomerAdminBundle:Sucursal')->find($id);
-
+        $dias = $em->getRepository('BackendAdminBundle:Dia')->findAll();
+        
         if (!$entity) {
              $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado la sucursal.');
              return $this->redirect($this->generateUrl('sucursal'));
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new SucursalType(), $entity);
+        $customerId = $this->getUser()->getId();
+        $editForm = $this->createForm(new SucursalType(), $entity,array("customerId"=>$customerId));
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
+            
+            //update horarios
+            $fromH=$request->get("fromH");
+             $fromM=$request->get("fromM");
+             $toH=$request->get("toH");
+             $toM=$request->get("toM");
+             $closed=$request->get("closed");
+             foreach($entity->getHorarios() as $horario){
+                 $dia=$horario->getDia()->getId();
+                 if ( isset($closed[$dia]) && $closed[$dia] == 1){
+                        $horario->setCerrado(true);
+                        $horario->setDesde(null);
+                        $horario->setHasta(null);
+                 }else{ 
+                        $horario->setCerrado(false);
+                        $horario->setDesde($fromH[$dia].$fromM[$dia]);
+                        $horario->setHasta($toH[$dia].$toM[$dia]);
+                 }
+             
+             }
+             
+            //update categorias
+            $existCategorias=array();
+            foreach($entity->getCategorias() as $c){
+              $existCategorias[]=$c->getId();
+            }
+            
+            if ($request->get("categorias")){ 
+             $categorias=explode(",",$request->get("categorias"));
+             foreach($categorias as $id){
+                 if (!in_array($id,$existCategorias)){ //no esta la agrego la relacion
+                    $cat = $em->getRepository('BackendAdminBundle:Categoria')->find($id);
+                    $entity->addCategoria($cat);
+                 }else{ //asi que lo quito de existCategorias
+                      print_r($existCategorias);
+                      $existCategorias=array_diff($existCategorias,array($id));
+                 }   
+              }
+             
+            }
+            foreach($existCategorias as $d){  //elimino las que quedan porque ya no se seleccionaron
+                  $cat = $em->getRepository('BackendAdminBundle:Categoria')->find($d);
+                  $entity->removeCategoria($cat);
+             } 
+            
+           //update subcategorias
+            $existSubCategorias=array();
+            foreach($entity->getSubcategorias() as $c){
+              $existSubCategorias[]=$c->getId();
+            }
+           
+            if ($request->get("subcategorias")){ 
+             $subcategorias=explode(",",$request->get("subcategorias"));
+           
+             foreach($subcategorias as $id){
+                 if (!in_array($id,$existSubCategorias)){ //no esta la agrego la relacion
+                    $cat = $em->getRepository('BackendAdminBundle:Subcategoria')->find($id);
+                    $entity->addSubcategoria($cat);
+                 }else{ //asi que lo quito de existCategorias
+                      $existSubCategorias=array_diff($existSubCategorias,array($id));
+                 }   
+              }
+              
+            }
+            foreach($existSubCategorias as $d){  //elimino las que quedan porque ya no se seleccionaron
+                 
+                  $cat = $em->getRepository('BackendAdminBundle:Subcategoria')->find($d);
+                  $entity->removeSubcategoria($cat);
+             } 
+        
+        
             $em->persist($entity);
             $em->flush();
              $this->get('session')->getFlashBag()->add('success' , 'Se han actualizado los datos de la sucursal .');
-            return $this->redirect($this->generateUrl('sucursal_edit', array('id' => $id)));
+            
+        }
+        
+        $horarios=array();
+        foreach($entity->getHorarios() as $h){
+              $id=$h->getDia()->getId();
+              if ($h->getDesde()){
+                $desde=explode(":",$h->getDesde());
+              }else{
+                $desde=array(0,0);
+              }
+              if ($h->getHasta()){
+                $hasta=explode(":",$h->getHasta()); 
+              }else{
+                $hasta=array(0,0);
+              }
+              
+              $horarios[$id]["fromH"]=$desde[0];
+              $horarios[$id]["fromM"]=":".$desde[1];
+              $horarios[$id]["toH"]=$hasta[0];
+              $horarios[$id]["toM"]=":".$hasta[1];
+              $horarios[$id]["closed"]=$h->getCerrado();
+              
         }
 
         return $this->render('BackendCustomerAdminBundle:Sucursal:edit.html.twig', array(
             'entity'      => $entity,
             'form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'dias' => $dias,
+            'horarios' => $horarios
+            
             
         ));
       }
@@ -356,7 +433,7 @@ class SucursalController extends Controller
             }
            else{
                   
-            
+            //TODO: no se puede borrar si tiene pedidos???
             $em->remove($entity);
             $em->flush();
             $this->get('session')->getFlashBag()->add('success' , 'Se han borrado los datos de la sucursal.');
@@ -364,7 +441,7 @@ class SucursalController extends Controller
             }
         }
 
-        return $this->redirect($this->generateUrl('direccion'));
+        return $this->redirect($this->generateUrl('sucursal'));
       }
       else
        throw new AccessDeniedException(); 
@@ -385,6 +462,53 @@ class SucursalController extends Controller
         ;
     }
 	
+  
+  public function categoriasAction(Request $request){
+       $em = $this->getDoctrine()->getManager();
+       $categorias = $em->getRepository('BackendAdminBundle:Categoria')->findAll();
+       
+       $data = array();
+       $sucursalId = $request->get("sucursalId");
+       $subSucursal = array();
+       $catSucursal=array();
+      
+       if ($sucursalId != 0){
+           $sucursal = $em->getRepository('BackendCustomerAdminBundle:Sucursal')->find($sucursalId);
+       
+                                        //recupero todas las subcategorias de la sucursal
+         foreach($sucursal->getSubcategorias() as $ss){
+               $subSucursal[]=$ss->getId();      
+         }
+         
+         foreach($sucursal->getCategorias() as $sc){
+               $catSucursal[]=$sc->getId();      
+         }       
+       }
+        
+       foreach($categorias as $c){
+            $children=array();
+            $subcategorias = $c->getSubcategorias();
+             foreach($subcategorias as $s){
+                $selected=false;
+                if (in_array($s->getId(),$subSucursal)){
+                  $selected = true;
+                } 
+                $children[]=array("a_attr"=>array("subcategoria_id"=> $s->getId()), "text"=> $s->getName(), "state"=>array("selected"=>$selected) );
+             } 
+            
+          $data[]=array("a_attr"=>array("categoria_id"=> $c->getId()), "text"=> $c->getName(),"children"=>$children );
+       }       
+       
+       $response = new Response(json_encode($data));
+        
+       $response->headers->set('Content-Type', 'application/json');
+  
+       return $response;
+       
+    
+  
+  }
+  
 	/**
 	*  Load Dia Entity to create Horario 
 	*/
@@ -466,7 +590,7 @@ class SucursalController extends Controller
     
      public function exportarAction(Request $request)
     {
-     if ( $this->get('security.context')->isGranted('ROLE_VIEWDIRECCION')) {
+     if ( $this->get('security.context')->isGranted('ROLE_VIEWSUCURSAL')) {
          
          $em = $this->getDoctrine()->getManager();
 
@@ -498,14 +622,14 @@ class SucursalController extends Controller
           $i++;
         }
                             
-        $excelService->excelObj->getActiveSheet()->setTitle('Listado de Direcciones');
+        $excelService->excelObj->getActiveSheet()->setTitle('Listado de Sucursales');
         // Set active sheet index to the first sheet, so Excel opens this as the first sheet
         $excelService->excelObj->setActiveSheetIndex(0);
         $excelService->excelObj->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
         $excelService->excelObj->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
         $excelService->excelObj->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
         
-        $fileName="direcciones_".date("Ymd").".xls";
+        $fileName="sucursales_".date("Ymd").".xls";
         //create the response
         $response = $excelService->getResponse();
         $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');

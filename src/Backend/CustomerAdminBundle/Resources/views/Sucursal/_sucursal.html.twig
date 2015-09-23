@@ -65,14 +65,6 @@
         </div>
 </div>
 
-<div class="form-group">
-        
-        {{ form_label(form.categorias,"Categorias", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
-        <div class="col-xs-6">
-            {{ form_widget(form.categorias, { 'attr': {'class': 'form-control'} }) }}
-            <span id='backend_customeradminbundle_sucursal_categorias_errorloc' class="help-block"> {{ form_errors(form.categorias) }} </span>
-        </div>
-</div>
 
 
 <div class="form-group">
@@ -106,15 +98,8 @@
         </div>
     </div>
     
-<div class="form-group">
-        <div class="col-xs-offset-2 col-xs-10">
-            <div class="checkbox">
-                <label>{{ form_widget(form.premium) }}
-                 {{ form_label(form.premium,"Tienda Premium") }}</label>
-            </div>
-            <span id='backend_customeradminbundle_sucursal_premium_errorloc' class="help-block"> {{ form_errors(form.premium) }} </span>
-        </div>
-</div>
+
+
 
 <div class="form-group">
         
@@ -127,3 +112,69 @@
           <img src="{{ asset(entity.getWebPath()) }}" width="100" height="100" />
         {% endif %}
 </div>
+
+   
+
+
+    <h3>Categorías y Subcategorías</h3>
+    <div id="jstree-proton-3" ></div>
+    <input type="hidden" name="categorias" id="categorias" value="" data-url="{{ path('sucursal_categorias')}}" data-sucursalid="{{ entity.getId }}">
+    <input type="hidden" name="subcategorias" id="subcategorias" value="">
+    
+    <h3>Horarios de Atención </h3>
+    <div id="hourForm" class="container">
+    
+    {% for d in dias %}
+    <div  data-name="{{ d.getName() }}" data-id="{{ d.getId() }}" class="day col-md-12" style="margin-bottom: 10px;">
+       <div id="label">{{ d.getName() }}: </div>
+       <select name="fromH[{{ d.getId()}}]" class="hour from" style="width: 60px">
+       {% for  h in 0..23 %}
+         {% set selected='' %}
+          {% if horarios is defined and horarios[d.getId()]['fromH'] == h%}
+            {% set selected='selected'%}
+          {% endif %}
+        <option value="{{ h }}" {{ selected }}> {{ h }}</option>
+        {% endfor %}
+       </select>
+       <select name="fromM[{{ d.getId()}}]" class="min from" style="width: 60px">
+       {% for  h in [':00', ':15', ':30', ':45'] %}
+        
+        {% set selected='' %}
+          {% if horarios is defined and horarios[d.getId()]['fromM'] == h%}
+            {% set selected='selected'%}
+          {% endif %}
+        <option value="{{ h }}" {{ selected }}> {{ h }}</option>
+        {% endfor %}
+       </select>
+      
+       a
+       <select name="toH[{{ d.getId()}}]" class="hour to" style="width: 60px">
+       {% for  h in 0..23 %}
+       {% set selected='' %}
+          {% if horarios is defined and horarios[d.getId()]['toH'] == h%}
+            {% set selected='selected'%}
+          {% endif %}
+        <option value="{{ h }}" {{ selected }}> {{ h }}</option>
+        {% endfor %}
+       </select>
+       <select name="toM[{{ d.getId()}}]" class="min to" style="width: 60px">
+       {% for  h in [':00', ':15', ':30', ':45']  %}
+       {% set selected='' %}
+          {% if horarios is defined and horarios[d.getId()]['toM'] == h%}
+            {% set selected='selected'%}
+          {% endif %}
+        <option value="{{ h }}" {{ selected }}> {{ h }}</option>
+        {% endfor %}
+       </select>
+       {% set checked='' %}
+          {% if horarios is defined and horarios[d.getId()]['closed'] == 1%}
+            {% set checked='checked'%}
+        {% endif %} 
+       <input type="checkbox" {{ checked}} name="closed[{{d.getId()}}]" value="1" class="closed"><span>Cerrado</span>
+    </div>
+    {% endfor %}
+    
+    </div>
+    
+    
+

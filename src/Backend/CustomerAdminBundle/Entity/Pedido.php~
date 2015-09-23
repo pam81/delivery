@@ -30,12 +30,11 @@ class Pedido
      */
 
     protected $sucursal;
-	
-    /**
-     * @ORM\ManyToMany(targetEntity="Producto", inversedBy="pedidos")
-	 * @ORM\JoinTable(name="pedido_producto")
+	   
+	 /**
+     * @ORM\OneToMany(targetEntity="Detalle", mappedBy="pedido")
      */
-    protected $productos;
+    private $detalles;
    
     /**
      * @ORM\ManyToOne(targetEntity="\Backend\AdminBundle\Entity\PayMethod", inversedBy="pedidos")
@@ -60,8 +59,7 @@ class Pedido
      * @ORM\JoinColumn(name="direccion_id", referencedColumnName="id")
      */
     private $direccion;
-	
-	
+		
 	
     /**
      * @ORM\Column(name="observaciones", type="text", nullable=true)
@@ -644,5 +642,38 @@ class Pedido
     public function getDireccion()
     {
         return $this->direccion;
+    }
+
+    /**
+     * Add detalles
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Detalle $detalles
+     * @return Pedido
+     */
+    public function addDetalle(\Backend\CustomerAdminBundle\Entity\Detalle $detalles)
+    {
+        $this->detalles[] = $detalles;
+
+        return $this;
+    }
+
+    /**
+     * Remove detalles
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Detalle $detalles
+     */
+    public function removeDetalle(\Backend\CustomerAdminBundle\Entity\Detalle $detalles)
+    {
+        $this->detalles->removeElement($detalles);
+    }
+
+    /**
+     * Get detalles
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getDetalles()
+    {
+        return $this->detalles;
     }
 }

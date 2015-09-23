@@ -60,6 +60,7 @@ class Categoria
     public function __construct()
     {
         $this->subcategorias = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->sucursales = new \Doctrine\Common\Collections\ArrayCollection();
         $this->productos = new \Doctrine\Common\Collections\ArrayCollection();
          $this->isRestrict = false;
     }
