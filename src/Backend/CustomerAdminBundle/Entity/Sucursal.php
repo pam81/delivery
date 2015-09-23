@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 /**
  * @ORM\Table(name="sucursal")
  * @ORM\Entity()
+ * @ORM\HasLifecycleCallbacks  
  */
 class Sucursal 
 {
@@ -43,10 +44,9 @@ class Sucursal
      */
     private $cuit;
     
-    /**
-     * @ORM\Column(name="is_unica", type="boolean",nullable=true)
-     */
-    private $is_unica;	
+   
+    
+  	
 	
     /**
      * @ORM\Column(name="open", type="boolean",nullable=true)
@@ -76,6 +76,11 @@ class Sucursal
      * @ORM\ManyToMany(targetEntity="\Backend\AdminBundle\Entity\Categoria", inversedBy="sucursales")
      */
     protected $categorias;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="\Backend\AdminBundle\Entity\Subcategoria", inversedBy="sucursales")
+     */
+    protected $subcategorias;
 	
     /**
      * @ORM\ManyToMany(targetEntity="Producto", inversedBy="sucursales", cascade={"persist","remove"})
@@ -106,6 +111,12 @@ class Sucursal
      */
 	
     private $createdAt;
+    
+    /**
+     * @ORM\Column(name="modified_at", type="datetime")
+     */
+	
+    private $modifiedAt;
 	
     /**
      * @ORM\Column(name="is_active", type="boolean",nullable=true)
@@ -129,8 +140,10 @@ class Sucursal
     public function __construct() {
 	
 		$this->createdAt = new \DateTime('now');
+    $this->modifiedAt = new \DateTime('now');
 		$this->open = false;
 		$this->active = true;
+    $this->is_premium = false;
 		$this->productos = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->horarios = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->favoritos =  new ArrayCollection();     
@@ -765,6 +778,8 @@ class Sucursal
         return $this->favoritos;
     }
 
+ 
+
     /**
      * Set premium
      *
@@ -786,5 +801,84 @@ class Sucursal
     public function getPremium()
     {
         return $this->premium;
+    }
+
+    /**
+     * Set path
+     *
+     * @param string $path
+     * @return Sucursal
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+
+        return $this;
+    }
+
+    /**
+     * Get path
+     *
+     * @return string 
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
+     * Add subcategorias
+     *
+     * @param \Backend\AdminBundle\Entity\Subcategoria $subcategorias
+     * @return Sucursal
+     */
+    public function addSubcategoria(\Backend\AdminBundle\Entity\Subcategoria $subcategorias)
+    {
+        $this->subcategorias[] = $subcategorias;
+
+        return $this;
+    }
+
+    /**
+     * Remove subcategorias
+     *
+     * @param \Backend\AdminBundle\Entity\Subcategoria $subcategorias
+     */
+    public function removeSubcategoria(\Backend\AdminBundle\Entity\Subcategoria $subcategorias)
+    {
+        $this->subcategorias->removeElement($subcategorias);
+    }
+
+    /**
+     * Get subcategorias
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSubcategorias()
+    {
+        return $this->subcategorias;
+    }
+
+    /**
+     * Set modifiedAt
+     *
+     * @param \DateTime $modifiedAt
+     * @return Sucursal
+     */
+    public function setModifiedAt($modifiedAt)
+    {
+        $this->modifiedAt = $modifiedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get modifiedAt
+     *
+     * @return \DateTime 
+     */
+    public function getModifiedAt()
+    {
+        return $this->modifiedAt;
     }
 }

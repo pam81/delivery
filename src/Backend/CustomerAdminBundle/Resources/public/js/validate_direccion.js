@@ -1,4 +1,26 @@
 $(document).ready(function() {
+
+$("#backend_customeradminbundle_direccion_zona").change(function() {
+    var option = $("#backend_customeradminbundle_direccion_zona option:selected").val();
+    
+    limpiarSelect("backend_customeradminbundle_direccion_barrio");
+  
+    if (option !== '')
+    {
+        var dataString = 'zona=' + option;
+        var path = $(this).data('url');
+        $.ajax({
+            type: "POST",
+            url: path,
+            dataType: 'json',
+            data: dataString,
+            success: function(data) {
+                $('#backend_customeradminbundle_direccion_barrio').select2({data: data});
+            }
+        });
+    }
+});
+
    
     /*jQuery.validator.addMethod("latitud", function(value, element) {
         var latVal = /^-?([0-8]?[0-9]|90).[0-9]{1,7}$/;

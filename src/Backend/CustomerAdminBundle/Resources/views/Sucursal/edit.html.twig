@@ -1,4 +1,9 @@
 {% extends '::customer/backend.html.twig' %}
+{% block stylesheets %}
+   {{ parent() }}
+<link rel="stylesheet" href="{{ asset('css/themes/proton/style.min.css')}}" />
+
+{% endblock %}
 
 {% block container -%}
     <h3>Editar Sucursal</h3>
@@ -65,7 +70,7 @@
 {% endblock %}
 {% block javascripts %}
   {{ parent() }}
-
+   <script type="text/javascript" src="{{ asset('js/jstree.min.js') }}"></script>
 {% javascripts '@BackendCustomerAdminBundle/Resources/public/js/validate_sucursal.js' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
 {% endjavascripts %}
