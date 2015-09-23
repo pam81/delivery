@@ -102,7 +102,7 @@
                 <label>{{ form_widget(form.is_active) }}
                  {{ form_label(form.is_active,"Activa") }}</label>
             </div>
-            <span id='backend_customeradminbundle_sucursal_is_active_errorloc' class="help-block"> {{ form_errors(form.is_active) }} </span>
+            <span id='backend_customeradminbundle_sucursaltype_is_active_errorloc' class="help-block"> {{ form_errors(form.is_active) }} </span>
         </div>
     </div>
     
@@ -112,7 +112,7 @@
                 <label>{{ form_widget(form.premium) }}
                  {{ form_label(form.premium,"Tienda Premium") }}</label>
             </div>
-            <span id='backend_customeradminbundle_sucursal_premium_errorloc' class="help-block"> {{ form_errors(form.premium) }} </span>
+            <span id='backend_customeradminbundle_sucursaltype_premium_errorloc' class="help-block"> {{ form_errors(form.premium) }} </span>
         </div>
 </div>
 
@@ -121,7 +121,7 @@
         {{ form_label(form.file,"Imagen (tamaño recomendado: 300x300 px)", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
         <div class="col-xs-6">
             {{ form_widget(form.file, { 'attr': {'class': 'input-xlarge'} }) }}
-            <span id='backend_customeradminbundle_sucursal_file_errorloc' class="help-block"> {{ form_errors(form.file) }} </span>
+            <span id='backend_customeradminbundle_sucursaltype_file_errorloc' class="help-block"> {{ form_errors(form.file) }} </span>
         </div>
         {% if entity.getWebPath() %}
           <img src="{{ asset(entity.getWebPath()) }}" width="100" height="100" />
