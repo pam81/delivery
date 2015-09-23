@@ -124,9 +124,7 @@ class Sucursal
     private $path;
     private $temp;
     private $file;
-    
-    
-    
+        
     
     public function __construct() {
 	
