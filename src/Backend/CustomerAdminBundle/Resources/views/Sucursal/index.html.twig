@@ -9,7 +9,7 @@
                         </h1>
                         <ol class="breadcrumb">
                             <li>
-                                <i class="fa fa-dashboard"></i>  <a href="{{ path("principal") }}">Dashboard</a>
+                                <i class="fa fa-dashboard"></i>  <a href="{{ path("customer_principal") }}">Dashboard</a>
                             </li>
                             <li class="active">
                                 <i class="fa fa-customers"></i> Tus Sucursales
@@ -27,7 +27,7 @@
                             
                             <div class="form-group input-group">
                                 <input type="text" class="form-control search-query" id="search-query" placeholder="Buscar" value="{{ search }}">
-                                <span class="input-group-btn"><button class="btn btn-default" id="search-button" data-url="{{ path('customer') }}" type="button"><i class="fa fa-search"></i></button></span>
+                                <span class="input-group-btn"><button class="btn btn-default" id="search-button" data-url="{{ path('sucursal') }}" type="button"><i class="fa fa-search"></i></button></span>
                             </div>
                            
                           </form>
@@ -46,9 +46,10 @@
                                         <th>Telefono</th>
 										<th>Cuit</th>
 										<th>Direccion</th>
-										<th>Zona/Prov.</th>
-										<th>Barrio<br/>Localidad</th>
-										<th>Categoria</th>
+										<th>Zona</th>
+										<th>Localidad</th>
+                    <th>Categorías</th>
+                    <th>Subcategorías</th>
 										<th>Horario</th>
 										<th>Pedidos <br/> 24 hs</th>
 										<th>Medios de Pago</th>
@@ -67,12 +68,38 @@
 												  <td>{{ sucursal.getDireccion.getZona.getName }}</td>
 												  <td>{{ sucursal.getDireccion.getBarrio.getName }}</td>
 												  <td>{% for categoria in sucursal.getCategorias %}
-												  		{{ categoria.getName }}
-													  {% endfor %}	
+												  		   {{ categoria.getName }}
+													    {% endfor %}
+                          </td>
+                          <td> 
+                              {% for subcategoria in sucursal.getSubcategorias %}
+												  		   {{ subcategoria.getName }}
+													    {% endfor %}	
 												  </td>
 
 												 <td>
-												 <a href="{{ path("sucursal_listar_horario", { 'id': sucursal.id }) }}" rel="shadowbox" role="button" class="btn"><i class="fa fa-calendar"></i></a></td>
+												    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#horarios{{sucursal.id}}">Ver horarios</button>
+                           <div class="modal fade " id="horarios{{sucursal.id}}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                              <div class="modal-dialog modal-sm">
+                                <div class="modal-content">
+                                   <ul>
+                                   {% for h in sucursal.getHorarios %}
+                                     <li>
+                                       {% if h.getCerrado() == 1%}
+                                       {{ h.getDia().getName() }} : <span class="label label-warning">Cerrado</span>
+                                       {% else %}
+                                       
+                                       {{ h.getDia().getName() }} : {{ h.getDesde() }} - {{ h.getHasta() }}
+                                       {% endif %}
+                                     </li> 
+                                   {% endfor %}
+                                   </ul>
+                                </div>
+                              </div>
+                            </div>
+                         
+                         
+                         </td>
 												  <td>{% if sucursal.open %} <span class="label label-success"> Si  </span> {% else %} <span class="label label-danger"> No  </span>{% endif %}</td>
 												  <td>{% for pay in sucursal.getPaymethods %}
 												  	  {{ pay.getName }}

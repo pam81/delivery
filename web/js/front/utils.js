@@ -1,3 +1,11 @@
+function limpiarSelect(idselect) {
+    $('#' + idselect + ' option').each(function(index, option) {
+        if (index !== '' && index !== 0) {
+            $(option).remove();
+        }
+    });
+}
+
 function validateEmail(email){
    if (email == ''){
     return false;

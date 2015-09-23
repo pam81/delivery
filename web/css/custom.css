@@ -20,3 +20,12 @@
 #backend_customerbundle_profiletype_birthday .select2-container{
   width: 80px !important;
 }
+
+.day {
+    height: 25px;
+}
+
+#label {
+    float: left;
+    min-width: 80px; 
+}
