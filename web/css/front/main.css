@@ -861,9 +861,10 @@ h1.slogan {
 }
 
 .product-image-wrapper{
-	border:1px solid #F7F7F5;
+	/*border:1px solid #F7F7F5;*/
 	overflow: hidden;
 	margin-bottom:30px;
+	margin-left:40px;
 }
 
 .single-products {
@@ -872,8 +873,16 @@ h1.slogan {
 
 .new, .sale {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 4px;
+  right: 4px;
+  width: 30%;
+}
+
+.open {
+  position: relative;
+  top: -100px;
+  right: 4px;
+  
 }
 
 .productinfo h2{
@@ -957,13 +966,15 @@ h1.slogan {
 
 
 .add-to-cart {
-  background:#EDEDED;
-  border: 0 none;
-  border-radius: 0;
-  color: #696763;
+  background-color:#FE980F;
+  /*border: 0 none;*/
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: #FFFFFF;
   font-family: 'Roboto', sans-serif;
-  font-size: 15px;
+  font-size: 14px;
   margin-bottom: 25px;
+  margin-top: 10px;
 }
 
 .add-to-cart:hover {

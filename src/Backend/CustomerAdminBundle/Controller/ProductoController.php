@@ -18,9 +18,10 @@ class ProductoController extends Controller
 
      public function generateSQL($search){
      
-        $dql="SELECT u FROM BackendCustomerAdminBundle:Producto u "  ;
+        $user=$this->getUser();
+            
+        $dql="SELECT u FROM BackendCustomerAdminBundle:Producto u JOIN u.sucursales s where s.customer = ".$user->getId();
         $search=mb_convert_case($search,MB_CASE_LOWER);
-        
        
         if ($search)
           $dql.=" where u.name like '%$search%' ";
@@ -72,11 +73,10 @@ class ProductoController extends Controller
         $form = $this->createForm(new ProductoType(), $entity);
 		
 		$s = $request->request->get('backend_customeradminbundle_producto');
-		$sucursales = $s['sucursales'];
-        unset($s['sucursales']);
-		
+		$sucursales = $s['sucursales'];       
+		unset($s['sucursales']);
         $form->bind($request);
-         
+                 
         if ($form->isValid()) {
 			
             $em = $this->getDoctrine()->getManager();
@@ -86,9 +86,8 @@ class ProductoController extends Controller
 		         $sucursal = $em->getRepository('BackendCustomerAdminBundle:Sucursal')->find($id);		             	   
                  $sucursal->addProducto($entity);
    			     $em->persist($sucursal);
-	     		 $entity->addSucursal($sucursal);
-		                   
-	         }
+	     		 $entity->addSucursal($sucursal);		                   
+	        }
 			
             $em->persist($entity);
             $em->flush();

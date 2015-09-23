@@ -176,7 +176,7 @@ class SucursalController extends Controller
 			$customerId = $this->getUser()->getId();
 			$em = $this->getDoctrine()->getManager();
 			$customer = $em->getRepository('BackendCustomerBundle:Customer')->find($customerId);
-        	$form = $this->createForm(new SucursalType(),$customerId, $entity);
+        	$form = $this->createForm(new SucursalType(), $entity);
         	$form->bind($request);
          
         if ($form->isValid()) {
@@ -192,7 +192,6 @@ class SucursalController extends Controller
 
         return $this->render('BackendCustomerAdminBundle:Sucursal:new.html.twig', array(
             'entity' => $entity,
-            'customerId' => $customerId,
             'form'   => $form->createView()
            
         ));

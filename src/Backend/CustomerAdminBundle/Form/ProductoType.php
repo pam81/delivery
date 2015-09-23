@@ -39,24 +39,12 @@ class ProductoType extends AbstractType
                          ->orderBy('u.name', 'ASC');
                       
             },'mapped'=>true,'required'=>true,'multiple'=>true))			
-            /*
-			->add('sucursales', 'collection',
-		            array(
-		                'type' => new Backend\CustomerAdminBundle\Entity\Sucursal(),
-		                'allow_add' => true,
-		                'allow_delete' => true,
-		                'prototype' => true,
-		                'property_path' => false
-		            )
-		        )
-			*/
 			->add('precio')
             ->add('alwaysAvailable')
             ->add('isActive','checkbox',array(
              'value'=>1,
              'required'=>false
             ))	
-			//->add('isActive')	
             ->add('description')
             ;
             
@@ -84,6 +72,6 @@ class ProductoType extends AbstractType
      */
     public function getName()
     {
-        return 'backend_adminbundle_producto';
+        return 'backend_customeradminbundle_producto';
     }
 }

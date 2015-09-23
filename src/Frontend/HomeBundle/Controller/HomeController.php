@@ -135,6 +135,22 @@ class HomeController extends Controller
         
         $listado=array();
         $images=array("images/home/recommend1.jpg", "images/home/recommend2.jpg", "images/home/recommend3.jpg");
+        foreach ($tiendas as $tienda) {
+			
+			  $record=array();
+              $record["id"]=$tienda->getId();
+              $record["name"]=$tienda->getName();
+              $record["imagen"]=$tienda->getWebPath(); 
+              $record["promo"]= "images/home/pricing.png";
+              if($tienda->getOpen()){
+				$record["open"] = "images/home/recibe.png";  
+			  }else{
+				$record["open"] = "images/home/cerrado.png";  
+			  }
+			  $time = date('h:i:s');
+              $record["estado"]= $tienda->getOpen(); 
+              $listado[] = $record;
+        /*
         for($i=0; $i< 6; $i++){
               $record=array();
               $record["id"]=$i;
@@ -143,7 +159,8 @@ class HomeController extends Controller
               $record["estado"]=rand(0,1); //0:cerrado 1: abierto
               $listado[] = $record;
          }
-    
+        */
+	   }
        $response = new Response(json_encode($listado));
         
        $response->headers->set('Content-Type', 'application/json');
@@ -151,6 +168,12 @@ class HomeController extends Controller
        return $response;
     
     }
+    
+    public function getProductoByTiendaAction(Request $request){
+		
+			
+		
+	}
     
     public function addFavoritoAction(Request $request){
       $session = $this->getRequest()->getSession();

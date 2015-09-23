@@ -87,9 +87,12 @@ $(document).ready(function(){
 										element += '<div class="product-image-wrapper">';
 										element += ' <div class="single-products">';
 										element +='		<div class="productinfo text-center">';
-										element +='			<img src="'+data[index].imagen+'" alt="" />';
-										element +='			<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Ver productos</a>';
+										element +='			<img src="'+data[index].imagen+'" alt="" style ="heigth:300px;" />';
+										element +='			<a href="#" class="btn btn-warning add-to-cart"><i class="fa fa-shopping-cart"></i>Ver productos</a>';
 										element +='		</div> ';
+										element +='<img src="'+data[index].promo+'" class="new">';
+										element +='<img src="'+data[index].open+'" class="open">';
+										element += '</div>';
                     element +='  </div>';
 										element +=' </div>';
 									  element +=' </div>';
