@@ -29,7 +29,7 @@ class SucursalType extends AbstractType
            return $er->createQueryBuilder('u')
                   ->innerJoin('u.customers','c')
                   ->where('c.id = '.$customerId)
-                  ->orderBy('c.name', 'ASC');
+                  ->orderBy('u.name', 'ASC');
             },
 
           'multiple'=>false
@@ -48,11 +48,7 @@ class SucursalType extends AbstractType
       
       
             
-			    $builder->add('is_unica','checkbox',array(
-             'value'=>1,
-             'label'=>"Unica sucursal",
-             'required'=>false
-            ));
+			    
 
             $builder->add('is_active','checkbox',array(
              'value'=>1,

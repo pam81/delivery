@@ -44,10 +44,7 @@ class Sucursal
      */
     private $cuit;
     
-    /**
-     * @ORM\Column(name="is_unica", type="boolean",nullable=true)
-     */
-    private $is_unica;	
+   
     
   	
 	
@@ -114,6 +111,12 @@ class Sucursal
      */
 	
     private $createdAt;
+    
+    /**
+     * @ORM\Column(name="modified_at", type="datetime")
+     */
+	
+    private $modifiedAt;
 	
     /**
      * @ORM\Column(name="is_active", type="boolean",nullable=true)
@@ -139,6 +142,7 @@ class Sucursal
     public function __construct() {
 	
 		$this->createdAt = new \DateTime('now');
+    $this->modifiedAt = new \DateTime('now');
 		$this->open = false;
 		$this->active = true;
     $this->is_premium = false;
@@ -855,5 +859,28 @@ class Sucursal
     public function getSubcategorias()
     {
         return $this->subcategorias;
+    }
+
+    /**
+     * Set modifiedAt
+     *
+     * @param \DateTime $modifiedAt
+     * @return Sucursal
+     */
+    public function setModifiedAt($modifiedAt)
+    {
+        $this->modifiedAt = $modifiedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get modifiedAt
+     *
+     * @return \DateTime 
+     */
+    public function getModifiedAt()
+    {
+        return $this->modifiedAt;
     }
 }

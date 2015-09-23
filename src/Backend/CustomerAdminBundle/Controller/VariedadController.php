@@ -70,10 +70,10 @@ class VariedadController extends Controller
         if ( $this->get('security.context')->isGranted('ROLE_ADDVARIEDAD')) {
         $entity  = new Variedad();
         $form = $this->createForm(new VariedadType(), $entity);
-		$p = $request->request->get('backend_customeradminbundle_variedad');
+		    $p = $request->request->get('backend_customeradminbundle_variedad');
         $productos = $p['productos'];
         unset($p['productos']);
-		$form->bind($request);
+		    $form->bind($request);
 		
          
         if ($form->isValid()) {
@@ -81,9 +81,10 @@ class VariedadController extends Controller
 			$em = $this->getDoctrine()->getManager();
             foreach ($productos as $id) {
 				
+                
                 $prod = $em->getRepository('BackendCustomerAdminBundle:Producto')->find($id);
-				$prod->addVariedades($entity);
-				$em->persist($prod);
+			         	$prod->addVariedades($entity);
+				        $em->persist($prod);
                 $entity->addProducto($prod);                
                 
             }
