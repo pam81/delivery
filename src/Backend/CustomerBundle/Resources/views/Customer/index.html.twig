@@ -51,26 +51,69 @@
                                 </thead>
                                 <tbody>
                                      {% for customer in pagination %}
-                                       <tr>
+                                       <tr >
                                             
-                                                  <td>{{ customer.email }}</td>
+                                                  <td >{{ customer.email }}</td>
                                                   <td>{{ customer.name ~ " " ~ customer.lastname }}</td>
 												  <td>
                                                        {% if customer.isComercio  %}
-													  	 Comercio
-														{% else %} Comprador 
+													  	 <span class="label label-success">Comercio</span>
+														{% else %} 
+                            <span class="label label-danger">
+                            Comprador 
+                            </span>
                                                        {% endif %} </td>
                                                   
                                                   <td>   {% if customer.isActive == 1 %} <span class="label label-success">Activo</span> {% else %} <span class="label label-danger">Inhabilitado</span>  {% endif %} </td>
                                                   
-												  <td> {% if customer.getStatus.getName == "Pendiente" %}<span class="label label-warning">{{ customer.getStatus.getName }}</span>{% endif %}</td>
-												  <td>
-						                          <a  href="{{ path('customer_show', { 'id': customer.id }) }}"><i class="fa fa-eye"></i></a>
-												  <a  href="{{ path('customer_list_sucursales', { 'id': customer.id }) }}"><i class="fa fa-home"></i></a>
+												  <td> 
+                          <span class="label label-warning habilitar" data-id="{{ customer.id}}">{{ customer.getStatus.getName }}</span>
+                          </td>
+												  <td>                  {% if customer.isComercio  %}
+						                                    <a  href="javascript:void(0)" data-toggle="collapse" data-target=".view{{ customer.id}}"><i class="fa fa-eye"></i></a>
+												                        
+                                                 
+                                                  {% endif %}
                                                   <a href="{{ path('customer_edit', { 'id': customer.id }) }}"><i class="fa fa-pencil"></i></a>
                                                   <a href="#" class=" confirm-delete"   data-toggle="modal" data-id={{ customer.id }}  data-target="#myModal"><i class="fa fa-trash"></i></a>
                           </td>
                           </tr>
+                             
+                             <tr>
+                             
+                             <td class="hiddenRow bg-success" colspan="6">
+                              <div class="collapse view{{ customer.id}} bg-success">
+                                  <h3>Sucursales</h3>
+                                  <ul class="list-group">
+                                   {% for sucursal in customer.getSucursales %}
+                                   <li class="list-group-item" data-toggle="collapse" data-target=".productos{{ sucursal.id}}">
+                                   {%if sucursal.getPremium %}
+                                    <span class="badge">Premium</span> 
+                                    {% else %}
+                                    <span class="badge convert_premium" data-id="{{sucursal.id}}">Convertir Premium</span>
+                                    {% endif %}
+                                    {{ sucursal.getName}}</li>
+                                   {% endfor %}
+                                  </ul>
+                              
+                              </div>
+                                {% for sucursal in customer.getSucursales %}
+                                <div class="collapse productos{{ sucursal.id}} bg-warning">
+                                     <h3>Productos</h3>
+                                      <ul class="list-group ">
+                                   {% for producto in sucursal.getProductos %}
+                                   <li class="list-group-item list-group-item-warning">
+                                   
+                                    <span class="badge">${{ producto.getPrecio}}</span> 
+                                   
+                                    {{ producto.getName}}</li>
+                                   {% endfor %}
+                                  </ul>
+                                </div>
+                                {% endfor %}
+                          </td>
+                          
+                             </tr>
                                       
                                       {% endfor %}
                                     
@@ -107,9 +150,95 @@
   </div>
 </div>
     
+   <div class="modal fade" id="habilitarCustomer" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title" id="myModalLabel">Confirmar Habilitar Cliente</h4>
+            </div>
+            <div class="modal-body">
+                <p class="error-text">Esta seguro que desea Activar el cliente?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" data-id="0"  data-url="{{ path('customer_habilitar', { 'id': 'id' }) }}">Borrar</button>
+        </div>
+    </div>
+  </div>
+</div>
+
+   <div class="modal fade" id="inhabilitarCustomer" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title" id="myModalLabel">Confirmar Inhabilitar Cliente</h4>
+            </div>
+            <div class="modal-body">
+                <p class="error-text">Esta seguro que desea inhabilitar el cliente?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" data-id="0"  data-url="{{ path('customer_habilitar', { 'id': 'id' }) }}">Borrar</button>
+        </div>
+    </div>
+  </div>
+</div>  
+
+ <div class="modal fade" id="validarCustomer" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title" id="myModalLabel">Confirmar Datos del Cliente</h4>
+            </div>
+            <div class="modal-body">
+                <p class="error-text">Esta seguro que desea indicar como válido al cliente?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" data-id="0"  data-url="{{ path('customer_habilitar', { 'id': 'id' }) }}">Borrar</button>
+        </div>
+    </div>
+  </div>
+</div>  
     
-    
-    
+ <div class="modal fade" id="PremiumSucursal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title" id="myModalLabel">Convertir Sucursal a Premium</h4>
+            </div>
+            <div class="modal-body">
+                <p class="error-text">Esta seguro que desea convertir a premium la sucursal?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" data-id="0"  data-url="{{ path('customer_habilitar', { 'id': 'id' }) }}">Borrar</button>
+        </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="NoPremiumSucursal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title" id="myModalLabel">Convertir Sucursal a Normal</h4>
+            </div>
+            <div class="modal-body">
+                <p class="error-text">Esta seguro que desea pasar sucursal a común?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" data-id="0"  data-url="{{ path('customer_habilitar', { 'id': 'id' }) }}">Borrar</button>
+        </div>
+    </div>
+  </div>
+</div>    
     
     
     <form action="" id="delete-form" method="post" {{ form_enctype(delete_form) }}>
