@@ -29,3 +29,7 @@
     float: left;
     min-width: 80px; 
 }
+
+.hiddenRow {
+    padding: 0 !important;
+}
