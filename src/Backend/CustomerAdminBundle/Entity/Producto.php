@@ -473,7 +473,7 @@ class Producto
     public function getPath()
     {
         return $this->path;
-<<<<<<< HEAD
+
     }
 
     /**
@@ -704,7 +704,7 @@ class Producto
         return $this->detalles;
     }
 }
-=======
+
     }
 
     /**
@@ -869,37 +869,5 @@ class Producto
         return $this->stock;
     }
 
-    /**
-     * Add pedidos
-     *
-     * @param \Backend\CustomerAdminBundle\Entity\Pedido $pedidos
-     * @return Producto
-     */
-    public function addPedido(\Backend\CustomerAdminBundle\Entity\Pedido $pedidos)
-    {
-        $this->pedidos[] = $pedidos;
-
-        return $this;
-    }
-
-    /**
-     * Remove pedidos
-     *
-     * @param \Backend\CustomerAdminBundle\Entity\Pedido $pedidos
-     */
-    public function removePedido(\Backend\CustomerAdminBundle\Entity\Pedido $pedidos)
-    {
-        $this->pedidos->removeElement($pedidos);
-    }
-
-    /**
-     * Get pedidos
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getPedidos()
-    {
-        return $this->pedidos;
-    }
 }
->>>>>>> aeffe7011052397c273b8e6a2049d47cadf7a839
+
