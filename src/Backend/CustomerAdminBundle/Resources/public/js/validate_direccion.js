@@ -151,6 +151,25 @@ $("#backend_customeradminbundle_direccion_zona").change(function() {
 			
 		});
     
+    $("#backend_customeradminbundle_direccion_zona").on("change",function(){
+        $("#backend_customeradminbundle_direccion_lat").val('');
+        $("#backend_customeradminbundle_direccion_lon").val(''); 
+    });
+    $("#backend_customeradminbundle_direccion_barrio").on("change",function(){
+        $("#backend_customeradminbundle_direccion_lat").val('');
+        $("#backend_customeradminbundle_direccion_lon").val(''); 
+    });
+    
+    $("#backend_customeradminbundle_direccion_calle").on("change",function(){
+        $("#backend_customeradminbundle_direccion_lat").val('');
+        $("#backend_customeradminbundle_direccion_lon").val(''); 
+    });
+    
+    $("#backend_customeradminbundle_direccion_numero").on("change",function(){
+        $("#backend_customeradminbundle_direccion_lat").val('');
+        $("#backend_customeradminbundle_direccion_lon").val(''); 
+    });
+    
     $("#addBtnDireccion").on("click",function(){
     
         if ( $("#tab").valid() ){ 

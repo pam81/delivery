@@ -72,7 +72,7 @@ class Producto
 	
     /**
      * @ORM\ManyToMany(targetEntity="Variedad", inversedBy="productos")
-	 * @ORM\JoinTable(name="producto_variedad")
+	   * @ORM\JoinTable(name="producto_variedad")
      */
     protected $variedades;
 	

@@ -18,7 +18,7 @@ class ProductoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {             
         $customerId = $options['customerId'];
-        $productoId = $options['productoId'];
+        
         
         $builder
             ->add('name')
@@ -54,23 +54,22 @@ class ProductoType extends AbstractType
             ;
            
            
-           //deben ser las variedades del producto que ya esten cargadas previamente
+           //deben ser las variedades del producto que ya esten cargadas previamente para el mismo customer
            			
-           if ($productoId != null){ 
+          
                $builder->add('variedades','entity',array(
               'class'=>'BackendCustomerAdminBundle:Variedad',
-              'query_builder'=>function(EntityRepository $er ) use ( $productoId ) {
-               return $er->createQueryBuilder('u')
-                      ->innerJoin('u.productos','p')
-                      ->where('p.id = '.$productoId)
-                      ->orderBy('u.name', 'ASC');
-                },
+              'query_builder'=>function(EntityRepository $er ) use ( $customerId ) {
+                  return $er->createQueryBuilder('u')
+                  ->where('u.customer = '.$customerId)
+                  ->orderBy('u.name', 'ASC');
+            },
     
               'multiple'=>true,
               'mapped'=>true,
               'required'=>true
                ));
-           }
+           
             
           
            $categoriaSubscriber = new CategoriaSubscriber($builder->getFormFactory());
@@ -88,8 +87,8 @@ class ProductoType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'Backend\CustomerAdminBundle\Entity\Producto',
-            'customerId' => null,
-            'productoId' => null
+            'customerId' => null
+            
         ));
     }
 
