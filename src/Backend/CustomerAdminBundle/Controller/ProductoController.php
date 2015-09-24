@@ -73,33 +73,16 @@ class ProductoController extends Controller
         $customerId=$this->getUser()->getId();
         $form = $this->createForm(new ProductoType(), $entity, array("customerId"=>$customerId));
 		
-<<<<<<< HEAD
-		$s = $request->request->get('backend_customeradminbundle_producto');
-		$sucursales = $s['sucursales'];       
-		unset($s['sucursales']);
-=======
-    		$s = $request->request->get('backend_customeradminbundle_producto');
-    		$sucursales = $s['sucursales'];
+    	$s = $request->request->get('backend_customeradminbundle_producto');
+   		$sucursales = $s['sucursales'];
         unset($s['sucursales']);
 		
->>>>>>> d477fefd5bb262946ade734900138a6d5abac60c
         $form->bind($request);
                  
         if ($form->isValid()) {
 			
             $em = $this->getDoctrine()->getManager();
 			
-<<<<<<< HEAD
-		    foreach ($sucursales as $id) {
-		                   
-		         $sucursal = $em->getRepository('BackendCustomerAdminBundle:Sucursal')->find($id);		             	   
-                 $sucursal->addProducto($entity);
-   			     $em->persist($sucursal);
-	     		 $entity->addSucursal($sucursal);		                   
-	        }
-=======
-		        
->>>>>>> d477fefd5bb262946ade734900138a6d5abac60c
 			
             $em->persist($entity);
             $em->flush();

@@ -35,7 +35,7 @@ class Producto
     private $code;
 
     /**
-     * @ORM\Column(name="price", type="string", length=100)
+     * @ORM\Column(name="price", type="decimal", scale=2)
      */
     private $precio;
     
@@ -87,12 +87,12 @@ class Producto
      * @ORM\JoinColumn(name="subcategoria_id", referencedColumnName="id")
      */
     private $subcategoria;
-    
-    /**
-     * @ORM\ManyToMany(targetEntity="Pedido", mappedBy="productos")
+	
+	 /**
+     * @ORM\OneToMany(targetEntity="Detalle", mappedBy="producto")
      */
-
-    protected $pedidos;
+    private $detalles;
+	
 	
     
     /**
@@ -102,6 +102,7 @@ class Producto
     private $path;
     private $temp;
     private $file;
+    
     public function __construct() {
 
 		  $this->alwaysAvailable = true;
@@ -666,5 +667,38 @@ class Producto
     public function getPedidos()
     {
         return $this->pedidos;
+    }
+
+    /**
+     * Add detalles
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Detalle $detalles
+     * @return Producto
+     */
+    public function addDetalle(\Backend\CustomerAdminBundle\Entity\Detalle $detalles)
+    {
+        $this->detalles[] = $detalles;
+
+        return $this;
+    }
+
+    /**
+     * Remove detalles
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Detalle $detalles
+     */
+    public function removeDetalle(\Backend\CustomerAdminBundle\Entity\Detalle $detalles)
+    {
+        $this->detalles->removeElement($detalles);
+    }
+
+    /**
+     * Get detalles
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getDetalles()
+    {
+        return $this->detalles;
     }
 }
