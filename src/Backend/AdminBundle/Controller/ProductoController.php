@@ -17,8 +17,8 @@ class ProductoController extends Controller
 {
 
      public function generateSQL($search){
-     
-        $dql="SELECT u FROM BackendCustomerAdminBundle:Producto u "  ;
+         
+        $dql="SELECT u FROM BackendCustomerAdminBundle:Producto u"  ;
         $search=mb_convert_case($search,MB_CASE_LOWER);
         
        

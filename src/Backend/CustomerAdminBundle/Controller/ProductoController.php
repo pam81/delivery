@@ -24,7 +24,7 @@ class ProductoController extends Controller
         $search=mb_convert_case($search,MB_CASE_LOWER);
        
         if ($search)
-          $dql.=" where u.name like '%$search%' ";
+          $dql.=" and u.name like '%$search%' ";
           
         $dql .=" order by u.name"; 
         
@@ -71,19 +71,13 @@ class ProductoController extends Controller
         if ( $this->get('security.context')->isGranted('ROLE_ADDPRODUCTO')) {
         $entity  = new Producto();
         $customerId=$this->getUser()->getId();
-        $form = $this->createForm(new ProductoType(), $entity, array("customerId"=>$customerId));
-		
-    	$s = $request->request->get('backend_customeradminbundle_producto');
-   		$sucursales = $s['sucursales'];
-        unset($s['sucursales']);
-		
+        $form = $this->createForm(new ProductoType(), $entity, array("customerId"=>$customerId));		
+
         $form->bind($request);
                  
         if ($form->isValid()) {
 			
             $em = $this->getDoctrine()->getManager();
-			
-			
             $em->persist($entity);
             $em->flush();
             $this->get('session')->getFlashBag()->add('success' , 'Se ha agregado un nuevo producto.');
@@ -158,14 +152,14 @@ class ProductoController extends Controller
              return $this->redirect($this->generateUrl('producto'));
         }
         $customerId=$this->getUser()->getId();
-        $editForm = $this->createForm(new ProductoType(), $entity, array("customerId"=>$customerId, "productoId"=>$entity->getId()));
+        $editForm = $this->createForm(new ProductoType(), $entity, array("customerId"=>$customerId));
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('BackendCustomerAdminBundle:Producto:edit.html.twig', array(
             'entity'      => $entity,
             'form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-            'showVariedades' => true
+            
             
         ));
       }
@@ -209,7 +203,7 @@ class ProductoController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
         $customerId=$this->getUser()->getId();
-        $editForm = $this->createForm(new ProductoType(), $entity, array("customerId"=>$customerId,"productoId"=>$entity->getId()));
+        $editForm = $this->createForm(new ProductoType(), $entity, array("customerId"=>$customerId));
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
@@ -223,7 +217,7 @@ class ProductoController extends Controller
             'entity'      => $entity,
             'form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-            'showVariedades' => true
+           
             
         ));
       }
