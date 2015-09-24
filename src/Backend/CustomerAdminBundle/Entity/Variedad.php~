@@ -55,7 +55,12 @@ class Variedad
 
     protected $productos;
     
-    
+    /**
+     * @ORM\ManyToOne(targetEntity="\Backend\CustomerBundle\Entity\Customer", inversedBy="variedades")
+     * @ORM\JoinColumn(name="customer_id", referencedColumnName="id")
+     */
+   
+    private $customer;
 	
 
     public function __construct() {

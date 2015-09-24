@@ -147,9 +147,13 @@ class Customer implements AdvancedUserInterface, \Serializable {
 
 	private $sucursales;
 		
+    /**
+     * @ORM\OneToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Variedad", mappedBy="customer")
+     */
+
+	 private $variedades;
 	
-    /*falta*/
-    private $productos;
+    
     
    
     
@@ -933,5 +937,38 @@ class Customer implements AdvancedUserInterface, \Serializable {
     public function getCodigo()
     {
         return $this->codigo;
+    }
+
+    /**
+     * Add variedades
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Variedad $variedades
+     * @return Customer
+     */
+    public function addVariedade(\Backend\CustomerAdminBundle\Entity\Variedad $variedades)
+    {
+        $this->variedades[] = $variedades;
+
+        return $this;
+    }
+
+    /**
+     * Remove variedades
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Variedad $variedades
+     */
+    public function removeVariedade(\Backend\CustomerAdminBundle\Entity\Variedad $variedades)
+    {
+        $this->variedades->removeElement($variedades);
+    }
+
+    /**
+     * Get variedades
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getVariedades()
+    {
+        return $this->variedades;
     }
 }

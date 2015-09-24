@@ -147,9 +147,13 @@ class Customer implements AdvancedUserInterface, \Serializable {
 
 	private $sucursales;
 		
+    /**
+     * @ORM\OneToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Variedad", mappedBy="customer")
+     */
+
+	 private $variedades;
 	
-    /*falta*/
-    private $productos;
+    
     
    
     

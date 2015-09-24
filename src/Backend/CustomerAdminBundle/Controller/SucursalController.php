@@ -334,7 +334,7 @@ class SucursalController extends Controller
                     $cat = $em->getRepository('BackendAdminBundle:Categoria')->find($id);
                     $entity->addCategoria($cat);
                  }else{ //asi que lo quito de existCategorias
-                      print_r($existCategorias);
+                      
                       $existCategorias=array_diff($existCategorias,array($id));
                  }   
               }
