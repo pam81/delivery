@@ -112,13 +112,7 @@ class HomeController extends Controller
         $time = date('h:i:s');
         $dia = 7;
         //mostrar en el slider principal sucursales premium activas
-        /*
-        $tiendas = $this->getDoctrine()->getRepository('BackendCustomerAdminBundle:Sucursal')
-                  ->findBy(array("is_active"=>true));        
-                  
-        $barrio = $this->getDoctrine()->getRepository('BackendAdminBundle:Barrio')
-                  ->findBy(array("id"=>$barrioId)); 
-        */
+
         $dql="SELECT u FROM BackendCustomerAdminBundle:Sucursal u JOIN u.direccion d where d.barrio = ".$barrioId;
         $em = $this->getDoctrine()->getManager();
 		$query = $em->createQuery($dql);
@@ -249,10 +243,17 @@ class HomeController extends Controller
     
     }
     
-    public function getProductoByTiendaAction(Request $request){
+    public function getProductsByTiendaAction(Request $request){
 		
-			
-		
+		$sucursal_id = $request->request->get("sucursal");
+		/*
+		return $this->render('FrontendBundle:Shop:index.html.twig', 
+        array('pagination' => $pagination,
+        'delete_form' => $deleteForm->createView(),
+        'search'=>$search
+        ));
+        */
+		return $this->render('FrontendHomeBundle:Shop:index.html.twig');
 	}
     
     public function addFavoritoAction(Request $request){
@@ -262,8 +263,7 @@ class HomeController extends Controller
       if ($customer){
           $sucursal_id = $request->request->get("sucursal");
           $customer_id = $customer->getId();    
-          
-          
+                    
           $em = $this->getDoctrine()->getManager();
     
           $favorito = $em->getRepository('BackendCustomerAdminBundle:Favorito')->findOneBy(array("customer"=>$customer_id,"sucursal"=>$sucursal_id));

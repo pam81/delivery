@@ -100,7 +100,7 @@ $(document).ready(function(){
 										element += ' <div class="single-products">';
 										element +='		<div class="productinfo text-center">';
 										element +='			<img src="'+data[index].imagen+'" alt="" />';
-										element +='			<a href="#" class="btn btn-warning"></i>Ir a la tienda</a>';
+										element +='			<a href="#" class="btn btn-warning go_tienda" data-sucursal="'+data[index].id+'"></i>Ir a la tienda</a>';
 										element +='		</div> ';
 										element +='<img src="'+data[index].promo+'" title="'+data[index].title +'" class="new">';
 										//element +='<img src="'+data[index].open+'" class="open">';
@@ -285,8 +285,35 @@ $(document).ready(function(){
               });
       
       });       
-                         
-  
+      
+      $("body").on("click",".go_tienda",function(){
+             var sucursal=$(this).data("sucursal");
+             var data="sucursal="+sucursal;
+             var url=$("#tiendas_listado").data("urlgo");
+              $.ajax({
+                type: "POST",
+                url: url,
+                dataType: 'json',
+                data: data,
+             })
+             /*
+             .done(function(data) {
+				/*
+                 if (data.status == 1){
+                    alert(data.message);     
+                 }else{  
+                    alert(data.message); // deberia quitar la opción o marcarla como que esta favorito
+                 } 
+                */
+              /*
+                alert("los productos");
+              }).fail(function(data){
+                 
+                 alert("Trato de mostrar productos");
+              });
+			*/
+      });                   
+      
 });
 
 
@@ -313,7 +340,7 @@ function getTiendas(ubicacion){
                       	element += '							<div class="single-products">';
                       	element += '									<div class="productinfo text-center">';
                       	element += '										<img src="'+data[index].imagen+'" alt="" />';
-                      	element += '										<a href="{{ path('home_productos') }}" class="btn btn-warning" data-sucursal="'+data[index].id+'"></i>Ir a la tienda</a>';
+                      	element += '										<a href="" class="btn btn-warning go_tienda"  data-sucursal="'+data[index].id+'"></i>Ir a la tienda</a>';
                       	element += '									</div> ';
                         element +='<img src="'+data[index].promo+'" title="'+data[index].title +'" class="new">';
 										//element +='<img src="'+data[index].open+'" class="open">';
