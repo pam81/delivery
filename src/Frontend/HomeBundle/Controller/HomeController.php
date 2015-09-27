@@ -129,37 +129,50 @@ class HomeController extends Controller
     
     public function getTiendasPremiumAction(Request $request){
         
+        $time = date('h:i:s');
+        $day = 1;
         //mostrar en el slider principal sucursales activas
         $tiendas = $this->getDoctrine()->getRepository('BackendCustomerAdminBundle:Sucursal')
                   ->findBy(array("is_active"=>true,"premium"=>true));
         
         $listado=array();
-        $images=array("images/home/recommend1.jpg", "images/home/recommend2.jpg", "images/home/recommend3.jpg");
+        //$images=array("images/home/recommend1.jpg", "images/home/recommend2.jpg", "images/home/recommend3.jpg");
+        
         foreach ($tiendas as $tienda) {
+			  $open = false;
+			  $horarios = $tienda->getHorarios();
 			
+			  foreach($horarios as $horario){
+				
+					if($horario->getDia() == $dia && ($time >= $horario->getDesde() &&  $time <= $horario->getHasta())){
+					
+							$open = true;
+					}
+			  } 
+				
 			  $record=array();
               $record["id"]=$tienda->getId();
               $record["name"]=$tienda->getName();
               $record["imagen"]=$tienda->getWebPath(); 
               $record["promo"]= "images/home/pricing.png";
-              if($tienda->getOpen()){
-				$record["open"] = "images/home/recibe.png";  
+              
+              if($open){				  
+				  $record["open"] = "images/home/tienda_open.png";
+				  $record["title"] = "Abierto";
+			 
 			  }else{
-				$record["open"] = "images/home/cerrado.png";  
+				  if($tienda->getOpen()){
+					  $record["open"] = "images/home/tienda_pedido.png";
+					  $record["title"] = "Toma pedidos"; 					   
+				  
+				  }else{
+					  $record["open"] = "images/home/tienda_close.png";
+					  $record["title"] = "Cerrado";					  
+				  }				  
 			  }
-			  $time = date('h:i:s');
-              $record["estado"]= $tienda->getOpen(); 
+			  
               $listado[] = $record;
-        /*
-        for($i=0; $i< 6; $i++){
-              $record=array();
-              $record["id"]=$i;
-              $record["name"]="";
-              $record["imagen"]=$images[rand(0,2)];
-              $record["estado"]=rand(0,1); //0:cerrado 1: abierto
-              $listado[] = $record;
-         }
-        */
+
 	   }
        $response = new Response(json_encode($listado));
         
