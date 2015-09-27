@@ -1,3 +1,4 @@
+
 /*price range*/
 
  $('#sl2').slider();
@@ -9,6 +10,10 @@
 /*scroll to top*/
 
 $(document).ready(function(){
+	
+    //var hoy = moment().format("dddd"); 
+	//console.log(hoy);
+	
 	$(function () {
 		$.scrollUp({
 	        scrollName: 'scrollUp', // Element ID
@@ -81,21 +86,35 @@ $(document).ready(function(){
               .done(function(data) {
                  var element = '<div class="item active">';
                  var i=0;
+                 var h="";
                   $.each(data,function(index){ 
                     
+                    horario = data[index].horario;
+                    
+                    $.each(horario,function(i){
+						h += horario[i]+'<br/>'; 	
+					});
+
                     element += '<div class="col-sm-4">';
 										element += '<div class="product-image-wrapper">';
 										element += ' <div class="single-products">';
 										element +='		<div class="productinfo text-center">';
-										element +='			<img src="'+data[index].imagen+'" alt="" style ="heigth:300px;" />';
-										element +='			<a href="#" class="btn btn-warning add-to-cart"><i class="fa fa-shopping-cart"></i>Ver productos</a>';
+										element +='			<img src="'+data[index].imagen+'" alt="" />';
+										element +='			<a href="#" class="btn btn-warning"></i>Ir a la tienda</a>';
 										element +='		</div> ';
-										element +='<img src="'+data[index].promo+'" class="new">';
-										element +='<img src="'+data[index].open+'" class="open">';
+										element +='<img src="'+data[index].promo+'" title="'+data[index].title +'" class="new">';
+										//element +='<img src="'+data[index].open+'" class="open">';
 										element += '</div>';
-                    element +='  </div>';
+										                        element +='    <div class="choose">';
+    									  element +='       <ul class="nav nav-pills nav-justified">';
+    										element +='         <li><a href="javascript:void(0)" class="horarios_modal" data-texto="'+h+'"><i class="fa fa-clock-o"></i>Consultar horario</a>  </li>';
+                        element +='         <li><a href="javascript:void(0)" class="add_favorito" data-sucursal="'+data[index].id+'"><i class="fa fa-plus-square"></i>Agregar a Favoritos</a></li>';
+                        element +=' 			</ul>';
+    								    element +='    </div>';
+                      	element += '						</div>';
+										element +='  </div>';
 										element +=' </div>';
-									  element +=' </div>';
+					element +=' </div>';
                     i++;
                     if (i == 3){
                       element +='</div> <div class="item">';
@@ -287,15 +306,15 @@ function getTiendas(ubicacion){
                       	element += '							<div class="single-products">';
                       	element += '									<div class="productinfo text-center">';
                       	element += '										<img src="'+data[index].imagen+'" alt="" />';
-                      	element += '										<a href="#" class="btn btn-default add-to-cart" ><i class="fa fa-shopping-cart"></i>Ver productos</a>';
+                      	element += '										<a href="#" class="btn btn-warning"></i>Ir a la tienda</a>';
                       	element += '									</div> ';
-                        if (data[index].estado == 1){
-                      	   element += '									<img src="images/home/sale.png" class="new" alt="open" />';
-                        }
+                        element +='<img src="'+data[index].promo+'" title="'+data[index].title +'" class="new">';
+										//element +='<img src="'+data[index].open+'" class="open">';
+										element += '</div>';
                       	element += '							</div>';
                         element +='    <div class="choose">';
     									  element +='       <ul class="nav nav-pills nav-justified">';
-    										element +='         <li><a href="javascript:void(0)" class="horarios_modal" data-texto="'+data[index].horario+'"  ><i class="fa fa-clock-o"></i>Consultar horario</a>  </li>';
+    										element +='         <li><a href="javascript:void(0)" class="horarios_modal" data-texto="'+ data[index].horario+'"  ><i class="fa fa-clock-o"></i>Consultar horario</a>  </li>';
                         element +='         <li><a href="javascript:void(0)" class="add_favorito" data-sucursal="'+data[index].id+'"><i class="fa fa-plus-square"></i>Agregar a Favoritos</a></li>';
                         element +=' 			</ul>';
     								    element +='    </div>';

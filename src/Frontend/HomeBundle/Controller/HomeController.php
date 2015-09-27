@@ -108,17 +108,64 @@ class HomeController extends Controller
     
     public function getTiendasAction(Request $request){
         
-     
-      $listado=array();
-      for($i=0; $i< 6; $i++){
-            $record=array();
-            $record["id"]=$i;
-            $record["name"]="";
-            $record["imagen"]="images/home/product1.jpg";
-            $record["estado"]=rand(0,1); //0:cerrado 1: abierto
-            $record["horario"]="Lunes a Viernes 9 a 18hs";
-            $listado[] = $record;
-       }
+       
+        $time = date('h:i:s');
+        $dia = 7;
+        //mostrar en el slider principal sucursales premium activas
+        $tiendas = $this->getDoctrine()->getRepository('BackendCustomerAdminBundle:Sucursal')
+                  ->findBy(array("is_active"=>true)),"barrio"=>$barrioId));        
+        
+        $listado=array();
+        
+        foreach ($tiendas as $tienda) {
+			  
+			  $open = false;
+			  
+			  $horarios = $tienda->getHorarios();
+			  $horarios_tienda = array(); 	
+			
+			  foreach($horarios as $horario){
+				  
+					if($horario->getCerrado()){
+						$horarios_tienda[] = $horario->getDia()->getName().": Cerrado";				
+					}else{
+						$horarios_tienda[] = $horario->getDia()->getName().":".$horario->getDesde()."-".$horario->getHasta()." hs.";
+				    }
+					
+					if($horario->getDia()->getId() == $dia && ($horario->getCerrado() || ($time < $horario->getDesde() &&   $time > $horario->getHasta()))){
+						
+						$open = false;							
+					}else{
+						$open = true;
+					}
+			  } 
+				
+			  $record=array();
+              $record["id"]=$tienda->getId();
+              $record["name"]=$tienda->getName();
+              $record["imagen"]=$tienda->getWebPath();
+              $record["horario"] = $horarios_tienda; 
+              
+              if($open){				  
+				  $record["promo"] = "images/home/tienda_open.png";
+				  $record["title"] = "Abierto";
+			 
+			  }else{
+				  
+				  if($tienda->getOpen()){
+					  $record["promo"] = "images/home/tienda_pedido.png";
+					  $record["title"] = "Toma pedidos"; 					   
+				  
+				  }else{
+					  $record["promo"] = "images/home/tienda_close.png";
+					  $record["title"] = "Cerrado";					  
+				  }				  
+			  }
+			  
+              $listado[] = $record;
+       
+		} 
+		
        $response = new Response(json_encode($listado));
         
        $response->headers->set('Content-Type', 'application/json');
@@ -130,43 +177,54 @@ class HomeController extends Controller
     public function getTiendasPremiumAction(Request $request){
         
         $time = date('h:i:s');
-        $day = 1;
-        //mostrar en el slider principal sucursales activas
+        $dia = 7;
+        //mostrar en el slider principal sucursales premium activas
         $tiendas = $this->getDoctrine()->getRepository('BackendCustomerAdminBundle:Sucursal')
-                  ->findBy(array("is_active"=>true,"premium"=>true));
+                  ->findBy(array("is_active"=>true,"premium"=>true));        
         
         $listado=array();
-        //$images=array("images/home/recommend1.jpg", "images/home/recommend2.jpg", "images/home/recommend3.jpg");
         
         foreach ($tiendas as $tienda) {
+			  
 			  $open = false;
+			  
 			  $horarios = $tienda->getHorarios();
+			  $horarios_tienda = array(); 	
 			
 			  foreach($horarios as $horario){
-				
-					if($horario->getDia() == $dia && ($time >= $horario->getDesde() &&  $time <= $horario->getHasta())){
+				  
+					if($horario->getCerrado()){
+						$horarios_tienda[] = $horario->getDia()->getName().": Cerrado";				
+					}else{
+						$horarios_tienda[] = $horario->getDia()->getName().":".$horario->getDesde()."-".$horario->getHasta()." hs.";
+				    }
 					
-							$open = true;
+					if($horario->getDia()->getId() == $dia && ($horario->getCerrado() || ($time < $horario->getDesde() &&   $time > $horario->getHasta()))){
+						
+						$open = false;							
+					}else{
+						$open = true;
 					}
 			  } 
 				
 			  $record=array();
               $record["id"]=$tienda->getId();
               $record["name"]=$tienda->getName();
-              $record["imagen"]=$tienda->getWebPath(); 
-              $record["promo"]= "images/home/pricing.png";
+              $record["imagen"]=$tienda->getWebPath();
+              $record["horario"] = $horarios_tienda; 
               
               if($open){				  
-				  $record["open"] = "images/home/tienda_open.png";
+				  $record["promo"] = "images/home/tienda_open.png";
 				  $record["title"] = "Abierto";
 			 
 			  }else{
+				  
 				  if($tienda->getOpen()){
-					  $record["open"] = "images/home/tienda_pedido.png";
+					  $record["promo"] = "images/home/tienda_pedido.png";
 					  $record["title"] = "Toma pedidos"; 					   
 				  
 				  }else{
-					  $record["open"] = "images/home/tienda_close.png";
+					  $record["promo"] = "images/home/tienda_close.png";
 					  $record["title"] = "Cerrado";					  
 				  }				  
 			  }
@@ -255,10 +313,20 @@ class HomeController extends Controller
           if (count($barrios) == 1){
               $barrioId = $barrios[0]->getId();
           }
-       }
-        $resultado=array("zonaId"=>$zonaId, "barrioId"=>$barrioId);
+       }else{
+		   
+		  $dql="SELECT u FROM BackendAdminBundle:Barrio u "  ;
+          $dql.=" where u.name like '".$barrio."' order by u.name";
+		  $query = $em->createQuery($dql);
+		  $barrios = $query->getResult();
+          if (count($barrios) == 1){
+              $barrioId = $barrios[0]->getId();
+              $zonaId = $barrios[0]->getZona()->getId();
+          }		  	
+	   }
+       $resultado=array("zonaId"=>$zonaId, "barrioId"=>$barrioId);
       
-        $response = new Response(json_encode($resultado));
+       $response = new Response(json_encode($resultado));
         
        $response->headers->set('Content-Type', 'application/json');
   

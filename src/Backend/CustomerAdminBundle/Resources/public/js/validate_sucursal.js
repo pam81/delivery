@@ -17,11 +17,11 @@ $(document).ready(function() {
 					required:true,
 					minlength:4,
 					maxlength:20,
-          digits: true
+					digits: true
 				},
         "backend_customeradminbundle_sucursaltype[email]": {
 					required:true,
-          email: true,
+					email: true,
 					minlength:6,
 					maxlength:100,
 				},
@@ -61,7 +61,7 @@ $(document).ready(function() {
            minlength: jQuery.validator.format("Mínimo {0} carácteres!")
            },
            "backend_customeradminbundle_sucursaltype[email]": {
-           required: "Ingrese el numero de telefono",
+           required: "Ingrese una direccion de email",
            email: "Ingrese un email válido",	
            maxlength: jQuery.validator.format("Máximo {0} carácteres!"),
            minlength: jQuery.validator.format("Mínimo {0} carácteres!")

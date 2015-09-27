@@ -861,7 +861,7 @@ h1.slogan {
 }
 
 .product-image-wrapper{
-	/*border:1px solid #F7F7F5;*/
+	border:1px solid #F7F7F5;
 	overflow: hidden;
 	margin-bottom:30px;
 	margin-left:40px;
@@ -875,7 +875,8 @@ h1.slogan {
   position: absolute;
   top: 4px;
   right: 4px;
-  width: 30%;
+  width: 12%;
+  
 }
 
 .open {
@@ -907,7 +908,8 @@ h1.slogan {
 }
 
 .productinfo img{
-  width: 100%;
+  /*width: 100%;*/
+  width: 200px;
 }
 
 .productinfo{
