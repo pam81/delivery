@@ -299,14 +299,21 @@ function getTiendas(ubicacion){
             data: ubicacion,
        })
               .done(function(data) {
+				  var h="";
                   $.each(data,function(index){ 
+					  
+					horario = data[index].horario;
+                    
+                    $.each(horario,function(i){
+						h += horario[i]+'<br/>'; 	
+					});  
                     
                     var element = '         <div class="col-sm-4">';
                       	element += '						<div class="product-image-wrapper">';
                       	element += '							<div class="single-products">';
                       	element += '									<div class="productinfo text-center">';
                       	element += '										<img src="'+data[index].imagen+'" alt="" />';
-                      	element += '										<a href="#" class="btn btn-warning"></i>Ir a la tienda</a>';
+                      	element += '										<a href="{{ path('home_productos') }}" class="btn btn-warning" data-sucursal="'+data[index].id+'"></i>Ir a la tienda</a>';
                       	element += '									</div> ';
                         element +='<img src="'+data[index].promo+'" title="'+data[index].title +'" class="new">';
 										//element +='<img src="'+data[index].open+'" class="open">';
@@ -314,7 +321,7 @@ function getTiendas(ubicacion){
                       	element += '							</div>';
                         element +='    <div class="choose">';
     									  element +='       <ul class="nav nav-pills nav-justified">';
-    										element +='         <li><a href="javascript:void(0)" class="horarios_modal" data-texto="'+ data[index].horario+'"  ><i class="fa fa-clock-o"></i>Consultar horario</a>  </li>';
+    										element +='         <li><a href="javascript:void(0)" class="horarios_modal" data-texto="'+h+'"  ><i class="fa fa-clock-o"></i>Consultar horario</a>  </li>';
                         element +='         <li><a href="javascript:void(0)" class="add_favorito" data-sucursal="'+data[index].id+'"><i class="fa fa-plus-square"></i>Agregar a Favoritos</a></li>';
                         element +=' 			</ul>';
     								    element +='    </div>';

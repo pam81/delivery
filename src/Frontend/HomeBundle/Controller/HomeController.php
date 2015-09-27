@@ -108,12 +108,21 @@ class HomeController extends Controller
     
     public function getTiendasAction(Request $request){
         
-       
+        $barrioId =trim(mb_convert_case($request->get("barrioId"),MB_CASE_LOWER)); 
         $time = date('h:i:s');
         $dia = 7;
         //mostrar en el slider principal sucursales premium activas
+        /*
         $tiendas = $this->getDoctrine()->getRepository('BackendCustomerAdminBundle:Sucursal')
-                  ->findBy(array("is_active"=>true)),"barrio"=>$barrioId));        
+                  ->findBy(array("is_active"=>true));        
+                  
+        $barrio = $this->getDoctrine()->getRepository('BackendAdminBundle:Barrio')
+                  ->findBy(array("id"=>$barrioId)); 
+        */
+        $dql="SELECT u FROM BackendCustomerAdminBundle:Sucursal u JOIN u.direccion d where d.barrio = ".$barrioId;
+        $em = $this->getDoctrine()->getManager();
+		$query = $em->createQuery($dql);
+		$tiendas = $query->getResult();
         
         $listado=array();
         
