@@ -705,6 +705,3 @@ class Producto
     }
 
 }
- 
-
- 
