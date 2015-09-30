@@ -30,7 +30,7 @@ class SucursalType extends AbstractType
            return $er->createQueryBuilder('u')
                   ->innerJoin('u.customers','c')
                   ->where('c.id = '.$customerId)
-                  ->orderBy('u.name', 'ASC');
+                  ->orderBy('u.calle', 'ASC');
             },
 
           'multiple'=>false
