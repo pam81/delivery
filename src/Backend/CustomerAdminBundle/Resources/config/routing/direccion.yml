@@ -24,7 +24,14 @@ direccion_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "BackendCustomerAdminBundle:Direccion:delete" }
     requirements: { _method: post|delete }
-        
+
+customer_barrio_zona:
+    pattern:  /barrio_zona
+    defaults: { _controller: "BackendCustomerAdminBundle:Direccion:getBarrioByZona" }
+
+direccion_loadDireccion:
+    pattern:  /all_direccion
+    defaults: { _controller: "BackendCustomerAdminBundle:Direccion:getAll" }        
 direccion:
     pattern:  /{search}
     defaults: { _controller: "BackendCustomerAdminBundle:Direccion:index" , search: ''}

@@ -50,6 +50,7 @@
                                         <th>Descripción</th>
                                         <th>Precio</th>
 										<th>Categoría</th>
+                    <th>Subcategoría</th>
 										<th>Variedades</th>
                                         <th>Imagen</th>
 										<th>Publicado</th>
@@ -64,7 +65,8 @@
 												  <td>{{ producto.name |capitalize}}</td>
                                                   <td>{{ producto.description | capitalize}}</td>
                                                   <td>{{ producto.getPrecio }}</td>
-												  <td>{{ producto.getSubcategoria.getName}}</td>
+												  <td>{{ producto.getCategoria.getName }}</td>
+                          <td>{%if producto.getSubcategoria %} {{ producto.getSubcategoria.getName}} {% endif %}</td>
 												  <td>
 												  {% for variedad in producto.getVariedades() %}	
 												  	{{ variedad.getName()  }}

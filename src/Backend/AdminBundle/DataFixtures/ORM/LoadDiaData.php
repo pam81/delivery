@@ -57,18 +57,7 @@ class LoadDiaData extends AbstractFixture implements OrderedFixtureInterface
         $manager->flush();
         $this->addReference('dia-domingo', $dia);
         
-        $dia = new Dia();
-        $dia->setName('Lunes a Viernes');
-        $manager->persist($dia);
-        $manager->flush();
-        $this->addReference('dia-lunesaviernes', $dia); 
-        
        
-        $dia = new Dia();
-        $dia->setName('Todos los días');
-        $manager->persist($dia);
-        $manager->flush();
-        $this->addReference('dia-todoslosdias', $dia); 
         
         
     }
