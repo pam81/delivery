@@ -37,7 +37,11 @@ $(document).ready(function() {
         "backend_customeradminbundle_sucursaltype[direccion]": {
 					required:true,
 					
-				}
+				},
+        "backend_customeradminbundle_sucursaltype[radio]": {
+					required:false,
+				  digits:true
+				},
 			},
 			
 		    messages: {
@@ -75,6 +79,9 @@ $(document).ready(function() {
           
            "backend_customeradminbundle_sucursaltype[direccion]": {
            required: "Seleccione al menos una dirección",
+           },
+           "backend_customeradminbundle_sucursaltype[radio]": {
+           digits: "Debe ingresar radio de entrega en kms",
            }
            
       },
@@ -139,6 +146,20 @@ $(document).ready(function() {
 	});
 
 
-
+ function loadDireccion(direccionId){
+    	var params = { 'direccionId': direccionId }	
+      var path = $('#agregar_direccion').data("url");
+      $.ajax({
+              type: "POST",
+              url: path,
+              dataType: 'json',
+              data: params,
+            })
+            .done(function(data){
+               $('#backend_customeradminbundle_sucursaltype_direccion').select2({data: data});
+               $('#backend_customeradminbundle_sucursaltype_direccion').select2('val',direccionId);
+            });
+ 
+ }
 
 

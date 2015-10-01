@@ -286,33 +286,86 @@ class ProductoController extends Controller
        
         $query = $em->createQuery($search);
         
-        $excelService = $this->get('xls.service_xls5');
+        $excelService = $this->get('phpexcel')->createPHPExcelObject();
                          
                             
-        $excelService->excelObj->setActiveSheetIndex(0)
-                    ->setCellValue('A1', 'Nombre')
+        $excelService->setActiveSheetIndex(0)
+                    ->setCellValue('A1', 'Código')
+                    ->setCellValue('B1', 'Nombre')
+                    ->setCellValue('C1', 'Descripción')
+                    ->setCellValue('D1', 'Precio')
+                    ->setCellValue('E1', 'Categoría')
+                    ->setCellValue('F1', 'Subcategoría')
+                    ->setCellValue('G1', 'Variedades')
+                    ->setCellValue('H1', 'Publicado')
+                    ->setCellValue('I1', 'Siempre disponible')
+                    ->setCellValue('J1', 'Sucursales')
                     ;
                     
         $resultados=$query->getResult();
         $i=2;
         foreach($resultados as $r)
-        {
-           $excelService->excelObj->setActiveSheetIndex(0)
-                         ->setCellValue("A$i",$r->getName())
+        {   $subcategoria='';
+            if ($r->getSubcategoria()){
+               $subcategoria=$r->getSubcategoria()->getName();
+            }
+            $variedades='';
+            $separador='';
+            foreach($r->getVariedades() as $v){
+              $variedades .=$separador.$v->getName();
+              $separador=' - ';
+            }
+            $publicado="NO";
+            if ($r->getIsActive()){
+              $publicado="SI";
+            }
+            $disponible="NO";
+            if ($r->getAlwaysAvailable()){
+              $disponible="SI";
+            
+            }
+            $sucursales='';
+            $separador='';
+            foreach($r->getSucursales() as $s){
+              $sucursales .=$separador.$s->getName();
+              $separador=' - ';
+            }
+            
+           $excelService->setActiveSheetIndex(0)
+                         ->setCellValue("A$i",$r->getCode())
+                         ->setCellValue("B$i",$r->getName())
+                         ->setCellValue("C$i",$r->getDescription())
+                         ->setCellValue("D$i",$r->getPrecio())
+                         ->setCellValue("E$i",$r->getCategoria()->getName())
+                         ->setCellValue("F$i",$subcategoria)
+                         ->setCellValue("G$i",$variedades)
+                         ->setCellValue("H$i",$publicado)
+                         ->setCellValue("I$i",$disponible)
+                         ->setCellValue("J$i",$sucursales)
                          ;
           $i++;
         }
                             
-        $excelService->excelObj->getActiveSheet()->setTitle('Listado de Productos');
+        $excelService->getActiveSheet()->setTitle('Listado de Productos');
         // Set active sheet index to the first sheet, so Excel opens this as the first sheet
-        $excelService->excelObj->setActiveSheetIndex(0);
-        $excelService->excelObj->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+        $excelService->setActiveSheetIndex(0);
+        $excelService->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+        $excelService->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+        $excelService->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
+        $excelService->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
+        $excelService->getActiveSheet()->getColumnDimension('E')->setAutoSize(true);
+        $excelService->getActiveSheet()->getColumnDimension('F')->setAutoSize(true);
+        $excelService->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);
+        $excelService->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
+        $excelService->getActiveSheet()->getColumnDimension('I')->setAutoSize(true);
+        $excelService->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
         
-        $fileName="categorias_".date("Ymd").".xls";
+        $fileName="productos_".date("Ymd").".xls";
         //create the response
-        $response = $excelService->getResponse();
+        $writer = $this->get('phpexcel')->createWriter($excelService, 'Excel5');
+        // create the response
+        $response = $this->get('phpexcel')->createStreamedResponse($writer);
         $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
-        //$response->headers->set('Content-Disposition', 'filename='.$fileName);
         echo header("Content-Disposition: attachment; filename=$fileName");
         // If you are using a https connection, you have to set those two headers and use sendHeaders() for compatibility with IE <9
         $response->headers->set('Pragma', 'public');

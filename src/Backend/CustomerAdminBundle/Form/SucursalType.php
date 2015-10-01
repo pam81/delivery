@@ -53,12 +53,7 @@ class SucursalType extends AbstractType
              'required'=>false
       ));
             
-	  $builder->add('premium','checkbox',array(
-       'value'=>1,
-       'label'=>"Tienda Premium",
-       'required'=>false
-      ));		                
-
+	    $builder->add('radio');
   
             
     }

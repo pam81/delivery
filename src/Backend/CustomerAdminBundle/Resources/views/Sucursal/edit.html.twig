@@ -70,6 +70,9 @@
 {% endblock %}
 {% block javascripts %}
   {{ parent() }}
+  <script type="text/javascript">
+	Shadowbox.init();
+</script>
    <script type="text/javascript" src="{{ asset('js/jstree.min.js') }}"></script>
 {% javascripts '@BackendCustomerAdminBundle/Resources/public/js/validate_sucursal.js' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
