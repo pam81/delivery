@@ -72,7 +72,10 @@ class VariedadController extends Controller
          $customerId=$this->getUser()->getId();
         $form = $this->createForm(new VariedadType(), $entity, array("customerId"=>$customerId));
 		    $p = $request->request->get('backend_customeradminbundle_variedad');
+        $productos = array();
+        if (isset($p["productos"])){
         $productos = $p['productos'];
+        }
         
 		    $form->bind($request);
 		    $em = $this->getDoctrine()->getManager();

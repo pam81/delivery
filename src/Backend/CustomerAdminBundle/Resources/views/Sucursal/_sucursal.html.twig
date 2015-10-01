@@ -20,7 +20,7 @@
         
         {{ form_label(form.direccion,"Direccion", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
         <div class="col-xs-6">
-         <a href="{{ path("direccion_new",{'type': 0}) }}" rel="shadowbox" role="button" class="btn btn-info"  style="float:right; margin-right:-35%">Nueva Direccion</a>
+         <a href="{{ path("direccion_new",{'type': 0}) }}" rel="shadowbox" id="agregar_direccion" data-url="{{ path('direccion_loadDireccion')}}" role="button" class="btn btn-info"  style="float:right; margin-right:-35%">Nueva Direccion</a>
 
             {{ form_widget(form.direccion, { 'attr': {'class': 'form-control'} }) }}
                         <span id='backend_customeradminbundle_sucursal_direccion_errorloc' class="help-block"> {{ form_errors(form.direccion) }} </span>
@@ -66,7 +66,14 @@
 </div>
 
 
-
+<div class="form-group">
+        
+        {{ form_label(form.radio,"Radio de Entrega (KM)", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
+        <div class="col-xs-6">
+            {{ form_widget(form.radio, { 'attr': {'class': 'form-control'} }) }}
+            <span id='backend_customeradminbundle_sucursal_radio_errorloc' class="help-block"> {{ form_errors(form.radio) }} </span>
+        </div>
+</div>
 
 
 <div class="form-group">

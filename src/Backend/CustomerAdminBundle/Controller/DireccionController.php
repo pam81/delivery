@@ -97,13 +97,14 @@ class DireccionController extends Controller
     
     } 
      
-    public function createAction(Request $request)
+    public function createAction(Request $request, $type)
 
     {
         if ( $this->get('security.context')->isGranted('ROLE_ADDDIRECCION')) {
         $entity  = new Direccion();
         $form = $this->createForm(new DireccionType(), $entity);
         $form->bind($request);
+        $addSucursal=false; 
     		$customerId = $this->getUser()->getId();
     		$em = $this->getDoctrine()->getManager();
     		$customer = $em->getRepository('BackendCustomerBundle:Customer')->find($customerId);
@@ -118,25 +119,19 @@ class DireccionController extends Controller
             $em->flush();
             $this->get('session')->getFlashBag()->add('success' , 'Se ha agregado una nueva direccion.');
             if ($type){
-                return $this->redirect($this->generateUrl('direccion'));
+                return $this->redirect($this->generateUrl('direccion_edit', array('id' => $entity->getId())));
             }else{
                 $addSucursal = true;
             }
             
-            //return $this->redirect($this->generateUrl('direccion_edit', array('id' => $entity->getId())));
+            
         }
-        /*        
+        
         return $this->render('BackendCustomerAdminBundle:Direccion:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView()
-           
-        ));
-        */
-        return $this->render('BackendAdminBundle:Direccion:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
             'type' => $type,
-            'addEstudio'=>$addSucursal,
+            'addSucursal'=>$addSucursal,
             'direccionId'=>$entity->getId()
            
         )); 
@@ -144,6 +139,8 @@ class DireccionController extends Controller
       else
        throw new AccessDeniedException();
     }
+
+     
 
     /**
     * Creates a form to create a Cliente entity.
@@ -165,7 +162,7 @@ class DireccionController extends Controller
     }
 
     /**
-     * Displays a form to create a new Barrio entity.
+     * Displays a form to create a new direccion entity.
      *
      */
     public function newAction(Request $request, $type)
@@ -173,7 +170,7 @@ class DireccionController extends Controller
        if ( $this->get('security.context')->isGranted('ROLE_ADDDIRECCION')) {
         $entity = new Direccion();
         $form   = $this->createForm(new DireccionType(), $entity);
-		$addSucursal = false;
+		    $addSucursal = false;
         return $this->render('BackendCustomerAdminBundle:Direccion:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
@@ -181,13 +178,7 @@ class DireccionController extends Controller
             'addSucursal'=>$addSucursal
             
         ));
-		/*
-        return $this->render('BackendCustomerAdminBundle:Direccion:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView()
-            
-        ));
-        */ 
+		 
        }
        else
           throw new AccessDeniedException();
@@ -393,6 +384,45 @@ class DireccionController extends Controller
         else{
            throw new AccessDeniedException(); 
         }
+    }
+    
+    public function getBarrioByZonaAction(Request $request)
+    {
+     
+      $zona_id=$request->request->get("zona");
+      $barrios = $this->getDoctrine()->getRepository('BackendAdminBundle:Barrio')->findBy(array("zona"=>$zona_id));
+     
+      $resultado=array();
+      foreach($barrios as $v){
+            $r=array();
+            $r["id"]=$v->getId();
+            $r["text"]=$v->getName();
+            $resultado[] = $r;
+       }
+       $response = new Response(json_encode($resultado));
+        
+       $response->headers->set('Content-Type', 'application/json');
+  
+       return $response;
+    }
+    
+    public function getAllAction(Request $request){
+       $dql=$this->generateSQL(false);
+       $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery($dql);
+       $direcciones = $query->getResult();
+       $resultado=array();
+      foreach($direcciones as $d){
+            $r=array();
+            $r["id"]=$d->getId();
+            $r["text"]=$d->__toString();
+            $resultado[] = $r;
+       }
+       $response = new Response(json_encode($resultado));
+        
+       $response->headers->set('Content-Type', 'application/json');
+  
+       return $response;
     }
         
     

@@ -44,8 +44,10 @@ class Sucursal
      */
     private $cuit;
     
-   
-    
+    /**
+     * @ORM\Column(name="radio", type="integer")
+     */
+    private $radio; 
   	
 	
     /**
@@ -144,6 +146,7 @@ class Sucursal
 		$this->open = false;
 		$this->active = true;
     $this->is_premium = false;
+    $this->radio = 0;
 		$this->productos = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->horarios = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->favoritos =  new ArrayCollection();     
@@ -880,5 +883,28 @@ class Sucursal
     public function getModifiedAt()
     {
         return $this->modifiedAt;
+    }
+
+    /**
+     * Set radio
+     *
+     * @param integer $radio
+     * @return Sucursal
+     */
+    public function setRadio($radio)
+    {
+        $this->radio = $radio;
+
+        return $this;
+    }
+
+    /**
+     * Get radio
+     *
+     * @return integer 
+     */
+    public function getRadio()
+    {
+        return $this->radio;
     }
 }

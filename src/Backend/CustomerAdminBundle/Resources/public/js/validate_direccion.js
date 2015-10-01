@@ -16,6 +16,7 @@ $("#backend_customeradminbundle_direccion_zona").change(function() {
             data: dataString,
             success: function(data) {
                 $('#backend_customeradminbundle_direccion_barrio').select2({data: data});
+                
             }
         });
     }

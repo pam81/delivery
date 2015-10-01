@@ -64,7 +64,7 @@
 												  <td>{{ direccion.depto }}</td>
 												  <td>{{ direccion.zip }}</td>
 												  <td>{{ direccion.getZona.getName }}</td>
-												  <td>{{ direccion.getBarrio.getName }}</td>
+												  <td>{% if  direccion.getBarrio %}{{ direccion.getBarrio.getName }}{% endif %}</td>
 												  <td>{{ direccion.getTipo.getName }}</td>
                                                   <td>   {% if direccion.isDefault == 1 %} <span class="label label-success">Por defecto</span> {% endif %} </td>
 												  <td>
