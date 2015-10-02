@@ -108,12 +108,16 @@ class HomeController extends Controller
     
     public function getTiendasAction(Request $request){
         
-        $barrioId =trim(mb_convert_case($request->get("barrioId"),MB_CASE_LOWER)); 
-        $time = date('h:i:s');
-        $dia = 7;
+        $barrioId =trim(mb_convert_case($request->get("barrio"),MB_CASE_LOWER));
+		$time = trim(mb_convert_case($request->get("time"),MB_CASE_LOWER)); 
+   		$dia = trim(mb_convert_case($request->get("day"),MB_CASE_LOWER));
+        
         //mostrar en el slider principal sucursales premium activas
+		$time_array = explode(":",$time);
+		
+		$min = $time_array[0]*60 + $time_array[1];
 
-        $dql="SELECT u FROM BackendCustomerAdminBundle:Sucursal u JOIN u.direccion d where d.barrio = ".$barrioId;
+        $dql= "SELECT u FROM BackendCustomerAdminBundle:Sucursal u JOIN u.direccion d where d.barrio = ".$barrioId;
         $em = $this->getDoctrine()->getManager();
 		$query = $em->createQuery($dql);
 		$tiendas = $query->getResult();
@@ -135,18 +139,42 @@ class HomeController extends Controller
 						$horarios_tienda[] = $horario->getDia()->getName().":".$horario->getDesde()."-".$horario->getHasta()." hs.";
 				    }
 					
-					if($horario->getDia()->getId() == $dia && ($horario->getCerrado() || ($time < $horario->getDesde() &&   $time > $horario->getHasta()))){
+					if($horario->getDia()->getId() == $dia){
 						
-						$open = false;							
-					}else{
-						$open = true;
-					}
+						if($horario->getCerrado()){
+							
+							$open = false;
+						
+						}else{						
+					
+						  if($horario->getDesde()){
+					
+							$desde_array = explode(":",$horario->getDesde());					
+							$desde = $desde_array[0]*60 + $desde_array[1];
+						  }
+						  if($horario->getHasta()){
+							$hasta_array = explode(":",$horario->getHasta());					
+							$hasta = $hasta_array[0]*60 + $hasta_array[1];
+						
+						
+						  }else if($min < $desde ||  $min > $hasta){
+						
+							$open = false;
+						  }else{
+							$open = true;
+						  }
+						}  
+					}	
 			  } 
 				
 			  $record=array();
               $record["id"]=$tienda->getId();
-              $record["name"]=$tienda->getName();
-              $record["imagen"]=$tienda->getWebPath();
+              $record["name"]=$tienda->getName();              
+			  if($tienda->getWebPath()){
+              	$record["imagen"]=$tienda->getWebPath();
+		  	  }else{		  	  	
+				$record["imagen"]="images/home/shop_default.png";
+		  	  }
               $record["horario"] = $horarios_tienda; 
               
               if($open){				  
@@ -164,6 +192,9 @@ class HomeController extends Controller
 					  $record["title"] = "Cerrado";					  
 				  }				  
 			  }
+			  $record["dia"] = $dia;
+			  $record["time"] = $time;
+			  $record["hora"] = $desde_array;
 			  
               $listado[] = $record;
        
@@ -213,7 +244,11 @@ class HomeController extends Controller
 			  $record=array();
               $record["id"]=$tienda->getId();
               $record["name"]=$tienda->getName();
-              $record["imagen"]=$tienda->getWebPath();
+			  if($tienda->getWebPath()){
+              	$record["imagen"]=$tienda->getWebPath();
+		  	  }else{		  	  	
+				$record["imagen"]="images/home/shop_default.png";
+		  	  }
               $record["horario"] = $horarios_tienda; 
               
               if($open){				  
@@ -243,9 +278,10 @@ class HomeController extends Controller
     
     }
     
-    public function getProductsByTiendaAction(Request $request){
+    public function getProductsByTiendaAction($id){
 		
 		$sucursal_id = $request->request->get("sucursal");
+		if($id){
 		/*
 		return $this->render('FrontendBundle:Shop:index.html.twig', 
         array('pagination' => $pagination,
@@ -253,7 +289,11 @@ class HomeController extends Controller
         'search'=>$search
         ));
         */
-		return $this->render('FrontendHomeBundle:Shop:index.html.twig');
+			return $this->render('FrontendHomeBundle:Shop:index.html.twig');
+		}else{
+			
+			return $this->render('FrontendHomeBundle:Home:terminos.html.twig');
+		}
 	}
     
     public function addFavoritoAction(Request $request){
@@ -333,7 +373,8 @@ class HomeController extends Controller
               $zonaId = $barrios[0]->getZona()->getId();
           }		  	
 	   }
-       $resultado=array("zonaId"=>$zonaId, "barrioId"=>$barrioId);
+	   
+       $resultado=array("zonaId"=>$zonaId, "barrioId"=>$barrioId,"day"=>4);
       
        $response = new Response(json_encode($resultado));
         

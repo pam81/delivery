@@ -12,7 +12,10 @@
 $(document).ready(function(){
 	
     //var hoy = moment().format("dddd"); 
-	//console.log(hoy);
+	var day = moment().weekday();
+	var time = moment().format('HH:mm');
+	console.log(day);
+	console.log(time);
 	
 	$(function () {
 		$.scrollUp({
@@ -286,44 +289,21 @@ $(document).ready(function(){
       
       });       
       
-      $("body").on("click",".go_tienda",function(){
-             var sucursal=$(this).data("sucursal");
-             var data="sucursal="+sucursal;
-             var url=$("#tiendas_listado").data("urlgo");
-              $.ajax({
-                type: "POST",
-                url: url,
-                dataType: 'json',
-                data: data,
-             })
-             /*
-             .done(function(data) {
-				/*
-                 if (data.status == 1){
-                    alert(data.message);     
-                 }else{  
-                    alert(data.message); // deberia quitar la opción o marcarla como que esta favorito
-                 } 
-                */
-              /*
-                alert("los productos");
-              }).fail(function(data){
-                 
-                 alert("Trato de mostrar productos");
-              });
-			*/
-      });                   
-      
 });
 
 
 function getTiendas(ubicacion){
 
+	var day = moment().weekday();
+	var time = moment().format('HH:mm');
+	console.log("en getTiendas"+day+"time"+time);
+    //var dataString = 'zona=' + zonas[1]+"&barrio="+zonas[0];
+	var data = "zona="+ubicacion.zonaId+"&barrio="+ubicacion.barrioId+"&day="+day+"&time="+time;
       $.ajax({
             type: "POST",
             url: $("#tiendas_listado").data("url"),
             dataType: 'json',
-            data: ubicacion,
+            data: data, //ubicacion,day,time
        })
               .done(function(data) {
 				  var h="";

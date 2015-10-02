@@ -52,5 +52,5 @@ frontend_activate_account:
     defaults: { _controller: "FrontendHomeBundle:Home:activateAccount", codigo: '' }                  
         
 frontend_show_products:
-    pattern:  /frontShowProductos
+    pattern:  /{id}/frontShowProductos
     defaults: { _controller: "FrontendHomeBundle:Home:getProductsByTienda" }

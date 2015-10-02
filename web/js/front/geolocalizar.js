@@ -57,7 +57,7 @@ function codeLatLng(lat, lng) {
             success: function(data) {
                 console.log("zona"+data.zonaId+"barrio"+data.barrioId);
                 $.cookie('delivery-ubicacion', data , { expires: 30, path: '/' });
-                getTiendas(data); //se la ubicacion y traigo las tiendas de esa zona
+                getTiendas(data); //se la ubicacion y traigo las tiendas de esa zona validando el horario
             }
         });
       } else {
