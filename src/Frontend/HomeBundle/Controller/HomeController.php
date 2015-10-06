@@ -195,7 +195,6 @@ class HomeController extends Controller
 			  }
 			  $record["dia"] = $dia;
 			  $record["time"] = $time;
-			 // $record["hora"] = $desde_array;
 			  $record["link"] = "path('frontend_show_products', { 'id': ".$tienda->getId()." }) }}";
               $listado[] = $record;
        

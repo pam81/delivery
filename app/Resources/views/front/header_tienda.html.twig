@@ -235,24 +235,15 @@
                         <p class="shop-payment text-left">Medios de pago disponibles:</p>
   						
                         <ul class="list-inline text-left payments-method">
+						{% for p in  tienda.getPaymethods() %}
                         <li>
-                        <img src="img/payments/cash.png" class="icon">
+                        <img src="{{ p.getWebPath() }}" class="icon" title="{{ p.getName() }}">
 						</li>
-						<li>
-						<a href="#portfolio"><img src="img/payments/visa_electron.png" class="icon"></a>
-						</li>
-						<li>
-						<a href="#portfolio"><img src="img/payments/master.png" class="icon"></a>
-						</li>
-						<li>
-						<a href="#portfolio"><img src="img/payments/visa.png" class="icon"></a>
-						</li>                   
+						{% endfor %}					                 
                         </ul>
-                        <p class="shop-delivery text-left">Tiempo de entrega estimado: 30 | 45 minutos</p>
+                        <p class="shop-delivery text-left">Tiempo de entrega estimado: {{ tienda.getTiempoEntrega() }}</p>
                         <p class="shop-delivery text-left">Servicio de delivery: {% if tienda.getDelivery() is null %} Sin cargo {% else %} {{ tienda.getDelivery() }}{% endif %}</p>
-						<p class="shop-delivery text-left">Pedido mínimo: {% if tienda.getMinimo() is null %} -- {% else %}  {{ " $ " ~tienda.getMinimo() }} {% endif %}</p>
-
-                        
+						<p class="shop-delivery text-left">Pedido mínimo: {% if tienda.getMinimo() is null %} -- {% else %}  {{ " $ " ~tienda.getMinimo() }} {% endif %}</p>                        
                         </div> <!-- info -->                          
                     </div>
                 </div>

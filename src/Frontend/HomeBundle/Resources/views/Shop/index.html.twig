@@ -20,14 +20,33 @@
                     <img src="{{ p.getWebPath() }}" alt="">
                     <div class="caption">
                         <p class="product-title">{{ p.getName() }}</p>
-                        <p>{{ p.getDescription }}</p>
+                        <p class="product-desc">{{ p.getDescription }}</p>
                         <p class="product-title">$ {{ p.getPrecio() }}</p>
-                        <p>
-                            <a href="#" class="btn btn-primary">Agregar</a> <a href="#" class="btn btn-default">Mas Info</a>
-                        </p>
-                    </div>
+						<p class="product-desc">{% if p.getVariedades() is not empty %}<a href="#">Ver variedades</a>{% endif %}</p>  
+						                    
+                    </div>					
+                    <p>
+						<div class="center">
+						  
+						      <div class="input-group">
+						          <span class="input-group-btn">
+						              <button type="button" class="btn btn-warning btn-number"  data-type="minus" data-field="quant[2]">
+						                <span class="glyphicon glyphicon-minus"></span>
+						              </button>
+						          </span>
+						          <input type="text" name="quant[2]" class="form-control input-number" value="10" min="1" max="100">
+						          <span class="input-group-btn">
+						              <button type="button" class="btn btn-primary btn-number" data-type="plus" data-field="quant[2]">
+						                  <span class="glyphicon glyphicon-plus"></span>
+						              </button>
+						          </span>
+						      </div>
+							
+						</div>
+						
+                    </p>
                 </div>
-            </div>
+            </div> <!-- product -->
 			{% endfor %}
 
         </div>
@@ -35,6 +54,9 @@
 
        </div>
     <!-- /.container -->
+	  
 
 	
 {% endblock %}
+
+                        
