@@ -10,6 +10,10 @@ frontend_terminos:
     pattern:  /terminos
     defaults: { _controller: FrontendHomeBundle:Home:terminos }
 
+frontend_politicas:
+    pattern:  /politicas
+    defaults: { _controller: FrontendHomeBundle:Home:politicas }
+
 frontend_menuZona:
     pattern:  /menuZona
     defaults: { _controller: FrontendHomeBundle:Home:menuZona }

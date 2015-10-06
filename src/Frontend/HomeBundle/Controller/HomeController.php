@@ -36,6 +36,13 @@ class HomeController extends Controller
                 
     }
     
+    public function politicasAction(Request $request)
+    {    
+        return $this->render('FrontendHomeBundle:Home:privacidad.html.twig');
+                
+    }
+	
+	
     //obtener listado de zonas y barrios 
     public function menuZonaAction(Request $request){
     
