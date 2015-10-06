@@ -75,6 +75,15 @@
         </div>
 </div>
 
+<div class="form-group">
+        
+        {{ form_label(form.delivery,"Costo de envio", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
+        <div class="col-xs-6">
+            {{ form_widget(form.delivery, { 'attr': {'class': 'form-control'} }) }}
+            <span id='backend_customeradminbundle_sucursal_delivery_errorloc' class="help-block"> {{ form_errors(form.delivery) }} </span>
+        </div>
+</div>
+
 
 <div class="form-group">
         <div class="col-xs-offset-2 col-xs-10">

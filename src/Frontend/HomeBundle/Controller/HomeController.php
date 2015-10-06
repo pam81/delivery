@@ -141,7 +141,7 @@ class HomeController extends Controller
 					
 					if($horario->getDia()->getId() == $dia){
 						
-						if($horario->getCerrado()){
+						if($horario->getCerrado()){ // esta cerrado 
 							
 							$open = false;
 						
@@ -155,15 +155,16 @@ class HomeController extends Controller
 						  if($horario->getHasta()){
 							$hasta_array = explode(":",$horario->getHasta());					
 							$hasta = $hasta_array[0]*60 + $hasta_array[1];
-						
-						
-						  }else if($min < $desde ||  $min > $hasta){
+												
+						  }
+						  					 
+					       if($min < $desde ||  $min > $hasta){
 						
 							$open = false;
-						  }else{
-							$open = true;
-						  }
-						}  
+					       }else{
+								$open = true;
+				  		  }
+						} // Si está abierto   
 					}	
 			  } 
 				
@@ -194,8 +195,8 @@ class HomeController extends Controller
 			  }
 			  $record["dia"] = $dia;
 			  $record["time"] = $time;
-			  $record["hora"] = $desde_array;
-			  
+			 // $record["hora"] = $desde_array;
+			  $record["link"] = "path('frontend_show_products', { 'id': ".$tienda->getId()." }) }}";
               $listado[] = $record;
        
 		} 
@@ -280,16 +281,23 @@ class HomeController extends Controller
     
     public function getProductsByTiendaAction($id){
 		
-		$sucursal_id = $request->request->get("sucursal");
+		//$sucursal_id = $request->request->get("sucursal");
 		if($id){
-		/*
-		return $this->render('FrontendBundle:Shop:index.html.twig', 
-        array('pagination' => $pagination,
-        'delete_form' => $deleteForm->createView(),
-        'search'=>$search
+			
+	        $em = $this->getDoctrine()->getManager();
+
+	        $sucursal = $em->getRepository('BackendCustomerAdminBundle:Sucursal')->find($id);
+			
+			$productos = $sucursal->getProductos();
+		
+			
+		
+        return $this->render('FrontendHomeBundle:Shop:index.html.twig', array(
+            'tienda' => $sucursal,
+			//'productos' => $productos
+           
         ));
-        */
-			return $this->render('FrontendHomeBundle:Shop:index.html.twig');
+				
 		}else{
 			
 			return $this->render('FrontendHomeBundle:Home:terminos.html.twig');

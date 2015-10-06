@@ -54,7 +54,7 @@ class SucursalType extends AbstractType
       ));
             
 	    $builder->add('radio');
-  
+  	  	$builder->add('delivery');
             
     }
 

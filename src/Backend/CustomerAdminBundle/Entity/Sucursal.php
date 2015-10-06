@@ -129,6 +129,19 @@ class Sucursal
      * @ORM\OneToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Favorito", mappedBy="sucursal")
      */
     private $favoritos; 
+	
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+	
+	private $delivery;
+
+    /**
+     * @ORM\Column(name="price", type="decimal", scale=2, nullable=true)
+     */
+	
+	private $minimo;
+	
     
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -906,5 +919,51 @@ class Sucursal
     public function getRadio()
     {
         return $this->radio;
+    }
+
+    /**
+     * Set delivery
+     *
+     * @param string $delivery
+     * @return Sucursal
+     */
+    public function setDelivery($delivery)
+    {
+        $this->delivery = $delivery;
+
+        return $this;
+    }
+
+    /**
+     * Get delivery
+     *
+     * @return string 
+     */
+    public function getDelivery()
+    {
+        return $this->delivery;
+    }
+
+    /**
+     * Set minimo
+     *
+     * @param string $minimo
+     * @return Sucursal
+     */
+    public function setMinimo($minimo)
+    {
+        $this->minimo = $minimo;
+
+        return $this;
+    }
+
+    /**
+     * Get minimo
+     *
+     * @return string 
+     */
+    public function getMinimo()
+    {
+        return $this->minimo;
     }
 }
