@@ -84,6 +84,14 @@
         </div>
 </div>
 
+<div class="form-group">
+        
+        {{ form_label(form.tiempo_entrega,"Tiempo de entrega promedio", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
+        <div class="col-xs-6">
+            {{ form_widget(form.tiempo_entrega, { 'attr': {'class': 'form-control'} }) }}
+            <span id='backend_customeradminbundle_sucursal_tiempo_entrega_errorloc' class="help-block"> {{ form_errors(form.tiempo_entrega) }} </span>
+        </div>
+</div>
 
 <div class="form-group">
         <div class="col-xs-offset-2 col-xs-10">

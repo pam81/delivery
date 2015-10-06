@@ -137,6 +137,12 @@ class Sucursal
 	private $delivery;
 
     /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+	
+	private $tiempo_entrega;
+	
+    /**
      * @ORM\Column(name="price", type="decimal", scale=2, nullable=true)
      */
 	
@@ -965,5 +971,28 @@ class Sucursal
     public function getMinimo()
     {
         return $this->minimo;
+    }
+
+    /**
+     * Set tiempo_entrega
+     *
+     * @param string $tiempoEntrega
+     * @return Sucursal
+     */
+    public function setTiempoEntrega($tiempoEntrega)
+    {
+        $this->tiempo_entrega = $tiempoEntrega;
+
+        return $this;
+    }
+
+    /**
+     * Get tiempo_entrega
+     *
+     * @return string 
+     */
+    public function getTiempoEntrega()
+    {
+        return $this->tiempo_entrega;
     }
 }

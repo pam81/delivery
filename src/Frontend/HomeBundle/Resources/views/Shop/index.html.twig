@@ -14,61 +14,21 @@
 
         <!-- Page Features -->
         <div class="row text-center">
-
+			{% for p in productos %}
             <div class="col-md-3 col-sm-6 hero-feature">
                 <div class="thumbnail">
-                    <img src="img/productos/p1.jpg" alt="">
+                    <img src="{{ p.getWebPath() }}" alt="">
                     <div class="caption">
-                        <p class="product-title">Grande de Muzzarella</p>
-                        <p>Salsa de tomate, muzzarella, orégano y aceitunas verdes.</p>
-                        <p class="product-title">$ 105.00</p>
+                        <p class="product-title">{{ p.getName() }}</p>
+                        <p>{{ p.getDescription }}</p>
+                        <p class="product-title">$ {{ p.getPrecio() }}</p>
                         <p>
                             <a href="#" class="btn btn-primary">Agregar</a> <a href="#" class="btn btn-default">Mas Info</a>
                         </p>
                     </div>
                 </div>
             </div>
-
-            <div class="col-md-3 col-sm-6 hero-feature">
-                <div class="thumbnail">
-                    <img src="img/productos/p2.jpg" alt="">
-                    <div class="caption">
-                        <p class="product-title">Empanadas regionales</p>
-                        <p>Horneadas o soufflé. 30 Variedades</p>
-                        <p class="product-title">$ 14.00</p>
-                        <p>
-                            <a href="#" class="btn btn-primary">Agregar</a> <a href="#" class="btn btn-default">Mas Info</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3 col-sm-6 hero-feature">
-                <div class="thumbnail">
-                    <img src="img/productos/p4.jpg" alt="">
-                    <div class="caption">
-                        <p class="product-title">Milanesa completa</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                        <p>
-                            <a href="#" class="btn btn-primary">Agregar</a> <a href="#" class="btn btn-default">Mas Info</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3 col-sm-6 hero-feature">
-                <div class="thumbnail">
-                    <img src="img/productos/p3.jpg" alt="">
-                    <div class="caption">
-                        <p class="product-title">Flan Casero</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                        <p class="product-title">$ 85.00</p>
-                        <p>
-                            <a href="#" class="btn btn-primary">Agregar</a> <a href="#" class="btn btn-default">Mas Info</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
+			{% endfor %}
 
         </div>
         <!-- /.row -->
