@@ -202,7 +202,7 @@ class HomeController extends Controller
 			  }
 			  $record["dia"] = $dia;
 			  $record["time"] = $time;
-			  $record["link"] = "path('frontend_show_products', { 'id': ".$tienda->getId()." }) }}";
+			  $record["link"] = $this->generateUrl('frontend_show_products', array('id' =>$tienda->getId()));
               $listado[] = $record;
        
 		} 
