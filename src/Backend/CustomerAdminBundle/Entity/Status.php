@@ -29,9 +29,9 @@ class Status {
     private $name;
 	
     /**
-     * @ORM\OneToMany(targetEntity="Pedido", mappedBy="status")
+     * @ORM\OneToMany(targetEntity="Proceso", mappedBy="status")
      */
-    private $pedidos;
+    private $procesos;
     
     /**
      * @ORM\Column(name="created_at", type="datetime")
@@ -48,6 +48,7 @@ class Status {
        
         $this->isDelete = false;
         $this->createdAt = new \DateTime('now');
+        $this->procesos = new \Doctrine\Common\Collections\ArrayCollection();
         
     }
 
@@ -195,36 +196,38 @@ class Status {
         return $this->customers;
     }
 
+    
+
     /**
-     * Add pedidos
+     * Add procesos
      *
-     * @param \Backend\CustomerAdminBundle\Entity\Pedido $pedidos
+     * @param \Backend\CustomerAdminBundle\Entity\Proceso $procesos
      * @return Status
      */
-    public function addPedido(\Backend\CustomerAdminBundle\Entity\Pedido $pedidos)
+    public function addProceso(\Backend\CustomerAdminBundle\Entity\Proceso $procesos)
     {
-        $this->pedidos[] = $pedidos;
+        $this->procesos[] = $procesos;
 
         return $this;
     }
 
     /**
-     * Remove pedidos
+     * Remove procesos
      *
-     * @param \Backend\CustomerAdminBundle\Entity\Pedido $pedidos
+     * @param \Backend\CustomerAdminBundle\Entity\Proceso $procesos
      */
-    public function removePedido(\Backend\CustomerAdminBundle\Entity\Pedido $pedidos)
+    public function removeProceso(\Backend\CustomerAdminBundle\Entity\Proceso $procesos)
     {
-        $this->pedidos->removeElement($pedidos);
+        $this->procesos->removeElement($procesos);
     }
 
     /**
-     * Get pedidos
+     * Get procesos
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getPedidos()
+    public function getProcesos()
     {
-        return $this->pedidos;
+        return $this->procesos;
     }
 }

@@ -22,7 +22,7 @@ class Detalle
     /**
      * @ORM\Column(name="price", type="decimal", scale=2)
      */
-    private $precio;
+    private $precio;  //precio unitario
 
 	/**
      * @ORM\Column(name="cantidad", type="integer")
