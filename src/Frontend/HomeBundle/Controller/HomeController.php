@@ -118,10 +118,8 @@ class HomeController extends Controller
         $barrioId =trim(mb_convert_case($request->get("barrio"),MB_CASE_LOWER));
 		$time = trim(mb_convert_case($request->get("time"),MB_CASE_LOWER)); 
    		$dia = trim(mb_convert_case($request->get("day"),MB_CASE_LOWER));
-        
-        //mostrar en el slider principal sucursales premium activas
+
 		$time_array = explode(":",$time);
-		
 		$ahora = $time_array[0]*60 + $time_array[1];
 
         $dql= "SELECT u FROM BackendCustomerAdminBundle:Sucursal u JOIN u.direccion d where d.barrio = ".$barrioId;
@@ -204,7 +202,6 @@ class HomeController extends Controller
 			  }
 			  $record["dia"] = $dia;
 			  $record["cierra"] = $cierra;
-			  //$record["time"] = $time;
 			  $record["link"] = $this->generateUrl('frontend_show_products', array('id' =>$tienda->getId()));
               $listado[] = $record;
        
@@ -221,7 +218,7 @@ class HomeController extends Controller
     public function getTiendasPremiumAction(Request $request){
         
         $time = date('h:i:s');
-        $dia = 7;
+        $dia = 6;
         //mostrar en el slider principal sucursales premium activas
         $tiendas = $this->getDoctrine()->getRepository('BackendCustomerAdminBundle:Sucursal')
                   ->findBy(array("is_active"=>true,"premium"=>true));        
@@ -233,24 +230,20 @@ class HomeController extends Controller
 			  $open = false;
 			  
 			  $horarios = $tienda->getHorarios();
+
+              $open = $this->checkOpenNow($horarios,$dia,$time);
+
 			  $horarios_tienda = array(); 	
 			
-			  foreach($horarios as $horario){
-				  
-					if($horario->getCerrado()){
-						$horarios_tienda[] = $horario->getDia()->getName().": Cerrado";				
-					}else{
-						$horarios_tienda[] = $horario->getDia()->getName().":".$horario->getDesde()."-".$horario->getHasta()." hs.";
-				    }
-					
-					if($horario->getDia()->getId() == $dia && ($horario->getCerrado() || ($time < $horario->getDesde() &&   $time > $horario->getHasta()))){
-						
-						$open = false;							
-					}else{
-						$open = true;
-					}
-			  } 
-				
+			  foreach($horarios as $horario) {
+
+                  if ($horario->getCerrado()) {
+                      $horarios_tienda[] = $horario->getDia()->getName() . ": Cerrado";
+                  } else {
+                      $horarios_tienda[] = $horario->getDia()->getName() . ":" . $horario->getDesde() . "-" . $horario->getHasta() . " hs.";
+                  }
+              }
+
 			  $record=array();
               $record["id"]=$tienda->getId();
               $record["name"]=$tienda->getName();
@@ -276,7 +269,7 @@ class HomeController extends Controller
 					  $record["title"] = "Cerrado";					  
 				  }				  
 			  }
-			  
+              $record["link"] = $this->generateUrl('frontend_show_products', array('id' =>$tienda->getId()));
               $listado[] = $record;
 
 	   }

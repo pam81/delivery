@@ -226,7 +226,7 @@
                         {% endif %}
                        
 						<div class="info">
-						<p class="shop-open">{% if tienda.getOpen() %} Recibe pedidos estando cerrado {% else %} No recibe pedidos estando cerrado {% endif %}</p>
+						<p class="shop-open">{% if tienda.getOpen() %}<span class="label label-sucess">Recibe pedidos estando cerrado</span>{% else %}<span class="label label-danger">No recibe pedidos estando cerrado</span>  {% endif %}</p>
                         <p class="shop-payment text-left">Medios de pago disponibles:</p>
   						
                         <ul class="list-inline text-left payments-method">
@@ -248,7 +248,7 @@
                        <p class="shop-address text-right">{{ tienda.getDireccion().getCalle() ~ " " ~ tienda.getDireccion().getNumero() }}</p>
                        <p class="shop-delivery text-right">Radio de entrega: {{ tienda.getRadio() }} km.</p>
 					   <p class="shop-delivery text-right">Ver horarios</p>
-					   <h3 class="shop-status" data-url = "{{ path('frontend_checkTime') }}" id = "status" data-tienda = " {{ tienda.getId() }} "></h3>                        
+					   <h3 class="shop-status label label-warning" data-url = "{{ path('frontend_checkTime') }}" id = "status" data-tienda = " {{ tienda.getId() }} "></h3>
                     </div>
                 </div>        
                 
