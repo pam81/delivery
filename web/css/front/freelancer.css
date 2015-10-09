@@ -16,32 +16,6 @@ p.small {
     font-size: 16px;
 }
 
-p.faqs {
-
-	font-size: 14px;
-}
-
-h4.faqs {
-
-	font-size : 15px;
-	text-transform: none;
-	font-weight: 500;
-	color: #000000;
-}
-
-
-.panel {
-    margin-bottom: 20px;
-    background-color: #FFF;
-
-/*    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05); */
-}
-.panel-default  .panel-heading {
-    color: #333;
-    background-color: rgba(254, 152, 15, 0.47);
-    border-color: #DDD;
-}
-
 a,
 a:hover,
 a:focus,
@@ -123,15 +97,140 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f1e767', end
 
 }
 
+.header_shop{
+
+	background-image: url("headers/pizza_tiny.jpg");
+	/*opacity: 0.7;*/
+}
+
+
 header .container {
     padding-top: 100px;
-    padding-bottom: 20px;
+    padding-bottom: 30px;
+}
+
+header_shop .container {
+
+	padding-top: 250px;
+    padding-bottom: 50px;
+    width: 1170px;
+    background:rgba(40, 34, 30, 0.6);
+
 }
 
 header img {
     display: block;
     margin: 0 auto 20px;
 }
+
+header .shop-bg{
+	
+	background:rgba(40, 34, 30, 0.6);
+	border-radius: 10px 10px 10px 10px;
+}
+
+header .intro-text .info{
+
+	padding-top: 10px;
+}
+
+header .intro-text .shop-title{
+
+	font-size: 2.00em;
+    font-weight: 300;
+    color: #ffffff;
+    /*float: right;
+    margin-left: 190px;*/
+	margin-top: 25px;
+}
+
+header .intro-text .shop-address{
+
+	font-size: 1.25em;
+    font-weight: 300;
+    color: #ffffff;
+    /*margin-left: 190px;*/
+	margin-top: 5px;
+}
+
+header .intro-text .shop-time{
+
+	font-size: 1.00em;
+    font-weight: 300;
+    color: #ffffff;
+    margin-left: 190px;
+	
+}
+
+header .intro-text .shop-status{
+	/*
+	margin-left: 10px;
+	font-size: 20px;
+	float:left;
+	*/
+	
+	font-size: 20px;
+	text-align: right;
+	margin-left: 240px;
+	
+}
+
+header .intro-text .shop-open{
+	
+	/*margin-left: 190px;*/
+	font-size: 20px;
+	margin-right: 300px;
+}
+
+header .intro-text .payments-method{
+	
+	margin-left: 185px;
+	/*margin-top: 20px;*/
+	margin-bottom: -20px;
+}
+
+
+
+header .intro-text .shop-payment{
+
+	font-size: 1.00em;
+    font-weight: 300;
+    color: #ffffff;
+    margin-left: 190px;
+	margin-top: 5px;
+}
+
+header .intro-text .shop-delivery{
+
+	font-size: 1.00em;
+    font-weight: 200;
+    color: #ffffff;
+    margin-left: 190px;
+	margin-top: 5px;
+}
+
+header .intro-text .shop-promo{
+
+	background-image: url("img/label_promo_tiny.png");
+	font-size: 1.00em;
+    font-weight: 200;
+    color: #ffffff;
+    margin-left: 190px;
+	margin-top: 20px;
+}
+
+
+
+header .intro-text .logo{
+
+	margin-top: 15px;
+	margin-left: -5px;
+	float: left;
+	width:180px;
+	height:180px;
+
+}
+
 
 header .intro-text .name {
     display: block;
@@ -148,10 +247,38 @@ header .intro-text .skills {
     color: #666663;
 }
 
+.product-title{
+
+	color: #FE980F;
+	font-size: 1.5em;	
+}
+
+.product-desc{
+	
+	font-size: 15px;
+}
+
+.privacidad h2 {
+	
+	font-size: 16px;
+	color: #FE980F;
+	
+	}
+
+.privacidad p {
+		
+	font-size: 14px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 15px;
+	text-align: justify;
+	
+}
+
 @media(min-width:768px) {
     header .container {
         padding-top: 100px;
-        padding-bottom: 20px;
+        padding-bottom: 30px;
     }
 
     header .intro-text .name {
@@ -579,7 +706,7 @@ footer a {
 .subtitle {
 	
 	color: #FE980F;
-	font-size: 26px;
+	font-size: 24px;
 }
 
 .btn-primary {
@@ -608,12 +735,10 @@ footer a {
     border-color: #666663;
 }
 
-#see_more {
-		
-	float:right;		
+.hero-spacer {
+    margin-top: 50px;
 }
 
-#footer_social{
-
-	margin-left:5px;
+.hero-feature {
+    margin-bottom: 30px;
 }
