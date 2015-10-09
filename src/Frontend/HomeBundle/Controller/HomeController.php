@@ -122,7 +122,7 @@ class HomeController extends Controller
         //mostrar en el slider principal sucursales premium activas
 		$time_array = explode(":",$time);
 		
-		$min = $time_array[0]*60 + $time_array[1];
+		$ahora = $time_array[0]*60 + $time_array[1];
 
         $dql= "SELECT u FROM BackendCustomerAdminBundle:Sucursal u JOIN u.direccion d where d.barrio = ".$barrioId;
         $em = $this->getDoctrine()->getManager();
@@ -164,17 +164,19 @@ class HomeController extends Controller
 							$hasta = $hasta_array[0]*60 + $hasta_array[1];
 												
 						  }
-						  					 
-					       if($min < $desde ||  $min > $hasta){
+						  // valida el caso que cierre a las 0:00 hs					 
+					       if(($ahora < $desde ||  $ahora > $hasta) xor ($ahora > $desde && $ahora > $hasta)){
 						
 							$open = false;
-					       }else{
+					       
+						   }else{
 								$open = true;
+								$cierra = $hasta;
 				  		  }
 						} // Si está abierto   
 					}	
 			  } 
-				
+			  $cierra = null; // para validar si está abierto al momento de comprar. 	
 			  $record=array();
               $record["id"]=$tienda->getId();
               $record["name"]=$tienda->getName();              
@@ -201,7 +203,8 @@ class HomeController extends Controller
 				  }				  
 			  }
 			  $record["dia"] = $dia;
-			  $record["time"] = $time;
+			  $record["cierra"] = $cierra;
+			  //$record["time"] = $time;
 			  $record["link"] = $this->generateUrl('frontend_show_products', array('id' =>$tienda->getId()));
               $listado[] = $record;
        
@@ -285,9 +288,8 @@ class HomeController extends Controller
     
     }
     
-    public function getProductsByTiendaAction($id){
+    public function getProductsByTiendaAction(Request $request, $id){
 		
-		//$sucursal_id = $request->request->get("sucursal");
 		if($id){
 			
 	        $em = $this->getDoctrine()->getManager();
@@ -295,7 +297,6 @@ class HomeController extends Controller
 	        $sucursal = $em->getRepository('BackendCustomerAdminBundle:Sucursal')->find($id);
 			
 			$productos = $sucursal->getProductos();
-		
 			
 		
         return $this->render('FrontendHomeBundle:Shop:index.html.twig', array(
@@ -347,6 +348,75 @@ class HomeController extends Controller
       
     
     }
+	
+	private function checkOpenNow($horarios,$dia,$time){
+		
+		$open = false;
+		
+		$time_array = explode(":",$time);		
+		$ahora = $time_array[0]*60 + $time_array[1];		
+		
+		foreach($horarios as $horario){
+			
+			if($horario->getDia()->getId() == $dia){
+				
+				if($horario->getCerrado()){ // esta cerrado 
+					
+					$open = false;
+				
+				}else{						
+			
+				  if($horario->getDesde()){
+			
+					$desde_array = explode(":",$horario->getDesde());					
+					$desde = $desde_array[0]*60 + $desde_array[1];
+				  }
+				  if($horario->getHasta()){
+					$hasta_array = explode(":",$horario->getHasta());					
+					$hasta = $hasta_array[0]*60 + $hasta_array[1];
+										
+				  }
+				  // valida el caso que cierre a las 0:00 hs					 
+			       if(($ahora < $desde ||  $ahora > $hasta) xor ($ahora > $desde && $ahora > $hasta)){
+				
+					$open = false;
+			       
+				   }else{
+						$open = true;
+						$cierra = $hasta;
+		  		  }
+				} // Si está abierto   
+			}	
+		}		
+		return $open;
+	}
+	
+	/* Verifica si la tienda sigue abierta */
+	
+	public function checkTimeAction(Request $request){
+		
+		$dia = trim(mb_convert_case($request->get("day"),MB_CASE_LOWER));
+		$hora = trim(mb_convert_case($request->get("time"),MB_CASE_LOWER));
+		$tiendaId = trim(mb_convert_case($request->get("tienda"),MB_CASE_LOWER));
+        
+        $em = $this->getDoctrine()->getManager();
+
+        $sucursal = $em->getRepository('BackendCustomerAdminBundle:Sucursal')->find($tiendaId);
+		
+		$horarios = $sucursal->getHorarios();
+		
+		$status = $this->checkOpenNow($horarios,$dia,$hora);
+		
+		$resultado=array("status"=>$status);
+      
+        $response = new Response(json_encode($resultado));
+        
+        $response->headers->set('Content-Type', 'application/json');
+  
+        return $response;
+		
+		
+	}
     
     public function checkBarrioAction(Request $request){
      
@@ -388,7 +458,7 @@ class HomeController extends Controller
           }		  	
 	   }
 	   
-       $resultado=array("zonaId"=>$zonaId, "barrioId"=>$barrioId,"day"=>4);
+       $resultado=array("zonaId"=>$zonaId, "barrioId"=>$barrioId);
       
        $response = new Response(json_encode($resultado));
         

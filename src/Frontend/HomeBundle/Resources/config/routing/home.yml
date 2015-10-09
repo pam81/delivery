@@ -58,3 +58,7 @@ frontend_activate_account:
 frontend_show_products:
     pattern:  /{id}/frontShowProductos
     defaults: { _controller: "FrontendHomeBundle:Home:getProductsByTienda" }
+
+frontend_checkTime:
+    pattern:  /checkTime
+    defaults: { _controller: "FrontendHomeBundle:Home:checkTime" }

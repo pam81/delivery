@@ -224,14 +224,9 @@
                         {% if tienda.getWebPath() %}
                         <img src="{{ asset(tienda.getWebPath()) }}" class="logo" />
                         {% endif %}
-                        
-                        <div class="info">
-                        
-                        <p class="shop-time text-left">Horario de atención: {% for horario in tienda.getHorarios() %}
-						{{ horario.getDia.getName ~ ": "}} {% if horario.getCerrado() %} cerrado {% else %} {{ horario.getDesde() ~"-"~ horario.getHasta() ~" hs."}} {% endif %}
-						{% endfor %}
-						</p>               
-						  
+                       
+						<div class="info">
+						<p class="shop-open">{% if tienda.getOpen() %} Recibe pedidos estando cerrado {% else %} No recibe pedidos estando cerrado {% endif %}</p>
                         <p class="shop-payment text-left">Medios de pago disponibles:</p>
   						
                         <ul class="list-inline text-left payments-method">
@@ -251,7 +246,9 @@
                     <div class="intro-text">
                        <p class="shop-title text-right">{{ tienda.getName() }}</p>
                        <p class="shop-address text-right">{{ tienda.getDireccion().getCalle() ~ " " ~ tienda.getDireccion().getNumero() }}</p>
-                       <p class="shop-delivery text-right">Radio de entrega: {{ tienda.getRadio() }} km.</p>                        
+                       <p class="shop-delivery text-right">Radio de entrega: {{ tienda.getRadio() }} km.</p>
+					   <p class="shop-delivery text-right">Ver horarios</p>
+					   <h3 class="shop-status" data-url = "{{ path('frontend_checkTime') }}" id = "status" data-tienda = " {{ tienda.getId() }} "></h3>                        
                     </div>
                 </div>        
                 
