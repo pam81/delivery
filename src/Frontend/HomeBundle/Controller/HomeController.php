@@ -10,7 +10,9 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\HttpFoundation\Session\Session;
-use BackendCustomerAdmin\Entity\Favorito;
+use Backend\CustomerAdminBundle\Entity\Favorito;
+use Backend\CustomerAdminBundle\Entity\Sucursal;
+use Backend\CustomerBundle\Entity\Customer;
 /**
  * Home controller.
  *
@@ -203,10 +205,13 @@ class HomeController extends Controller
 				  }				  
 			  }
 			  $record["dia"] = $dia;
+
 			  $record["cierra"] = $cierra;
 			  //$record["time"] = $time;
 			  $record["link"] = $this->generateUrl('frontend_show_products', array('id' =>$tienda->getId()));
+        $record["favorito"]=$this->isFavorito($tienda);
               $listado[] = $record;
+
        
 		} 
 		
@@ -277,6 +282,8 @@ class HomeController extends Controller
 				  }				  
 			  }
 			  
+         $record["favorito"]=$this->isFavorito($tienda);
+         $record["link"] =$this->generateUrl('frontend_show_products', array('id' => $tienda->getId()));
               $listado[] = $record;
 
 	   }
@@ -288,7 +295,29 @@ class HomeController extends Controller
     
     }
     
+    private function isFavorito($tienda){
+       $session = $this->getRequest()->getSession();
+       $customer=$session->get("customer");
+       if (!$customer){
+         return false;
+       }
+       else{
+        $customer_id=$customer->getId();
+        $sucursal_id=$tienda->getId();
+        $em = $this->getDoctrine()->getManager();
+        $favorito = $em->getRepository('BackendCustomerAdminBundle:Favorito')->findOneBy(array("customer"=>$customer_id,"sucursal"=>$sucursal_id));
+        if ($favorito){
+          return true;
+        }else{
+          return false;
+        }  
+       
+       }
+    
+    }
+
     public function getProductsByTiendaAction(Request $request, $id){
+
 		
 		if($id){
 			
@@ -330,7 +359,7 @@ class HomeController extends Controller
               
            }else{
               $favorito = new Favorito();
-              $favorito->setCustomer($em->getRepository('BackendCustomerBundle:User')->find($customer_id));
+              $favorito->setCustomer($em->getRepository('BackendCustomerBundle:Customer')->find($customer_id));
               $favorito->setSucursal($em->getRepository('BackendCustomerAdminBundle:Sucursal')->find($sucursal_id));
               $em->persist($favorito);
               $em->flush();

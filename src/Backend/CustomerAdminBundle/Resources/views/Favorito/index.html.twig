@@ -42,19 +42,20 @@
                                 <thead>
                                     <tr>
                                         <th {% if pagination.isSorted('u.sucursal') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Comercio', 'u.sucursal') }}</th>
-										
+										                    <th>Tienda</th>
                                         <th style="width: 92px;">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                     {% for direccion in pagination %}
+                                     {% for favorito in pagination %}
                                        <tr>
                                             
                                                   <td>{{ favorito.sucursal.getName }}</td>
-                                                  
+                                                  <td><a href="{{ path('frontend_show_products',{ 'id': favorito.getSucursal.getId }) }}" class="btn btn-warning" > Ir a la tienda</a></td>
 												                          <td>
                                                   
                                                   <a href="#" class="btn confirm-delete"   data-toggle="modal" data-id={{ favorito.id }}  data-target="#myModal"><i class="fa fa-trash"></i></a>
+                                                  
                                                   </td>
                                       </tr>
                                       
