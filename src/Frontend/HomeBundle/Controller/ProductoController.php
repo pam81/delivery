@@ -40,7 +40,14 @@ class ProductoController extends Controller
 		
 		return $this->render('FrontendHomeBundle:Home:terminos.html.twig');
 	}
-}
+    }
+    
+    
+    public function showCarritoAction(){
+    
+      	return $this->render('FrontendHomeBundle:Cart:index.html.twig');
+    
+    }
     
 	
 }
