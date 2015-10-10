@@ -84,7 +84,8 @@ $(document).ready(function(){
               });
               
             
-              
+   // tengo que mandar day y time
+
    var jqxTiendasPremium = $.getJSON( $("#sugeridos").data("url"))
               .done(function(data) {
                  var element = '<div class="item active">';
@@ -103,7 +104,7 @@ $(document).ready(function(){
 										element += ' <div class="single-products">';
 										element +='		<div class="productinfo text-center">';
 										element +='			<img src="'+data[index].imagen+'" alt="" />';
-										element +='			<a href="#" class="btn btn-warning go_tienda" data-sucursal="'+data[index].id+'"></i>Ir a la tienda</a>';
+										element +='			<a href="'+data[index].link+'" class="btn btn-warning go_tienda"></i>Ir a la tienda</a>';
 										element +='		</div> ';
 										element +='<img src="'+data[index].promo+'" title="'+data[index].title +'" class="new">';
 										//element +='<img src="'+data[index].open+'" class="open">';
@@ -292,6 +293,7 @@ $(document).ready(function(){
 });
 
 
+
 function getTiendas(ubicacion){
 
 	var day = moment().weekday();
@@ -320,15 +322,15 @@ function getTiendas(ubicacion){
                       	element += '							<div class="single-products">';
                       	element += '									<div class="productinfo text-center">';
                       	element += '										<img src="'+data[index].imagen+'" alt="" />';
-                      	element += '										<a href="" class="btn btn-warning go_tienda"  data-sucursal="'+data[index].id+'"></i>Ir a la tienda</a>';
+                      	element += '										<a href="'+data[index].link+'" class="btn btn-warning go_tienda"  data-sucursal="'+data[index].id+'"></i>Ir a la tienda</a>';
                       	element += '									</div> ';
                         element +='<img src="'+data[index].promo+'" title="'+data[index].title +'" class="new">';
 										//element +='<img src="'+data[index].open+'" class="open">';
 										element += '</div>';
                       	element += '							</div>';
                         element +='    <div class="choose">';
-    									  element +='       <ul class="nav nav-pills nav-justified">';
-    										element +='         <li><a href="javascript:void(0)" class="horarios_modal" data-texto="'+h+'"  ><i class="fa fa-clock-o"></i>Consultar horario</a>  </li>';
+     				    element +='       <ul class="nav nav-pills nav-justified">';
+    					element +='         <li><a href="javascript:void(0)" class="horarios_modal" data-texto="'+h+'"  ><i class="fa fa-clock-o"></i>Consultar horario</a>  </li>';
                         element +='         <li><a href="javascript:void(0)" class="add_favorito" data-sucursal="'+data[index].id+'"><i class="fa fa-plus-square"></i>Agregar a Favoritos</a></li>';
                         element +=' 			</ul>';
     								    element +='    </div>';
@@ -344,9 +346,4 @@ function getTiendas(ubicacion){
               .fail(function() {
                 console.log( "can't load tiendas" );
               });        
-              
-              
-      
-               
-
 }
