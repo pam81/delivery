@@ -103,7 +103,7 @@ $(document).ready(function(){
 										element += ' <div class="single-products">';
 										element +='		<div class="productinfo text-center">';
 										element +='			<img src="'+data[index].imagen+'" alt="" />';
-										element +='			<a href="#" class="btn btn-warning go_tienda" data-sucursal="'+data[index].id+'"></i>Ir a la tienda</a>';
+										element +='			<a href="'+data[index].link+'" class="btn btn-warning go_tienda" data-sucursal="'+data[index].id+'"></i>Ir a la tienda</a>';
 										element +='		</div> ';
 										element +='<img src="'+data[index].promo+'" title="'+data[index].title +'" class="new">';
 										//element +='<img src="'+data[index].open+'" class="open">';
@@ -111,7 +111,12 @@ $(document).ready(function(){
 										                        element +='    <div class="choose">';
     									  element +='       <ul class="nav nav-pills nav-justified">';
     										element +='         <li><a href="javascript:void(0)" class="horarios_modal" data-texto="'+h+'"><i class="fa fa-clock-o"></i>Consultar horario</a>  </li>';
-                        element +='         <li><a href="javascript:void(0)" class="add_favorito" data-sucursal="'+data[index].id+'"><i class="fa fa-plus-square"></i>Agregar a Favoritos</a></li>';
+                    if (data[index].favorito == true){    
+                        element +='         <li><a href="javascript:void(0)" class="add_favorito" data-sucursal="'+data[index].id+'"><i class="fa fa-heart"></i></a></li>';
+                     }   
+                    else{
+                        element +='         <li><a href="javascript:void(0)" class="add_favorito" data-sucursal="'+data[index].id+'"><i class="fa fa-plus-square"></i>Agregar a Favoritos</a></li>';                    
+                    }    
                         element +=' 			</ul>';
     								    element +='    </div>';
                       	element += '						</div>';
@@ -136,7 +141,7 @@ $(document).ready(function(){
               
               
       //LOGIN
-     $("[data-toggle=popover]").popover({
+     $("#btnLogin").popover({
           html: true, 
 	       content: function() {
           return $('#popover-content').html();
@@ -268,6 +273,7 @@ $(document).ready(function(){
       $("body").on("click",".add_favorito",function(){
              var sucursal=$(this).data("sucursal");
              var data="sucursal="+sucursal;
+             var self = $(this);
              var url=$("#tiendas_listado").data("urlfavorito");
               $.ajax({
                 type: "POST",
@@ -277,9 +283,9 @@ $(document).ready(function(){
              })
              .done(function(data) {
                  if (data.status == 1){
-                    alert(data.message);     
+                    self.html('<i class="fa fa-plus-square"></i>Agregar a Favoritos</a>');     
                  }else{  
-                    alert(data.message); // deberia quitar la opción o marcarla como que esta favorito
+                    self.html('<i class="fa fa-heart"></i>');
                  } 
               
               }).fail(function(data){
@@ -320,7 +326,7 @@ function getTiendas(ubicacion){
                       	element += '							<div class="single-products">';
                       	element += '									<div class="productinfo text-center">';
                       	element += '										<img src="'+data[index].imagen+'" alt="" />';
-                      	element += '										<a href="" class="btn btn-warning go_tienda"  data-sucursal="'+data[index].id+'"></i>Ir a la tienda</a>';
+                      	element += '										<a href="'+data[index].link+'" class="btn btn-warning go_tienda"  data-sucursal="'+data[index].id+'"></i>Ir a la tienda</a>';
                       	element += '									</div> ';
                         element +='<img src="'+data[index].promo+'" title="'+data[index].title +'" class="new">';
 										//element +='<img src="'+data[index].open+'" class="open">';
@@ -329,7 +335,11 @@ function getTiendas(ubicacion){
                         element +='    <div class="choose">';
     									  element +='       <ul class="nav nav-pills nav-justified">';
     										element +='         <li><a href="javascript:void(0)" class="horarios_modal" data-texto="'+h+'"  ><i class="fa fa-clock-o"></i>Consultar horario</a>  </li>';
-                        element +='         <li><a href="javascript:void(0)" class="add_favorito" data-sucursal="'+data[index].id+'"><i class="fa fa-plus-square"></i>Agregar a Favoritos</a></li>';
+                        if (data[index].favorito == true){  
+                            element +='         <li><a href="javascript:void(0)" class="add_favorito" data-sucursal="'+data[index].id+'"><i class="fa fa-heart"></i></a></li>';
+                        }else{
+                            element +='         <li><a href="javascript:void(0)" class="add_favorito" data-sucursal="'+data[index].id+'"><i class="fa fa-plus-square"></i>Agregar a Favoritos</a></li>';
+                        }
                         element +=' 			</ul>';
     								    element +='    </div>';
                       	element += '						</div>';
