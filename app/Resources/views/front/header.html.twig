@@ -70,14 +70,13 @@
                         
                     </li>
                     
-					<li class="page-scroll">
-						<a href="{{ path('customer_login')}}" title="Carrito"><img src="{{ asset("images/home/bicy.png")}}" class="icon"></a>
-					</li>
-                    <!--
-                    <li class="page-scroll">
-                        <a href="#contact">Contact</a>
-                    </li>
-                    -->
+              					<li class="page-scroll">
+              						<a id="btnCarrito" data-placement="bottom" data-toggle="popover" data-title="TUS PEDIDOS" data-container="body" type="button" data-html="true" href="javascript:void(0)" ><img src="{{ asset("images/home/bicy.png")}}" class="icon"><span id="total_productos" class="badge">0</span></a>
+              					</li>
+                       <div id="carrito-content" class="hide">
+                       </div> 
+                        
+                    
                 </ul>
             </div>
             <!-- /.navbar-collapse -->

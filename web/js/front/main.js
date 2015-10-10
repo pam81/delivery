@@ -112,7 +112,12 @@ $(document).ready(function(){
 										                        element +='    <div class="choose">';
     									  element +='       <ul class="nav nav-pills nav-justified">';
     										element +='         <li><a href="javascript:void(0)" class="horarios_modal" data-texto="'+h+'"><i class="fa fa-clock-o"></i>Consultar horario</a>  </li>';
-                        element +='         <li><a href="javascript:void(0)" class="add_favorito" data-sucursal="'+data[index].id+'"><i class="fa fa-plus-square"></i>Agregar a Favoritos</a></li>';
+                    if (data[index].favorito == true){    
+                        element +='         <li><a href="javascript:void(0)" class="add_favorito" data-sucursal="'+data[index].id+'"><i class="fa fa-heart"></i></a></li>';
+                     }   
+                    else{
+                        element +='         <li><a href="javascript:void(0)" class="add_favorito" data-sucursal="'+data[index].id+'"><i class="fa fa-plus-square"></i>Agregar a Favoritos</a></li>';                    
+                    }    
                         element +=' 			</ul>';
     								    element +='    </div>';
                       	element += '						</div>';
@@ -137,7 +142,7 @@ $(document).ready(function(){
               
               
       //LOGIN
-     $("[data-toggle=popover]").popover({
+     $("#btnLogin").popover({
           html: true, 
 	       content: function() {
           return $('#popover-content').html();
@@ -269,6 +274,7 @@ $(document).ready(function(){
       $("body").on("click",".add_favorito",function(){
              var sucursal=$(this).data("sucursal");
              var data="sucursal="+sucursal;
+             var self = $(this);
              var url=$("#tiendas_listado").data("urlfavorito");
               $.ajax({
                 type: "POST",
@@ -278,9 +284,9 @@ $(document).ready(function(){
              })
              .done(function(data) {
                  if (data.status == 1){
-                    alert(data.message);     
+                    self.html('<i class="fa fa-plus-square"></i>Agregar a Favoritos</a>');     
                  }else{  
-                    alert(data.message); // deberia quitar la opción o marcarla como que esta favorito
+                    self.html('<i class="fa fa-heart"></i>');
                  } 
               
               }).fail(function(data){
@@ -329,9 +335,14 @@ function getTiendas(ubicacion){
 										element += '</div>';
                       	element += '							</div>';
                         element +='    <div class="choose">';
-     				    element +='       <ul class="nav nav-pills nav-justified">';
-    					element +='         <li><a href="javascript:void(0)" class="horarios_modal" data-texto="'+h+'"  ><i class="fa fa-clock-o"></i>Consultar horario</a>  </li>';
-                        element +='         <li><a href="javascript:void(0)" class="add_favorito" data-sucursal="'+data[index].id+'"><i class="fa fa-plus-square"></i>Agregar a Favoritos</a></li>';
+                        element +='       <ul class="nav nav-pills nav-justified">';
+                        element +='         <li><a href="javascript:void(0)" class="horarios_modal" data-texto="'+h+'"  ><i class="fa fa-clock-o"></i>Consultar horario</a>  </li>';
+                        if (data[index].favorito == true){  
+                            element +='         <li><a href="javascript:void(0)" class="add_favorito" data-sucursal="'+data[index].id+'"><i class="fa fa-heart"></i></a></li>';
+                        }else{
+                            element +='         <li><a href="javascript:void(0)" class="add_favorito" data-sucursal="'+data[index].id+'"><i class="fa fa-plus-square"></i>Agregar a Favoritos</a></li>';
+                        }
+
                         element +=' 			</ul>';
     								    element +='    </div>';
                       	element += '						</div>';
