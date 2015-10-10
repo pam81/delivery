@@ -1,0 +1,3 @@
+frontend_vercarrito:
+    pattern:  /carrito
+    defaults: { _controller: FrontendHomeBundle:Producto:showCarrito }

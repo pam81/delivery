@@ -15,3 +15,50 @@ display: none;
 .hideElement{
   display: none;
 }
+
+.totalCarrito{
+ border-top: 1px solid #eee;
+ border-bottom: 1px solid #eee;
+ margin-top: 10px;
+ margin-bottom: 10px;
+}
+.columCantidad{
+  padding: 0;
+} 
+
+
+.cart_image{
+ width: 100px;
+ height: 100px;
+}
+
+/*SimpleCart*/
+
+.simpleCart_items hr{
+  display: none;
+}
+
+.simpleCart_items .item-quantity{
+  text-align:center;
+
+}
+
+.simpleCart_items .item-decrement a, .simpleCart_items .item-increment a{
+    background: #F0F0E9;
+    color: #696763;
+    display: inline-block;
+    font-size: 16px;
+    height: 28px;
+    
+    text-align: center;
+    width: 35px;
+    
+}
+
+
+.cart_quantity_up, .cart_quantity_down{
+ text-decoration: none;
+}
+a:visited, a:link { 
+    text-decoration: none;
+}
