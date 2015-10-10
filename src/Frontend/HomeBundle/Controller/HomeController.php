@@ -134,18 +134,17 @@ class HomeController extends Controller
         foreach ($tiendas as $tienda) {
 			  
 			  $open = false;
-			  
 			  $horarios = $tienda->getHorarios();
 			  $horarios_tienda = array(); 	
 			
-			  foreach($horarios as $horario){
-				  
-					if($horario->getCerrado()){
-						$horarios_tienda[] = $horario->getDia()->getName().": Cerrado";				
-					}else{
-						$horarios_tienda[] = $horario->getDia()->getName().":".$horario->getDesde()."-".$horario->getHasta()." hs.";
-				    }
-					
+			  foreach($horarios as $horario) {
+
+                  if ($horario->getCerrado()) {
+                      $horarios_tienda[] = $horario->getDia()->getName() . ": Cerrado";
+                  } else {
+                      $horarios_tienda[] = $horario->getDia()->getName() . ":" . $horario->getDesde() . "-" . $horario->getHasta() . " hs.";
+                  }
+              } /*
 					if($horario->getDia()->getId() == $dia){
 						
 						if($horario->getCerrado()){ // esta cerrado 
@@ -175,7 +174,9 @@ class HomeController extends Controller
 				  		  }
 						} // Si está abierto   
 					}	
-			  } 
+			  } */
+
+              $open = $this->checkOpenNow($horarios,$dia,$time);
 			  $cierra = null; // para validar si está abierto al momento de comprar. 	
 			  $record=array();
               $record["id"]=$tienda->getId();
@@ -206,7 +207,7 @@ class HomeController extends Controller
 
 			  $record["cierra"] = $cierra;
 			  $record["link"] = $this->generateUrl('frontend_show_products', array('id' =>$tienda->getId()));
-        $record["favorito"]=$this->isFavorito($tienda);
+              $record["favorito"]=$this->isFavorito($tienda);
               $listado[] = $record;
 
        
@@ -221,9 +222,9 @@ class HomeController extends Controller
     }
     
     public function getTiendasPremiumAction(Request $request){
-        
-        $time = date('h:i:s');
-        $dia = 6;
+
+        $time = trim(mb_convert_case($request->get("time"),MB_CASE_LOWER));
+        $dia = trim(mb_convert_case($request->get("day"),MB_CASE_LOWER));
         //mostrar en el slider principal sucursales premium activas
         $tiendas = $this->getDoctrine()->getRepository('BackendCustomerAdminBundle:Sucursal')
                   ->findBy(array("is_active"=>true,"premium"=>true));        
@@ -233,11 +234,8 @@ class HomeController extends Controller
         foreach ($tiendas as $tienda) {
 			  
 			  $open = false;
-			  
 			  $horarios = $tienda->getHorarios();
-
               $open = $this->checkOpenNow($horarios,$dia,$time);
-
 			  $horarios_tienda = array(); 	
 			
 			  foreach($horarios as $horario) {
@@ -248,7 +246,6 @@ class HomeController extends Controller
                       $horarios_tienda[] = $horario->getDia()->getName() . ":" . $horario->getDesde() . "-" . $horario->getHasta() . " hs.";
                   }
               }
-
 			  $record=array();
               $record["id"]=$tienda->getId();
               $record["name"]=$tienda->getName();
@@ -262,13 +259,11 @@ class HomeController extends Controller
               if($open){				  
 				  $record["promo"] = "images/home/tienda_open.png";
 				  $record["title"] = "Abierto";
-			 
 			  }else{
 				  
 				  if($tienda->getOpen()){
 					  $record["promo"] = "images/home/tienda_pedido.png";
-					  $record["title"] = "Toma pedidos"; 					   
-				  
+					  $record["title"] = "Toma pedidos";
 				  }else{
 					  $record["promo"] = "images/home/tienda_close.png";
 					  $record["title"] = "Cerrado";					  
@@ -277,7 +272,7 @@ class HomeController extends Controller
 			  
          $record["favorito"]=$this->isFavorito($tienda);
          $record["link"] =$this->generateUrl('frontend_show_products', array('id' => $tienda->getId()));
-              $listado[] = $record;
+            $listado[] = $record;
 
 	   }
        $response = new Response(json_encode($listado));
@@ -311,16 +306,11 @@ class HomeController extends Controller
 
     public function getProductsByTiendaAction(Request $request, $id){
 
-		
 		if($id){
-			
 	        $em = $this->getDoctrine()->getManager();
-
 	        $sucursal = $em->getRepository('BackendCustomerAdminBundle:Sucursal')->find($id);
-			
 			$productos = $sucursal->getProductos();
-			
-		
+
         return $this->render('FrontendHomeBundle:Shop:index.html.twig', array(
             'tienda' => $sucursal,
 			'productos' => $productos
@@ -436,7 +426,6 @@ class HomeController extends Controller
         $response->headers->set('Content-Type', 'application/json');
   
         return $response;
-		
 		
 	}
     

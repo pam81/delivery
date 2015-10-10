@@ -86,7 +86,8 @@ $(document).ready(function(){
             
    // tengo que mandar day y time
 
-   var jqxTiendasPremium = $.getJSON( $("#sugeridos").data("url"))
+   var datos = {'day':day,'time':time};
+   var jqxTiendasPremium = $.getJSON( $("#sugeridos").data("url"),datos)
               .done(function(data) {
                  var element = '<div class="item active">';
                  var i=0;
@@ -134,7 +135,7 @@ $(document).ready(function(){
                   element += "</div>"; 
                   
                   $('#sugeridos').append(element);
-                  
+                  console.log("hola");
               })
               .fail(function() {
                 console.log( "can't load tiendas premium" );
