@@ -63,8 +63,18 @@ class Producto
     /**
      * @ORM\Column(name="stock", type="integer",nullable=true)
      */
-    private $stock;	
-			
+    private $stock;
+
+    /**
+     * @ORM\Column(name="maxVariedad", type="integer",nullable=true)
+     */
+    private $maxVariedad;
+
+    /**
+     * @ORM\Column(name="qtyVariedad", type="integer",nullable=true)
+     */
+    private $qtyVariedad;
+    
     /**
      * @ORM\ManyToMany(targetEntity="Sucursal", mappedBy="productos", cascade={"persist","remove"})
      */
@@ -704,4 +714,50 @@ class Producto
         return $this->detalles;
     }
 
+
+    /**
+     * Set maxVariedad
+     *
+     * @param integer $maxVariedad
+     * @return Producto
+     */
+    public function setMaxVariedad($maxVariedad)
+    {
+        $this->maxVariedad = $maxVariedad;
+
+        return $this;
+    }
+
+    /**
+     * Get maxVariedad
+     *
+     * @return integer 
+     */
+    public function getMaxVariedad()
+    {
+        return $this->maxVariedad;
+    }
+
+    /**
+     * Set qtyVariedad
+     *
+     * @param integer $qtyVariedad
+     * @return Producto
+     */
+    public function setQtyVariedad($qtyVariedad)
+    {
+        $this->qtyVariedad = $qtyVariedad;
+
+        return $this;
+    }
+
+    /**
+     * Get qtyVariedad
+     *
+     * @return integer 
+     */
+    public function getQtyVariedad()
+    {
+        return $this->qtyVariedad;
+    }
 }
