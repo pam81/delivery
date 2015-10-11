@@ -304,6 +304,29 @@ class HomeController extends Controller
     
     }
 
+    /* Devuelve el header de la tienda
+    *  en un futuro permitirá asignar header personalizado
+    */
+
+    /*
+    public function getHeaderTienda(Request $request){
+
+        $id = trim(mb_convert_case($request->get("tienda"),MB_CASE_LOWER));
+
+        $em = $this->getDoctrine()->getManager();
+        $sucursal = $em->getRepository('BackendCustomerAdminBundle:Sucursal')->find($id);
+
+        $header = $sucursal->getHeaderPath();
+
+        $data['header'] = $header;
+
+        $response = new Response(json_encode($data));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+
+    }
+*/
     public function getProductsByTiendaAction(Request $request, $id){
 
 		if($id){

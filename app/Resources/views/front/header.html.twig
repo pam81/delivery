@@ -41,7 +41,8 @@
                 </div>
 
                    <div class = "col-md-6">  
-					<div class="input-group">
+					<div class="input" id="menuCategoria" data-url="{{ path('frontend_menuCategoria')}}">
+                      <!--
 					  <input type="text" class="form-control" placeholder="Comida, indumentaria, libros,..." aria-label="...">
 					  <div class="input-group-btn">
 						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categorías<span class="caret"></span></button>
@@ -49,7 +50,12 @@
 						  
 						</ul>
 					  </div><!-- /btn-group -->
-					</div><!-- /input-group -->
+
+                        <input id="categoria" class="form-control">
+                        <input type="hidden" id="categoria-id">
+                        <p id="categoria-description"></p>
+
+                    </div><!-- /input-group -->
 					</div>
                 </div> <!-- row -->
                 <div class="row">

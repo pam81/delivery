@@ -147,7 +147,12 @@ class Sucursal
      */
 	
 	private $minimo;
-	
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+
+    private $header;
     
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -994,5 +999,51 @@ class Sucursal
     public function getTiempoEntrega()
     {
         return $this->tiempo_entrega;
+    }
+
+    /**
+     * Set headerPath
+     *
+     * @param string $headerPath
+     * @return Sucursal
+     */
+    public function setHeaderPath($headerPath)
+    {
+        $this->headerPath = $headerPath;
+
+        return $this;
+    }
+
+    /**
+     * Get headerPath
+     *
+     * @return string 
+     */
+    public function getHeaderPath()
+    {
+        return $this->headerPath;
+    }
+
+    /**
+     * Set header
+     *
+     * @param string $header
+     * @return Sucursal
+     */
+    public function setHeader($header)
+    {
+        $this->header = $header;
+
+        return $this;
+    }
+
+    /**
+     * Get header
+     *
+     * @return string 
+     */
+    public function getHeader()
+    {
+        return $this->header;
     }
 }

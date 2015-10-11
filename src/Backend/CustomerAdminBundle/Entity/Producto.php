@@ -71,7 +71,7 @@ class Producto
     private $maxVariedad;
 
     /**
-     * @ORM\Column(name="qtyVariedad", type="integer",nullable=true)
+     * @ORM\Column(name="qtyVariedad", type="boolean",nullable=true)
      */
     private $qtyVariedad;
     
