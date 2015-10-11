@@ -32,6 +32,9 @@
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
     {% block body %}
+        {% block menu %}
+            {% include '::front/menu.html.twig' %}        
+        {% endblock %}
         {% block header %}
             {% include '::front/header.html.twig' %}        
         {% endblock %}
@@ -54,7 +57,10 @@
         <script src="{{ asset("js/front/jquery.cookie.js") }}"></script>
         <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
         <script src="{{ asset('js/front/utils.js') }}"></script>
-        <script src="{{ asset('js/front/carrito.js') }}"></script> 
+        <script src="{{ asset("js/front/main.js") }}"></script>
+        <script src="{{ asset('js/front/simpleCart.js') }}"></script>
+        <script src="{{ asset('js/front/carrito.js') }}"></script>
+         
         {% javascripts '@FrontendHomeBundle/Resources/public/js/register_user.js' %}
           <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts %}

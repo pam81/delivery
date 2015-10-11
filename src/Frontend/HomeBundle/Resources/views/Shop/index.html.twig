@@ -1,4 +1,7 @@
-{% extends '::front/base_tienda.html.twig' %}
+{% extends '::front/base_front.html.twig' %}
+{% block header %}
+  <div style="width: 100%; height: 50px;"></div>                  
+{% endblock %}
 
 {% block container %}
 
@@ -31,13 +34,13 @@
 						      <div class="input-group">
 						          <span class="input-group-btn">
 						              <button type="button" class="btn btn-warning btn-number"  data-type="minus" data-field="quant[2]">
-						                <span class="glyphicon glyphicon-minus"></span>
+						                <span class="glyphicon glyphicon-minus slider-minus" data-id="{{p.getId}}"></span>
 						              </button>
 						          </span>
-						          <input type="text" name="quant[2]" class="form-control input-number" value="10" min="1" max="100">
+						          <input type="text" name="quant[2]" class="form-control input-number" id="input-producto-{{p.getId}}" value="0" min="0" max="100">
 						          <span class="input-group-btn">
 						              <button type="button" class="btn btn-primary btn-number" data-type="plus" data-field="quant[2]">
-						                  <span class="glyphicon glyphicon-plus"></span>
+						                  <span class="glyphicon glyphicon-plus slider-plus" data-id="{{p.getId}}" data-thumb="{{ p.getWebPath() }}" data-name="{{ p.getName() }}" data-price="{{ p.getPrecio() }}"></span>
 						              </button>
 						          </span>
 						      </div>
