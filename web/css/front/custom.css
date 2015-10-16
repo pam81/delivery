@@ -62,3 +62,8 @@ display: none;
 a:visited, a:link { 
     text-decoration: none;
 }
+
+
+#contentCarrito .popover{
+  max-width: none;
+}

@@ -335,8 +335,8 @@ class HomeController extends Controller
 			$productos = $sucursal->getProductos();
 
         return $this->render('FrontendHomeBundle:Shop:index.html.twig', array(
-            'tienda' => $sucursal,
-			'productos' => $productos
+            'sucursal' => $sucursal,
+			      'productos' => $productos
            
         ));
 				

@@ -40,7 +40,7 @@
 						          <input type="text" name="quant[2]" class="form-control input-number" id="input-producto-{{p.getId}}" value="0" min="0" max="100">
 						          <span class="input-group-btn">
 						              <button type="button" class="btn btn-primary btn-number" data-type="plus" data-field="quant[2]">
-						                  <span class="glyphicon glyphicon-plus slider-plus" data-id="{{p.getId}}" data-thumb="{{ p.getWebPath() }}" data-name="{{ p.getName() }}" data-price="{{ p.getPrecio() }}"></span>
+						                  <span class="glyphicon glyphicon-plus slider-plus" data-id="{{p.getId}}" data-thumb="{{ p.getWebPath() }}" data-name="{{ p.getName() }}" data-sucursalId="{{ sucursal.id }}" data-sucursalName="{{ sucursal.getName() }}" data-sucursalImg="{{ sucursal.getWebPath() }}" data-price="{{ p.getPrecio() }}"></span>
 						              </button>
 						          </span>
 						      </div>
@@ -62,4 +62,8 @@
 	
 {% endblock %}
 
-                        
+{% block javascripts %}
+  {{ parent()}}
+ <script src="{{ asset("js/front/producto.js") }}"></script>
+ 
+ {% endblock %}                         
