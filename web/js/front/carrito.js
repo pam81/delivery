@@ -2,7 +2,6 @@ $(document).ready(function(){
  
  $("#btnCarrito").popover({
           html: true, 
-          template: '<div class="popover" role="tooltip" style="width: 500px;"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"><div class="data-content"></div></div></div>',
           content: function() {
           return $('#carrito-content').html();
         }
@@ -17,7 +16,19 @@ simpleCart({
         },*/
         cartStyle: 'table',
         cartColumns: [
-          {
+                        {
+                          attr: "sucursal",
+                          label: "Comercio",
+                          view: function( item , column ){
+                              if (item.get("sucursalImg")){
+                               return "<img src=\""+item.get("sucursalImg")+"\" width=\"50\" height=\"50\">"; 
+                              }else{
+                                return "<span>"+item.get("sucursalName")+"</span>";
+                              }
+                          } 
+                          
+                        },
+                        {
                             attr: "name",
                             label: "Producto"
                         }, 
@@ -52,13 +63,16 @@ simpleCart({
      var id = $(this).data("id");
      var thumb =$(this).data("thumb");
      var name =$(this).data("name");
-     var price =$(this).data("price"); 
+     var price =$(this).data("price");
+     var sucursalId =$(this).data("sucursalid");
+     var sucursalImg =$(this).data("sucursalimg");
+      var sucursalName =$(this).data("sucursalname"); 
      var input = $("#input-producto-"+id);
      var value = parseInt(input.val())+1;
      if (value < 100){
         input.val(value);
         //aumento de uno en el carrito
-        simpleCart.add({thumb: thumb,name: name, quantity: 1, price: price, product_id: id});
+        simpleCart.add({thumb: thumb,name: name, quantity: 1, price: price, product_id: id, sucursal: sucursalId, sucursalImg: sucursalImg, sucursalName: sucursalName});
      }
      
  
