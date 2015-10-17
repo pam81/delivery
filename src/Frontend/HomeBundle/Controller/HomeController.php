@@ -418,9 +418,10 @@ class HomeController extends Controller
             }
 
         return $this->render('FrontendHomeBundle:Shop:index.html.twig', array(
+
             'tienda' => $sucursal,
 			'productos' => $resultado
-           
+
         ));
 				
 		}else{
