@@ -9,6 +9,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Backend\CustomerAdminBundle\Entity\Pedido;
 use Backend\CustomerAdminBundle\Form\PedidoType;
 
+
 /**
  * Pedido controller.
  *
@@ -74,7 +75,7 @@ class PedidoController extends Controller
         $entity  = new Pedido();
         $form = $this->createForm(new PedidoType(), $entity);
 		
-		$s = $request->request->get('backend_customeradminbundle_producto');
+		$s = $request->request->get('backend_customeradminbundle_pedido');
 		$sucursales = $s['sucursales'];
         unset($s['sucursales']);
 		
@@ -238,7 +239,7 @@ class PedidoController extends Controller
          throw new AccessDeniedException();  
     }
     /**
-     * Deletes a Producto entity.
+     * Deletes a Pedido entity.
      *
      */
     public function deleteAction(Request $request, $id)
@@ -249,19 +250,17 @@ class PedidoController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('BackendCustomerAdminBundle:Producto')->find($id);
+            $entity = $em->getRepository('BackendCustomerAdminBundle:Pedido')->find($id);
 
             if (!$entity) {
-                $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado el producto.');
+                $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado el pedido.');
              
             }
-           else{
-            
-         
-            
+            else{
+
             $em->remove($entity);
             $em->flush();
-            $this->get('session')->getFlashBag()->add('success' , 'Se han borrado los datos del producto.');
+            $this->get('session')->getFlashBag()->add('success' , 'Se han borrado los datos del pedido.');
             
             }
         }

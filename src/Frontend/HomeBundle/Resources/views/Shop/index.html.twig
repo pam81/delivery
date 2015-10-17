@@ -1,6 +1,46 @@
 {% extends '::front/base_front.html.twig' %}
 {% block header %}
-  <div style="width: 100%; height: 50px;"></div>                  
+<header id="header_tienda" class="{{ tienda.getHeader() }}">
+    <div class="container">
+        <div class="row shop-bg">
+
+            <div class="col-md-8">
+                <div class="intro-text">
+
+                    {% if tienda.getWebPath() %}
+                        <img src="{{ asset(tienda.getWebPath()) }}" class="logo" />
+                    {% endif %}
+
+                    <div class="info">
+                        <p class="shop-open">{% if tienda.getOpen() %}<span class="label label-success">Recibe pedidos estando cerrado</span>{% else %}<span class="label label-danger">No recibe pedidos estando cerrado</span>  {% endif %}</p>
+                        <p class="shop-payment text-left">Medios de pago disponibles:</p>
+
+                        <ul class="list-inline text-left payments-method">
+                            {% for p in  tienda.getPaymethods() %}
+                                <li>
+                                    <img src="{{ p.getWebPath() }}" class="icon" title="{{ p.getName() }}">
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <p class="shop-delivery text-left">Tiempo de entrega estimado: {{ tienda.getTiempoEntrega() }}</p>
+                        <p class="shop-delivery text-left">Servicio de delivery: {% if tienda.getDelivery() is null %} Sin cargo {% else %} {{ tienda.getDelivery() }}{% endif %}</p>
+                        <p class="shop-delivery text-left">Pedido mínimo: {% if tienda.getMinimo() is null %} -- {% else %}  {{ " $ " ~tienda.getMinimo() }} {% endif %}</p>
+                    </div> <!-- info -->
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="intro-text">
+                    <p class="shop-title text-right">{{ tienda.getName() }}</p>
+                    <p class="shop-address text-right">{{ tienda.getDireccion().getCalle() ~ " " ~ tienda.getDireccion().getNumero() }}</p>
+                    <p class="shop-delivery text-right">Radio de entrega: {{ tienda.getRadio() }} km.</p>
+                    <p class="shop-delivery text-right">Ver horarios</p>
+                    <h3 class="shop-status label label-warning" data-url = "{{ path('frontend_checkTime') }}" id = "status" data-tienda = " {{ tienda.getId() }} "></h3>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</header> <!--<div style="width: 100%; height: 50px;"></div> -->
 {% endblock %}
 
 {% block container %}

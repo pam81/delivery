@@ -80,7 +80,8 @@ class HomeController extends Controller
        return $resultado;
     }
     
-     //obtener listado de categorias y subcategorias 
+     //obtener listado de categorias y subcategorias
+    /*
     public function menuCategoriaAction(Request $request){
     
       $categorias = $this->getDoctrine()->getRepository('BackendAdminBundle:Categoria')->findAll();
@@ -99,8 +100,56 @@ class HomeController extends Controller
   
        return $response;
     }
-    
-    //obtener listado de los barrios según la zona
+
+    */
+
+    public function menuCategoriaAction(Request $request){
+
+        $search = trim(mb_convert_case($request->get("q"),MB_CASE_LOWER));
+
+        $listado = array();
+
+        $em = $this->getDoctrine()->getManager();
+
+        $dql="SELECT s FROM BackendAdminBundle:Subcategoria s where " ;
+        $search=mb_convert_case($search,MB_CASE_LOWER);
+
+        if ($search)
+
+            $dql.="s.name like '%$search%'";
+
+        $dql.=" order by s.name";
+
+        $query = $em->createQuery($dql);
+
+        $resultados = $query->getResult();
+
+        //if(!is_empty($resultados)) {
+
+            foreach ($resultados as $resultado) {
+
+                $subcategoria = array();
+
+                $subcategoria['id'] = $resultado->getId();
+                $subcategoria['name'] = $resultado->getName();
+                $subcategoria['category'] = $resultado->getCategoria()->getName();
+                $subcategoria['catId'] = $resultado->getCategoria()->getId();
+                $listado[] = $subcategoria;
+            }
+
+        //}
+        $response = new Response(json_encode($listado));
+
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+
+    }
+
+
+
+    //obtener listado de las subtacategorias a partir de la categoria
+
     private function getSubcategorias($categoriaId){
       $subcategorias = $this->getDoctrine()->getRepository('BackendAdminBundle:Subcategoria')->findBy(array("categoria"=>$categoriaId));
      
@@ -109,22 +158,39 @@ class HomeController extends Controller
             $record=array();
             $record["id"]=$s->getId();
             $record["name"]=$s->getName();
+            $record["category"] = $s->getCategoria()->getName();
             $resultado[] = $record;
        }
        
        return $resultado;
     }
-    
+
+    // devuelve las tiendas según barrio y subcategoria devolver con status
+
     public function getTiendasAction(Request $request){
         
         $barrioId =trim(mb_convert_case($request->get("barrio"),MB_CASE_LOWER));
 		$time = trim(mb_convert_case($request->get("time"),MB_CASE_LOWER)); 
    		$dia = trim(mb_convert_case($request->get("day"),MB_CASE_LOWER));
+        $subId = trim(mb_convert_case($request->get("cat"),MB_CASE_LOWER));
+
 
 		$time_array = explode(":",$time);
 		$ahora = $time_array[0]*60 + $time_array[1];
 
-        $dql= "SELECT u FROM BackendCustomerAdminBundle:Sucursal u JOIN u.direccion d where d.barrio = ".$barrioId;
+        $dql= "SELECT u FROM BackendCustomerAdminBundle:Sucursal u JOIN u.direccion d"; // where d.barrio = ".$barrioId;
+
+        if($subId){
+
+            $dql.= " JOIN u.subcategorias s where s.id =".$subId." and d.barrio = ".$barrioId;
+
+            $session = $this->getRequest()->getSession();
+            $session->set('categoria',$subId);
+
+        }else{
+
+            $dql.= " where d.barrio = ".$barrioId;
+        }
         $em = $this->getDoctrine()->getManager();
 		$query = $em->createQuery($dql);
 		$tiendas = $query->getResult();
@@ -329,14 +395,31 @@ class HomeController extends Controller
 */
     public function getProductsByTiendaAction(Request $request, $id){
 
+        $session = $this->getRequest()->getSession();
+
+        $subId = $session->get('categoria');
+        $resultado = array();
+
 		if($id){
 	        $em = $this->getDoctrine()->getManager();
 	        $sucursal = $em->getRepository('BackendCustomerAdminBundle:Sucursal')->find($id);
 			$productos = $sucursal->getProductos();
 
+            if($subId){
+                foreach($productos as $prod){
+
+                    if($prod->getSubcategoria()->getId() == $subId){
+
+                        $resultado[] = $prod;
+                    }
+                }
+            }else{
+                $resultado = $productos;
+            }
+
         return $this->render('FrontendHomeBundle:Shop:index.html.twig', array(
             'tienda' => $sucursal,
-			'productos' => $productos
+			'productos' => $resultado
            
         ));
 				

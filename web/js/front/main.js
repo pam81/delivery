@@ -9,33 +9,105 @@
 		
 /*scroll to top*/
 
-$(document).ready(function(){
-	
-    //var hoy = moment().format("dddd"); 
-	var day = moment().weekday();
-	var time = moment().format('HH:mm');
-	console.log(day);
-	console.log(time);
-	
-	$(function () {
-		$.scrollUp({
-	        scrollName: 'scrollUp', // Element ID
-	        scrollDistance: 300, // Distance from top/bottom before showing element (px)
-	        scrollFrom: 'top', // 'top' or 'bottom'
-	        scrollSpeed: 300, // Speed back to top (ms)
-	        easingType: 'linear', // Scroll to top easing (see http://easings.net/)
-	        animation: 'fade', // Fade, slide, none
-	        animationSpeed: 200, // Animation in speed (ms)
-	        scrollTrigger: false, // Set a custom triggering element. Can be an HTML string or jQuery object
-					//scrollTarget: false, // Set a custom target element for scrolling to the top
-	        scrollText: '<i class="fa fa-angle-up"></i>', // Text for element, can contain HTML
-	        scrollTitle: false, // Set a custom <a> title if required.
-	        scrollImg: false, // Set true to use image
-	        activeOverlay: false, // Set CSS color to display scrollUp active point, e.g '#00FFFF'
-	        zIndex: 2147483647 // Z-Index for the overlay
-		});
-	});
-  
+$(document).ready(function() {
+
+    var projects = [{}];
+    var day = moment().weekday();
+    var time = moment().format('HH:mm');
+    console.log(day);
+    console.log(time);
+
+    $(function () {
+        $.scrollUp({
+            scrollName: 'scrollUp', // Element ID
+            scrollDistance: 300, // Distance from top/bottom before showing element (px)
+            scrollFrom: 'top', // 'top' or 'bottom'
+            scrollSpeed: 300, // Speed back to top (ms)
+            easingType: 'linear', // Scroll to top easing (see http://easings.net/)
+            animation: 'fade', // Fade, slide, none
+            animationSpeed: 200, // Animation in speed (ms)
+            scrollTrigger: false, // Set a custom triggering element. Can be an HTML string or jQuery object
+            //scrollTarget: false, // Set a custom target element for scrolling to the top
+            scrollText: '<i class="fa fa-angle-up"></i>', // Text for element, can contain HTML
+            scrollTitle: false, // Set a custom <a> title if required.
+            scrollImg: false, // Set true to use image
+            activeOverlay: false, // Set CSS color to display scrollUp active point, e.g '#00FFFF'
+            zIndex: 2147483647 // Z-Index for the overlay
+        });
+    });
+
+
+/*
+    var jqxMenuCategoria = $.getJSON( $("#menuCategoria").data("url"))
+        .done(function(data) {
+
+            projects = data;
+            console.log(data);
+            /*
+            projects = new Array();
+            $.each(data,function(index) {
+
+                projects = {value: data[index].id, label: data[index].name};
+            });
+            return projects;
+
+           alert(projects);
+
+        });
+ */
+
+    $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+        return $("<li>")
+            .append($("<a>").text(item.label))
+            .appendTo(ul);
+
+    };
+
+    $.widget("custom.catcomplete", $.ui.autocomplete, {
+        _renderMenu: function (ul, items) {
+            var that = this,
+                currentCategory = "";
+            $.each(items, function (index, item) {
+                if (item.category != currentCategory) {
+                    ul.append("<li class='ui-autocomplete-category'>" + item.category + "</li>");
+                    currentCategory = item.category;
+
+                }
+                that._renderItemData(ul, item);
+
+            });
+        }
+    });
+
+    $(function () {
+        $("#categoria").catcomplete({
+            delay: 0,
+            source: function (request, response) {
+                //$.get("http://ws.spotify.com/search/1/track.json", {
+                $.get($("#menuCategoria").data("url"),{
+                    q: request.term
+                }, function (data) {
+                    //response($.map(data.tracks.slice(0, 5), function (item) {
+                    response($.map(data,function (item){
+                        return { value: item.id, label: item.name,
+                            category: item.category };
+                    }));
+                });
+            },
+
+            focus: function (event, ui) {
+                $("#categoria").val(ui.item.label);
+                return false;
+            },
+            select: function (event, ui) {
+                $("#categoria").val(ui.item.label);
+                $("#categoria-id").val(ui.item.value);
+                return false;
+            }
+        });
+    });
+
+
   var jqxMenuZona = $.getJSON( $("#menuZona").data("url"))
               .done(function(data) {
                   $.each(data,function(index){ 
@@ -58,32 +130,8 @@ $(document).ready(function(){
               .fail(function() {
                 console.log( "can't load menuZona" );
               });
-  
-   var jqxMenuCategoria = $.getJSON( $("#menuCategoria").data("url"))
-              .done(function(data) {
-                  $.each(data,function(index){ 
-                      var submenu = $('<ul class="submenu">');
-                      var subcategorias = data[index].subcategorias;
-                      $.each(subcategorias, function(j){
-                          submenu.append(
-                              $('<li>').append('<a data-id="'+subcategorias[j].id+'">'+subcategorias[j].name+'</a>')
-                          
-                          );
-                      });
-                    
-                      $('#menuCategoria').append(
-                              $('<li>').append(  
-                                     '<a data-id="'+data[index].id+'">'+data[index].name+'</a>',submenu                                        
-                                          
-                                ));
-                  }); 
-                  
-              })
-              .fail(function() {
-                console.log( "can't load menuCategoria" );
-              });
-              
-            
+
+
    // tengo que mandar day y time
 
    var datos = {'day':day,'time':time};
@@ -295,19 +343,28 @@ $(document).ready(function(){
                  alert("No se pudo agregar como favorito");
               });
       
-      });       
+      });
+
+      $("body").on("click","#buscar",function() {
+
+          var ubicacion = JSON.parse($.cookie('delivery-ubicacion'));
+          $('#tiendas_listado').text(" ");
+          getTiendas(ubicacion);
+
+      });
       
 });
-
 
 
 function getTiendas(ubicacion){
 
 	var day = moment().weekday();
 	var time = moment().format('HH:mm');
-	console.log("en getTiendas"+day+"time"+time);
+    var cat = $('#categoria-id').val();
+	console.log("en getTiendas"+day+"time"+time+"cat"+cat);
     //var dataString = 'zona=' + zonas[1]+"&barrio="+zonas[0];
-	var data = "zona="+ubicacion.zonaId+"&barrio="+ubicacion.barrioId+"&day="+day+"&time="+time;
+
+	var data = "zona="+ubicacion.zonaId+"&barrio="+ubicacion.barrioId+"&day="+day+"&time="+time+"&cat="+cat;
       $.ajax({
             type: "POST",
             url: $("#tiendas_listado").data("url"),
@@ -316,6 +373,9 @@ function getTiendas(ubicacion){
        })
               .done(function(data) {
 				  var h="";
+
+                if(data){
+
                   $.each(data,function(index){ 
 					  
 					horario = data[index].horario;
@@ -352,8 +412,12 @@ function getTiendas(ubicacion){
                     
                     $('#tiendas_listado').append(element);
                        
-                  }); 
-                    
+                  });
+                }else{
+                    var respuesta = '<p class="respuesta">No hay tiendas cerca</p>';
+                    $('#tiendas_listado').append(respuesta);
+                    $('#see_more').hide();
+                }
               })
               .fail(function() {
                 console.log( "can't load tiendas" );

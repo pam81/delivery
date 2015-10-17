@@ -3,7 +3,8 @@
 $(document).ready(function(){
 
 	checkOpen();
-
+	//$('.header_shop').css("background-image", "url(/myimage.jpg)");
+	//changeBackground();
 	
 setInterval(function() {
 
@@ -63,6 +64,8 @@ function checkOpen(){
 		})
 
 			.done(function(data) {
+
+				//$("#header_tienda").addClass("header_sushi");
 				if (data.status == 1){
 					$(".shop-status").html("abierto").addClass("shop-status label label-warning");
 					console.log("abierto");
@@ -75,3 +78,27 @@ function checkOpen(){
 
 			});
 }
+
+/*
+function changeBackground(){
+
+	var url = $('.header_shop').data("url");
+	var tienda = $("#status").data("tienda");
+	alert(url);
+	var data = {'tienda': tienda}
+	$.ajax({
+
+		type: "POST",
+		url: url,
+		dataType: 'json',
+		data: data,
+	})
+
+		.done(function(data) {
+
+			alert(data.header);
+			$('.header_shop').css("background-image", "url("+data.header+")");
+		});
+
+}
+*/

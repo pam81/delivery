@@ -284,7 +284,13 @@ header .intro-text .skills {
 	padding-bottom: 10px;
 	padding-left: 15px;
 	text-align: justify;
-	
+}
+
+.respuesta {
+    color: #FE980F;
+    margin-left: 20px;
+    font-family: Roboto;
+    font-size: 18px;
 }
 
 @media(min-width:768px) {
