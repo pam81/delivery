@@ -22,7 +22,8 @@ class HomeController extends Controller
 
    
     public function indexAction(Request $request)
-    {        
+    {
+
         return $this->render('FrontendHomeBundle:Home:index.html.twig');        
     }
     
@@ -210,37 +211,7 @@ class HomeController extends Controller
                   } else {
                       $horarios_tienda[] = $horario->getDia()->getName() . ":" . $horario->getDesde() . "-" . $horario->getHasta() . " hs.";
                   }
-              } /*
-					if($horario->getDia()->getId() == $dia){
-						
-						if($horario->getCerrado()){ // esta cerrado 
-							
-							$open = false;
-						
-						}else{						
-					
-						  if($horario->getDesde()){
-					
-							$desde_array = explode(":",$horario->getDesde());					
-							$desde = $desde_array[0]*60 + $desde_array[1];
-						  }
-						  if($horario->getHasta()){
-							$hasta_array = explode(":",$horario->getHasta());					
-							$hasta = $hasta_array[0]*60 + $hasta_array[1];
-												
-						  }
-						  // valida el caso que cierre a las 0:00 hs					 
-					       if(($ahora < $desde ||  $ahora > $hasta) xor ($ahora > $desde && $ahora > $hasta)){
-						
-							$open = false;
-					       
-						   }else{
-								$open = true;
-								$cierra = $hasta;
-				  		  }
-						} // Si está abierto   
-					}	
-			  } */
+              }
 
               $open = $this->checkOpenNow($horarios,$dia,$time);
 			  $cierra = null; // para validar si está abierto al momento de comprar. 	
@@ -393,6 +364,12 @@ class HomeController extends Controller
 
     }
 */
+    /**
+     * @param Request $request
+     * @param $id
+     * @return Response
+     */
+
     public function getProductsByTiendaAction(Request $request, $id){
 
         $session = $this->getRequest()->getSession();
@@ -406,6 +383,9 @@ class HomeController extends Controller
 			$productos = $sucursal->getProductos();
 
             if($subId){
+
+                $subcategoria = $em->getRepository('BackendAdminBundle:Subcategoria')->find($subId)->getName();
+
                 foreach($productos as $prod){
 
                     if($prod->getSubcategoria()->getId() == $subId){
@@ -413,22 +393,34 @@ class HomeController extends Controller
                         $resultado[] = $prod;
                     }
                 }
+
             }else{
                 $resultado = $productos;
+                $subcategoria = "Todos";
             }
+
+            $count = count($resultado);
 
         return $this->render('FrontendHomeBundle:Shop:index.html.twig', array(
 
             'tienda' => $sucursal,
-			'productos' => $resultado
-
+			'productos' => $resultado,
+            'subcategoria' => $subcategoria,
+            'count' => $count
         ));
 				
 		}else{
 			
-			return $this->render('FrontendHomeBundle:Home:terminos.html.twig');
+			return $this->render('FrontendHomeBundle:Home:index.html.twig');
 		}
 	}
+
+
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
     
     public function addFavoritoAction(Request $request){
       $session = $this->getRequest()->getSession();

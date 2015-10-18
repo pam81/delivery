@@ -47,16 +47,32 @@
 
     <div class="container">
 
-        <!-- Title -->
-        <div class="row">
-            <div class="col-lg-12">
-                <h2 class="subtitle">Nuestros productos</h2>
+        <!-- Buscador interno -->
+        <div class="row buscador_tienda">
+            <div class="col-lg-6">
+                <!--<h2 class="subtitle">Nuestros productos</h2>-->
+                <button class="btn btn-warning" type="button">
+                    {{ subcategoria~" " }} <span class="badge"> {{ count }}</span>
+                </button>
+            </div>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Buscar mas productos" id="filtro">
+                     <span class="input-group-btn">
+                    <button class="btn btn-warning" type="button" id="buscar" data-url="{{ path('frontend_product_filter', { 'id': tienda.id }) }}"><i class="fa fa-search"></i></button>
+                    </span>
+                </div><!-- /input-group -->
             </div>
         </div>
         <!-- /.row -->
-
+        <!-- Title -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="subtitle_shop">Nuestros productos</h2>
+            </div>
+        </div>
         <!-- Page Features -->
-        <div class="row text-center">
+        <div class="row text-center" id="productos">
 			{% for p in productos %}
             <div class="col-md-3 col-sm-6 hero-feature">
                 <div class="thumbnail">
@@ -80,7 +96,7 @@
 						          <input type="text" name="quant[2]" class="form-control input-number" id="input-producto-{{p.getId}}" value="0" min="0" max="100">
 						          <span class="input-group-btn">
 						              <button type="button" class="btn btn-primary btn-number" data-type="plus" data-field="quant[2]">
-						                  <span class="glyphicon glyphicon-plus slider-plus" data-id="{{p.getId}}" data-thumb="{{ p.getWebPath() }}" data-name="{{ p.getName() }}" data-sucursalId="{{ sucursal.id }}" data-sucursalName="{{ sucursal.getName() }}" data-sucursalImg="{{ sucursal.getWebPath() }}" data-price="{{ p.getPrecio() }}"></span>
+						                  <span class="glyphicon glyphicon-plus slider-plus" data-id="{{p.getId}}" data-thumb="{{ p.getWebPath() }}" data-name="{{ p.getName() }}" data-sucursalId="{{ tienda.id }}" data-sucursalName="{{ tienda.getName() }}" data-sucursalImg="{{ tienda.getWebPath() }}" data-price="{{ p.getPrecio() }}"></span>
 						              </button>
 						          </span>
 						      </div>
@@ -88,7 +104,7 @@
 						</div>
 						
                     </p>
-                </div>
+                </div> <!-- thumbnail -->
             </div> <!-- product -->
 			{% endfor %}
 
