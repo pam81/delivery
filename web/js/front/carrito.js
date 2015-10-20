@@ -3,7 +3,11 @@ $(document).ready(function(){
  $("#btnCarrito").popover({
           html: true, 
           content: function() {
-          return $('#carrito-content').html();
+           if (simpleCart.quantity() > 0){
+              return $('#carrito-content').html();
+          }else{
+              return "<p>Aún no has realizados compras!</p>";
+          }
         }
   });
       
@@ -66,7 +70,7 @@ simpleCart({
      var price =$(this).data("price");
      var sucursalId =$(this).data("sucursalid");
      var sucursalImg =$(this).data("sucursalimg");
-      var sucursalName =$(this).data("sucursalname"); 
+     var sucursalName =$(this).data("sucursalname"); 
      var input = $("#input-producto-"+id);
      var value = parseInt(input.val())+1;
      if (value < 100){
