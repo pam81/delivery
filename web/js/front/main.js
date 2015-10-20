@@ -107,7 +107,7 @@ $(document).ready(function() {
         });
     });
 
-
+/*
   var jqxMenuZona = $.getJSON( $("#menuZona").data("url"))
               .done(function(data) {
                   $.each(data,function(index){ 
@@ -130,9 +130,61 @@ $(document).ready(function() {
               .fail(function() {
                 console.log( "can't load menuZona" );
               });
+*/
+
+    $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+        return $("<li>")
+            .append($("<a>").text(item.label))
+            .appendTo(ul);
+
+    };
+
+    $.widget("custom.zonecomplete", $.ui.autocomplete, {
+        _renderMenu: function (ul, items) {
+            var that = this,
+                currentZona = "";
+            $.each(items, function (index, item) {
+                if (item.zona != currentZona) {
+                    ul.append("<li class='ui-autocomplete-zona'>" + item.zona + "</li>");
+                    currentZona = item.zona;
+
+                }
+                that._renderItemData(ul, item);
+
+            });
+        }
+    });
+
+    $(function () {
+        $("#zona").zonecomplete({
+            delay: 0,
+            source: function (request, response) {
+                //$.get("http://ws.spotify.com/search/1/track.json", {
+                $.get($("#menuZona").data("url"),{
+                    q: request.term
+                }, function (data) {
+                    //response($.map(data.tracks.slice(0, 5), function (item) {
+                    response($.map(data,function (item){
+                        return { value: item.id, label: item.name,
+                            zona: item.zona };
+                    }));
+                });
+            },
+
+            focus: function (event, ui) {
+                $("#zona").val(ui.item.label);
+                return false;
+            },
+            select: function (event, ui) {
+                $("#zona").val(ui.item.label);
+                $("#zona-id").val(ui.item.value);
+                return false;
+            }
+        });
+    });
 
 
-   // tengo que mandar day y time
+    // tengo que mandar day y time
 
    var datos = {'day':day,'time':time};
    var jqxTiendasPremium = $.getJSON( $("#sugeridos").data("url"),datos)
