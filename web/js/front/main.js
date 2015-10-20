@@ -333,6 +333,7 @@ $(document).ready(function() {
              })
              .done(function(data) {
                  if (data.status == 1){
+                    alert(data.message);
                     self.html('<i class="fa fa-plus-square"></i>Agregar a Favoritos</a>');     
                  }else{  
                     self.html('<i class="fa fa-heart"></i>');

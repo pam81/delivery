@@ -43,7 +43,10 @@ class ProductoController extends Controller
             return $this->render('FrontendHomeBundle:Home:terminos.html.twig');
         }
     }
+   
+  
     
+
     
     public function showCarritoAction(){
     
@@ -93,5 +96,40 @@ class ProductoController extends Controller
 
         return $response;
     }
+
+   public function llegaAction(Request $request){
+      $session = $this->getRequest()->getSession();
+      $resultado=array("status"=>1,"message"=>'No llega');
+      $direccion=$request->get("direccion");
+      
+      $tienda=$request->get("tienda");
+      //verificar siu llega con la direccion real
+      
+          $resultado["status"]=0;
+          $resultado["message"]='llega';
+      
+      $response = new Response(json_encode($resultado));
+        
+      $response->headers->set('Content-Type', 'application/json');
+  
+      return $response;
+   
+   }
+   //realizar el pedido a la tienda
+   public function realizarPedidoAction(Request $request){
+      $resultado=array("status"=>1,"message"=>'No llega');
+   
+          $resultado["status"]=0;
+          $resultado["message"]='llega';
+      
+      $response = new Response(json_encode($resultado));
+        
+      $response->headers->set('Content-Type', 'application/json');
+  
+      return $response;
+   
+   }
+    
+
 	
 }

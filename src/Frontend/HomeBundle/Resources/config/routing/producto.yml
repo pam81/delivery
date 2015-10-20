@@ -5,4 +5,12 @@ frontend_vercarrito:
 frontend_product_filter:
     pattern:  /frontProductosFilter/{id}
     defaults: { _controller: FrontendHomeBundle:Producto:getProductsByTiendaFilter }
+    
+frontend_llega:
+    pattern:  /llega
+    defaults: { _controller: FrontendHomeBundle:Producto:llega }    
+
+frontend_pedido:
+    pattern:  /realizar_pedido
+    defaults: { _controller: FrontendHomeBundle:Producto:realizarPedido }
 

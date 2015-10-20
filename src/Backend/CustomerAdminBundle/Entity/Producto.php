@@ -75,10 +75,11 @@ class Producto
      */
     private $qtyVariedad;
     
+    
     /**
-     * @ORM\ManyToMany(targetEntity="Sucursal", mappedBy="productos", cascade={"persist","remove"})
+     * @ORM\ManyToMany(targetEntity="Sucursal", inversedBy="productos", cascade={"persist","remove"})
+	 * @ORM\JoinTable(name="sucursal_producto")
      */
-
     protected $sucursales;
 	
     /**
@@ -492,7 +493,7 @@ class Producto
      * @param \Backend\CustomerAdminBundle\Entity\Sucursales $sucursales
      * @return Producto
      */
-    public function addSucursal(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
+    public function addSucursale(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
     {
         $this->sucursales[] = $sucursales;
 		$sucursales->addProducto($this);
@@ -505,7 +506,7 @@ class Producto
      *
      * @param \Backend\CustomerAdminBundle\Entity\Sucursales $sucursales
      */
-    public function removeSucursal(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
+    public function removeSucursale(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
     {
         $this->sucursales->removeElement($sucursales);
 		$sucursales->removeProducto($this);
@@ -577,29 +578,7 @@ class Producto
         return $this->isActive;
     }
 
-    /**
-     * Add sucursales
-     *
-     * @param \Backend\CustomerAdminBundle\Entity\Sucursal $sucursales
-     * @return Producto
-     */
-    public function addSucursale(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
-    {
-        $this->sucursales[] = $sucursales;
-
-        return $this;
-    }
-
-    /**
-     * Remove sucursales
-     *
-     * @param \Backend\CustomerAdminBundle\Entity\Sucursal $sucursales
-     */
-    public function removeSucursale(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
-    {
-        $this->sucursales->removeElement($sucursales);
-    }
-
+    
     /**
      * Add variedades
      *
