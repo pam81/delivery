@@ -17,52 +17,59 @@
 				  <li class="active">Su compra</li>
 				</ol>
 			</div>
-			<div class="table-responsive cart_info">
-				
-        
-        
-        <table class="table table-condensed">
-					<thead>
-						<tr class="cart_menu">
-							<th class="image" >Item</th>
-							<th class="description">Descripción</th>
-							<th class="price">Precio</th>
-							<th class="quantity">Cantidad</th>
-							<th class="total">Total</th>
-							<th> </th>
-						</tr>
-					</thead>
-					<tbody id="table-carrito">
-						
-           
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</section> <!--/#cart_items-->
 
-	<section id="do_action">
-		<div class="container">
-			<div class="heading">
-				<h3>Resumen</h3>
-				<p>Verifique su pedido y continue el proceso de compra.</p>
+      <div class="heading">
+				<h3>Sus Pedidos</h3>
+				<p>A continuación se detallan sus pedidos. Si ha realizado compras a diferentes comercios deberá realizar
+           la aceptación de cada pedido por separado.</p>
 			</div>
-			<div class="row">
-
-					<div class="total_area">
-						<ul>
-							<li>SubTotal <span class="simpleCart_total"></span></li>
-							<li>Extras <span>$2</span></li>
-							<li>Costo de envio <span>Sin cargo</span></li>
-							<li>Total <span>$61</span></li>
-						</ul>
-
-							<a class="btn btn-success check_out" href="">Continuar</a>
-					</div>
-				</div>
-			</div>
-		
+       <div id="pedidos">
+       </div>
+      
 	</section><!--/#do_action-->
+  
+  
+  <div class="modal fade" id="modalDireccion" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+       Dirección de Entrega
+      </div>
+      <div class="modal-body">  
+        <p>Ingrese la dirección a donde quiere recibir su pedido y verificaremos si el comercio llega a la zona</p>
+        <input type="text" name="direccion" value="" placeholder="direccion" id="modalDireccion">
+        <input type="hidden"  name="tienda" value="" id="modalTiendaId">
+        <div id="modalMessage"> </div>
+      </div>  
+       <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="modalContinuar" data-url="{{ path('frontend_llega') }}">Continuar</button>
+      </div>  
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalComprar" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+       COMPRAR
+      </div>
+      <div class="modal-body">  
+        <p>El comercio llegá a su dirección. Si presiona comprar realizaremos su pedido.</p>
+        
+        <input type="hidden"  name="tienda" value="" id="comprarTiendaId">
+        <div id="modalComprarMessage"> </div>
+      </div>  
+       <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="modalComprar" data-url="{{ path('frontend_pedido')}}">Comprar</button>
+      </div>  
+    </div>
+  </div>
+</div>
+  
+  
 {% endblock %}
 
 {% block javascripts %}

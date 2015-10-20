@@ -85,8 +85,7 @@ class Sucursal
     protected $subcategorias;
 	
     /**
-     * @ORM\ManyToMany(targetEntity="Producto", inversedBy="sucursales", cascade={"persist","remove"})
-	 * @ORM\JoinTable(name="sucursal_producto")
+     * @ORM\ManyToMany(targetEntity="Producto", mappedBy="sucursales", cascade={"persist","remove"})
      */
     protected $productos;
 	
