@@ -28,28 +28,42 @@
                 </div>        
                     <!--<img class="img-responsive" src="img/circle.png" alt="">-->
                 <div class="row">
-					<div class = "col-md-6">    
+					<div class = "col-md-6">
+                        <div class="input" id="menuZona" data-url="{{ path('frontend_menuZona')}}">
+
+                            <input id="zona" class="form-control" placeholder="Barrio o localidad">
+                            <input type="hidden" id="zona-id">
+                            <p id="zona-description"></p>
+
+                        </div><!-- /input-group -->
+
+                    </div>
+                    <!--
+                    <div class = "col-md-3">
+                        <div class="input" id="menuZona" data-url="{{ path('frontend_menuZona')}}">
+
+                            <input id="zona" class="form-control" placeholder="Ej. Av. Cabildo 350">
+                            <input type="hidden" id="zona-id">
+                            <p id="zona-description"></p>
+
+                        </div><!-- /input-group -->
+                   <!-- </div> -->
+                    <!--
                     <div class="input-group">
       <div class="input-group-btn">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tu zona<span class="caret"></span></button>
         <ul class="dropdown-menu" id="menuZona" role="menu" data-url="{{ path('frontend_menuZona')}}">
         </ul>
       </div><!-- /btn-group -->
+      <!--
       <input type="text" class="form-control" placeholder="Ej. Av. Cabildo 350" aria-label="...">
     </div><!-- /input-group -->
        
-                </div>
 
-                   <div class = "col-md-6">  
+
+                   <div class = "col-md-6">
 					<div class="input" id="menuCategoria" data-url="{{ path('frontend_menuCategoria')}}">
-                      <!--
-					  <input type="text" class="form-control" placeholder="Comida, indumentaria, libros,..." aria-label="...">
-					  <div class="input-group-btn">
-						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categorías<span class="caret"></span></button>
-						<ul class="dropdown-menu dropdown-menu-right" id="menuCategoria" role="menu" data-url="{{ path('frontend_menuCategoria')}}">
-						  
-						</ul>
-					  </div><!-- /btn-group -->
+
 
                         <input id="categoria" class="form-control">
                         <input type="hidden" id="categoria-id">

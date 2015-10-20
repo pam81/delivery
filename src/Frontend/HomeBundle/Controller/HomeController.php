@@ -47,40 +47,82 @@ class HomeController extends Controller
 	
 	
     //obtener listado de zonas y barrios 
-    public function menuZonaAction(Request $request){
-    
-      $zonas = $this->getDoctrine()->getRepository('BackendAdminBundle:Zona')->findAll();
-     
-      $listado=array();
-      foreach($zonas as $z){
-            $record=array();
-            $record["id"]=$z->getId();
-            $record["name"]=$z->getName();
-            $record["barrios"]=$this->getBarrios($z->getId());
-            $listado[] = $record;
-       }
-       $response = new Response(json_encode($listado));
-        
-       $response->headers->set('Content-Type', 'application/json');
-  
-       return $response;
+    public function menuZonaAction(Request $request)
+    {
+
+        /*
+        $zonas = $this->getDoctrine()->getRepository('BackendAdminBundle:Zona')->findAll();
+
+        $listado=array();
+        foreach($zonas as $z){
+              $record=array();
+              $record["id"]=$z->getId();
+              $record["name"]=$z->getName();
+              $record["barrios"]=$this->getBarrios($z->getId());
+              $listado[] = $record;
+         }
+         $response = new Response(json_encode($listado));
+
+         $response->headers->set('Content-Type', 'application/json');
+
+         return $response;
+      }
+
+      //obtener listado de los barrios según la zona
+      private function getBarrios($zonaId){
+        $barrios = $this->getDoctrine()->getRepository('BackendAdminBundle:Barrio')->findBy(array("zona"=>$zonaId));
+
+        $resultado=array();
+        foreach($barrios as $b){
+              $record=array();
+              $record["id"]=$b->getId();
+              $record["name"]=$b->getName();
+              $resultado[] = $record;
+         }
+
+         return $resultado;
+      }
+      */
+
+        $search = trim(mb_convert_case($request->get("q"), MB_CASE_LOWER));
+
+        $listado = array();
+
+        $em = $this->getDoctrine()->getManager();
+
+        $dql = "SELECT b FROM BackendAdminBundle:Barrio b where ";
+        $search = mb_convert_case($search, MB_CASE_LOWER);
+
+        if ($search)
+
+            $dql .= "b.name like '%$search%'";
+
+        $dql .= " order by b.name";
+
+        $query = $em->createQuery($dql);
+
+        $resultados = $query->getResult();
+
+        //if(!is_empty($resultados)) {
+
+        foreach ($resultados as $resultado) {
+
+            $barrio = array();
+
+            $barrio['id'] = $resultado->getId();
+            $barrio['name'] = $resultado->getName();
+            $barrio['zona'] = $resultado->getZona()->getName();
+            $barrio['zonaId'] = $resultado->getZona()->getId();
+            $listado[] = $barrio;
+        }
+
+        //}
+        $response = new Response(json_encode($listado));
+
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
     }
-    
-    //obtener listado de los barrios según la zona
-    private function getBarrios($zonaId){
-      $barrios = $this->getDoctrine()->getRepository('BackendAdminBundle:Barrio')->findBy(array("zona"=>$zonaId));
-     
-      $resultado=array();
-      foreach($barrios as $b){
-            $record=array();
-            $record["id"]=$b->getId();
-            $record["name"]=$b->getName();
-            $resultado[] = $record;
-       }
-       
-       return $resultado;
-    }
-    
      //obtener listado de categorias y subcategorias
     /*
     public function menuCategoriaAction(Request $request){
