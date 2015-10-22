@@ -60,23 +60,28 @@ class ProductoController extends Controller
      * @return Response
      */
 
-    public function getProductsByTiendaFilter(Request $request,$id){
 
-        $listado = array();
+
+    public function getProductsByTiendaFilterAction($id,$search){
+
+        $resultado = array();
 
         if($id) {
 
-            $filter = trim(mb_convert_case($request->get("filter"),MB_CASE_LOWER));
             $em = $this->getDoctrine()->getManager();
-            $dql = "SELECT u FROM BackendCustomerAdminBundle:Producto p WHERE p.sucursales =".$id;
+            $sucursal = $em->getRepository('BackendCustomerAdminBundle:Sucursal')->find($id);
+            //$filter = trim(mb_convert_case($request->get("filter"),MB_CASE_LOWER));
 
-            if($filter) {
+            $dql = "SELECT p FROM BackendCustomerAdminBundle:Producto p JOIN p.sucursales s WHERE s.id =".$id;
 
-             $dql.=  " AND p.name like '%'.$filter.'%'";
+            if($search) {
+
+             $dql.=  " AND p.name like '%'.$search.'%'";
             }
             $query = $em->createQuery($dql);
             $productos = $query->getResult();
 
+            /*
             foreach($productos as $prod){
 
                     $record = array();
@@ -84,18 +89,28 @@ class ProductoController extends Controller
                     $record['nombre'] = $prod->getName();
                     $record['descripcion'] = $prod->getDescription();
                     $record['imagen'] = $prod->getWebPath();
-                    $record['precio'] = $prod->getPrice();
+                    $record['precio'] = $prod->getPrecio();
 
-                    $listado[] = $record;
+                    $resultado[] = $record;
             }
-
+            */
+            $resultado = $productos;
+            $count = count($resultado);
         }
 
-        $response = new Response(json_encode($listado));
-        $response->headers->set('Content-Type', 'application/json');
+        return $this->render('FrontendHomeBundle:Shop:index.html.twig', array(
 
-        return $response;
+            'tienda' => $sucursal,
+            'productos' => $resultado,
+            'subcategoria' => "Todos",
+            'count' => $count,
+            'search'=>$search
+        ));
+
     }
+
+
+
 
    public function llegaAction(Request $request){
       $session = $this->getRequest()->getSession();
@@ -129,7 +144,8 @@ class ProductoController extends Controller
       return $response;
    
    }
-    
+
+
 
 	
 }

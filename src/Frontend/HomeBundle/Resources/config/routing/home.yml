@@ -58,6 +58,10 @@ frontend_show_products:
     pattern:  /{id}/frontShowProductos
     defaults: { _controller: "FrontendHomeBundle:Home:getProductsByTienda" }
 
+frontend_all_products:
+    pattern:  /{id}/frontAllProductos
+    defaults: { _controller: "FrontendHomeBundle:Home:resetFiltro" }
+
 frontend_checkTime:
     pattern:  /checkTime
     defaults: { _controller: "FrontendHomeBundle:Home:checkTime" }

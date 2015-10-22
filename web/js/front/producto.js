@@ -3,12 +3,12 @@ $(document).ready(function(){
    simpleCart.bind( 'ready' , function(){
       loadCantidad();
   });
-
+/*
    $('#buscar').on('click',function(){
 
            buscarNuevo();
     });
-
+*/
 });
 
 function loadCantidad(){
@@ -27,7 +27,6 @@ function loadCantidad(){
 }
 
 function buscarNuevo(){
-
 
     var data = "filter="+$('#filtro').val();
     alert(data);

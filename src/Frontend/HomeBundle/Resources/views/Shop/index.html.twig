@@ -54,12 +54,21 @@
                 <button class="btn btn-warning" type="button">
                     {{ subcategoria~" " }} <span class="badge"> {{ count }}</span>
                 </button>
+                {% if subcategoria != "Todos" %}
+                <!--
+                <button class="btn btn-danger" type="button" id="quitar_filtro">
+                    Quitar filtros
+                </button>
+                    -->
+                    <a href="{{ path('frontend_all_products', { 'id': tienda.id }) }}" class="btn btn-danger" role="button">Quitar filtros</a>
+                {% endif %}
             </div>
             <div class="col-lg-6">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Buscar mas productos" id="filtro">
+                    <input type="text" class="form-control" placeholder="Buscar mas productos" id="filtro" value="{{ search }}">
                      <span class="input-group-btn">
-                    <button class="btn btn-warning" type="button" id="buscar" data-url="{{ path('frontend_product_filter', { 'id': tienda.id }) }}"><i class="fa fa-search"></i></button>
+                     <a href="{{ path('frontend_product_filter', { 'id': tienda.id }) }}" class="btn btn-warning" role="button"><i class="fa fa-search"></i></a>
+                <!--    <button class="btn btn-warning" type="button" id="filtrar" data-url="{{ path('frontend_product_filter', { 'id': tienda.id }) }}"><i class="fa fa-search"></i></button>-->
                     </span>
                 </div><!-- /input-group -->
             </div>

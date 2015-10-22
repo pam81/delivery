@@ -11,7 +11,12 @@
 
 $(document).ready(function() {
 
-    var projects = [{}];
+    $('#see_more').hide();
+    $('#title_mira').hide();
+
+    $('#zona-id').val(0);
+    $('#categoria-id').val(0);
+
     var day = moment().weekday();
     var time = moment().format('HH:mm');
     console.log(day);
@@ -134,6 +139,7 @@ $(document).ready(function() {
 
     $.ui.autocomplete.prototype._renderItem = function (ul, item) {
         return $("<li>")
+            .data( "ui-autocomplete-item", item )
             .append($("<a>").text(item.label))
             .appendTo(ul);
 
@@ -145,7 +151,7 @@ $(document).ready(function() {
                 currentZona = "";
             $.each(items, function (index, item) {
                 if (item.zona != currentZona) {
-                    ul.append("<li class='ui-autocomplete-zona'>" + item.zona + "</li>");
+                    ul.append("<li class='ui-autocomplete-barrio'>" + item.zona + "</li>");
                     currentZona = item.zona;
 
                 }
@@ -156,28 +162,27 @@ $(document).ready(function() {
     });
 
     $(function () {
-        $("#zona").zonecomplete({
+        $("#barrio").zonecomplete({
             delay: 0,
             source: function (request, response) {
-                //$.get("http://ws.spotify.com/search/1/track.json", {
                 $.get($("#menuZona").data("url"),{
                     q: request.term
                 }, function (data) {
-                    //response($.map(data.tracks.slice(0, 5), function (item) {
                     response($.map(data,function (item){
                         return { value: item.id, label: item.name,
-                            zona: item.zona };
+                            zona: item.zona, zonaId: item.zonaId };
                     }));
                 });
             },
 
             focus: function (event, ui) {
-                $("#zona").val(ui.item.label);
+                $("#barrio").val(ui.item.label);
                 return false;
             },
             select: function (event, ui) {
-                $("#zona").val(ui.item.label);
-                $("#zona-id").val(ui.item.value);
+                $("#barrio").val(ui.item.label);
+                $("#barrio-id").val(ui.item.value);
+                $("#zona-id").val(ui.item.zonaId);
                 return false;
             }
         });
@@ -400,8 +405,25 @@ $(document).ready(function() {
 
       $("body").on("click","#buscar",function() {
 
-          var ubicacion = JSON.parse($.cookie('delivery-ubicacion'));
+          var ubicacion;
+
+          if($('#barrio-id').val() != 0){
+
+              var zona = $('#zona-id').val();
+              ubicacion = { 'barrioId': $('#barrio-id').val(),'zonaId': zona }
+
+          }else if (isSet($.cookie('delivery-ubicacion'))){
+
+              ubicacion = JSON.parse($.cookie('delivery-ubicacion'));
+
+          }else{
+
+              ubicacion = {'zonaId': 147};  // por defecto carga los que son CABA
+          }
+
+          $('#title_mira').hide();
           $('#tiendas_listado').text(" ");
+
           getTiendas(ubicacion);
 
       });
@@ -428,6 +450,9 @@ function getTiendas(ubicacion){
 				  var h="";
 
                 if(data){
+
+                    $('#tiendas_listado').show();
+                    $('#title_mira').show();
 
                   $.each(data,function(index){ 
 					  
@@ -469,7 +494,6 @@ function getTiendas(ubicacion){
                 }else{
                     var respuesta = '<p class="respuesta">No hay tiendas cerca</p>';
                     $('#tiendas_listado').append(respuesta);
-                    $('#see_more').hide();
                 }
               })
               .fail(function() {

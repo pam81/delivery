@@ -24,7 +24,9 @@ class HomeController extends Controller
     public function indexAction(Request $request)
     {
 
-        return $this->render('FrontendHomeBundle:Home:index.html.twig');        
+        $session = $this->getRequest()->getSession();
+        $session->remove('categoria');
+        return $this->render('FrontendHomeBundle:Home:index.html.twig');
     }
     
     public function faqAction(Request $request)
@@ -97,11 +99,11 @@ class HomeController extends Controller
 
             $dql .= "b.name like '%$search%'";
 
-        $dql .= " order by b.name";
+            $dql .= " order by b.name";
 
-        $query = $em->createQuery($dql);
+            $query = $em->createQuery($dql);
 
-        $resultados = $query->getResult();
+            $resultados = $query->getResult();
 
         //if(!is_empty($resultados)) {
 
@@ -406,6 +408,15 @@ class HomeController extends Controller
 
     }
 */
+    public function resetFiltroAction(Request $request,$id){
+
+        $session = $this->getRequest()->getSession();
+        $session->remove('categoria');
+
+        return $this->getProductsByTiendaAction($request,$id);
+    }
+
+
     /**
      * @param Request $request
      * @param $id
@@ -414,23 +425,24 @@ class HomeController extends Controller
 
     public function getProductsByTiendaAction(Request $request, $id){
 
+        $search = " ";
         $session = $this->getRequest()->getSession();
-
         $subId = $session->get('categoria');
+        $filter = trim(mb_convert_case($request->get("filter"),MB_CASE_LOWER));
         $resultado = array();
 
-		if($id){
-	        $em = $this->getDoctrine()->getManager();
-	        $sucursal = $em->getRepository('BackendCustomerAdminBundle:Sucursal')->find($id);
-			$productos = $sucursal->getProductos();
+		if($id) {
+            $em = $this->getDoctrine()->getManager();
+            $sucursal = $em->getRepository('BackendCustomerAdminBundle:Sucursal')->find($id);
+            $productos = $sucursal->getProductos();
 
-            if($subId){
+            if ($subId) {
 
                 $subcategoria = $em->getRepository('BackendAdminBundle:Subcategoria')->find($subId)->getName();
 
-                foreach($productos as $prod){
+                foreach ($productos as $prod) {
 
-                    if($prod->getSubcategoria()->getId() == $subId){
+                    if ($prod->getSubcategoria()->getId() == $subId) {
 
                         $resultado[] = $prod;
                     }
@@ -443,14 +455,16 @@ class HomeController extends Controller
 
             $count = count($resultado);
 
-        return $this->render('FrontendHomeBundle:Shop:index.html.twig', array(
 
-            'tienda' => $sucursal,
-			'productos' => $resultado,
-            'subcategoria' => $subcategoria,
-            'count' => $count
-        ));
-				
+            return $this->render('FrontendHomeBundle:Shop:index.html.twig', array(
+
+                'tienda' => $sucursal,
+                'productos' => $resultado,
+                'subcategoria' => $subcategoria,
+                'count' => $count,
+                'search'=>$search
+            ));
+
 		}else{
 			
 			return $this->render('FrontendHomeBundle:Home:index.html.twig');
