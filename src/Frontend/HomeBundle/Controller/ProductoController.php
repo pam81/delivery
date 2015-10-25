@@ -98,18 +98,25 @@ class ProductoController extends Controller
     }
 
 
-
-
    public function llegaAction(Request $request){
+
       $session = $this->getRequest()->getSession();
       $resultado=array("status"=>1,"message"=>'No llega');
       $direccion=$request->get("direccion");
       
       $tienda=$request->get("tienda");
       //verificar siu llega con la direccion real
-      
-          $resultado["status"]=0;
-          $resultado["message"]='llega';
+
+       $em = $this->getDoctrine()->getManager();
+       $sucursal = $em->getRepository('BackendCustomerAdminBundle:Sucursal')->find($tienda);
+
+       $llega = $this->llega($sucursal,$lat,$long);
+
+          if($llega) {
+
+              $resultado["status"] = 0;
+              $resultado["message"] = 'llega';
+          }
       
       $response = new Response(json_encode($resultado));
         
@@ -118,6 +125,39 @@ class ProductoController extends Controller
       return $response;
    
    }
+
+   /*
+    *  Calcula si está dentro del radio de entrega
+    */
+
+   private function calculoDistancia(Sucursal $s, $lat2, $long2){
+
+           $direccion = $s->getDireccion();
+
+           $lat1 = $direccion->getLat();
+           $long1 = $direccion->getLon();
+           $radio = $s->getRadio();
+
+           $degtorad = 0.01745329;
+           $radtodeg = 57.29577951;
+
+           $dlong = ($long1 - $long2);
+           $dvalue = (sin($lat1 * $degtorad) * sin($lat2 * $degtorad))
+               + (cos($lat1 * $degtorad) * cos($lat2 * $degtorad)
+                   * cos($dlong * $degtorad));
+
+           $dd = acos($dvalue) * $radtodeg;
+
+           $km = ($dd * 111.302);
+
+           if($km <= $radio)
+
+                return true;
+
+           return false;
+   }
+
+
    //realizar el pedido a la tienda
    public function realizarPedidoAction(Request $request){
       $resultado=array("status"=>1,"message"=>'No llega');

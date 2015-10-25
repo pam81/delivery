@@ -436,19 +436,6 @@ class HomeController extends Controller
             $sucursal = $em->getRepository('BackendCustomerAdminBundle:Sucursal')->find($id);
             $productos = $sucursal->getProductos();
             $horarios = $sucursal-> getHorarios();
-            /*
-            $horarios_tienda = array();
-
-            foreach($horarios as $horario) {
-
-                $horario[]
-                if ($horario->getCerrado()) {
-                    $horarios_tienda[] = $horario->getDia()->getShort() . ": Cerrado";
-                } else {
-                    $horarios_tienda[] = $horario->getDia()->getShort() . ": " . $horario->getDesde() . " - " . $horario->getHasta() . " hs.";
-                }
-            }
-            */
 
             if ($subId) {
 
@@ -561,18 +548,57 @@ class HomeController extends Controller
 				  // valida el caso que cierre a las 0:00 hs					 
 			       if(($ahora < $desde ||  $ahora > $hasta) xor ($ahora > $desde && $ahora > $hasta)){
 				
-					$open = false;
-			       
-				   }else{
-						$open = true;
-						$cierra = $hasta;
-		  		  }
+					    $open = false;
+			       // valida evaluar el dia anterior si cierra pasadas las 12 
+				   }else if($ahora > $desde && $ahora > $hasta){
+
+                      $diaAnterior = $this->diaAnterior($dia);
+
+                      foreach($horarios as $ho){
+
+                         if ($horarios->getDia()->getId() == $diaAnterior){
+
+                             if($horario->getDesde()){
+
+                                 $desde_array = explode(":",$horario->getDesde());
+                                 $desde = $desde_array[0]*60 + $desde_array[1];
+                             }
+                             if($horario->getHasta()){
+                                 $hasta_array = explode(":",$horario->getHasta());
+                                 $hasta = $hasta_array[0]*60 + $hasta_array[1];
+
+                             }
+                             if($ahora > $desde && $ahora > $hasta ){
+
+                                 $open = true;
+                             }
+                         }
+                      }
+                  }else{
+
+                      $open = true;
+                      $cierra = $hasta;
+                  }
+
 				} // Si está abierto   
 			}	
 		}		
 		return $open;
 	}
-	
+
+    private function diaAnterior(Dia $dia){
+
+
+        if ( $dia != 7){
+
+            return $dia -1;
+        } else{
+
+            return 1;
+        }
+
+    }
+
 	/* Verifica si la tienda sigue abierta */
 	
 	public function checkTimeAction(Request $request){
