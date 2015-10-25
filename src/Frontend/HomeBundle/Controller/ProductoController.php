@@ -55,7 +55,7 @@ class ProductoController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param $search
      * @param $id
      * @return Response
      */
@@ -70,30 +70,16 @@ class ProductoController extends Controller
 
             $em = $this->getDoctrine()->getManager();
             $sucursal = $em->getRepository('BackendCustomerAdminBundle:Sucursal')->find($id);
-            //$filter = trim(mb_convert_case($request->get("filter"),MB_CASE_LOWER));
 
             $dql = "SELECT p FROM BackendCustomerAdminBundle:Producto p JOIN p.sucursales s WHERE s.id =".$id;
 
             if($search) {
 
-             $dql.=  " AND p.name like '%'.$search.'%'";
+             $dql.=  " AND p.name like '%".$search."%'";
+
             }
             $query = $em->createQuery($dql);
             $productos = $query->getResult();
-
-            /*
-            foreach($productos as $prod){
-
-                    $record = array();
-                    $record['id'] = $prod->getId();
-                    $record['nombre'] = $prod->getName();
-                    $record['descripcion'] = $prod->getDescription();
-                    $record['imagen'] = $prod->getWebPath();
-                    $record['precio'] = $prod->getPrecio();
-
-                    $resultado[] = $record;
-            }
-            */
             $resultado = $productos;
             $count = count($resultado);
         }
@@ -102,7 +88,7 @@ class ProductoController extends Controller
 
             'tienda' => $sucursal,
             'productos' => $resultado,
-            'subcategoria' => "Todos",
+            'subcategoria' => $search,
             'count' => $count,
             'search'=>$search
         ));

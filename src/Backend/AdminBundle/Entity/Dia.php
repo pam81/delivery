@@ -21,7 +21,13 @@ class Dia
      * @ORM\Column(name="name", type="string", length=100,nullable=true)
      */
     private $name;
-	
+
+    /**
+     * @ORM\Column(name="short", type="string", length=100,nullable=true)
+     */
+    private $short;
+
+
     /**
     * @ORM\OneToMany(targetEntity="Horario", mappedBy="dia")
     */
@@ -104,5 +110,28 @@ class Dia
     public function getHorarios()
     {
         return $this->horarios;
+    }
+
+    /**
+     * Set short
+     *
+     * @param string $short
+     * @return Dia
+     */
+    public function setShort($short)
+    {
+        $this->short = $short;
+
+        return $this;
+    }
+
+    /**
+     * Get short
+     *
+     * @return string 
+     */
+    public function getShort()
+    {
+        return $this->short;
     }
 }

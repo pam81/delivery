@@ -1,10 +1,10 @@
-frontend_vercarrito:
-    pattern:  /carrito
-    defaults: { _controller: FrontendHomeBundle:Producto:showCarrito }
-
 frontend_product_filter:
     pattern:  /frontProductosFilter/{id}/{search}
     defaults: { _controller: FrontendHomeBundle:Producto:getProductsByTiendaFilter , search: ''}
+
+frontend_vercarrito:
+    pattern:  /carrito
+    defaults: { _controller: FrontendHomeBundle:Producto:showCarrito }
 
 frontend_llega:
     pattern:  /llega

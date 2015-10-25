@@ -31,9 +31,9 @@
 					<div class = "col-md-6">
                         <div class="input" id="menuZona" data-url="{{ path('frontend_menuZona')}}">
 
-                            <input id="zona" class="form-control" placeholder="Barrio o localidad">
+                            <input id="barrio" class="form-control ui-autocomplete-input" placeholder="Barrio o localidad">
+                            <input type="hidden" id="barrio-id">
                             <input type="hidden" id="zona-id">
-                            <p id="zona-description"></p>
 
                         </div><!-- /input-group -->
 
@@ -52,7 +52,7 @@
                     <div class="input-group">
       <div class="input-group-btn">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tu zona<span class="caret"></span></button>
-        <ul class="dropdown-menu" id="menuZona" role="menu" data-url="{{ path('frontend_menuZona')}}">
+        <ul class="dropdown-menu" id="menuZona" role="menu" data-url="">
         </ul>
       </div><!-- /btn-group -->
       <!--
@@ -65,8 +65,9 @@
 					<div class="input" id="menuCategoria" data-url="{{ path('frontend_menuCategoria')}}">
 
 
-                        <input id="categoria" class="form-control">
+                        <input id="categoria" class="form-control ui-autocomplete-input">
                         <input type="hidden" id="categoria-id">
+
                         <p id="categoria-description"></p>
 
                     </div><!-- /input-group -->

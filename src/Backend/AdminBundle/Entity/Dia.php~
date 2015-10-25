@@ -21,7 +21,13 @@ class Dia
      * @ORM\Column(name="name", type="string", length=100,nullable=true)
      */
     private $name;
-	
+
+    /**
+     * @ORM\Column(name="short", type="string", length=100,nullable=true)
+     */
+    private $short;
+
+
     /**
     * @ORM\OneToMany(targetEntity="Horario", mappedBy="dia")
     */

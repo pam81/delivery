@@ -144,6 +144,7 @@ header .shop-bg{
 header .intro-text .info{
 
 	padding-top: 10px;
+    padding-bottom: 20px;
 }
 
 header .intro-text .shop-title{
@@ -153,7 +154,7 @@ header .intro-text .shop-title{
     color: #ffffff;
     /*float: right;
     margin-left: 190px;*/
-	margin-top: 25px;
+	/*margin-top: 10px;*/
 }
 
 header .intro-text .shop-address{
@@ -162,7 +163,7 @@ header .intro-text .shop-address{
     font-weight: 300;
     color: #ffffff;
     /*margin-left: 190px;*/
-	margin-top: 5px;
+	margin-top: -10px;
 }
 
 header .intro-text .shop-time{
@@ -259,6 +260,22 @@ header .intro-text .skills {
     color: #666663;
 }
 
+header .shop-horarios {
+    margin-bottom: 5px;
+    text-align: right;
+}
+
+header .shop-horarios table{
+
+    align-self: center;
+}
+
+header .shop-horarios table td{
+
+    width: 110px;
+    text-align: center;
+
+}
 .product-title{
 
 	color: #FE980F;

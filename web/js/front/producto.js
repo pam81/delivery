@@ -3,12 +3,30 @@ $(document).ready(function(){
    simpleCart.bind( 'ready' , function(){
       loadCantidad();
   });
-/*
-   $('#buscar').on('click',function(){
 
-           buscarNuevo();
+    $("#search-button").on('click',function(){
+
+        var path=$(this).data("url");
+        var query=$("#search-query").val();
+        if (query != '')
+            path = path +'/'+query;
+
+        $("#custom-search-form").attr('action',path);
+        $("#custom-search-form").submit();
+
+
     });
-*/
+
+    $("#search-query").keyup(function(event){
+        if(event.keyCode == 13){
+            $("#search-button").click();
+        }
+    });
+
+    $( "#mostrar_horarios" ).click(function() {
+        $( "#horarios" ).toggle();
+    });
+
 });
 
 function loadCantidad(){

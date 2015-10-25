@@ -435,6 +435,20 @@ class HomeController extends Controller
             $em = $this->getDoctrine()->getManager();
             $sucursal = $em->getRepository('BackendCustomerAdminBundle:Sucursal')->find($id);
             $productos = $sucursal->getProductos();
+            $horarios = $sucursal-> getHorarios();
+            /*
+            $horarios_tienda = array();
+
+            foreach($horarios as $horario) {
+
+                $horario[]
+                if ($horario->getCerrado()) {
+                    $horarios_tienda[] = $horario->getDia()->getShort() . ": Cerrado";
+                } else {
+                    $horarios_tienda[] = $horario->getDia()->getShort() . ": " . $horario->getDesde() . " - " . $horario->getHasta() . " hs.";
+                }
+            }
+            */
 
             if ($subId) {
 
@@ -462,7 +476,8 @@ class HomeController extends Controller
                 'productos' => $resultado,
                 'subcategoria' => $subcategoria,
                 'count' => $count,
-                'search'=>$search
+                'search'=>$search,
+                'horarios'=>$horarios
             ));
 
 		}else{
