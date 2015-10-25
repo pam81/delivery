@@ -70,6 +70,7 @@ class ProductoController extends Controller
 
             $em = $this->getDoctrine()->getManager();
             $sucursal = $em->getRepository('BackendCustomerAdminBundle:Sucursal')->find($id);
+            $horarios = $sucursal->getHorarios();
 
             $dql = "SELECT p FROM BackendCustomerAdminBundle:Producto p JOIN p.sucursales s WHERE s.id =".$id;
 
@@ -90,7 +91,8 @@ class ProductoController extends Controller
             'productos' => $resultado,
             'subcategoria' => $search,
             'count' => $count,
-            'search'=>$search
+            'search'=>$search,
+            'horarios' =>$horarios
         ));
 
     }
