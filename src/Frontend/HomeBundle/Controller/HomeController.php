@@ -550,9 +550,10 @@ class HomeController extends Controller
 				
 					    $open = false;
 			       // valida evaluar el dia anterior si cierra pasadas las 12 
-				   }else if($ahora > $desde && $ahora > $hasta){
+				   }
+                   /* else if($ahora > $desde && $ahora > $hasta){
 
-                      $diaAnterior = $this->diaAnterior($dia);
+                      $diaAnterior = $this->diaAnterior($horario->getDia());
 
                       foreach($horarios as $ho){
 
@@ -574,7 +575,8 @@ class HomeController extends Controller
                              }
                          }
                       }
-                  }else{
+                  }*/
+                   else{
 
                       $open = true;
                       $cierra = $hasta;
@@ -589,9 +591,9 @@ class HomeController extends Controller
     private function diaAnterior(Dia $dia){
 
 
-        if ( $dia != 7){
+        if ( $dia->getId() != 7){
 
-            return $dia -1;
+            return $dia->getId() -1;
         } else{
 
             return 1;
