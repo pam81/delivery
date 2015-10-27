@@ -10,7 +10,10 @@ $(document).ready(function(){
           }
         }
   });
- 
+   $("body").on("click","#btnCarrito",function(){
+          $("#btnLogin").popover('hide');
+     
+     });
  
  $("body").on("click","#buyBtn",function(){
  

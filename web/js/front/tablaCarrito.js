@@ -267,7 +267,7 @@ function loadTablaCarrito(sucursalid){
  simpleCart.each( function( item ){
         var s = item.get("sucursal");  
         if ( s == sucursalid){
-        element='<tr id="row'+item.id()+'">';
+        element +='<tr id="row'+item.id()+'">';
 				element +='   <td class="cart_image"><img src=" '+item.get('thumb')+ '  " alt="" class="img-responsive"> </td>';
         element +='   <td class="cart_description"><h4>'+item.get('name')+'</h4> </td>';
         element +='   <td class="cart_price"> <p>$'+item.price()+'</p></td>';
@@ -291,11 +291,23 @@ function loadTablaCarrito(sucursalid){
 
 }
 
+
+
 function loadPedidos(){
     var sucursales=[]; 
     simpleCart.each( function( item ){ 
-          var sucursal={sucursalid: item.get("sucursal"),name: item.get("sucursalName"),img: item.get("sucursalImg")};
-          sucursales.push(sucursal);
+          var add = true;
+          for (var i = 0, len = sucursales.length; i < len; i++) {
+            if (sucursales[i].sucursalid == item.get("sucursal")){
+                 add = false;
+                 break;
+            }
+          }  
+          if (add){
+            var sucursal={sucursalid: item.get("sucursal"),name: item.get("sucursalName"),img: item.get("sucursalImg")};
+            sucursales.push(sucursal);
+          }  
+          
     });
     var pedidos = $("#pedidos");
     for (var i=0; i < sucursales.length; i++){ 
