@@ -113,7 +113,37 @@
                         <p class="product-title">{{ p.getName() }}</p>
                         <p class="product-desc">{{ p.getDescription }}</p>
                         <p class="product-title">$ {{ p.getPrecio() }}</p>
-						<p class="product-desc">{% if p.getVariedades() is not empty %}<a href="#">Ver variedades</a>{% endif %}</p>  
+						            <p class="product-desc">
+                            {% if p.getVariedades() is not empty %}
+                            <button type="button" class="btn btn-link variedades" data-toggle="modal" data-target="#variedades{{p.getId() }}" >Ver Variedades</button>
+                            <div class="modal fade" id="variedades{{p.getId() }}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                              <div class="modal-dialog modal-sm">
+                                <div class="modal-content">
+                                 <div class="modal-header">
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                      <h4 class="modal-title" >Variedades Disponibles</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                       
+                                           <div class="container">
+                                              <ul class="list-unstyled">
+                                              {% for v in p.getVariedades()%}
+                                                <li class="col-md-3">{{ v.getName() }}</li>
+                                                >
+                                                {% endfor %}
+                                              </ul>
+                                            </div>
+                                        
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                      
+                                    </div>
+                                </div>
+                              </div>
+                            </div>
+                            {% endif %}
+                        </p>  
 						                    
                     </div>					
                     <p>
@@ -128,7 +158,7 @@
 						          <input type="text" name="quant[2]" class="form-control input-number" id="input-producto-{{p.getId}}" value="0" min="0" max="100">
 						          <span class="input-group-btn">
 						              <button type="button" class="btn btn-primary btn-number" data-type="plus" data-field="quant[2]">
-						                  <span class="glyphicon glyphicon-plus slider-plus" data-id="{{p.getId}}" data-thumb="{{ p.getWebPath() }}" data-name="{{ p.getName() }}" data-sucursalId="{{ tienda.id }}" data-sucursalName="{{ tienda.getName() }}" data-sucursalImg="{{ tienda.getWebPath() }}" data-price="{{ p.getPrecio() }}"></span>
+						                  <span class="glyphicon glyphicon-plus slider-plus" data-id="{{p.getId}}" data-thumb="{{ p.getWebPath() }}" data-name="{{ p.getName() }}" data-sucursalId="{{ tienda.id }}" data-sucursalName="{{ tienda.getName() }}" data-sucursalImg="{{ tienda.getWebPath() }}" data-price="{{ p.getPrecio() }}" data-costo="{{ tienda.getDelivery() }}" data-minimo="{{ tienda.getMinimo()}}"></span>
 						              </button>
 						          </span>
 						      </div>

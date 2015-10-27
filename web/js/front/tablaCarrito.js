@@ -122,11 +122,17 @@ $(document).ready(function(){
  
  $("body").on("click",".check_out_pedido",function(){
     var id=$(this).data("id");
-    $("#modalDireccion").modal("show");
-    $("#modalMessage").text('');
-    
-    $("#modalTiendaId").val(id);
-    $("#comprarTiendaId").val(id);
+    var total = $(".total"+id).text();
+    var minimo = $(this).data("minimo");
+    if (parseFloat(total) >= parseFloat(minimo)){
+      $("#modalDireccion").modal("show");
+      $("#modalMessage").text('');
+      
+      $("#modalTiendaId").val(id);
+      $("#comprarTiendaId").val(id);
+    }else{
+      sweetAlert("No puede realizarse la compra ya que el monto no supera el pedido mínimo de $"+minimo);
+    }
     
  });
  
@@ -281,6 +287,8 @@ function loadTablaCarrito(sucursalid){
 				element	+='	</tr>';	
     
         tabla.subtotal += parseFloat(item.total());
+        tabla.envio = parseFloat(item.get("costo"));
+        
        } 
   });
   
@@ -304,7 +312,7 @@ function loadPedidos(){
             }
           }  
           if (add){
-            var sucursal={sucursalid: item.get("sucursal"),name: item.get("sucursalName"),img: item.get("sucursalImg")};
+            var sucursal={sucursalid: item.get("sucursal"),name: item.get("sucursalName"),img: item.get("sucursalImg"), costo: item.get("costo"), minimo: item.get("minimo")};
             sucursales.push(sucursal);
           }  
           
@@ -348,12 +356,12 @@ function loadPedidos(){
 				 element +='	<div class="total_area">';
 				 element +='		<ul>';
 				 element +='		<li>SubTotal <span>$<span class="subtotal'+sucursales[i].sucursalid+'">'+tabla.subtotal+'</span></span></li>';
-				 element +='			<li>Extras <span>$<span class="extras'+sucursales[i].sucursalid+'">'+tabla.extras+'</span></span></li>';
+				// element +='			<li>Extras <span>$<span class="extras'+sucursales[i].sucursalid+'">'+tabla.extras+'</span></span></li>';
 				 element +='			<li>Costo de envio <span>$<span class="envio'+sucursales[i].sucursalid+'">'+tabla.envio+'</span></span></li>';
 				 element +='			<li>Total <span>$<span class="total'+sucursales[i].sucursalid+'">'+tabla.total+'</span></span></li>';
 				 element +='		</ul>';
 				 element +='			<button class="btn btn-default cancelar_pedido" data-id="'+sucursales[i].sucursalid+'">Cancelar</button>'; 
-				 element +='			<button class="btn btn-default check_out_pedido" data-id="'+sucursales[i].sucursalid+'">Continuar</button>';
+				 element +='			<button class="btn btn-default check_out_pedido" data-minimo="'+sucursales[i].minimo+'"  data-id="'+sucursales[i].sucursalid+'">Continuar</button>';
 				 element +='	</div>';
 				 element +='</div>';
         
