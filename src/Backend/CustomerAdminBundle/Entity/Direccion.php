@@ -115,7 +115,22 @@ class Direccion
 		  return $direccion;
     }
 
-    
+     public function getFull(){
+      $direccion = $this->calle." ".$this->numero;
+       if ($this->piso != ''){
+         $direccion .=" piso: ".$this->piso;
+       }
+       
+       if ($this->depto != ''){
+         $direccion .=" dto: ".$this->depto;
+       }
+       
+       $direccion .= " - ".$this->getBarrio()->getName().", ".$this->getZona()->getName();
+      
+      return $direccion;
+      
+     
+     }
 
     /**
      * Get id

@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Backend\CustomerAdminBundle\Entity\TipoDireccion;
 
-class LoadStatusData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
+class LoadTipoDireccionData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
 
 /**

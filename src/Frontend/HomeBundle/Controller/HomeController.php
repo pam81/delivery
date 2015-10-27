@@ -920,6 +920,24 @@ class HomeController extends Controller
     
     }
     
+    
+    public function isLoginAction(Request $request){
+        $session = $this->getRequest()->getSession();
+        $resultado=array("status"=>1,"message"=>'');
+         if ( $session->get('login') ){
+            $resultado["status"]=0;
+            $resultado["message"]="Esta logeado";
+         }else{
+            $resultado["status"]=1;
+            $resultado["message"]="No esta logeado";
+         }
+       $response = new Response(json_encode($resultado));
+        
+       $response->headers->set('Content-Type', 'application/json');
+  
+       return $response;
+    }
+    
 		
     
 } 
