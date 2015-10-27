@@ -40,8 +40,12 @@ class Detalle
      * @ORM\JoinColumn(name="pedido_id", referencedColumnName="id")
      */
     private $pedido;
-    
 
+    /**
+     * @ORM\Column(name="variedades", type="text", nullable=true)
+     */
+
+    private $variedades;
     /**
      * Get id
      *
@@ -142,5 +146,28 @@ class Detalle
     public function getPedido()
     {
         return $this->pedido;
+    }
+
+    /**
+     * Set variedades
+     *
+     * @param string $variedades
+     * @return Detalle
+     */
+    public function setVariedades($variedades)
+    {
+        $this->variedades = $variedades;
+
+        return $this;
+    }
+
+    /**
+     * Get variedades
+     *
+     * @return string 
+     */
+    public function getVariedades()
+    {
+        return $this->variedades;
     }
 }
