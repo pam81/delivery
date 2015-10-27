@@ -130,7 +130,8 @@ class Sucursal
     private $favoritos; 
 	
     /**
-     * @ORM\Column(type="string", length=100, nullable=true)
+     * costo del envio    
+     * @ORM\Column(name="costo", type="decimal", scale=2, nullable=true)
      */
 	
 	private $delivery;
@@ -142,10 +143,14 @@ class Sucursal
 	private $tiempo_entrega;
 	
     /**
-     * @ORM\Column(name="price", type="decimal", scale=2, nullable=true)
+     * @ORM\Column(name="minimo", type="decimal", scale=2, nullable=true)
      */
 	
 	private $minimo;
+  
+ 
+  
+
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -170,6 +175,8 @@ class Sucursal
 		$this->active = true;
     $this->is_premium = false;
     $this->radio = 0;
+    $this->minimo = 0;
+    $this->delivery = 0;
 		$this->productos = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->horarios = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->favoritos =  new ArrayCollection();     
