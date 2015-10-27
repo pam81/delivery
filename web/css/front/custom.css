@@ -67,3 +67,10 @@ a:visited, a:link {
 #contentCarrito .popover{
   max-width: none;
 }
+
+
+
+.textExplicativo{
+  font-size: 12px;
+  font-weight: normal;
+}

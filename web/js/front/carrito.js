@@ -10,6 +10,31 @@ $(document).ready(function(){
           }
         }
   });
+ 
+ 
+ $("body").on("click","#buyBtn",function(){
+ 
+      var url = $(this).data("login");
+      var buyUrl = $(this).data("url");
+      $.ajax({
+            type: "POST",
+            url: url,
+            dataType: 'json'
+            
+         })
+         .done(function(data) {
+              if (data.status == 1){
+                  sweetAlert("Debe logearse antes de poder realizar la compra");
+              }else{
+                  window.location=buyUrl;
+              } 
+          
+          }).fail(function(data){
+              sweetAlert("Debe logearse antes de poder realizar la compra");
+            
+          });
+ 
+ });
       
  
 simpleCart({

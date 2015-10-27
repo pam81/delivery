@@ -1,7 +1,64 @@
 $(document).ready(function(){
 
  
+  /*DIRECCIONES*/
+  var urlDirecciones = $("#modalDireccion").data("url");
+   
+   $.ajax({
+            type: "POST",
+            url: urlDirecciones,
+            dataType: 'json',
+            
+        }).done(function(data){
+             $.each(data, function(index, item) {   
+                   $('#selectDireccion')
+                       .append($("<option></option>")
+                       .attr("value",item.id)
+                       .text(item.name)); 
+              });
+            
+        });
+ 
+ var urlZonas = $("#zona").data("url");
   
+  $.ajax({
+            type: "POST",
+            url: urlZonas,
+            dataType: 'json',
+            
+        }).done(function(data){
+             $.each(data, function(index, item) {   
+                   $('#zona')
+                       .append($("<option></option>")
+                       .attr("value",item.id)
+                       .text(item.name)); 
+              });
+            
+        });
+        
+  $("#zona").on("change",function(){
+      var urlBarrios = $("#zona").data("urlbarrios");
+      var dataString = "zona="+$("#zona").val();
+      $('#barrio').children().remove().end().append('<option selected value="0">Seleccione ciudad</option>') ;
+      $.ajax({
+            type: "POST",
+            url: urlBarrios,
+            dataType: 'json',
+            data: dataString
+            
+        }).done(function(data){
+             $.each(data, function(index, item) {   
+                   $('#barrio')
+                       .append($("<option></option>")
+                       .attr("value",item.id)
+                       .text(item.name)); 
+              });
+            
+        });
+  
+  });      
+ 
+ /*PEDIDOS */ 
   simpleCart.bind( 'ready' , function(){
       loadPedidos();
   });
@@ -78,26 +135,52 @@ $(document).ready(function(){
      //si no llega mostrar un aviso que no llega a esa dirección
      //si llega directamente pasar a armar el pedido
       var path = $(this).data("url");
-      var dataString= "direccion="+$("#modalDireccion").val()+"&tienda="+$("#modalTiendaId").val();
-      $.ajax({
-            type: "POST",
-            url: path,
-            dataType: 'json',
-            data: dataString,
-            
-        }).done(function(data){
-                if (data.status == 1){
-                      $("#modalMessage").text("El comercio no hace delivery a la dirección indicada");
-                }else{
-                     $("#modalDireccion").modal("hide");
-                     $("#modalComprarMessage").text('');
-                     $("#modalComprar").modal("show");
-                }
-            
-        
-        });
+      var dataString= $("#formDireccion").serialize();
+      
+      
+      if ($("#selectDireccion").val() == 0){ //si ingresa una direccion nueva
+                                            //debo calcular lat y lon
+         if ( $("#calle").val() == ''){
+           sweetAlert("Debe ingresar la calle");
+           return false;
+         }
+         if ( $("#nro").val() == ''){
+           sweetAlert("Debe ingresar el número");
+           return false;
+         }
+         
+         if ( $("#zona").val() == 0){
+           sweetAlert("Debe seleccionar una zona");
+           return false;
+         }
+         
+         if ( $("#barrio").val() == 0){
+           sweetAlert("Debe seleccionar un barrio");
+           return false;
+         }
+         
+         var address = $("#calle").val()+" "+$("#nro").val()+", "+
+                               $('#barrio option:selected').text()+", "+$('#zona option:selected').text()+", Argentina"; 
+        getLatLon(address,function(coordenadas){
+                 
+                       if (coordenadas){
+                        dataString += "&lat="+coordenadas.lat;
+                        dataString += "&lon="+coordenadas.lng;
+                        validarLlegaDireccion(dataString, path);
+                       }else{
+                         
+                         sweetAlert("No se pudo geolocalizar su dirección. Verifique sus datos");
+                      }
+                  
+                     
+                 
+                 });
+      }
      
-       
+      if ($("#selectDireccion").val() != 0){
+         validarLlegaDireccion(dataString, path); 
+     
+        }
     
  
  });
@@ -105,25 +188,38 @@ $(document).ready(function(){
  $("body").on("click","#modalComprar",function(){
      var sucursalid = $("#comprarTiendaId").val();
      var path = $(this).data("url");
-     var dataString = 'sucursal='+sucursalid+"&";
+     //var dataString = 'sucursal='+sucursalid+"&direccionid="+$("#direccionid").val()+"&";
+     var total = 0;
+     var productos = [];
      simpleCart.each( function( item ){
         if (item.get("sucursal") == sucursalid){
-          dataString +=JSON.stringify(item);
+          var id = item.get("product_id");
+          var price = item.price();
+          var quantity = item.quantity();
+          total += parseFloat(price) * parseFloat(quantity);
+          //dataString += "&producto="+id+"&price="+price+"&cantidad="+quantity;
+          productos.push({ id: id, price: price, quantity: quantity });
         }
       
       });
+      //dataString +="&total="+total;
        $.ajax({
             type: "POST",
             url: path,
-            dataType: 'json',
-            data: dataString
+            data: {
+              sucursal: sucursalid,
+              direccionid: $("#direccionid").val(),
+              total: total,
+              productos: productos
+            
+            }
         }).done(function(data) {
               if (data.status == 1){
                 $("#modalComprarMessage").text("No se ha podido realizar el pedido");
               
               }else{
                  $("#modalComprar").modal("hide");
-                 $(".pedido"+sucursalid).html("<p>Su pedido ha sido realizado.</p>"); 
+                 $(".pedido"+sucursalid).html("<p>Muchas Gracias! Su pedido ha sido realizado.Recibira un email con todos los datos.</p>"); 
                  simpleCart.each( function( item ){
                       if (item.get("sucursal") == sucursalid){
                         item.remove();
@@ -139,12 +235,38 @@ $(document).ready(function(){
   
 });
 
+
+function validarLlegaDireccion(dataString, path){
+
+  $.ajax({
+                  type: "POST",
+                  url: path,
+                  dataType: 'json',
+                  data: dataString,
+                  
+              }).done(function(data){
+                      if (data.status == 1){
+                            $("#modalMessage").text("El comercio no hace delivery a la dirección indicada");
+                      }else{
+                           $("#modalDireccion").modal("hide");
+                           $("#modalComprarMessage").text('');
+                           $("#direccionid").val(data.direccionid);
+                           $("#direccion-envio").text(data.direccion);
+                           $("#modalComprar").modal("show");
+                      }
+                  
+              
+              });
+
+}
+
 function loadTablaCarrito(sucursalid){
 
  var tabla={ listado:'',subtotal: 0,extras: 0,envio: 0,total: 0};
  var element =''; 
  simpleCart.each( function( item ){
-        if (item.get("sucursal") == sucursalid){
+        var s = item.get("sucursal");  
+        if ( s == sucursalid){
         element='<tr id="row'+item.id()+'">';
 				element +='   <td class="cart_image"><img src=" '+item.get('thumb')+ '  " alt="" class="img-responsive"> </td>';
         element +='   <td class="cart_description"><h4>'+item.get('name')+'</h4> </td>';
@@ -177,7 +299,7 @@ function loadPedidos(){
     });
     var pedidos = $("#pedidos");
     for (var i=0; i < sucursales.length; i++){ 
-     var items = simpleCart.find({sucursalid: sucursales[i].sucursalid});
+    
      var tabla= loadTablaCarrito(sucursales[i].sucursalid);
      
      var element='<div class="pedido'+sucursales[i].sucursalid+'">'; 
