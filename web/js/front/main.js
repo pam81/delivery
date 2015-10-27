@@ -42,7 +42,10 @@ $(document).ready(function() {
         }
       });         
     
-    
+     $("body").on("click","#btnLogin",function(){
+          $("#btnCarrito").popover('hide');
+     
+     });
     
      $("body").on("click","#btnSubmitLogin",function(){
          var email = $(".popover #email").val();
