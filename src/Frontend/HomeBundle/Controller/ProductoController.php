@@ -76,7 +76,7 @@ class ProductoController extends Controller
 
             if($search) {
 
-             $dql.=  " AND p.name like '%".$search."%'";
+             $dql.=  " AND p.name like '%".trim($search)."%'";
 
             }
             $query = $em->createQuery($dql);

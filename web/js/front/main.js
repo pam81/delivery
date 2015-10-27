@@ -188,9 +188,6 @@ $(document).ready(function() {
         });
     });
 
-
-    // tengo que mandar day y time
-
    var datos = {'day':day,'time':time};
    var jqxTiendasPremium = $.getJSON( $("#sugeridos").data("url"),datos)
               .done(function(data) {

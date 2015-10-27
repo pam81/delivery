@@ -6,7 +6,7 @@ $(document).ready(function(){
            if (simpleCart.quantity() > 0){
               return $('#carrito-content').html();
           }else{
-              return "<p>Aún no has realizados compras!</p>";
+              return "<p>Aún no has realizado compras!</p>";
           }
         }
   });
