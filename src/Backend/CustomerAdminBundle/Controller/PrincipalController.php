@@ -100,6 +100,8 @@ class PrincipalController extends Controller
     
     
     
+    
+    
     public function profileAction(Request $request) {
         
         $customer=$this->getUser();

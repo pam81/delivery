@@ -66,6 +66,11 @@ frontend_checkTime:
     pattern:  /checkTime
     defaults: { _controller: "FrontendHomeBundle:Home:checkTime" }
 
+frontend_islogin:        
+    pattern:  /isloginFront
+    defaults: { _controller: "FrontendHomeBundle:Home:islogin" }    
+    
+
 
 
 

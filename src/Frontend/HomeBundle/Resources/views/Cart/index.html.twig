@@ -29,18 +29,64 @@
 	</section><!--/#do_action-->
   
   
-  <div class="modal fade" id="modalDireccion" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal fade" id="modalDireccion" data-url="{{ path('frontend_direcciones') }}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
+      
       <div class="modal-header">
        Dirección de Entrega
       </div>
-      <div class="modal-body">  
-        <p>Ingrese la dirección a donde quiere recibir su pedido y verificaremos si el comercio llega a la zona</p>
-        <input type="text" name="direccion" value="" placeholder="direccion" id="modalDireccion">
+      
+      <div class="modal-body" >  
+        <p>Ingrese la dirección a donde quiere recibir su pedido y verificaremos si el comercio llega a la zona.
+        </p>
+        
+        <div class=" container-fluid">
+        <p class="textExplicativo">Puede seleccionar una de las ya previamente cargadas </p>
+        
+        
+        <form class="form-horizontal" id="formDireccion">
+         <div class="form-group">
+          <div class="col-md-12">
+              <select class="form-control" id="selectDireccion" name="direccion"><option value="0">Seleccione una dirección</option></select>
+          </div>
+         </div>
+         <p class="textExplicativo">o ingresar una nueva</p> 
+        <div class="form-group">
+          <div class="col-md-6">
+            <input type="text" name="calle" value="" id="calle" placeholder="calle">
+          </div>
+          <div class="col-md-6">  
+            <input type="text" name="nro" value="" id="nro" placeholder="nro">
+          </div>
+         </div>
+          
+         <div class="form-group"> 
+          <div class="col-md-6">
+            <input type="text" name="piso" value="" id="piso" placeholder="piso">
+          </div>
+          <div class="col-md-6">
+            <input type="text" name="dto" value="" id="dto" placeholder="dto">
+          </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="col-md-6">
+              <select class="form-control" id="zona" name="zona" data-urlbarrios="{{ path('frontend_barrios')}}" data-url="{{ path('frontend_zonas')}}"><option value="0">Seleccione provincia</option></select>
+            </div>
+            <div class="col-md-6">
+              <select  class="form-control" id="barrio" name="barrio"><option value="0">Seleccione ciudad</option></select>
+            </div>
+        </div>
+        
         <input type="hidden"  name="tienda" value="" id="modalTiendaId">
+        </form>
+        
+        </div> <!-- container-fluid -->
+        
         <div id="modalMessage"> </div>
-      </div>  
+      
+      </div> <!-- modalbody-->  
        <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
         <button type="button" class="btn btn-primary" id="modalContinuar" data-url="{{ path('frontend_llega') }}">Continuar</button>
@@ -56,9 +102,14 @@
        COMPRAR
       </div>
       <div class="modal-body">  
-        <p>El comercio llegá a su dirección. Si presiona comprar realizaremos su pedido.</p>
+        <p>El comercio llegá a su dirección.Se lo enviaremos a<br>
+         <span id="direccion-envio"></span>
+        </p>
+         
+        <p>Si presiona comprar realizaremos su pedido.</p>
         
         <input type="hidden"  name="tienda" value="" id="comprarTiendaId">
+        <input type="hidden" name="direccionid" value="" id="direccionid">
         <div id="modalComprarMessage"> </div>
       </div>  
        <div class="modal-footer">
@@ -74,6 +125,8 @@
 
 {% block javascripts %}
   {{ parent()}}
+  <script src="{{ asset("js/typeahead.bundle.js") }}"></script>
+   <script src="{{ asset("js/gmaps.js") }}"></script>
  <script src="{{ asset("js/front/tablaCarrito.js") }}"></script>
  
  {% endblock %} 

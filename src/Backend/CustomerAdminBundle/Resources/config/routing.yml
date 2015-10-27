@@ -14,6 +14,7 @@ customer_profile:
 frontend_login:        
     pattern:  /loginFront
     defaults: { _controller: "BackendCustomerAdminBundle:Principal:loginFront" }
+    
 
 customer_login:
     pattern: /login
