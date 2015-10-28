@@ -98,13 +98,15 @@ simpleCart({
      var price =$(this).data("price");
      var sucursalId =$(this).data("sucursalid");
      var sucursalImg =$(this).data("sucursalimg");
-     var sucursalName =$(this).data("sucursalname"); 
+     var sucursalName =$(this).data("sucursalname");
+     var costo  = $(this).data("costo");
+     var minimo = $(this).data("minimo");
      var input = $("#input-producto-"+id);
      var value = parseInt(input.val())+1;
      if (value < 100){
         input.val(value);
         //aumento de uno en el carrito
-        simpleCart.add({thumb: thumb,name: name, quantity: 1, price: price, product_id: id, sucursal: sucursalId, sucursalImg: sucursalImg, sucursalName: sucursalName});
+        simpleCart.add({thumb: thumb,name: name, quantity: 1, price: price, product_id: id, sucursal: sucursalId, sucursalImg: sucursalImg, sucursalName: sucursalName, costo: costo , minimo: minimo });
      }
      
  

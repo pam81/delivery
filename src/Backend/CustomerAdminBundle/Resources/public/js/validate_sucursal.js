@@ -42,6 +42,14 @@ $(document).ready(function() {
 					required:false,
 				  digits:true
 				},
+        "backend_customeradminbundle_sucursaltype[delivery]": {
+					required:false,
+				  number:true
+				},
+        "backend_customeradminbundle_sucursaltype[minimo]": {
+					required:false,
+				  number:true
+				},
 			},
 			
 		    messages: {
@@ -82,6 +90,12 @@ $(document).ready(function() {
            },
            "backend_customeradminbundle_sucursaltype[radio]": {
            digits: "Debe ingresar radio de entrega en kms",
+           },
+           "backend_customeradminbundle_sucursaltype[delivery]": {
+           number: "Debe ingresar un número valido",
+           },
+           "backend_customeradminbundle_sucursaltype[minimo]": {
+           number: "Debe ingresar un número válido",
            }
            
       },
