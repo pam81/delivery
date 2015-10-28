@@ -17,8 +17,9 @@
      .tecnicas{ width: 100%}
      .tecnicas .first{ width: 400px}
 	 .tecnicas .first-long { width:250px;}
-     .tecnicas .second { width: 150px; text-align: right;}
+     .tecnicas .second { width: 150px; text-align: left;}
      .tecnicas .third { width: 150px; text-align: right;}
+     .tecnicas .fourth { width: 150px; text-align: right; }
 	 .tecnicas .second-long { width: 450px; text-align: left; }
 	 .tecnicas .third-long { width: 150px; }
      .separador {border-top: 1px solid #000; margin: 0; padding: 0}
@@ -31,7 +32,7 @@
    </style>
   <body>
    <div id="header">
-     <img src="img/logo_labo_300x100.jpg" width="300" height="100">
+     <!--<img src="img/logo_labo_300x100.jpg" width="300" height="100">-->
    </div>
    <div id="footer">
       <div id="firma">
@@ -56,18 +57,19 @@
      <hr>
 	 
 	 <table class="tecnicas">
-	            {% for producto in entity.getProductos() %}
+	            {% for d in entity.getDetalles() %}
 	               <tr>
-	                <td class="first">{{ producto.getName() }}</td>
-	                <td class="second">3</td>
-	                <td class="third">{{ producto.getPrecio() }}</td>
+	                <td class="first">{{ d.getCantidad() }}</td>
+	                <td class="second">{{ d.getProducto().getName() }}</td>
+                    <td class="third">{{ d.getVariedades() }}</td>
+	                <td class="fourth">{{ d.getPrecio() }}</td>
 	               </tr>
 	            {% endfor %}
 	 </table>
 
-     {% if entity.observaciones is not null %}
+     {% if entity.comentarios is not null %}
      <div class="conclusion">
-     <span class="title_conclusion">Observaciones:</span> {{ entity.observaciones |raw}} 
+     <span class="title_conclusion">Observaciones:</span> {{ entity.comentarios |raw}}
      </div>
     {% endif %}
      

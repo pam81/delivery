@@ -1,0 +1,20 @@
+<div class="control-group">
+    <input type="checkbox" id="send" name="send" value="1">Enviar notificacion<br>
+</div>
+<label>Comentarios</label>
+<div class="control-group">
+    <input type="text" id="comentarios" name="comentarios">
+</div>
+
+<div class="control-group">
+
+    <div class="firma">
+        <p class="error-text">Seleccionar estado</p>
+        <select name="firma" id="firma">
+            {% for s in status %}
+                <option value="{{ s.id }}">{{ s.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+</div>

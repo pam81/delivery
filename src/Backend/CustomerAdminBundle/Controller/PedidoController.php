@@ -52,13 +52,16 @@ class PedidoController extends Controller
         $query,
         $this->get('request')->query->get('page', 1)/*page number*/,
         $this->container->getParameter('max_on_listepage')/*limit per page*/
-    );
-        
+        );
+
+        $status = $em->getRepository('BackendCustomerAdminBundle:Status')->findAll();
+
         $deleteForm = $this->createDeleteForm(0);
         return $this->render('BackendCustomerAdminBundle:Pedido:index.html.twig', 
         array('pagination' => $pagination,
         'delete_form' => $deleteForm->createView(),
-        'search'=>$search
+        'search'=>$search,
+        'status' => $status
         ));
         
     }
