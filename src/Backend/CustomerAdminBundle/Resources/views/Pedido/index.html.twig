@@ -67,17 +67,29 @@
 												  <td>{{ pedido.direccion.getCalle() ~ " " ~ pedido.direccion.getNumero() ~ " " ~ pedido.direccion.getPiso() }}
                                                   <td>{{ pedido.paymethod.getName() | capitalize}}</td>
 												  <td>
-												  {% for producto in pedido.getProductos %}
-												  	{{ producto.getName() }}<br/>
-												  {% endfor %}
+                                                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#detalle{{pedido.id}}">Detalle</button>
+                                                      <div class="modal fade " id="detalle{{pedido.id}}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                                                          <div class="modal-dialog modal-lg">
+                                                              <div class="modal-content">
+
+                                                                  <table class="table table-bordered table-hover" style="margin-top: 10px;">
+                                                                          <th style="width: 80px;">Cantidad</th><th>Producto</th><th>Variedades</th><th style="width: 100px;">Precio</th>
+                                                                      {% for d in pedido.getDetalles %}
+                                                                          <tr><td style="text-align: center;">{{ d.getCantidad() }}</td><td>{{ d.getProducto.getName() }}</td><td>{{ d.getVariedades() }}</td><td style="text-align:right;">$ {{ d.getPrecio() }}</td></tr>
+                                                                      {% endfor %}
+                                                                  </table>
+
+                                                              </div>
+                                                          </div>
+                                                      </div>
+
 												  </td>
-                                                  <td>{{ pedido.observaciones }}</td>
-												  <td>
-												  {% if pedido.status.getName == "Pendiente" %}
-                                                  	<span class="label label-danger"> {{ pedido.status.getName() }} </span>
-												  {% elseif pedido.status.getName == "Entregado" %}
-												  	 <span class="label label-success"> Entregado </span>
-                                                  {% endif %}
+                                                  <td>{{ pedido.comentarios }}</td>
+												  <td>{% for proceso in pedido.getProcesos() %}
+                                                   {% if proceso.getStatus.getId() == 1 %}
+												  <span class="label label-danger">{{ proceso.getStatus().getName() }}</span>
+                                                   {% endif %}
+                                                  {% endfor %}
 												  </td>
                                                   <td>
                                                   {% if is_granted("ROLE_MODPRODUCTO") %}
@@ -105,8 +117,6 @@
                        {{ knp_pagination_render(pagination) }}
     
                </div>
-
-
 
     
   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
