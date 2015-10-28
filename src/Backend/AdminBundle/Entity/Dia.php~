@@ -111,4 +111,27 @@ class Dia
     {
         return $this->horarios;
     }
+
+    /**
+     * Set short
+     *
+     * @param string $short
+     * @return Dia
+     */
+    public function setShort($short)
+    {
+        $this->short = $short;
+
+        return $this;
+    }
+
+    /**
+     * Get short
+     *
+     * @return string 
+     */
+    public function getShort()
+    {
+        return $this->short;
+    }
 }
