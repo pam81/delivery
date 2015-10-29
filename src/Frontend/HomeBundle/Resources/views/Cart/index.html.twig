@@ -107,14 +107,14 @@
         </p>
          
         <p>Si presiona comprar realizaremos su pedido.</p>
-        
+        <textarea name="comentario" id="comentario" placeholder="Alguna aclaración"></textarea>
         <input type="hidden"  name="tienda" value="" id="comprarTiendaId">
         <input type="hidden" name="direccionid" value="" id="direccionid">
         <div id="modalComprarMessage"> </div>
       </div>  
        <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary" id="modalComprar" data-url="{{ path('frontend_pedido')}}">Comprar</button>
+        <button type="button" class="btn btn-primary" id="modalBtnComprar" data-url="{{ path('frontend_pedido')}}">Comprar</button>
       </div>  
     </div>
   </div>

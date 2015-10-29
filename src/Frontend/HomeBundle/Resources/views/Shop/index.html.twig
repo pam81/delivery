@@ -125,14 +125,14 @@
                                     </div>
                                     <div class="modal-body">
                                        
-                                           <div class="container">
+                                          
                                               <ul class="list-unstyled">
                                               {% for v in p.getVariedades()%}
-                                                <li class="col-md-3">{{ v.getName() }}</li>
-                                                >
+                                                <li class="col-md-4">{{ v.getName() }}</li>
+                                                
                                                 {% endfor %}
                                               </ul>
-                                            </div>
+                                            
                                         
                                     </div>
                                     <div class="modal-footer">
@@ -158,17 +158,53 @@
 						          <input type="text" name="quant[2]" class="form-control input-number" id="input-producto-{{p.getId}}" value="0" min="0" max="100">
 						          <span class="input-group-btn">
 						              <button type="button" class="btn btn-primary btn-number" data-type="plus" data-field="quant[2]">
-						                  <span class="glyphicon glyphicon-plus slider-plus" data-id="{{p.getId}}" data-thumb="{{ p.getWebPath() }}" data-name="{{ p.getName() }}" data-sucursalId="{{ tienda.id }}" data-sucursalName="{{ tienda.getName() }}" data-sucursalImg="{{ tienda.getWebPath() }}" data-price="{{ p.getPrecio() }}" data-costo="{{ tienda.getDelivery() }}" data-minimo="{{ tienda.getMinimo()}}"></span>
+						                  {% if p.getVariedades() is not empty %}
+                              <span class="glyphicon glyphicon-plus slider-plus-variedad" id="slider-plus-variedad-{{p.getId()}}" data-id="{{p.getId}}" data-thumb="{{ p.getWebPath() }}" data-name="{{ p.getName() }}" data-sucursalId="{{ tienda.id }}" data-sucursalName="{{ tienda.getName() }}" data-sucursalImg="{{ tienda.getWebPath() }}" data-price="{{ p.getPrecio() }}" data-costo="{{ tienda.getDelivery() }}" data-minimo="{{ tienda.getMinimo()}}" data-maxvariedad="{{ p.getMaxVariedad()}}" data-typevariedad="{{ p.getQtyVariedad()}}"></span>
+                              {% else %}
+                              <span class="glyphicon glyphicon-plus slider-plus" data-id="{{p.getId}}" data-thumb="{{ p.getWebPath() }}" data-name="{{ p.getName() }}" data-sucursalId="{{ tienda.id }}" data-sucursalName="{{ tienda.getName() }}" data-sucursalImg="{{ tienda.getWebPath() }}" data-price="{{ p.getPrecio() }}" data-costo="{{ tienda.getDelivery() }}" data-minimo="{{ tienda.getMinimo()}}"></span>
+                              {% endif %}
 						              </button>
 						          </span>
 						      </div>
-							
+							          
 						</div>
 						
                     </p>
                 </div> <!-- thumbnail -->
             </div> <!-- product -->
 			{% endfor %}
+
+      <!-- modal para seleccionar variedades -->
+                  <div class="modal fade" id="seleccionarvariedades" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" data-url="{{path('frontend_variedades')}}">
+                              <div class="modal-dialog modal-sm">
+                                <div class="modal-content">
+                                 <div class="modal-header">
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                      <h4 class="modal-title" >Variedades Disponibles</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                         
+                                         <p class="textExplicativo" id="text-max-variedad">
+                                         La cantidad máxima de distintas variedades 
+                                         a seleccionar son <span id="max-variedad"></span></p>
+                                         
+                                           
+                                              <ul class="list-unstyled" id="listVariedad" >
+                                              
+                                              </ul>
+                                            
+                                      <div class="alert alert-danger hideElement" role="alert" id="messageVariedad" ></div>  
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" data-id="" class="btn btn-primary aceptarVariedades" >Aceptar</button>
+                                      <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                      
+                                    </div>
+                                </div>
+                              </div>
+                            </div>
+                     <!-- fin modal variedades--> 
+
 
         </div>
         <!-- /.row -->
