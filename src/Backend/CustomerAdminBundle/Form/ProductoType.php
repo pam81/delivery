@@ -45,6 +45,7 @@ class ProductoType extends AbstractType
 			->add('precio')
             ->add('alwaysAvailable')
             ->add('maxVariedad')
+            ->add('minVariedad')
             ->add('qtyVariedad','checkbox',array(
                 'value'=>1,
                 'required'=>false

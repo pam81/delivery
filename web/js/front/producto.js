@@ -22,6 +22,34 @@ $(document).ready(function(){
             $("#search-button").click();
         }
     });
+    
+    //leer mas en description del producto
+    
+    $(".product-desc").readmore({
+      speed: 75,
+      lessLink: '<a href="#">Cerrar</a>',
+      moreLink: '<a href="#">Leer más</a>',
+      collapsedHeight: 42
+    });
+    
+    //acortar el titulo del producto
+    	$('.product-title').each(function(index, element){
+            var lengthText = 20;
+      			var text = $(element).text();
+      			var shortText = $.trim(text).substring(0, lengthText).split(" ").slice(0, -1).join(" ") + "...";
+      			$(element).text(shortText);
+            
+            $(element).hover(function(){
+      					$(this).text(text);
+      				}, function(){
+      					$(this).text(shortText);
+      			});
+      
+      });
+      
+			
+				      
+    
 
 });
 

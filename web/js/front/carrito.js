@@ -15,6 +15,13 @@ $(document).ready(function(){
      
      });
  
+ $("body").on("click","#emptyCarrito",function(){
+ 
+    simpleCart.empty();
+    $("#btnCarrito").popover('hide');
+    // loadCantidad checkear que este la funcion definida
+ });
+ 
  $("body").on("click","#buyBtn",function(){
  
       var url = $(this).data("login");
@@ -133,11 +140,14 @@ simpleCart({
              $.each(data, function(index, item) {   
                    var element = '<li class="col-md-4">';
                    if (typeVariedad){
-                    element+='<input type="text" name="cantidad[]" value="0" data-name="'+item.name+'">';
+                    element+='<div class="form-group"> <input type="text" style="width: 30px; margin-right: 5px;" name="cantidad[]" value="0" data-name="'+item.name+'">';
+                    element += '<label class="control-label">'+item.name +"</label></div>"
                    }else{
-                    element += '<input type="checkbox" name="seleccionar[]" value="'+item.name+'" >';
+                    element += '<label class="checkbox-inline"><input type="checkbox" name="seleccionar[]" value="'+item.name+'" >';
+                    element += item.name+ '</label>';
+                    
                    }
-                   element += item.name;
+                   
                    element += '</li>';
                    $('#listVariedad')
                        .append(element);
@@ -172,8 +182,9 @@ simpleCart({
      var costo  = element.data("costo");
      var minimo = element.data("minimo");
      var maxVariedad = element.data("maxvariedad");
+     var minVariedad = element.data("minvariedad");
      var typeVariedad = element.data("typevariedad");
-     var resultado = validarVariedad(id, typeVariedad, maxVariedad);
+     var resultado = validarVariedad(id, typeVariedad, maxVariedad, minVariedad);
      if ( resultado.status ){ 
      
          var input = $("#input-producto-"+id);
@@ -211,7 +222,7 @@ simpleCart({
       
 });   
 
-function validarVariedad(id,typeVariedad, maxVariedad ){
+function validarVariedad(id,typeVariedad, maxVariedad , minVariedad){
     var listado = '';
     var resultado=[{listado:'',status: false}];
     
@@ -221,15 +232,21 @@ function validarVariedad(id,typeVariedad, maxVariedad ){
        var separador='';
        var total=0;
        inputs.each(function(){
-         listado += separador + $(this).val() +" "+$(this).data("name");
-         total += parseInt($(this).val()); 
-         separador=' - ';  
+         if ($(this).val() > 0){  //solo agrego si tienen un valor mayor a cero
+           listado += separador + $(this).val() +" "+$(this).data("name");
+           total += parseInt($(this).val()); 
+           separador=' - ';  
+         }
        });
        if (total > maxVariedad){
          $("#messageVariedad").text("La cantidad de variedades seleccionadas es mayor a "+ maxVariedad).show();
        }else{
-          resultado.listado=listado;
-          resultado.status= true;
+          if (total < minVariedad){
+              $("#messageVariedad").text("La cantidad de variedades seleccionadas es menor a "+ minVariedad).show();
+          }else{
+              resultado.listado=listado;
+              resultado.status= true;
+          }
        }
       
     }else{  //checkbox
@@ -237,14 +254,18 @@ function validarVariedad(id,typeVariedad, maxVariedad ){
       if (n > maxVariedad){
         $("#messageVariedad").text("La cantidad de variedades seleccionadas es mayor a "+ maxVariedad).show();
       }else{
-         var checked =$("#seleccionarvariedades").find( "input:checked" );
-         var separador = '';
-         checked.each(function() {
-             listado += separador + $(this).val();
-             separador=' - ';            
-          }); 
-        resultado.listado=listado;
-        resultado.status= true;
+         if (n < minVariedad){
+            $("#messageVariedad").text("La cantidad de variedades seleccionadas es menor a "+ minVariedad).show();
+         }else{
+             var checked =$("#seleccionarvariedades").find( "input:checked" );
+             var separador = '';
+             checked.each(function() {
+                 listado += separador + $(this).val();
+                 separador=' - ';            
+              }); 
+            resultado.listado=listado;
+            resultado.status= true;
+         }   
       }
       
     }
