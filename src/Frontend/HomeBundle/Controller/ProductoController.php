@@ -326,6 +326,7 @@ class ProductoController extends Controller
                $detalle->setPedido($pedido);
                $detalle->setCantidad($p["quantity"]);
                $detalle->setPrecio($p["price"]);
+               $detalle->setVariedades($p["variedad"]);
                $em->persist($detalle);
                $em->flush();
              }
