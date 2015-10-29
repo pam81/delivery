@@ -25,3 +25,7 @@ frontend_zonas:
 frontend_barrios:
     pattern:  /barrios
     defaults: { _controller: FrontendHomeBundle:Producto:getBarrios }
+
+frontend_variedades:
+    pattern:  /variedades
+    defaults: { _controller: FrontendHomeBundle:Producto:getVariedades }    

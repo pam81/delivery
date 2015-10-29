@@ -62,7 +62,10 @@ simpleCart({
                         },
                         {
                             attr: "name",
-                            label: "Producto"
+                            label: "Producto",
+                            view: function (item, column){
+                                 return '<span data-toggle="tooltip" data-placement="left" title="'+item.get("variedad")+'">'+item.get("name")+"</span>"; 
+                            }
                         }, 
                         {
                             attr: "price",
@@ -88,7 +91,7 @@ simpleCart({
         
     });
 
-
+ //add carrito sin variedad
       
  $(".slider-plus").on("click",function(){
     
@@ -106,11 +109,87 @@ simpleCart({
      if (value < 100){
         input.val(value);
         //aumento de uno en el carrito
-        simpleCart.add({thumb: thumb,name: name, quantity: 1, price: price, product_id: id, sucursal: sucursalId, sucursalImg: sucursalImg, sucursalName: sucursalName, costo: costo , minimo: minimo });
+        simpleCart.add({thumb: thumb,name: name, quantity: 1, price: price, product_id: id, sucursal: sucursalId, sucursalImg: sucursalImg, sucursalName: sucursalName, costo: costo , minimo: minimo, maxVariedad: 0, variedad: '' });
      }
      
  
+ }); 
+ 
+ $(".slider-plus-variedad").on("click",function(){
+    
+     var id = $(this).data("id");
+     var urlVariedad = $("#seleccionarvariedades").data("url");
+     var dataString = "producto="+id;
+     var maxVariedad = $(this).data("maxvariedad");
+     var typeVariedad = $(this).data("typevariedad");
+     $.ajax({
+            type: "POST",
+            url: urlVariedad,
+            dataType: 'json',
+            data: dataString
+            
+        }).done(function(data){
+              $('#listVariedad').empty();
+             $.each(data, function(index, item) {   
+                   var element = '<li class="col-md-4">';
+                   if (typeVariedad){
+                    element+='<input type="text" name="cantidad[]" value="0" data-name="'+item.name+'">';
+                   }else{
+                    element += '<input type="checkbox" name="seleccionar[]" value="'+item.name+'" >';
+                   }
+                   element += item.name;
+                   element += '</li>';
+                   $('#listVariedad')
+                       .append(element);
+                       
+              });
+              if (maxVariedad > 0){
+                $("#max-variedad").text(maxVariedad);
+              }else{
+                $("#text-max-variedad").hide();
+              }
+              $("#seleccionarvariedades").find(".aceptarVariedades").data("id",id);
+              $("#seleccionarvariedades").modal("show");
+              $("#messageVariedad").text('').hide();
+            
+        });
+                                              
+     
  });  
+ 
+ 
+ 
+ $(".aceptarVariedades").on("click",function(){
+    var id = $(this).data("id");
+    
+     var element = $("#slider-plus-variedad-"+id);
+     var thumb =element.data("thumb");
+     var name =element.data("name");
+     var price =element.data("price");
+     var sucursalId =element.data("sucursalid");
+     var sucursalImg =element.data("sucursalimg");
+     var sucursalName =element.data("sucursalname");
+     var costo  = element.data("costo");
+     var minimo = element.data("minimo");
+     var maxVariedad = element.data("maxvariedad");
+     var typeVariedad = element.data("typevariedad");
+     var resultado = validarVariedad(id, typeVariedad, maxVariedad);
+     if ( resultado.status ){ 
+     
+         var input = $("#input-producto-"+id);
+         var value = parseInt(input.val())+1;
+         
+         if (value < 100){
+            input.val(value);
+            //aumento de uno en el carrito
+            simpleCart.add({thumb: thumb,name: name, quantity: 1, price: price, product_id: id, sucursal: sucursalId, sucursalImg: sucursalImg, sucursalName: sucursalName, costo: costo , minimo: minimo, maxVariedad: maxVariedad, variedad: resultado.listado });
+         }
+         
+         $("#seleccionarvariedades").modal('hide');
+          
+     } 
+ 
+ });
  
  $(".slider-minus").on("click",function(){
     
@@ -130,4 +209,44 @@ simpleCart({
  
        
       
-});      
+});   
+
+function validarVariedad(id,typeVariedad, maxVariedad ){
+    var listado = '';
+    var resultado=[{listado:'',status: false}];
+    
+    if (typeVariedad == 1){  //cantidades
+      
+       var inputs = $("#seleccionarvariedades").find( "input:text" );
+       var separador='';
+       var total=0;
+       inputs.each(function(){
+         listado += separador + $(this).val() +" "+$(this).data("name");
+         total += parseInt($(this).val()); 
+         separador=' - ';  
+       });
+       if (total > maxVariedad){
+         $("#messageVariedad").text("La cantidad de variedades seleccionadas es mayor a "+ maxVariedad).show();
+       }else{
+          resultado.listado=listado;
+          resultado.status= true;
+       }
+      
+    }else{  //checkbox
+      var n = $("#seleccionarvariedades").find( "input:checked" ).length;
+      if (n > maxVariedad){
+        $("#messageVariedad").text("La cantidad de variedades seleccionadas es mayor a "+ maxVariedad).show();
+      }else{
+         var checked =$("#seleccionarvariedades").find( "input:checked" );
+         var separador = '';
+         checked.each(function() {
+             listado += separador + $(this).val();
+             separador=' - ';            
+          }); 
+        resultado.listado=listado;
+        resultado.status= true;
+      }
+      
+    }
+    return resultado;
+}   

@@ -191,10 +191,10 @@ $(document).ready(function(){
  
  });
  
- $("body").on("click","#modalComprar",function(){
+ $("body").on("click","#modalBtnComprar",function(){
      var sucursalid = $("#comprarTiendaId").val();
      var path = $(this).data("url");
-     //var dataString = 'sucursal='+sucursalid+"&direccionid="+$("#direccionid").val()+"&";
+     
      var total = 0;
      var productos = [];
      simpleCart.each( function( item ){
@@ -203,12 +203,12 @@ $(document).ready(function(){
           var price = item.price();
           var quantity = item.quantity();
           total += parseFloat(price) * parseFloat(quantity);
-          //dataString += "&producto="+id+"&price="+price+"&cantidad="+quantity;
-          productos.push({ id: id, price: price, quantity: quantity });
+          var variedad = item.get("variedad"); 
+          productos.push({ id: id, price: price, quantity: quantity, variedad: variedad });
         }
       
       });
-      //dataString +="&total="+total;
+
        $.ajax({
             type: "POST",
             url: path,
@@ -216,7 +216,8 @@ $(document).ready(function(){
               sucursal: sucursalid,
               direccionid: $("#direccionid").val(),
               total: total,
-              productos: productos
+              productos: productos,
+              comentario: $("#comentario").val()
             
             }
         }).done(function(data) {
@@ -275,7 +276,7 @@ function loadTablaCarrito(sucursalid){
         if ( s == sucursalid){
         element +='<tr id="row'+item.id()+'">';
 				element +='   <td class="cart_image"><img src=" '+item.get('thumb')+ '  " alt="" class="img-responsive"> </td>';
-        element +='   <td class="cart_description"><h4>'+item.get('name')+'</h4> </td>';
+        element +='   <td class="cart_description"><h4>'+item.get('name')+'</h4><br> '+item.get("variedad")+'</td>';
         element +='   <td class="cart_price"> <p>$'+item.price()+'</p></td>';
         element +='   <td class="cart_quantity"><div class="cart_quantity_button">';
 				element	+='				<a class="cart_quantity_down" role="button" href="javascript:;" data-id="'+item.id()+'"> - </a>';					
