@@ -128,6 +128,25 @@ class ProductoController extends Controller
    
    }
    
+   public function getVariedadesAction(Request $request){
+   
+     $em = $this->getDoctrine()->getManager();
+     $producto = $em->getRepository('BackendCustomerAdminBundle:Producto')->find($request->get("producto"));
+
+     $variedades = $producto->getVariedades();
+     
+     $listado=array();
+     foreach($variedades as $v){
+         $listado[]=array("id"=>$v->getId(),"name"=>$v->getName());
+     }
+     
+      $response = new Response(json_encode($listado));
+        
+      $response->headers->set('Content-Type', 'application/json');
+  
+      return $response;
+   }
+   
    public function getZonasAction(Request $request){
        $zonas = $this->getDoctrine()->getRepository('BackendAdminBundle:Zona')->findAll();
 
@@ -278,13 +297,15 @@ class ProductoController extends Controller
           $sucursal = $em->getRepository('BackendCustomerAdminBundle:Sucursal')->find($sucursalId);
           $direccion = $em->getRepository('BackendCustomerAdminBundle:Direccion')->find($direccionId);
           $customer=$em->getRepository('BackendCustomerBundle:Customer')->find($session->get("customer")->getId());
-          
+          $paymethod=$em->getRepository('BackendAdminBundle:PayMethod')->findOneByName("Efectivo");
           $pedido= new Pedido();
           $pedido->setCustomer($customer);
           $pedido->setSucursal($sucursal);
           $pedido->setPagado(false); // Nunca va a ir como pagado por ahora
           $pedido->setDireccion($direccion);
           $pedido->setTotal($request->get("total"));
+          $pedido->setComentarios($request->get("comentario"));
+          $pedido->setPaymethod($paymethod);
           $em->persist($pedido);
           $em->flush();
               //le pongo al pedido como pendiente ni bien lo creo
@@ -305,6 +326,7 @@ class ProductoController extends Controller
                $detalle->setPedido($pedido);
                $detalle->setCantidad($p["quantity"]);
                $detalle->setPrecio($p["price"]);
+               $detalle->setVariedades($p["variedad"]);
                $em->persist($detalle);
                $em->flush();
              }
@@ -313,6 +335,9 @@ class ProductoController extends Controller
           
           $resultado["status"]=0;
           $resultado["message"]="pedido creado";
+          
+          $this->sendPedidosEmails(customer, sucursal);
+          
           
        } catch(Exception $e){
           $resultado["status"]=1;
@@ -330,7 +355,44 @@ class ProductoController extends Controller
    
    }
 
-
+   private function sendPedidosEmails($customer, $sucursal){
+       
+       $empresa = $em->getRepository('BackendUserBundle:Seteo')->findOneByName("empresa");
+    	 $email_site = $em->getRepository('BackendUserBundle:Seteo')->findOneByName("email");
+       
+       $messageCustomer = \Swift_Message::newInstance()
+                    ->setSubject("Pedido enviado a"+ $sucursal->getName()+" mediante el sitio "+$empresa->getValue())
+                    ->setFrom($email_site->getValue())
+                    ->setTo($customer->getEmail())
+                    ->setBody(
+                        $this->renderView(
+                            'FrontendHomeBundle:Cart:pedido_customer_email.html.twig',
+                            array('customerName' => $customer->getName(),'sucursalName' => $sucursal->getName(),
+                                  'empresa' =>$empresa->getValue(),'sucursalTelefono' =>$sucursal->getPhone() ,'sucursalEmail'=>$sucursal->getEmail() )
+                        ),'text/html'
+                    );
+        
+        
+         
+          @$this->get('mailer')->send($messageCustomer);
+          
+        $messageSucursal = \Swift_Message::newInstance()
+                    ->setSubject("Ha recibido un pedido mediante el sitio ".$empresa->getValue())
+                    ->setFrom($email_site->getValue())
+                    ->setTo($sucursal->getEmail())
+                    ->setBody(
+                        $this->renderView(
+                            'FrontendHomeBundle:Cart:pedido_sucursal_email.html.twig',
+                            array('sucursalName' => $sucursal->getName(),'customerName' => $customer->getName(),
+                              'empresa' =>$empresa->getValue())
+                        ),'text/html'
+                    );
+        
+        
+         
+          @$this->get('mailer')->send($messageSucursal);  
+   
+   }
 
 	
 }
