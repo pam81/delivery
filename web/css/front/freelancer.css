@@ -276,13 +276,13 @@ header .shop-horarios table td{
     text-align: center;
 
 }
-.product-title{
+.product-title, .product-price{
 
 	color: #FE980F;
 	font-size: 1.5em;	
 }
 
-.product-desc{
+.product-desc, .product-details{
 	
 	font-size: 15px;
 }

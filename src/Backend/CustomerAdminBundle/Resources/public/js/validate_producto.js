@@ -69,6 +69,14 @@ $("#backend_customeradminbundle_producto_categoria").change(function() {
 					required:false,
 					
 				},
+        "backend_customeradminbundle_producto[maxVariedad]": {
+					required:false,
+					digit: true
+				},
+        "backend_customeradminbundle_producto[minVariedad]": {
+					required:false,
+					digit: true
+				},
 			},
 			
 			 messages: {
@@ -100,6 +108,14 @@ $("#backend_customeradminbundle_producto_categoria").change(function() {
             },
             "backend_customeradminbundle_producto[description]": {
             maxlength: jQuery.validator.format("Máximo {0} carácteres!"),
+            
+            },
+            "backend_customeradminbundle_producto[maxVariedad]": {
+            numeric: "Debe ingresar un número",
+            
+            },
+            "backend_customeradminbundle_producto[minVariedad]": {
+           numeric: "Debe ingresar un número",
             
             },
             

@@ -112,8 +112,8 @@
                     <div class="caption">
                         <p class="product-title">{{ p.getName() }}</p>
                         <p class="product-desc">{{ p.getDescription }}</p>
-                        <p class="product-title">$ {{ p.getPrecio() }}</p>
-						            <p class="product-desc">
+                        <p class="product-price">$ {{ p.getPrecio() }}</p>
+						            <p class="product-details">
                             {% if p.getVariedades() is not empty %}
                             <button type="button" class="btn btn-link variedades" data-toggle="modal" data-target="#variedades{{p.getId() }}" >Ver Variedades</button>
                             <div class="modal fade" id="variedades{{p.getId() }}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
@@ -155,11 +155,11 @@
 						                <span class="glyphicon glyphicon-minus slider-minus" data-id="{{p.getId}}"></span>
 						              </button>
 						          </span>
-						          <input type="text" name="quant[2]" class="form-control input-number" id="input-producto-{{p.getId}}" value="0" min="0" max="100">
+						          <input type="text" name="quant[2]" class="form-control input-number" id="input-producto-{{p.getId}}" value="0" min="0" max="100" style="text-align:center">
 						          <span class="input-group-btn">
 						              <button type="button" class="btn btn-primary btn-number" data-type="plus" data-field="quant[2]">
 						                  {% if p.getVariedades() is not empty %}
-                              <span class="glyphicon glyphicon-plus slider-plus-variedad" id="slider-plus-variedad-{{p.getId()}}" data-id="{{p.getId}}" data-thumb="{{ p.getWebPath() }}" data-name="{{ p.getName() }}" data-sucursalId="{{ tienda.id }}" data-sucursalName="{{ tienda.getName() }}" data-sucursalImg="{{ tienda.getWebPath() }}" data-price="{{ p.getPrecio() }}" data-costo="{{ tienda.getDelivery() }}" data-minimo="{{ tienda.getMinimo()}}" data-maxvariedad="{{ p.getMaxVariedad()}}" data-typevariedad="{{ p.getQtyVariedad()}}"></span>
+                              <span class="glyphicon glyphicon-plus slider-plus-variedad" id="slider-plus-variedad-{{p.getId()}}" data-id="{{p.getId}}" data-thumb="{{ p.getWebPath() }}" data-name="{{ p.getName() }}" data-sucursalId="{{ tienda.id }}" data-sucursalName="{{ tienda.getName() }}" data-sucursalImg="{{ tienda.getWebPath() }}" data-price="{{ p.getPrecio() }}" data-costo="{{ tienda.getDelivery() }}" data-minimo="{{ tienda.getMinimo()}}" data-maxvariedad="{{ p.getMaxVariedad()}}" data-minvariedad="{{ p.getMinVariedad()}}" data-typevariedad="{{ p.getQtyVariedad()}}"></span>
                               {% else %}
                               <span class="glyphicon glyphicon-plus slider-plus" data-id="{{p.getId}}" data-thumb="{{ p.getWebPath() }}" data-name="{{ p.getName() }}" data-sucursalId="{{ tienda.id }}" data-sucursalName="{{ tienda.getName() }}" data-sucursalImg="{{ tienda.getWebPath() }}" data-price="{{ p.getPrecio() }}" data-costo="{{ tienda.getDelivery() }}" data-minimo="{{ tienda.getMinimo()}}"></span>
                               {% endif %}
@@ -187,13 +187,13 @@
                                          <p class="textExplicativo" id="text-max-variedad">
                                          La cantidad máxima de distintas variedades 
                                          a seleccionar son <span id="max-variedad"></span></p>
-                                         
+                                           <div class="col-md-12">
                                            
                                               <ul class="list-unstyled" id="listVariedad" >
                                               
                                               </ul>
-                                            
-                                      <div class="alert alert-danger hideElement" role="alert" id="messageVariedad" ></div>  
+                                           </div> 
+                                      <div class="  hideElement " style="color: #a94442"  id="messageVariedad" ></div>  
                                     </div>
                                     <div class="modal-footer">
                                       <button type="button" data-id="" class="btn btn-primary aceptarVariedades" >Aceptar</button>
@@ -219,5 +219,6 @@
 {% block javascripts %}
   {{ parent()}}
  <script src="{{ asset("js/front/producto.js") }}"></script>
+ <script src="{{ asset("js/readmore.min.js") }}"></script>
  <script src="{{ asset('js/front/checkTime.js') }}"></script>
  {% endblock %}                         
