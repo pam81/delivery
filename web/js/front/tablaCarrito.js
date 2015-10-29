@@ -361,7 +361,7 @@ function loadPedidos(){
 				 element +='			<li>Total <span>$<span class="total'+sucursales[i].sucursalid+'">'+tabla.total+'</span></span></li>';
 				 element +='		</ul>';
 				 element +='			<button class="btn btn-default cancelar_pedido" data-id="'+sucursales[i].sucursalid+'">Cancelar</button>'; 
-				 element +='			<button class="btn btn-default check_out_pedido" data-minimo="'+sucursales[i].minimo+'"  data-id="'+sucursales[i].sucursalid+'">Continuar</button>';
+				 element +='			<button class="btn btn-warning check_out_pedido" data-minimo="'+sucursales[i].minimo+'"  data-id="'+sucursales[i].sucursalid+'">Continuar</button>';
 				 element +='	</div>';
 				 element +='</div>';
         
