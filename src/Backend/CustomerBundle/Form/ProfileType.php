@@ -16,7 +16,7 @@ class ProfileType extends AbstractType
             $builder->add('email','email');
       			$builder->add('phone','text',array('required'=>false));
       			$builder->add('mobile','text',array('required'=>false));
-      			$builder->add('dni');
+      			$builder->add('dni','text',array('required'=>false));
             $builder->add('cuit');
                   $builder->add('birthday','date', array(
                       'input'=> "string",

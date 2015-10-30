@@ -33,9 +33,9 @@ $(document).ready(function() {
 					
 				},
         "backend_customerbundle_profiletype[dni]": {
-					required:true,
-					minlength:9,
-					maxlength:20,
+					required:false,
+					minlength:8,
+					maxlength:15,
           digits:true,
 					
 				},
