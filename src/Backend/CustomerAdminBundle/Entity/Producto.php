@@ -69,6 +69,11 @@ class Producto
      * @ORM\Column(name="maxVariedad", type="integer",nullable=true)
      */
     private $maxVariedad;
+    
+    /**
+     * @ORM\Column(name="minVariedad", type="integer",nullable=true)
+     */
+    private $minVariedad;
 
     /**
      * @ORM\Column(name="qtyVariedad", type="boolean",nullable=true)
@@ -120,6 +125,8 @@ class Producto
 		  $this->isActive = true;
 		  $this->createdAt = new \DateTime('now');
 		  $this->variedades = new \Doctrine\Common\Collections\ArrayCollection();
+      $this->minVariedad = 0;
+      $this->maxVariedad = 0;
          
     }
 
@@ -738,5 +745,28 @@ class Producto
     public function getQtyVariedad()
     {
         return $this->qtyVariedad;
+    }
+
+    /**
+     * Set minVariedad
+     *
+     * @param integer $minVariedad
+     * @return Producto
+     */
+    public function setMinVariedad($minVariedad)
+    {
+        $this->minVariedad = $minVariedad;
+
+        return $this;
+    }
+
+    /**
+     * Get minVariedad
+     *
+     * @return integer 
+     */
+    public function getMinVariedad()
+    {
+        return $this->minVariedad;
     }
 }
