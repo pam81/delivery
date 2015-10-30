@@ -115,6 +115,30 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f1e767', end
     background-image: url("headers/panaderia_header.jpg");
 }
 
+.header_checkout {
+
+    background: rgba(241,231,103,0.81);
+    background: -moz-linear-gradient(top, rgba(241,231,103,0.81) 0%, rgba(254,182,69,0.81) 42%, rgba(254,182,69,0.81) 44%, rgba(254,182,69,1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(241,231,103,0.81)), color-stop(42%, rgba(254,182,69,0.81)), color-stop(44%, rgba(254,182,69,0.81)), color-stop(100%, rgba(254,182,69,1)));
+    background: -webkit-linear-gradient(top, rgba(241,231,103,0.81) 0%, rgba(254,182,69,0.81) 42%, rgba(254,182,69,0.81) 44%, rgba(254,182,69,1) 100%);
+    background: -o-linear-gradient(top, rgba(241,231,103,0.81) 0%, rgba(254,182,69,0.81) 42%, rgba(254,182,69,0.81) 44%, rgba(254,182,69,1) 100%);
+    background: -ms-linear-gradient(top, rgba(241,231,103,0.81) 0%, rgba(254,182,69,0.81) 42%, rgba(254,182,69,0.81) 44%, rgba(254,182,69,1) 100%);
+    background: linear-gradient(to bottom, rgba(241,231,103,0.81) 0%, rgba(254,182,69,0.81) 42%, rgba(254,182,69,0.81) 44%, rgba(254,182,69,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f1e767', endColorstr='#feb645', GradientType=0 );
+
+
+
+}
+
+.div_checkout{
+
+     padding-top:10px;
+     background-image: url("headers/header_checkout_tiny.png");
+     width: 1170px;
+     height: 367px;
+     margin-left: 90px;
+}
+
 
 header .container {
     padding-top: 100px;
