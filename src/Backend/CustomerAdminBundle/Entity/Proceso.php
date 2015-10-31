@@ -51,8 +51,6 @@ class Proceso
 		  $this->createdAt = new \DateTime('now');
 		     
     }
-    
-    
 
     /**
      * Get id
