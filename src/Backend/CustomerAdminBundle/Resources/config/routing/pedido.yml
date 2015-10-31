@@ -25,6 +25,11 @@ pedido_delete:
     defaults: { _controller: "BackendCustomerAdminBundle:Pedido:delete" }
     requirements: { _method: post|delete }
 
+pedido_status:
+    pattern:  /{id}/updateStatus
+    defaults: { _controller: "BackendCustomerAdminBundle:Pedido:updateStatus" }
+    requirements: { _method: post|put }
+
 pedido_print:
     pattern:  /{id}/print
     defaults: { _controller: "BackendCustomerAdminBundle:Pedido:print" }

@@ -89,7 +89,7 @@
                                                    {% if proceso.getStatus.getId() == 1 %}
 												  <!--<button class="btn btn-danger" data-toggle="modal">{{ proceso.getStatus().getName() }}</button> -->
                                                        <a href="#" class="btn btn-danger" data-toggle="modal" data-id={{ pedido.id }}  data-target="#myModal">{{ proceso.getStatus().getName() }}</a>
-                                                   {% endif %}
+                                                            {% endif %}
                                                   {% endfor %}
 												  </td>
                                                   <td>
@@ -100,7 +100,7 @@
 												  <a data-toggle="tooltip" title="Imprimir Pedido" href="{{ path('pedido_print',{ 'id': pedido.id }) }}"><i class="fa fa-print"></i></a>
 												  {% endif %}
                                                   {% if is_granted("ROLE_DELPRODUCTO") %}
-                                                  <!--<a href="#" class="btn confirm-delete"   data-toggle="modal" data-id={{ pedido.id }}  data-target="#myModal"><i class="fa fa-trash"></i></a>-->
+                                                  <a href="#" class="btn confirm-delete"   data-toggle="modal" data-id={{ pedido.id }}  data-target="#myModal"><i class="fa fa-trash"></i></a>
                                                   {% endif %}
                                                   </td>
                                       </tr>
@@ -119,49 +119,25 @@
     
                </div>
 
-
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h4 class="modal-title" id="myModalLabel">Modificar estado</h4>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel">Modificar Status</h4>
+                </div>
+                <div class="modal-body">
+                    {% include 'BackendCustomerAdminBundle:Pedido:status.html.twig' %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button id="status" type="button" class="btn btn-danger" data-id="0"  data-url="{{ path('pedido_status', { 'id': 'id' }) }}">Confirmar</button>
+                </div>
             </div>
-            <div class="modal-body">
-
-                {% include 'BackendCustomerAdminBundle:Pedido:status.html.twig' %}
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-warning" data-id="0"  data-url="{{ path('pedido_delete', { 'id': 'id' }) }}">Modificar</button>
         </div>
     </div>
-  </div>
- <!--
-   <div class="modal small hide fade" id="myModal"  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-     <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-      <h3 id="myModalLabel">Firmar</h3>
-     </div>
-     <div class="modal-body">
-        <p class="error-text">Seleccione el nuevo estado</p>
 
-		{% include 'BackendCustomerAdminBundle:Pedido:status.html.twig' %}
 
-     </div>
-     <div class="modal-footer">
-      <button class="btn" data-dismiss="modal" aria-hidden="true" id="cancelar">Cancelar</button>
-      <button class="btn btn-warning" id="confirm" data-id="0"  data-pedido="1" data-url="{{ path('pedido') }}">Confirmar</button>
-     </div>
-    </div>
-    -->
-</div>
-    
-    
-    
-    
-    
-    
     <form action="" id="delete-form" method="post" {{ form_enctype(delete_form) }}>
     {{ form_widget(delete_form) }}
     <input type="hidden" value="DELETE" name="_method">
@@ -176,13 +152,15 @@
   {% block javascripts %}
   {{ parent() }}
  
-{% javascripts '@BackendAdminBundle/Resources/public/js/search_index.js' %}
+{% javascripts '@BackendCustomerAdminBundle/Resources/public/js/search_index.js' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
 {% endjavascripts %}
-{% javascripts '@BackendAdminBundle/Resources/public/js/exportar_entidad.js' %}
+{% javascripts '@BackendCustomerAdminBundle/Resources/public/js/exportar_entidad.js' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
-{% endjavascripts %}      
-  
+{% endjavascripts %}
+{% javascripts '@BackendCustomerAdminBundle/Resources/public/js/cambiar_status.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
 {% endblock %}
 
 

@@ -336,7 +336,7 @@ class ProductoController extends Controller
           $resultado["status"]=0;
           $resultado["message"]="pedido creado";
           
-          $this->sendPedidosEmails(customer, sucursal);
+          $this->sendPedidosEmails($customer, $sucursal);  // pasaba customer y sucursal
           
           
        } catch(Exception $e){
@@ -356,9 +356,10 @@ class ProductoController extends Controller
    }
 
    private function sendPedidosEmails($customer, $sucursal){
-       
+
+       $em = $this->getDoctrine()->getManager(); // me lo reclamaba
        $empresa = $em->getRepository('BackendUserBundle:Seteo')->findOneByName("empresa");
-    	 $email_site = $em->getRepository('BackendUserBundle:Seteo')->findOneByName("email");
+       $email_site = $em->getRepository('BackendUserBundle:Seteo')->findOneByName("email");
        
        $messageCustomer = \Swift_Message::newInstance()
                     ->setSubject("Pedido enviado a"+ $sucursal->getName()+" mediante el sitio "+$empresa->getValue())

@@ -1,14 +1,14 @@
-
-<label>Comentarios</label>
+<label> Comentarios</label>
 <div class="control-group">
-    <input type="textarea" id="comentarios" name="comentarios">
+    <textarea id="comentarios" name="comentarios" rows="4" cols="50">
+    </textarea>
 </div>
 
 <div class="control-group">
 
-    <div class="firma">
+    <div class="status">
         <p class="error-text">Seleccionar estado</p>
-        <select name="firma" id="firma">
+        <select name="firma" id="status">
             {% for s in status %}
                 <option value="{{ s.id }}">{{ s.name }}</option>
             {% endfor %}

@@ -289,7 +289,26 @@ class PedidoController extends Controller
         ;
     }
     
-	
+	public function updateStatusAction($id,Request $request)
+    {
+        if ( $this->get('security.context')->isGranted('ROLE_VIEWPRODUCTO')) {
+
+            $statusId = $request->get("status");
+            $comentarios = $request->get("comentarios");
+            $em = $this->getDoctrine()->getManager();
+            $pedido = $em->getRepository('BackendCustomerAdminBundle:Pedido')->find($id);
+            $status = $em->getRepository('BackendCustomerAdminBundle:Status')->find($statusId);
+            $pedido->setStatus($status);
+            $cliente = $pedido->getCliente();
+            $sucursal = $pedido->getSucursal();
+
+            $this->sendStatusPedidosEmails($cliente,$sucursal,$status,$comentarios);
+
+            return $this->redirect($this->generateUrl('producto'));
+        }
+    }
+
+
     public function printAction(Request $request, $id)
    {
       if ( $this->get('security.context')->isGranted('ROLE_VIEWPRODUCTO')) {
@@ -322,9 +341,33 @@ class PedidoController extends Controller
         }
    
    }
-	
-	
-	
+
+    private function sendStatusPedidosEmails($customer, $sucursal,$status,$comentarios){
+
+        $em = $this->getDoctrine()->getManager();
+        $empresa = $em->getRepository('BackendUserBundle:Seteo')->findOneByName("empresa");
+        $email_site = $em->getRepository('BackendUserBundle:Seteo')->findOneByName("email");
+
+        $messageCustomer = \Swift_Message::newInstance()
+            ->setSubject("Pedido enviado a"+ $sucursal->getName()+" mediante el sitio "+$empresa->getValue())
+            ->setFrom($email_site->getValue())
+            ->setTo($customer->getEmail())
+            ->setBody(
+                $this->renderView(
+                    'BackendCustomerAdminBundle:Pedido:status_customer_email.html.twig',
+                    array('customerName' => $customer->getName(),'sucursalName' => $sucursal->getName(),'status'=> $status->getName(),
+                        'comentarios' => $comentarios, 'empresa' =>$empresa->getValue(),'sucursalTelefono' =>$sucursal->getPhone(),
+                        'sucursalEmail'=>$sucursal->getEmail() )
+                ),'text/html'
+            );
+
+
+
+        @$this->get('mailer')->send($messageCustomer);
+
+    }
+
+
      public function exportarAction(Request $request)
     {
      if ( $this->get('security.context')->isGranted('ROLE_VIEWPRODUCTO')) {
@@ -341,7 +384,12 @@ class PedidoController extends Controller
                          
                             
         $excelService->excelObj->setActiveSheetIndex(0)
-                    ->setCellValue('A1', 'Nombre')
+                    ->setCellValue('A1', 'Pedido nº')
+                    ->setCellValue('B1','Fecha')
+                    ->setCellValue('C1','Sucursal')
+                    ->setCellValue('D1','Cliente')
+                    ->setCellValue('E1','Direccion')
+                    ->setCellValue('F1','')
                     ;
                     
         $resultados=$query->getResult();
@@ -349,7 +397,13 @@ class PedidoController extends Controller
         foreach($resultados as $r)
         {
            $excelService->excelObj->setActiveSheetIndex(0)
-                         ->setCellValue("A$i",$r->getName())
+                         ->setCellValue("A$i",$r->getId())
+                         ->setCellValue("B$i",$r->getCreatedAt())
+                         ->setCellValue("C$i",$r->getSucursal()->getName())
+                         ->setCellValue("D$i",$r->getCliente()->getName())
+                         ->setCellValue("E$i",$r->getCliente()->getDireccion()->getCalle())
+                         ->setCellValue("F$i",$r->getMedioPago()->getName())
+                         ->setCellValue("G$i",$r->getDetalle())
                          ;
           $i++;
         }
@@ -377,6 +431,7 @@ class PedidoController extends Controller
            throw new AccessDeniedException(); 
         }
     }
+
     public function getProductosAction(Request $request)
     {
       

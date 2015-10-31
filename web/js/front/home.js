@@ -2,7 +2,6 @@
 $(document).ready(function() {
 
     $('#see_more').hide();
-    $('#title_mira').hide();
 
     $('#zona-id').val(0);
     $('#categoria-id').val(0);
@@ -224,7 +223,6 @@ $(document).ready(function() {
               ubicacion = {'zonaId': 147};  // por defecto carga los que son CABA
           }
 
-          $('#title_mira').hide();
           $('#tiendas_listado').text(" ");
 
           getTiendas(ubicacion);
@@ -255,7 +253,6 @@ function getTiendas(ubicacion){
                 if(data){
 
                     $('#tiendas_listado').show();
-                    $('#title_mira').show();
 
                   $.each(data,function(index){ 
 					  
@@ -295,6 +292,8 @@ function getTiendas(ubicacion){
                        
                   });
                 }else{
+
+                    $('#aun').hide();
                     var respuesta = '<p class="respuesta">No hay tiendas cerca</p>';
                     $('#tiendas_listado').append(respuesta);
                 }
