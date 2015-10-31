@@ -20,7 +20,7 @@ class Pedido
     private $id;    
 
     /**
-     * @ORM\Column(name="total", type="float")
+     * @ORM\Column(name="total",type="decimal", scale=2)
      */
     private $total;
 	

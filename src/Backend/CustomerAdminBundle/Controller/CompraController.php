@@ -20,13 +20,13 @@ class CompraController extends Controller
      
 		$user=$this->getUser();
      
-     	$dql="SELECT u FROM BackendCustomerAdminBundle:Pedido u where u.customer = ".$user->getId();
+     	$dql="SELECT u FROM BackendCustomerAdminBundle:Pedido u JOIN u.sucursal s where u.customer = ".$user->getId();
 
         $search=mb_convert_case($search,MB_CASE_LOWER);
                
         if ($search)
           
-          $dql.=" where u.id like '%$search%' ";
+          $dql.=" and s.name like '%$search%' ";
           
 		  $dql .=" order by u.id desc"; 
         
@@ -290,7 +290,7 @@ class CompraController extends Controller
 	
     public function printAction(Request $request, $id)
    {
-      if ( $this->get('security.context')->isGranted('ROLE_VIEWPRODUCTO')) {
+      if ( $this->get('security.context')->isGranted('ROLE_VIEWCOMPRA')) {
           $em = $this->getDoctrine()->getManager();
           $entity = $em->getRepository('BackendCustomerAdminBundle:Pedido')->find($id);
     
@@ -302,7 +302,7 @@ class CompraController extends Controller
             require_once($this->get('kernel')->getRootDir().'/config/dompdf_config.inc.php');
             $dompdf = new \DOMPDF();
             
-            $html= $this->renderView('BackendCustomerAdminBundle:Pedido:constancia.html.twig',
+            $html= $this->renderView('BackendCustomerAdminBundle:Compra:constancia.html.twig',
               array('entity'=>$entity)
             );
             $dompdf->load_html($html);

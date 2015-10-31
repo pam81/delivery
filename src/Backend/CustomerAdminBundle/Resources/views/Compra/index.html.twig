@@ -49,10 +49,12 @@
                                         <th>Fecha</th>
                                         <th>Vendedor</th>
 										<th>Direccion</th>
+                                        <th>Total</th>
 										<th>Medio de Pago</th>
 										<th>Detalle</th>										
 										<th>Observaciones</th>
 										<th>Estado</th>
+                                        <th>Ultima modificacion</th>
                                         <th style="width: 90px;">Acciones</th>
                                     </tr>
                                 </thead>
@@ -63,23 +65,53 @@
 												  <td>{{ pedido.createdAt |date('d-m-Y h:m:s') }}</td>
 												  <td>{{ pedido.sucursal.getCustomer().getName() ~ " " ~ pedido.sucursal.getName() |capitalize}}</td>
 												  <td>{{ pedido.direccion.getCalle() ~ " " ~ pedido.direccion.getNumero() ~ " " ~ pedido.direccion.getPiso() }}
+                                                  <td>{{ pedido.total }}</td>
                                                   <td>{{ pedido.paymethod.getName() | capitalize}}</td>
-												  <td><i class="fa fa-list-ol"></i></td>
-												  
-                                                  <td>{{ pedido.observaciones }}</td>
 												  <td>
-												  {% if pedido.status.getName == "Pendiente" %}
-                                                  	<span class="label label-danger"> {{ pedido.status.getName() }} </span>
-												  {% elseif pedido.status.getName == "Entregado" %}
-												  	 <span class="label label-success"> Entregado </span>
-                                                  {% endif %}
-												  </td>
+                                                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#detalle{{pedido.id}}"><i class="fa fa-list-ol"></i></button>
+                                                      <div class="modal fade " id="detalle{{pedido.id}}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                                                          <div class="modal-dialog modal-lg">
+                                                              <div class="modal-content">
+
+                                                                  <table class="table table-bordered table-hover" style="margin-top: 10px;">
+                                                                      <th style="width: 80px;">Cantidad</th><th>Producto</th><th>Variedades</th><th style="width: 100px;">Precio</th>
+                                                                      {% for d in pedido.getDetalles %}
+                                                                          <tr><td style="text-align: center;">{{ d.getCantidad() }}</td><td>{{ d.getProducto.getName() }}</td><td>{{ d.getVariedades() }}</td><td style="text-align:right;">$ {{ d.getPrecio() }}</td></tr>
+                                                                      {% endfor %}
+                                                                      <tr><td><strong>Total:</strong></td><td></td><td></td><td style="text-align: right">${{ pedido.total }}</td></tr>
+                                                                  </table>
+
+                                                              </div>
+                                                          </div>
+                                                      </div>
+
+                                                  </td>
+												  
+                                                  <td>{{ pedido.comentarios }}</td>
+                                                  {% for proceso in pedido.getProcesos() %}
+                                                  <td>
+
+                                                      {% if proceso.getStatus.getName == "Pendiente" %}
+                                                        <span class="label label-info"> {{ proceso.getStatus.getName() }} </span>
+                                                      {% elseif proceso.getStatus.getName == "Procesando" %}
+                                                          <span class="label label-warning"> {{ proceso.getStatus.getName() }} </span>
+                                                      {% elseif proceso.getStatus.getName == "Enviado" %}
+                                                         <span class="label label-primary"> Enviado </span>
+                                                      {% elseif proceso.getStatus.getName == "Entregado" %}
+                                                          <span class="label label-success">{{ pedido.status.getName }}</span>
+                                                      {% elseif proceso.getStatus.getName == "Cancelado" %}
+                                                          <span class="label label-danger">Cancelado</span>
+                                                      {% endif %}
+
+                                                  </td>
+                                                  <td>{{ proceso.getModifiedAt() |date('d-m-Y h:m:s') }}</td>
+                                                    {% endfor %}
                                                   <td>
                                                   {% if is_granted("ROLE_MODCOMPRA") %}
                                                   <a data-toggle="tooltip" title="Editar Pedido" href="{{ path('pedido_edit', { 'id': pedido.id }) }}"><i class="fa fa-pencil"></i></a>
                                                   {% endif %}
 												  {% if is_granted("ROLE_VIEWCOMPRA") %}
-												  <a data-toggle="tooltip" title="Imprimir Pedido" href="{{ path('pedido_print',{ 'id': pedido.id }) }}"><i class="fa fa-print"></i></a>
+												  <a data-toggle="tooltip" title="Imprimir Pedido" href="{{ path('compra_print',{ 'id': pedido.id }) }}"><i class="fa fa-print"></i></a>
 												  {% endif %}
                                                   {% if is_granted("ROLE_DELCOMPRA") %}
                                                   <a href="#" class="btn confirm-delete"   data-toggle="modal" data-id={{ pedido.id }}  data-target="#myModal"><i class="fa fa-trash"></i></a>

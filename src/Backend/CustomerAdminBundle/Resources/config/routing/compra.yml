@@ -27,7 +27,7 @@ compra_delete:
 
 compra_print:
     pattern:  /{id}/print
-    defaults: { _controller: "BackendCustomerAdminBundle:Pedido:print" }
+    defaults: { _controller: "BackendCustomerAdminBundle:Compra:print" }
         
 compra:
     pattern:  /{search}
