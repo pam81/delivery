@@ -30,31 +30,31 @@ class LoadStatusData extends AbstractFixture implements OrderedFixtureInterface,
         $tipo1->setName("Pendiente");
         $manager->persist($tipo1);
         $manager->flush();
-        $this->addReference('status-pendiente', $tipo1);
+        $this->addReference('estado-pendiente', $tipo1);
         
         $tipo2 = new Status();
         $tipo2->setName("Procesando");
         $manager->persist($tipo2);
         $manager->flush();
-        $this->addReference('status-procesando', $tipo2);
+        $this->addReference('estado-procesando', $tipo2);
         
         $tipo3 = new Status();
         $tipo3->setName("Enviado");
         $manager->persist($tipo3);
         $manager->flush();
-        $this->addReference('status-enviado', $tipo3);
+        $this->addReference('estado-enviado', $tipo3);
         
         $tipo4 = new Status();
         $tipo4->setName("Entregado");
         $manager->persist($tipo4);
         $manager->flush();
-        $this->addReference('status-entregado', $tipo4);
+        $this->addReference('estado-entregado', $tipo4);
         
         $tipo5 = new Status();
         $tipo5->setName("Cancelado");
         $manager->persist($tipo5);
         $manager->flush();
-        $this->addReference('status-cancelado', $tipo5);
+        $this->addReference('estado-cancelado', $tipo5);
         
        
     }
