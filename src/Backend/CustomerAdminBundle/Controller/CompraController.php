@@ -336,7 +336,6 @@ class CompraController extends Controller
         $query = $em->createQuery($search);
         
         $excelService = $this->get('xls.service_xls5');
-                         
                             
         $excelService->excelObj->setActiveSheetIndex(0)
                     ->setCellValue('A1', 'Nombre')

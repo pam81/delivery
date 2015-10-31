@@ -122,10 +122,10 @@ class PedidoController extends Controller
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createCreateForm(Producto $entity)
+    private function createCreateForm(Pedido $entity)
     {
-        $form = $this->createForm(new ProductoType(), $entity, array(
-            'action' => $this->generateUrl('producto_create'),
+        $form = $this->createForm(new PedidoType(), $entity, array(
+            'action' => $this->generateUrl('pedido_create'),
             'method' => 'POST',
         ));
 
@@ -135,16 +135,16 @@ class PedidoController extends Controller
     }
 
     /**
-     * Displays a form to create a new Producto entity.
+     * Displays a form to create a new Pedido entity.
      *
      */
     public function newAction()
     {
        if ( $this->get('security.context')->isGranted('ROLE_ADDPRODUCTO')) {
-        $entity = new Producto();
-        $form   = $this->createForm(new ProductoType(), $entity);
+        $entity = new Pedido();
+        $form   = $this->createForm(new PedidoType(), $entity);
 
-        return $this->render('BackendCustomerAdminBundle:Producto:new.html.twig', array(
+        return $this->render('BackendCustomerAdminBundle:Pedido:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView()
             
@@ -164,18 +164,18 @@ class PedidoController extends Controller
         if ( $this->get('security.context')->isGranted('ROLE_MODPRODUCTO')) { 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('BackendCustomerAdminBundle:Producto')->find($id);
+        $entity = $em->getRepository('BackendCustomerAdminBundle:Pedido')->find($id);
 
         if (!$entity) {
             
-             $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado el producto.');
-             return $this->redirect($this->generateUrl('producto'));
+             $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado el pedido.');
+             return $this->redirect($this->generateUrl('pedido'));
         }
 
-        $editForm = $this->createForm(new ProductoType(), $entity);
+        $editForm = $this->createForm(new PedidoType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('BackendCustomerAdminBundle:Producto:edit.html.twig', array(
+        return $this->render('BackendCustomerAdminBundle:Pedido:edit.html.twig', array(
             'entity'      => $entity,
             'form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -193,10 +193,10 @@ class PedidoController extends Controller
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(Producto $entity)
+    private function createEditForm(Pedido $entity)
     {
-        $form = $this->createForm(new ProductoType(), $entity, array(
-            'action' => $this->generateUrl('producto_update', array('id' => $entity->getId())),
+        $form = $this->createForm(new PedidoType(), $entity, array(
+            'action' => $this->generateUrl('pedido_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
@@ -221,17 +221,17 @@ class PedidoController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new ProductoType(), $entity);
+        $editForm = $this->createForm(new PedidoType(), $entity);
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
              $this->get('session')->getFlashBag()->add('success' , 'Se han actualizado los datos del producto .');
-            return $this->redirect($this->generateUrl('producto_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('pedido_edit', array('id' => $id)));
         }
 
-        return $this->render('BackendCustomerAdminBundle:Producto:edit.html.twig', array(
+        return $this->render('BackendCustomerAdminBundle:Pedido:edit.html.twig', array(
             'entity'      => $entity,
             'form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -375,12 +375,12 @@ class PedidoController extends Controller
          $em = $this->getDoctrine()->getManager();
 
        
-        $search=$this->generateSQL($request->query->get("search-query")); 
-           
+        $search=$this->generateSQL($request->query->get("search-query"));
+
        
         $query = $em->createQuery($search);
-        
-        $excelService = $this->get('xls.service_xls5');
+
+         $excelService = $this->get('xls.service_xls5');
                          
                             
         $excelService->excelObj->setActiveSheetIndex(0)
