@@ -68,7 +68,7 @@
                                                   <td>{{ pedido.total }}</td>
                                                   <td>{{ pedido.paymethod.getName() | capitalize}}</td>
 												  <td>
-                                                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#detalle{{pedido.id}}"><i class="fa fa-list-ol"></i></button>
+                                                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#detalle{{pedido.id}}" title="Ver detalle"><i class="fa fa-list-ol"></i></button>
                                                       <div class="modal fade " id="detalle{{pedido.id}}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
                                                           <div class="modal-dialog modal-lg">
                                                               <div class="modal-content">
