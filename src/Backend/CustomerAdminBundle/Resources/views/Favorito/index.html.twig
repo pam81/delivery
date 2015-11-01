@@ -112,7 +112,7 @@
 
 {% block javascripts %}
   {{ parent() }}
-   {% javascripts '@BackendCustomerBundle/Resources/public/js/customer_index.js' %}
+   {% javascripts '@BackendCustomerBundle/Resources/public/js/customer_index.js' filter='?uglifyjs2' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
    {% endjavascripts %}
 {% endblock %}

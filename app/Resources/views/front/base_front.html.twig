@@ -48,7 +48,6 @@
     {% block javascripts %}
         <script type="text/javascript" src="//maps.google.com/maps/api/js?sensor=true"></script>
         <script src="{{ asset("js/moment.min.js") }}"></script>
-        <script src="{{ asset("js/constants.js") }}"></script>
         <script src="{{ asset("js/jquery.js") }}"></script>
       	<script src="{{ asset("js/bootstrap.min.js") }}"></script>
       	<script src="{{ asset("js/front/jquery.scrollUp.min.js") }}"></script>
@@ -57,16 +56,29 @@
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
         <script src="{{ asset("js/front/jquery.cookie.js") }}"></script>
         <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
-        <script src="{{ asset('js/front/utils.js') }}"></script>
-        <script src="{{ asset("js/front/main.js") }}"></script>
         <script src="{{ asset('js/front/simpleCart.js') }}"></script>
-        <script src="{{ asset('js/front/carrito.js') }}"></script>
-        
         <script src="{{ asset('js/sweet-alert/sweetalert.min.js') }}"></script>
-         
-        {% javascripts '@FrontendHomeBundle/Resources/public/js/register_user.js' %}
+
+        {% javascripts '@FrontendHomeBundle/Resources/public/js/constants.js'  filter='?uglifyjs2' %}
           <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts %}
+        
+        {% javascripts '@FrontendHomeBundle/Resources/public/js/utils.js'  filter='?uglifyjs2' %}
+          <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+        
+        {% javascripts '@FrontendHomeBundle/Resources/public/js/main.js'  filter='?uglifyjs2' %}
+          <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+        
+        {% javascripts '@FrontendHomeBundle/Resources/public/js/carrito.js'  filter='?uglifyjs2' %}
+          <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+         
+        {% javascripts '@FrontendHomeBundle/Resources/public/js/register_user.js'  filter='?uglifyjs2' %}
+          <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+        
         
     {% endblock %}
     </body>
