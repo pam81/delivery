@@ -6,7 +6,8 @@ vendor/**
 web/bundle/**
 *.php~
 web/uploads/*
-
+target/**
+node_modules/grunt*
 app/Resources/views/front/footer_old.html.twig
 app/Resources/views/front/header_old.html.twig
 app/bootstrap.php.cache
