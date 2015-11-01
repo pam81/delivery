@@ -57,8 +57,17 @@
 {% endblock %}
   {% block javascripts %}
   {{ parent()}}
- <script src="{{ asset("js/front/geolocalizar.js") }}"></script>
- <script src="{{ asset("js/front/home.js") }}"></script>
- <script src="{{ asset('js/front/checkTime.js') }}"></script> <! -- verificar si aqui iria-->
+  {% javascripts '@FrontendHomeBundle/Resources/public/js/geolocalizar.js'filter='?uglifyjs2' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+  {% endjavascripts %}
+  
+  {% javascripts '@FrontendHomeBundle/Resources/public/js/home.js'filter='?uglifyjs2' %}
+      <script type="text/javascript" src="{{ asset_url }}"></script>
+  {% endjavascripts %}
+  
+  {% javascripts '@FrontendHomeBundle/Resources/public/js/checkTime.js'filter='?uglifyjs2' %}
+      <script type="text/javascript" src="{{ asset_url }}"></script>
+  {% endjavascripts %}
  
+  
  {% endblock %} 
