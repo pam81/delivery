@@ -325,7 +325,7 @@ function loadPedidos(){
      
      var element='<div class="pedido'+sucursales[i].sucursalid+'">'; 
       
-         element +='<div class="heading" >';
+         element +='<div class="heading-carrito" >';
          element +='    <p>'+sucursales[i].name+'</p>';
          element +='</div>';       
 			   element +='<div class="table-responsive cart_info">';
@@ -349,7 +349,7 @@ function loadPedidos(){
 			   element +='</div>';
 	
 			   element +='<div class="heading">';
-				 element +=' <h3>Resumen</h3>';
+				 element +=' <h3 class="subtitle">Resumen</h3>';
 				 element +=' <p>Verifique su pedido y continue el proceso de compra.</p>';
 			   element +='</div>';
 			   element +='<div class="row">';
@@ -361,8 +361,8 @@ function loadPedidos(){
 				 element +='			<li>Costo de envio <span>$<span class="envio'+sucursales[i].sucursalid+'">'+tabla.envio+'</span></span></li>';
 				 element +='			<li>Total <span>$<span class="total'+sucursales[i].sucursalid+'">'+tabla.total+'</span></span></li>';
 				 element +='		</ul>';
-				 element +='			<button class="btn btn-default cancelar_pedido" data-id="'+sucursales[i].sucursalid+'">Cancelar</button>'; 
-				 element +='			<button class="btn btn-warning check_out_pedido" data-minimo="'+sucursales[i].minimo+'"  data-id="'+sucursales[i].sucursalid+'">Continuar</button>';
+				 element +='			<button class="btn btn-default cancelar_pedido" style="margin-left: 40px;" data-id="'+sucursales[i].sucursalid+'">Cancelar</button>';
+				 element +='			<button class="btn btn-warning pull-right check_out_pedido" data-minimo="'+sucursales[i].minimo+'"  data-id="'+sucursales[i].sucursalid+'">Continuar</button>';
 				 element +='	</div>';
 				 element +='</div>';
         
