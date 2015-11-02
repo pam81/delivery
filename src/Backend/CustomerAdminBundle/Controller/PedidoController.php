@@ -289,7 +289,7 @@ class PedidoController extends Controller
         ;
     }
     
-	public function updateStatusAction($id,Request $request)
+	public function updateStatusAction(Request $request)
     {
         if ( $this->get('security.context')->isGranted('ROLE_VIEWPRODUCTO')) {
 

@@ -179,6 +179,7 @@ class HomeController extends Controller
                 $subcategoria['name'] = $resultado->getName();
                 $subcategoria['category'] = $resultado->getCategoria()->getName();
                 $subcategoria['catId'] = $resultado->getCategoria()->getId();
+                $subcategoria['restrict'] = $resultado->getCategoria()->getIsRestrict();
                 $listado[] = $subcategoria;
             }
 

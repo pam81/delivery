@@ -29,7 +29,7 @@ producto_delete:
 producto_categoria:
     pattern:  /getsubcategorias
     defaults: { _controller: "BackendCustomerAdminBundle:Producto:getSubcategoriaByCategoria" }
-      
+
 producto:
     pattern:  /{search}
     defaults: { _controller: "BackendCustomerAdminBundle:Producto:index" , search: ''}

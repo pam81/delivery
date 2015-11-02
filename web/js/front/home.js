@@ -1,6 +1,7 @@
 
 $(document).ready(function() {
 
+    $('#buscar').prop('disabled', false);
     $('#see_more').hide();
 
     $('#zona-id').val(0);
@@ -44,7 +45,7 @@ $(document).ready(function() {
                     //response($.map(data.tracks.slice(0, 5), function (item) {
                     response($.map(data,function (item){
                         return { value: item.id, label: item.name,
-                            category: item.category };
+                            category: item.category,restricted: item.restrict };
                     }));
                 });
             },
@@ -56,6 +57,17 @@ $(document).ready(function() {
             select: function (event, ui) {
                 $("#categoria").val(ui.item.label);
                 $("#categoria-id").val(ui.item.value);
+                $("#categoria-restricted").val(ui.item.restricted);
+                console.log($("#categoria-restricted").val());
+                if(ui.item.restricted == true){
+
+                    alert("Para acceder a este contenido debe estar registrado");
+                    $('#buscar').prop('disabled', true);
+
+                }else{
+
+                    $('#buscar').prop('disabled', false);
+                }
                 return false;
             }
         });
@@ -128,7 +140,7 @@ $(document).ready(function() {
                     horario = data[index].horario;
                     
                     $.each(horario,function(i){
-						h += horario[i]+'<br/>'; 	
+						h += horario[i]+"-";
 					});
 
                     element += '<div class="col-sm-4">';
@@ -143,7 +155,7 @@ $(document).ready(function() {
 										element += '</div>';
 										                        element +='    <div class="choose">';
     									  element +='       <ul class="nav nav-pills nav-justified">';
-    										element +='         <li><a href="javascript:void(0)" class="horarios_modal" data-texto="'+h+'"><i class="fa fa-clock-o"></i>Consultar horario</a>  </li>';
+    										element +='         <li><a href="javascript:void(0)" class="horarios_modal" data-texto="'+h+'"><i class="fa fa-clock-o"></i>Consultar horario</a></li>';
                     if (data[index].favorito == true){    
                         element +='         <li><a href="javascript:void(0)" class="add_favorito" data-sucursal="'+data[index].id+'"><i class="fa fa-heart"></i></a></li>';
                      }   
@@ -166,7 +178,7 @@ $(document).ready(function() {
                   element += "</div>"; 
                   
                   $('#sugeridos').append(element);
-                  console.log("hola");
+                  //console.log("hola");
               })
               .fail(function() {
                 console.log( "can't load tiendas premium" );
@@ -175,7 +187,19 @@ $(document).ready(function() {
     
       $("body").on("click",".horarios_modal",function(){
             var texto=$(this).data("texto");
-            $("#horarioModal .modal-body").html(texto);
+            var tabla = "<table><tr><th width='100px'>Lunes</th><th width='100px'>Martes</th><th width='100px'>Miercoles</th><th width='100px'>Jueves</th><th width='100px'>Viernes</th><th width='100px'>Sabado</th><th width='100px'>Domingo</th></tr><tr>";
+            var i;
+            var hs = texto.split(",");
+            for(i=0;i<=6;i++) {
+
+                var inicio = hs[i].indexOf(":") + 1;
+                var hora = hs[i].substring(inicio);
+                var row = "<td>"+hora+"</td>";
+                tabla += row;
+            }
+            tabla += "</tr></table>";
+
+            $("#horarioModal .modal-body").html(tabla);
             $('#horarioModal').modal("show");
       });
       
@@ -252,6 +276,7 @@ function getTiendas(ubicacion){
 
                 if(data){
 
+                    $('#aun').hide();
                     $('#tiendas_listado').show();
 
                   $.each(data,function(index){ 
@@ -275,7 +300,7 @@ function getTiendas(ubicacion){
                       	element += '							</div>';
                         element +='    <div class="choose">';
                         element +='       <ul class="nav nav-pills nav-justified">';
-                        element +='         <li><a href="javascript:void(0)" class="horarios_modal" data-texto="'+h+'"  ><i class="fa fa-clock-o"></i>Consultar horario</a>  </li>';
+                        element +='         <li><a href="javascript:void(0)" class="horarios_modal" data-texto="'+horario+'"  ><i class="fa fa-clock-o"></i>Consultar horario</a>  </li>';
                         if (data[index].favorito == true){  
                             element +='         <li><a href="javascript:void(0)" class="add_favorito" data-sucursal="'+data[index].id+'"><i class="fa fa-heart"></i></a></li>';
                         }else{
