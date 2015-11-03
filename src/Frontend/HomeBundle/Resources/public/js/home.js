@@ -155,7 +155,7 @@ $(document).ready(function() {
 										element += '</div>';
 										                        element +='    <div class="choose">';
     									  element +='       <ul class="nav nav-pills nav-justified">';
-    										element +='         <li><a href="javascript:void(0)" class="horarios_modal" data-texto="'+h+'"><i class="fa fa-clock-o"></i>Consultar horario</a></li>';
+    										element +='         <li><a href="javascript:void(0)" class="horarios_modal" data-texto="'+horario+'"><i class="fa fa-clock-o"></i>Consultar horario</a></li>';
                     if (data[index].favorito == true){    
                         element +='         <li><a href="javascript:void(0)" class="add_favorito" data-sucursal="'+data[index].id+'"><i class="fa fa-heart"></i></a></li>';
                      }   

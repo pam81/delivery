@@ -235,11 +235,27 @@ class SucursalController extends Controller
               }else{
                 $hasta=array(0,0);
               }
-              
+              if ($h->getDesdeT()){
+                $desdeT=explode(":",$h->getDesdeT());
+              }else{
+                $desdeT=array(0,0);
+              }
+              if ($h->getHastaT()){
+                $hastaT=explode(":",$h->getHastaT());
+              }else{
+                $hastaT=array(0,0);
+              }
+
+
               $horarios[$id]["fromH"]=$desde[0];
               $horarios[$id]["fromM"]=":".$desde[1];
               $horarios[$id]["toH"]=$hasta[0];
               $horarios[$id]["toM"]=":".$hasta[1];
+              $horarios[$id]["fromHT"]=$desdeT[0];
+              $horarios[$id]["fromMT"]=":".$desdeT[1];
+              $horarios[$id]["toHT"]=$hastaT[0];
+              $horarios[$id]["toMT"]=":".$hastaT[1];
+
               $horarios[$id]["closed"]=$h->getCerrado();
               
         }
@@ -302,21 +318,30 @@ class SucursalController extends Controller
         if ($editForm->isValid()) {
             
             //update horarios
-            $fromH=$request->get("fromH");
+             $fromH=$request->get("fromH");
              $fromM=$request->get("fromM");
              $toH=$request->get("toH");
              $toM=$request->get("toM");
+             $fromHT=$request->get("fromHT");
+             $fromMT=$request->get("fromMT");
+             $toHT=$request->get("toHT");
+             $toMT=$request->get("toMT");
              $closed=$request->get("closed");
+
              foreach($entity->getHorarios() as $horario){
                  $dia=$horario->getDia()->getId();
                  if ( isset($closed[$dia]) && $closed[$dia] == 1){
                         $horario->setCerrado(true);
                         $horario->setDesde(null);
                         $horario->setHasta(null);
+                        $horario->setDesdeT(null);
+                        $horario->setHastaT(null);
                  }else{ 
                         $horario->setCerrado(false);
                         $horario->setDesde($fromH[$dia].$fromM[$dia]);
                         $horario->setHasta($toH[$dia].$toM[$dia]);
+                        $horario->setDesdeT($fromHT[$dia].$fromMT[$dia]);
+                        $horario->setHastaT($toHT[$dia].$toMT[$dia]);
                  }
              
              }
@@ -390,11 +415,24 @@ class SucursalController extends Controller
               }else{
                 $hasta=array(0,0);
               }
-              
+              if ($h->getDesdeT()){
+                $desdeT=explode(":",$h->getDesdeT());
+              }else{
+                $desdet=array(0,0);
+              }
+              if ($h->getHastaT()){
+                $hastaT=explode(":",$h->getHastaT());
+              }else{
+                $hastat=array(0,0);
+              }
               $horarios[$id]["fromH"]=$desde[0];
               $horarios[$id]["fromM"]=":".$desde[1];
               $horarios[$id]["toH"]=$hasta[0];
               $horarios[$id]["toM"]=":".$hasta[1];
+              $horarios[$id]["fromHT"]=$desdet[0];
+              $horarios[$id]["fromMT"]=":".$desdet[1];
+              $horarios[$id]["toHT"]=$hastat[0];
+              $horarios[$id]["toMT"]=":".$hastat[1];
               $horarios[$id]["closed"]=$h->getCerrado();
               
         }

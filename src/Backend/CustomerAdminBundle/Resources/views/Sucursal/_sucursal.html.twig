@@ -145,8 +145,9 @@
     
     <h3>Horarios de Atención </h3>
     <div id="hourForm" class="container">
-    
+
     {% for d in dias %}
+
     <div  data-name="{{ d.getName() }}" data-id="{{ d.getId() }}" class="day col-md-12" style="margin-bottom: 10px;">
        <div id="label">{{ d.getName() }}: </div>
        <select name="fromH[{{ d.getId()}}]" class="hour from" style="width: 60px">
@@ -170,6 +171,7 @@
        </select>
       
        a
+
        <select name="toH[{{ d.getId()}}]" class="hour to" style="width: 60px">
        {% for  h in 0..23 %}
        {% set selected='' %}
@@ -188,15 +190,60 @@
         <option value="{{ h }}" {{ selected }}> {{ h }}</option>
         {% endfor %}
        </select>
-       {% set checked='' %}
-          {% if horarios is defined and horarios[d.getId()]['closed'] == 1%}
-            {% set checked='checked'%}
-        {% endif %} 
-       <input type="checkbox" {{ checked}} name="closed[{{d.getId()}}]" value="1" class="closed"><span>Cerrado</span>
-    </div>
-    {% endfor %}
+
+        --
+
+        <select name="fromHT[{{ d.getId()}}]" class="hour from" style="width: 60px">
+            {% for  h in 0..23 %}
+                {% set selected='' %}
+                {% if horarios is defined and horarios[d.getId()]['fromHT'] == h%}
+                    {% set selected='selected'%}
+                {% endif %}
+                <option value="{{ h }}" {{ selected }}> {{ h }}</option>
+            {% endfor %}
+        </select>
+        <select name="fromMT[{{ d.getId()}}]" class="min from" style="width: 60px">
+            {% for  h in [':00', ':15', ':30', ':45'] %}
+
+                {% set selected='' %}
+                {% if horarios is defined and horarios[d.getId()]['fromMT'] == h%}
+                    {% set selected='selected'%}
+                {% endif %}
+                <option value="{{ h }}" {{ selected }}> {{ h }}</option>
+            {% endfor %}
+        </select>
+
+        a
+
+        <select name="toHT[{{ d.getId()}}]" class="hour to" style="width: 60px">
+            {% for  h in 0..23 %}
+                {% set selected='' %}
+                {% if horarios is defined and horarios[d.getId()]['toHT'] == h%}
+                    {% set selected='selected'%}
+                {% endif %}
+                <option value="{{ h }}" {{ selected }}> {{ h }}</option>
+            {% endfor %}
+        </select>
+        <select name="toMT[{{ d.getId()}}]" class="min to" style="width: 60px">
+            {% for  h in [':00', ':15', ':30', ':45']  %}
+                {% set selected='' %}
+                {% if horarios is defined and horarios[d.getId()]['toMT'] == h%}
+                    {% set selected='selected'%}
+                {% endif %}
+                <option value="{{ h }}" {{ selected }}> {{ h }}</option>
+            {% endfor %}
+        </select>
+
+
+               {% set checked='' %}
+                  {% if horarios is defined and horarios[d.getId()]['closed'] == 1%}
+                    {% set checked='checked'%}
+                {% endif %}
+               <input type="checkbox" {{ checked}} name="closed[{{d.getId()}}]" value="1" class="closed"><span>Cerrado</span>
+        </div>
+        {% endfor %}
     
+
     </div>
-    
     
 

@@ -51,8 +51,31 @@
                     </tr>
                     <tr>
                         {% for h in horarios %}
-                        <td>{% if h.getCerrado() %} Cerrado {% else %}{{ h.getDesde() ~ " - "~ h.Hasta()~"hs."}} {% endif %}</td>
+                        {% if h.getCerrado() %}<td> Cerrado </td>
+                        {% else %}
+                        <td>
+                            {% if h.getDesde() != "0:00" and h.getHasta() != "0:00" %}
+                                {{ h.getDesde() ~ " - "~ h.Hasta()~"hs."}}
+                            {% else %}
+                                Cerrado
+                            {% endif %}
+                        </td>
+                        {% endif %}
                     {% endfor %}
+                    </tr>
+                    <tr>
+                        {% for h in horarios %}
+                            {% if h.getCerrado() %}<td> Cerrado </td>
+                            {% else %}
+                                <td>
+                                    {% if h.getDesdeT() != "0:00" and h.getHastaT() != "0:00" %}
+                                        {{ h.getDesdeT() ~ " - "~ h.HastaT()~"hs."}}
+                                    {% else %}
+                                        Cerrado
+                                    {% endif %}
+                                </td>
+                            {% endif %}
+                        {% endfor %}
                     </tr>
                 </table>
             </div>

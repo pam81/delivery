@@ -34,7 +34,19 @@ class Horario
      */
     
 	private $hasta;
-	
+
+    /**
+     * @ORM\Column(name="desde_tarde", type="string", length=100,nullable=true)
+     */
+
+    private $desdeT;
+
+    /**
+     * @ORM\Column(name="hasta_tarde", type="string", length=100,nullable=true)
+     */
+
+    private $hastaT;
+
     /**
     * @ORM\ManyToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Sucursal", mappedBy="horarios")
     */
@@ -273,5 +285,51 @@ class Horario
     public function removeSucursale(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
     {
         $this->sucursales->removeElement($sucursales);
+    }
+
+    /**
+     * Set desdeT
+     *
+     * @param string $desdeT
+     * @return Horario
+     */
+    public function setDesdeT($desdeT)
+    {
+        $this->desdeT = $desdeT;
+
+        return $this;
+    }
+
+    /**
+     * Get desdeT
+     *
+     * @return string 
+     */
+    public function getDesdeT()
+    {
+        return $this->desdeT;
+    }
+
+    /**
+     * Set hastaT
+     *
+     * @param string $hastaT
+     * @return Horario
+     */
+    public function setHastaT($hastaT)
+    {
+        $this->hastaT = $hastaT;
+
+        return $this;
+    }
+
+    /**
+     * Get hastaT
+     *
+     * @return string 
+     */
+    public function getHastaT()
+    {
+        return $this->hastaT;
     }
 }
