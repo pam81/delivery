@@ -522,6 +522,7 @@ class HomeController extends Controller
 	private function checkOpenNow($horarios,$dia,$time){
 		
 		$open = false;
+        $h_partido = false;
 		
 		$time_array = explode(":",$time);		
 		$ahora = $time_array[0]*60 + $time_array[1];		
@@ -546,12 +547,38 @@ class HomeController extends Controller
 					$hasta = $hasta_array[0]*60 + $hasta_array[1];
 										
 				  }
-				  // valida el caso que cierre a las 0:00 hs					 
-			       if(($ahora < $desde ||  $ahora > $hasta) xor ($ahora > $desde && $ahora > $hasta)){
+                    if($horario->getDesdeT()){
+
+                        $desdeT_array = explode(":",$horario->getDesdeT());
+                        $desdeT = $desdeT_array[0]*60 + $desdeT_array[1];
+                        $h_partido = true;
+                    }
+                    if($horario->getHastaT()){
+                        $hastaT_array = explode(":",$horario->getHasta());
+                        $hastaT = $hastaT_array[0]*60 + $hastaT_array[1];
+                        $h_partido = true;
+
+                    }
+
+                  if($h_partido) {
+
+                       if(($ahora > $hasta && $ahora < $desdeT) ||($ahora < $desde || $ahora > $hastaT)){
+
+                           $open = false;
+
+                       }else{
+
+                           $open = true;
+                       }
+
+                  }else{
+
+                        // valida el caso que cierre a las 0:00 hs
+			            if(($ahora < $desde ||  $ahora > $hasta) xor ($ahora > $desde && $ahora > $hasta)){
 				
-					    $open = false;
-			       // valida evaluar el dia anterior si cierra pasadas las 12 
-				   }
+					     $open = false;
+			                // valida evaluar el dia anterior si cierra pasadas las 12
+				        }
                    /* else if($ahora > $desde && $ahora > $hasta){
 
                       $diaAnterior = $this->diaAnterior($horario->getDia());
@@ -581,9 +608,10 @@ class HomeController extends Controller
 
                       $open = true;
                       $cierra = $hasta;
-                  }
+                    }
 
-				} // Si está abierto   
+                  } // Si está abierto
+                }
 			}	
 		}		
 		return $open;

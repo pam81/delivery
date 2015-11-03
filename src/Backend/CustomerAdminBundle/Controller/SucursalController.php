@@ -114,16 +114,22 @@ class SucursalController extends Controller
              $fromM=$request->get("fromM");
              $toH=$request->get("toH");
              $toM=$request->get("toM");
+                $fromHT=$request->get("fromHT");
+                $fromMT=$request->get("fromMT");
+                $toHT=$request->get("toHT");
+                $toMT=$request->get("toMT");
              $closed=$request->get("closed");
              foreach($dias as $d){
                 $horario = new Horario();
                 $horario->setDia($d);
                 if (isset($closed[$d->getId()]) &&  $closed[$d->getId()] == 1){
-                       $horario->setCerrado(true);                
+                       $horario->setCerrado(true);
                 }else{
                        $horario->setCerrado(false);
                        $horario->setDesde($fromH[$d->getId()].$fromM[$d->getId()]);
                        $horario->setHasta($toH[$d->getId()].$toM[$d->getId()]);
+                       $horario->setDesdeT($fromHT[$d->getId()].$fromMT[$d->getId()]);
+                       $horario->setHastaT($toHT[$d->getId()].$toMT[$d->getId()]);
                 }
                 $em->persist($horario);
                 $em->flush();
@@ -336,12 +342,33 @@ class SucursalController extends Controller
                         $horario->setHasta(null);
                         $horario->setDesdeT(null);
                         $horario->setHastaT(null);
-                 }else{ 
+                 }else{
                         $horario->setCerrado(false);
+
+                        if(($fromH[$dia] == "0" && $fromM[$dia] ="00") && ($toH[$dia] == "0" && $toM[$dia] ="00")){
+
+                            $horario->setDesde(null);
+                            $horario->setHasta(null);
+
+                        }else {
+
+                            $horario->setDesdeT($fromHT[$dia] . $fromMT[$dia]);
+                            $horario->setHastaT($toHT[$dia] . $toMT[$dia]);
+                        }
+
                         $horario->setDesde($fromH[$dia].$fromM[$dia]);
                         $horario->setHasta($toH[$dia].$toM[$dia]);
-                        $horario->setDesdeT($fromHT[$dia].$fromMT[$dia]);
-                        $horario->setHastaT($toHT[$dia].$toMT[$dia]);
+
+                        if(($fromHT[$dia] == "0" && $fromMT[$dia] ="00") && ($toHT[$dia] == "0" && $toMT[$dia] ="00")){
+
+                            $horario->setDesdeT(null);
+                            $horario->setHastaT(null);
+
+                        }else {
+
+                            $horario->setDesdeT($fromHT[$dia] . $fromMT[$dia]);
+                            $horario->setHastaT($toHT[$dia] . $toMT[$dia]);
+                        }
                  }
              
              }

@@ -54,7 +54,7 @@
                         {% if h.getCerrado() %}<td> Cerrado </td>
                         {% else %}
                         <td>
-                            {% if h.getDesde() != "0:00" and h.getHasta() != "0:00" %}
+                            {% if h.getDesde() is not null and h.getHasta() is not null %}
                                 {{ h.getDesde() ~ " - "~ h.Hasta()~"hs."}}
                             {% else %}
                                 Cerrado
@@ -68,7 +68,7 @@
                             {% if h.getCerrado() %}<td> Cerrado </td>
                             {% else %}
                                 <td>
-                                    {% if h.getDesdeT() != "0:00" and h.getHastaT() != "0:00" %}
+                                    {% if h.getDesdeT() is not null and h.getHastaT() is not null %}
                                         {{ h.getDesdeT() ~ " - "~ h.HastaT()~"hs."}}
                                     {% else %}
                                         Cerrado
