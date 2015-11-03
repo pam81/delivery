@@ -218,7 +218,12 @@
 
 {% block javascripts %}
   {{ parent()}}
- <script src="{{ asset("js/front/producto.js") }}"></script>
  <script src="{{ asset("js/readmore.min.js") }}"></script>
- <script src="{{ asset('js/front/checkTime.js') }}"></script>
+
+ {% javascripts '@FrontendHomeBundle/Resources/public/js/producto.js'filter='?uglifyjs2' %}
+      <script type="text/javascript" src="{{ asset_url }}"></script>
+  {% endjavascripts %}
+  {% javascripts '@FrontendHomeBundle/Resources/public/js/checkTime.js'filter='?uglifyjs2' %}
+      <script type="text/javascript" src="{{ asset_url }}"></script>
+  {% endjavascripts %}
  {% endblock %}                         

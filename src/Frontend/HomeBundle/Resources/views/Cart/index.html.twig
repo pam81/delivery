@@ -120,6 +120,8 @@
   {{ parent()}}
   
    <script src="{{ asset("js/gmaps.js") }}"></script>
- <script src="{{ asset("js/front/tablaCarrito.js") }}"></script>
- 
+
+   {% javascripts '@FrontendHomeBundle/Resources/public/js/tablaCarrito.js'filter='?uglifyjs2' %}
+      <script type="text/javascript" src="{{ asset_url }}"></script>
+   {% endjavascripts %}
  {% endblock %} 

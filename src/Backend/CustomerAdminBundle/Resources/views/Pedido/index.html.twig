@@ -152,13 +152,13 @@
   {% block javascripts %}
   {{ parent() }}
  
-{% javascripts '@BackendCustomerAdminBundle/Resources/public/js/search_index.js' %}
+{% javascripts '@BackendCustomerAdminBundle/Resources/public/js/search_index.js' filter='?uglifyjs2' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
 {% endjavascripts %}
-{% javascripts '@BackendCustomerAdminBundle/Resources/public/js/exportar_entidad.js' %}
+{% javascripts '@BackendCustomerAdminBundle/Resources/public/js/exportar_entidad.js' filter='?uglifyjs2' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
 {% endjavascripts %}
-{% javascripts '@BackendCustomerAdminBundle/Resources/public/js/cambiar_status.js' %}
+{% javascripts '@BackendCustomerAdminBundle/Resources/public/js/cambiar_status.js' filter='?uglifyjs2' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
 {% endjavascripts %}
 {% endblock %}
