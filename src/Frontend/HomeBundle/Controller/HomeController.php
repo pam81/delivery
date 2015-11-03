@@ -536,7 +536,9 @@ class HomeController extends Controller
 					$open = false;
 				
 				}else{						
-			
+
+                  $h_partido = false;
+
 				  if($horario->getDesde()){
 			
 					$desde_array = explode(":",$horario->getDesde());					
@@ -552,17 +554,18 @@ class HomeController extends Controller
                         $desdeT_array = explode(":",$horario->getDesdeT());
                         $desdeT = $desdeT_array[0]*60 + $desdeT_array[1];
                         $h_partido = true;
+
                     }
                     if($horario->getHastaT()){
-                        $hastaT_array = explode(":",$horario->getHasta());
+                        $hastaT_array = explode(":",$horario->getHastaT());
                         $hastaT = $hastaT_array[0]*60 + $hastaT_array[1];
                         $h_partido = true;
 
                     }
 
-                  if($h_partido) {
+                  if($h_partido == true) {
 
-                       if(($ahora > $hasta && $ahora < $desdeT) ||($ahora < $desde || $ahora > $hastaT)){
+                       if(($ahora > $hasta && $ahora < $desdeT) || ($ahora < $desde || $ahora > $hastaT)){
 
                            $open = false;
 
@@ -571,40 +574,40 @@ class HomeController extends Controller
                            $open = true;
                        }
 
-                  }else{
+                  }else {
 
-                        // valida el caso que cierre a las 0:00 hs
-			            if(($ahora < $desde ||  $ahora > $hasta) xor ($ahora > $desde && $ahora > $hasta)){
-				
-					     $open = false;
-			                // valida evaluar el dia anterior si cierra pasadas las 12
-				        }
-                   /* else if($ahora > $desde && $ahora > $hasta){
+                      // valida el caso que cierre a las 0:00 hs
+                      if (($ahora < $desde || $ahora > $hasta) xor ($ahora > $desde && $ahora > $hasta)) {
 
-                      $diaAnterior = $this->diaAnterior($horario->getDia());
+                          $open = false;
+                          // valida evaluar el dia anterior si cierra pasadas las 12
 
-                      foreach($horarios as $ho){
+                      /* else if($ahora > $desde && $ahora > $hasta){
 
-                         if ($horarios->getDia()->getId() == $diaAnterior){
+                         $diaAnterior = $this->diaAnterior($horario->getDia());
 
-                             if($horario->getDesde()){
+                         foreach($horarios as $ho){
 
-                                 $desde_array = explode(":",$horario->getDesde());
-                                 $desde = $desde_array[0]*60 + $desde_array[1];
-                             }
-                             if($horario->getHasta()){
-                                 $hasta_array = explode(":",$horario->getHasta());
-                                 $hasta = $hasta_array[0]*60 + $hasta_array[1];
+                            if ($horarios->getDia()->getId() == $diaAnterior){
 
-                             }
-                             if($ahora > $desde && $ahora > $hasta ){
+                                if($horario->getDesde()){
 
-                                 $open = true;
-                             }
+                                    $desde_array = explode(":",$horario->getDesde());
+                                    $desde = $desde_array[0]*60 + $desde_array[1];
+                                }
+                                if($horario->getHasta()){
+                                    $hasta_array = explode(":",$horario->getHasta());
+                                    $hasta = $hasta_array[0]*60 + $hasta_array[1];
+
+                                }
+                                if($ahora > $desde && $ahora > $hasta ){
+
+                                    $open = true;
+                                }
+                            }
                          }
-                      }
-                  }*/
-                   else{
+                     }*/
+                    }else{
 
                       $open = true;
                       $cierra = $hasta;
@@ -616,6 +619,8 @@ class HomeController extends Controller
 		}		
 		return $open;
 	}
+
+    /*
 
     private function diaAnterior(Dia $dia){
 
@@ -629,6 +634,7 @@ class HomeController extends Controller
         }
 
     }
+    */
 
 	/* Verifica si la tienda sigue abierta */
 	
