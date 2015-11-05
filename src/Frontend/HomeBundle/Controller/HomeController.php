@@ -254,7 +254,13 @@ class HomeController extends Controller
                   if ($horario->getCerrado()) {
                       $horarios_tienda[] = $horario->getDia()->getName() . ": Cerrado";
                   } else {
+
                       $horarios_tienda[] = $horario->getDia()->getName() . ":" . $horario->getDesde() . "-" . $horario->getHasta() . " hs.";
+
+                      if($horario->getDesdeT() != null && $horario->getHastaT() != null){
+
+                          $horarios_tienda[] = $horario->getDia()->getName() . ":" . $horario->getDesdeT() . "-" . $horario->getHastaT() . " hs.";
+                      }
                   }
               }
 
