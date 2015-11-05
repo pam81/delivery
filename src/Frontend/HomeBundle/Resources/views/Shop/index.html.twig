@@ -18,7 +18,7 @@
                         <ul class="list-inline text-left payments-method">
                             {% for p in  tienda.getPaymethods() %}
                                 <li>
-                                    <img src="{{ p.getWebPath() }}" class="icon" title="{{ p.getName() }}">
+                                    <img src="{{ asset(p.getWebPath()) }}" class="icon" title="{{ p.getName() }}">
                                 </li>
                             {% endfor %}
                         </ul>
@@ -129,7 +129,7 @@
 			{% for p in productos %}
             <div class="col-md-3 col-sm-6 hero-feature">
                 <div class="thumbnail">
-                    <img src="{{ p.getWebPath() }}" alt="">
+                    <img src="{{ asset(p.getWebPath()) }}" alt="">
                     <div class="caption">
                         <p class="product-title">{{ p.getName() }}</p>
                         <p class="product-desc">{{ p.getDescription }}</p>
