@@ -48,8 +48,8 @@
 										<th>Direccion</th>
 										<th>Zona</th>
 										<th>Localidad</th>
-                    <th>Categorías</th>
-                    <th>Subcategorías</th>
+                                        <th>Categorías</th>
+                                        <th>Subcategorías</th>
 										<th>Horario</th>
 										<th>Pedidos <br/> 24 hs</th>
 										<th>Medios de Pago</th>
@@ -80,20 +80,41 @@
 												 <td>
 												    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#horarios{{sucursal.id}}">Ver horarios</button>
                            <div class="modal fade " id="horarios{{sucursal.id}}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-                              <div class="modal-dialog modal-sm">
+                              <div class="modal-dialog modal-lg">
+
                                 <div class="modal-content">
-                                   <ul>
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Horarios de atención</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                   <table align="center">
+                                   <tr><th width="100px";>Lunes</th><th width="100px">Martes</th><th width="100px">Miercoles</th><th width="100px">Jueves</th><th width="100px">Viernes</th><th width="100px">Sabado</th><th width="100px">Domingo</th></tr>
+                                       <tr>
                                    {% for h in sucursal.getHorarios %}
-                                     <li>
+                                       <td>
                                        {% if h.getCerrado() == 1%}
-                                       {{ h.getDia().getName() }} : <span class="label label-warning">Cerrado</span>
+                                        <span class="label label-warning">Cerrado</span>
                                        {% else %}
-                                       
-                                       {{ h.getDia().getName() }} : {{ h.getDesde() }} - {{ h.getHasta() }}
+                                           {{ h.getDesde() }} - {{ h.getHasta() }}
                                        {% endif %}
-                                     </li> 
+                                       </td>
                                    {% endfor %}
-                                   </ul>
+                                       </tr>
+                                       <tr>
+                                           {% for h in sucursal.getHorarios %}
+                                               <td>
+                                                   {% if h.getCerrado() == 1%}
+                                                       <span class="label label-warning">Cerrado</span>
+                                                   {% else %}
+                                                       {% if h.getDesdeT() is not null and h.getHastaT() is not null %}
+                                                       {{ h.getDesdeT() }} - {{ h.getHastaT() }}
+                                                       {% endif %}
+                                                   {% endif %}
+                                               </td>
+                                           {% endfor %}
+                                       </tr>
+                                   </table>
+                                    </div>
                                 </div>
                               </div>
                             </div>

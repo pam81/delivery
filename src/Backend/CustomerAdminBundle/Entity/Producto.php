@@ -125,8 +125,8 @@ class Producto
 		  $this->isActive = true;
 		  $this->createdAt = new \DateTime('now');
 		  $this->variedades = new \Doctrine\Common\Collections\ArrayCollection();
-      $this->minVariedad = 0;
-      $this->maxVariedad = 0;
+          $this->minVariedad = 0;
+          $this->maxVariedad = 0;
          
     }
 

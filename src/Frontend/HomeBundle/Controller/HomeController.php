@@ -450,7 +450,7 @@ class HomeController extends Controller
 
                 foreach ($productos as $prod) {
 
-                    if ($prod->getSubcategoria()->getId() == $subId) {
+                    if ($prod->getSubcategoria()->getId() == $subId && $prod->getIsActive() == true) {
 
                         $resultado[] = $prod;
                     }
