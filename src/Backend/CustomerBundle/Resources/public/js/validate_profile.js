@@ -20,30 +20,34 @@ $(document).ready(function() {
 				},
 				"backend_customerbundle_profiletype[phone]": {
 					required:false,
-          digits: true,
-					minlength:9,
+					minlength:4,
 					maxlength:20,
 					
 				},
 				"backend_customerbundle_profiletype[mobile]": {
 					required:false,
-          digits: true,
-					minlength:9,
+          
+					minlength:4,
 					maxlength:20,
 					
 				},
         "backend_customerbundle_profiletype[dni]": {
 					required:false,
-					minlength:8,
+					minlength:6,
 					maxlength:15,
           digits:true,
 					
 				},
+        "backend_customerbundle_profiletype[tipodni]": {
+					required:false,
+					
+					
+				},
         "backend_customerbundle_profiletype[cuit]": {
 					required:true,
-					minlength:9,
+					minlength:6,
 					maxlength:20,
-          digits:true,
+          
 					
 				}
 			
@@ -69,12 +73,12 @@ $(document).ready(function() {
             "backend_customerbundle_profiletype[phone]": {
                 maxlength:  jQuery.validator.format("Máximo {0} carácteres!"),
                 minlength: jQuery.validator.format("Mínimo {0} carácteres!"),
-                digits: "Ingrese solo números"
+                
             },
             "backend_customerbundle_profiletype[mobile]": {
                 maxlength:  jQuery.validator.format("Máximo {0} carácteres!"),
                 minlength: jQuery.validator.format("Mínimo {0} carácteres!"),
-                digits: "Ingrese solo números"
+                
             },
             "backend_customerbundle_profiletype[dni]": {
                  required: "Ingrese su DNI",
@@ -82,11 +86,15 @@ $(document).ready(function() {
                 minlength: jQuery.validator.format("Mínimo {0} carácteres!"),
                 digits: "Ingrese solo números"
             },
+            "backend_customerbundle_profiletype[dni]": {
+                 required: "Seleccione el Tipo de DNI",
+                
+            },
             "backend_customerbundle_profiletype[cuit]": {
                 required: "Ingrese su CUIT",
                 maxlength:  jQuery.validator.format("Máximo {0} carácteres!"),
                 minlength: jQuery.validator.format("Mínimo {0} carácteres!"),
-                digits: "Ingrese solo números"
+                
             } 
             
             

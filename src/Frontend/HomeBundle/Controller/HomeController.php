@@ -224,7 +224,7 @@ class HomeController extends Controller
 		$time_array = explode(":",$time);
 		$ahora = $time_array[0]*60 + $time_array[1];
 
-        $dql= "SELECT u FROM BackendCustomerAdminBundle:Sucursal u JOIN u.direccion d"; // where d.barrio = ".$barrioId;
+        $dql= "SELECT u FROM BackendCustomerAdminBundle:Sucursal u JOIN u.direccion d JOIN u.customer c JOIN c.status e"; 
 
         if($subId){
 
@@ -237,6 +237,9 @@ class HomeController extends Controller
 
             $dql.= " where d.barrio = ".$barrioId;
         }
+       //validar que esten activas las tiendas que los usuarios esten activos y habilitados 
+        $dql .=" and u.is_active= 1 and c.isActive = true and e.name = 'Habilitado'";   
+        
         $em = $this->getDoctrine()->getManager();
 		$query = $em->createQuery($dql);
 		$tiendas = $query->getResult();
@@ -247,23 +250,8 @@ class HomeController extends Controller
 			  
 			  $open = false;
 			  $horarios = $tienda->getHorarios();
-			  $horarios_tienda = array(); 	
-			
-			  foreach($horarios as $horario) {
-
-                  if ($horario->getCerrado()) {
-                      $horarios_tienda[] = $horario->getDia()->getName() . ": Cerrado";
-                  } else {
-
-                      $horarios_tienda[] = $horario->getDia()->getName() . ":" . $horario->getDesde() . "-" . $horario->getHasta() . " hs.";
-
-                      if($horario->getDesdeT() != null && $horario->getHastaT() != null){
-
-                          $horarios_tienda[] = $horario->getDia()->getName() . ":" . $horario->getDesdeT() . "-" . $horario->getHastaT() . " hs.";
-                      }
-                  }
-              }
-
+			  $horarios_tienda = $this->generateHorarios($horarios);
+         
               $open = $this->checkOpenNow($horarios,$dia,$time);
 			  $cierra = null; // para validar si está abierto al momento de comprar. 	
 			  $record=array();
@@ -309,13 +297,43 @@ class HomeController extends Controller
     
     }
     
+    private function generateHorarios($horarios){
+       $horarios_tienda = array();
+       foreach($horarios as $horario) {
+
+                  if ($horario->getCerrado()) {
+                      $horarios_tienda[] = $horario->getDia()->getName() . ": Cerrado";
+                  }elseif( $horario->getOpenAll() ){ 
+                      $horarios_tienda[] = $horario->getDia()->getName() . ": 24hs"; 
+                  }else {
+
+                      $hours = $horario->getDia()->getName() . ":" . $horario->getDesde() . "-" . $horario->getHasta() . " hs.";
+
+                      if($horario->getHorarioPartido() ){
+
+                          $hours .=  "<br>" .$horario->getDesdeT() . "-" . $horario->getHastaT() . " hs.";
+                      }
+                      
+                      $horarios_tienda[] = $hours;
+                  }
+              }
+       return $horarios_tienda;
+    }
+    
     public function getTiendasPremiumAction(Request $request){
 
         $time = trim(mb_convert_case($request->get("time"),MB_CASE_LOWER));
         $dia = trim(mb_convert_case($request->get("day"),MB_CASE_LOWER));
-        //mostrar en el slider principal sucursales premium activas
-        $tiendas = $this->getDoctrine()->getRepository('BackendCustomerAdminBundle:Sucursal')
-                  ->findBy(array("is_active"=>true,"premium"=>true));        
+        $dql= "SELECT u FROM BackendCustomerAdminBundle:Sucursal u JOIN u.customer c JOIN c.status e"; 
+        
+         //validar que esten activas las sucursales que sean premium 
+         // que esten activos los usuarios y que esten validados sus datos
+        $dql .=" where u.is_active= true and u.premium= true and c.isActive = true and e.name = 'Habilitado' ";  
+        
+        $em = $this->getDoctrine()->getManager();
+    		$query = $em->createQuery($dql);
+    		$tiendas = $query->getResult();
+        
         
         $listado=array();
         
@@ -324,22 +342,15 @@ class HomeController extends Controller
 			  $open = false;
 			  $horarios = $tienda->getHorarios();
               $open = $this->checkOpenNow($horarios,$dia,$time);
-			  $horarios_tienda = array(); 	
+			  $horarios_tienda = $this->generateHorarios($horarios); 	
 			
-			  foreach($horarios as $horario) {
-
-                  if ($horario->getCerrado()) {
-                      $horarios_tienda[] = $horario->getDia()->getName() . ": Cerrado";
-                  } else {
-                      $horarios_tienda[] = $horario->getDia()->getName() . ":" . $horario->getDesde() . "-" . $horario->getHasta() . " hs.";
-                  }
-              }
+			 
 			  $record=array();
               $record["id"]=$tienda->getId();
               $record["name"]=$tienda->getName();
 			  if($tienda->getWebPath()){
               	$record["imagen"]=$tienda->getWebPath();
-		  	  }else{		  	  	
+		  	  }else{		  //imagen default si no tiene una asociada	  	
 				$record["imagen"]="images/home/shop_default.png";
 		  	  }
               $record["horario"] = $horarios_tienda; 
@@ -526,121 +537,82 @@ class HomeController extends Controller
     }
 	
 	private function checkOpenNow($horarios,$dia,$time){
-		
+	
 		$open = false;
-        $h_partido = false;
+   
 		
 		$time_array = explode(":",$time);		
 		$ahora = $time_array[0]*60 + $time_array[1];		
-		
+	
 		foreach($horarios as $horario){
 			
-			if($horario->getDia()->getId() == $dia){
-				
-				if($horario->getCerrado()){ // esta cerrado 
-					
-					$open = false;
-				
-				}else{						
-
-                  $h_partido = false;
-
-				  if($horario->getDesde()){
+			if($horario->getDia()->getNro() == $dia){
 			
-					$desde_array = explode(":",$horario->getDesde());					
-					$desde = $desde_array[0]*60 + $desde_array[1];
-				  }
-				  if($horario->getHasta()){
-					$hasta_array = explode(":",$horario->getHasta());					
-					$hasta = $hasta_array[0]*60 + $hasta_array[1];
-										
-				  }
-                    if($horario->getDesdeT()){
+				if($horario->getCerrado() == 1){  
+			
+					return false; //salgo directo con false porque esta cerrado
+				
+				}elseif ($horario->getOpenAll() == 1){
+      
+            return true; //salgo directo esta abierto porque abre 24 hs ese dia 
+        }else{						
 
-                        $desdeT_array = explode(":",$horario->getDesdeT());
-                        $desdeT = $desdeT_array[0]*60 + $desdeT_array[1];
-                        $h_partido = true;
-
-                    }
-                    if($horario->getHastaT()){
-                        $hastaT_array = explode(":",$horario->getHastaT());
-                        $hastaT = $hastaT_array[0]*60 + $hastaT_array[1];
-                        $h_partido = true;
-
-                    }
-
-                  if($h_partido == true) {
-
-                       if(($ahora > $hasta && $ahora < $desdeT) || ($ahora < $desde || $ahora > $hastaT)){
-
-                           $open = false;
-
-                       }else{
-
-                           $open = true;
-                       }
-
-                  }else {
-
-                      // valida el caso que cierre a las 0:00 hs
-                      if (($ahora < $desde || $ahora > $hasta) xor ($ahora > $desde && $ahora > $hasta)) {
-
-                          $open = false;
-                          // valida evaluar el dia anterior si cierra pasadas las 12
-
-                      /* else if($ahora > $desde && $ahora > $hasta){
-
-                         $diaAnterior = $this->diaAnterior($horario->getDia());
-
-                         foreach($horarios as $ho){
-
-                            if ($horarios->getDia()->getId() == $diaAnterior){
-
-                                if($horario->getDesde()){
-
-                                    $desde_array = explode(":",$horario->getDesde());
-                                    $desde = $desde_array[0]*60 + $desde_array[1];
-                                }
-                                if($horario->getHasta()){
-                                    $hasta_array = explode(":",$horario->getHasta());
-                                    $hasta = $hasta_array[0]*60 + $hasta_array[1];
-
-                                }
-                                if($ahora > $desde && $ahora > $hasta ){
-
-                                    $open = true;
-                                }
-                            }
-                         }
-                     }*/
-                    }else{
-
-                      $open = true;
-                      $cierra = $hasta;
-                    }
-
-                  } // Si está abierto
+             
+      
+      				  if($horario->getDesde()){
+      			
+          					$desde_array = explode(":",$horario->getDesde());					
+          					$desde = $desde_array[0]*60 + $desde_array[1];
+                   
+      				  }
+      				  if($horario->getHasta()){
+          					$hasta_array = explode(":",$horario->getHasta());					
+          					$hasta = $hasta_array[0]*60 + $hasta_array[1];
+                  
+      										
+      				  }
+                if($horario->getDesdeT()){
+      
+                    $desdeT_array = explode(":",$horario->getDesdeT());
+                    $desdeT = $desdeT_array[0]*60 + $desdeT_array[1];
+                    $h_partido = true;
+      
                 }
+                if($horario->getHastaT()){
+                    $hastaT_array = explode(":",$horario->getHastaT());
+                    $hastaT = $hastaT_array[0]*60 + $hastaT_array[1];
+                    $h_partido = true;
+      
+                }
+                //falta validar el caso de horario 0:00
+              if($horario->getHorarioPartido() ) {  // si el horario es partido
+                   
+                   if(($ahora > $hasta && $ahora < $desdeT) || ($ahora < $desde || $ahora > $hastaT)){
+      
+                      return false;
+      
+                   }else{
+      
+                      return true;
+                   }
+      
+              }else {  //no es horario partido
+      
+                   if ( $ahora >= $desde && $ahora < $hasta){
+                      
+                      return true;  //esta dentro del horario de abierto
+                   }else{
+                       return false;
+                   }
+      
+              } 
+      }
 			}	
 		}		
 		return $open;
 	}
 
-    /*
-
-    private function diaAnterior(Dia $dia){
-
-
-        if ( $dia->getId() != 7){
-
-            return $dia->getId() -1;
-        } else{
-
-            return 1;
-        }
-
-    }
-    */
+   
 
 	/* Verifica si la tienda sigue abierta */
 	
@@ -655,7 +627,7 @@ class HomeController extends Controller
         $sucursal = $em->getRepository('BackendCustomerAdminBundle:Sucursal')->find($tiendaId);
 		
 		$horarios = $sucursal->getHorarios();
-		
+		 
 		$status = $this->checkOpenNow($horarios,$dia,$hora);
 		
 		$resultado=array("status"=>$status);
@@ -790,9 +762,9 @@ class HomeController extends Controller
          
     		}else{
     			$customer["role"]="ROLE_CLIENTE";  //el usuario se da de alta como habilitado
-				$customer["isComercio"] = false;
-				$status=$em->getRepository('BackendCustomerBundle:Status')->findOneByName("Pendiente");
-				$customer["status"]=$status;			
+  				$customer["isComercio"] = false;
+  				$status=$em->getRepository('BackendCustomerBundle:Status')->findOneByName("Pendiente");
+  				$customer["status"]=$status;			
         }        
         
     		$service = new \Backend\CustomerBundle\Services\CustomerService($this->get('doctrine.orm.default_entity_manager'));

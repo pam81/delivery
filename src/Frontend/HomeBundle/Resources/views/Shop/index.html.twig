@@ -9,6 +9,8 @@
 
                     {% if tienda.getWebPath() %}
                         <img src="{{ asset(tienda.getWebPath()) }}" class="logo" />
+                     {%else%}
+                           <img src="{{ asset('images/home/shop_default.png') }}" class="logo" />
                     {% endif %}
 
                     <div class="info">
@@ -22,9 +24,9 @@
                                 </li>
                             {% endfor %}
                         </ul>
-                        <p class="shop-delivery text-left">Tiempo de entrega estimado: {{ tienda.getTiempoEntrega() }}</p>
-                        <p class="shop-delivery text-left">Servicio de delivery: {% if tienda.getDelivery() is null %} Sin cargo {% else %} {{ tienda.getDelivery() }}{% endif %}</p>
-                        <!--<p class="shop-delivery text-left">Pedido mínimo: {% if tienda.getMinimo() is null %} -- {% else %}  {{ " $ " ~tienda.getMinimo() }} {% endif %}</p>-->
+                        <p class="shop-delivery text-left">Tiempo de entrega estimado: {%if tienda.getTiempoEntrega()%} {{ tienda.getTiempoEntrega() }} {% else %} No especifícado {% endif %}</p>
+                        <p class="shop-delivery text-left">Servicio de delivery: {% if tienda.getDelivery() is null or tienda.getDelivery() == 0 %} Sin cargo {% else %} ${{ tienda.getDelivery() }}{% endif %}</p>
+                        
                     </div> <!-- info -->
                 </div>
             </div>
@@ -32,7 +34,7 @@
                 <div class="intro-text">
                     <div class="info">
                         <p class="shop-title text-right">{{ tienda.getName() }}</p>
-                        <p class="shop-address text-right">{{ tienda.getDireccion().getCalle() ~ " " ~ tienda.getDireccion().getNumero() }}</p>
+                        <p class="shop-address text-right">{{ tienda.getDireccion().getCalle() ~ " " ~ tienda.getDireccion().getNumero() ~ " - " ~ tienda.getDireccion().getBarrio().getName()~ ", " ~ tienda.getDireccion().getZona().getName() }}</p>
                         <p class="shop-delivery text-right">Radio de entrega: {{ tienda.getRadio() }} km.</p>
                         <p class="shop-delivery text-right">Pedido mínimo: {% if tienda.getMinimo() is null %} -- {% else %}  {{ " $ " ~tienda.getMinimo() }} {% endif %}</p>
                         <h3 class="shop-status label label-warning" data-url = "{{ path('frontend_checkTime') }}" id = "status" data-tienda = " {{ tienda.getId() }} "></h3>
@@ -50,31 +52,27 @@
                     {% endfor %}
                     </tr>
                     <tr>
-                        {% for h in horarios %}
-                        {% if h.getCerrado() %}<td> Cerrado </td>
+                    {% for h in horarios %}
+                        {% if h.getCerrado() %}<td> Cerrado </td> 
+                        {% elseif h.getOpenAll() %} <td> 24hs </td>
                         {% else %}
-                        <td>
-                            {% if h.getDesde() is not null and h.getHasta() is not null %}
-                                {{ h.getDesde() ~ " - "~ h.Hasta()~"hs."}}
-                            {% else %}
-                                Cerrado
-                            {% endif %}
-                        </td>
+                        
+                            <td>
+                                {% if h.getDesde() is not null and h.getHasta() is not null %}
+                                    {{ h.getDesde() ~ " - "~ h.Hasta()~"hs."}}
+                                {% endif %}
+                                 <br>
+                                {% if h.getHorarioPartido() and h.getDesdeT() is not null and h.getHastaT() is not null %}
+                                        {{ h.getDesdeT() ~ " - "~ h.HastaT()~"hs."}}
+                                {% endif %}
+                            </td>
+                       
                         {% endif %}
                     {% endfor %}
                     </tr>
-                    <tr>
-                        {% for h in horarios %}
-                            {% if h.getCerrado() %}<td> Cerrado </td>
-                            {% else %}
-                                <td>
-                                    {% if h.getDesdeT() is not null and h.getHastaT() is not null %}
-                                        {{ h.getDesdeT() ~ " - "~ h.HastaT()~"hs."}}
-                                    {% endif %}
-                                </td>
-                            {% endif %}
-                        {% endfor %}
-                    </tr>
+                    
+                   
+                    
                 </table>
             </div>
             </div>
@@ -165,9 +163,10 @@
                             </div>
                             {% endif %}
                         </p>  
-						                    
+						           <button type="button"  data-id="{{p.getId}}" class="btn btn-warning  {% if p.getVariedades() is not empty %} comprar_variedades  {% else %} comprar_comun{% endif %}">Comprar</button>         
                     </div>					
                     <p>
+                    
 						<div class="center">
 						  
 						      <div class="input-group">
@@ -182,7 +181,7 @@
 						                  {% if p.getVariedades() is not empty %}
                               <span class="glyphicon glyphicon-plus slider-plus-variedad" id="slider-plus-variedad-{{p.getId()}}" data-id="{{p.getId}}" data-thumb="{{ p.getWebPath() }}" data-name="{{ p.getName() }}" data-sucursalId="{{ tienda.id }}" data-sucursalName="{{ tienda.getName() }}" data-sucursalImg="{{ tienda.getWebPath() }}" data-price="{{ p.getPrecio() }}" data-costo="{{ tienda.getDelivery() }}" data-minimo="{{ tienda.getMinimo()}}" data-maxvariedad="{{ p.getMaxVariedad()}}" data-minvariedad="{{ p.getMinVariedad()}}" data-typevariedad="{{ p.getQtyVariedad()}}"></span>
                               {% else %}
-                              <span class="glyphicon glyphicon-plus slider-plus" data-id="{{p.getId}}" data-thumb="{{ p.getWebPath() }}" data-name="{{ p.getName() }}" data-sucursalId="{{ tienda.id }}" data-sucursalName="{{ tienda.getName() }}" data-sucursalImg="{{ tienda.getWebPath() }}" data-price="{{ p.getPrecio() }}" data-costo="{{ tienda.getDelivery() }}" data-minimo="{{ tienda.getMinimo()}}"></span>
+                              <span class="glyphicon glyphicon-plus slider-plus" id="slider-plus-{{p.getId()}}" data-id="{{p.getId}}" data-thumb="{{ p.getWebPath() }}" data-name="{{ p.getName() }}" data-sucursalId="{{ tienda.id }}" data-sucursalName="{{ tienda.getName() }}" data-sucursalImg="{{ tienda.getWebPath() }}" data-price="{{ p.getPrecio() }}" data-costo="{{ tienda.getDelivery() }}" data-minimo="{{ tienda.getMinimo()}}"></span>
                               {% endif %}
 						              </button>
 						          </span>

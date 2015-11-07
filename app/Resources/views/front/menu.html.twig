@@ -40,12 +40,12 @@
                                   <div class="form-group col-md-12"> 
                                   <button type="button" data-url="{{ path('frontend_login')}}" id="btnSubmitLogin" class="btn btn-primary">Ingresar »</button>
                                   </div>
-                                  <div class="alert alert-danger hideElement" role="alert" id="message" ></div>
+                                  
                                   <div>
                                   <button class="btn btn-link" id="btnRegistrarse" type="button">Registrarse</button> | <button type="button" id="btnRecover" class="btn btn-link">Recuperar Contraseña</button>
                                   </div>
                                    <input type="hidden" name="_target_path" value="frontend_homepage" />
-                                   
+                                   <div class="alert alert-danger hideElement" role="alert" id="messageLogin" ></div>
                               </form>
                     
                             <form  class="form-inline hideElement" role="form" id="formForgot" name="formForgot">
@@ -114,10 +114,11 @@
                     	     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                               <h2 class="text-center">Registrate</h2>
                           </div>
-                          <div class="modal-body" style="height: 460px;">
-                           {% include '::messages.html.twig' %}
-                              <form class="form col-md-12 center-block"  method="POST" id="formRegister" name="formRegister">
-                                <div class="form-group col-xs-12">
+                          <div class="modal-body" >
+                           <div class="alert alert-danger hideElement" role="alert" id="messageRegister" ></div>
+                                  <form class="form col-md-12 center-block"  role="form" id="formRegister" name="formRegister">
+                                  
+                                    <div class="form-group col-xs-12">
                                   <label class="control-label col-xs-2">Nombre</label>
                                   <div class="col-xs-10">
                                     <input type="text" id="inputNombre" placeholder="Nombre" name="name" value="" class="form-control">
@@ -153,21 +154,28 @@
                                     <span id='backend_userbundle_usertype_name_errorloc' class="help-block">  </span>
                                   </div>
                                 </div>
-                    			<div class="form-group">
+                    			
+                          <div class="form-group">
                     			    <div class="col-sm-offset-2 col-xs-12">
                     			      <div class="checkbox">
-                    			        <label class="control-label">
-                    			          <input type="checkbox" id="comercio" name="comercio" value="1">Usuario Comercial
+                    			        <label class="control-label col-md-6 col-xs-12">
+                    			          <input type="radio" id="comercio" name="comercio" value="0"> Particular
+                    			        </label>
+                                  
+                                  <label class="control-label col-md-6 col-xs-12" >
+                    			          <input type="radio" id="comercio" name="comercio" value="1"> Comercial <i class="fa fa-comment" data-toggle="tooltip" data-placement="right" title="Registraté como usuario comecial para poder vender tus productos"></i>
                     			        </label>
                     			      </div>
                     			    </div>
                     			 </div>
+                          
+                           
                     			<div class="form-group">
                     			    <div class="col-sm-offset-2 col-xs-12">
                     			      <div class="checkbox">
                     			        <label>
                     			          <input type="checkbox" id="terminos" name="terminos" value="1">
-                                    <span  data-toggle="modal" data-target="#myModal">Comprendo y acepto los términos y condiciones.</span>
+                                    <span  data-toggle="modal" data-target="#myModal">Comprendo y acepto los <span class="terminos_link">términos y condiciones.</span></span>
                     			        </label>
                     			      </div>
                     			    </div>
@@ -176,11 +184,13 @@
                                   <button class="btn btn-primary btn-lg" type="button" data-url="{{ path('frontend_register') }}" id="btn_reg">Registrarse</button>
                                 </div>
                                 
-                              </form>
+                               
+                                  
+                                  
+                                  </form>
+                              
                           </div>
-                          <div class="modal-footer">
-                             <div class="alert alert-danger hideElement" role="alert" id="messageRegister" ></div>
-                          </div>
+                           <div class="modal-footer modal_footer_registrar"></div>
                       </div>
                       </div>
                     </div>

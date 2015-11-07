@@ -9,15 +9,15 @@ $(document).ready(function() {
 				},
 				"backend_customeradminbundle_sucursaltype[cuit]": {
 					required:true,
-					digits:true,
-					minlength:11,
+				
+					minlength:6,
 					maxlength:20,
 				},
 				"backend_customeradminbundle_sucursaltype[phone]": {
 					required:true,
 					minlength:4,
 					maxlength:20,
-					digits: true
+					
 				},
         "backend_customeradminbundle_sucursaltype[email]": {
 					required:true,
@@ -61,14 +61,14 @@ $(document).ready(function() {
 		 
            "backend_customeradminbundle_sucursaltype[cuit]": {
            required: "Ingrese el numero de cuit",
-		       digits: "Ingrese los numeros sin guiones",	   
+		        
            maxlength: jQuery.validator.format("Máximo {0} carácteres!"),
            minlength: jQuery.validator.format("Mínimo {0} carácteres!")
            },
 		 	
            "backend_customeradminbundle_sucursaltype[phone]": {
            required: "Ingrese el numero de telefono",
-           digits: "Ingrese los numeros sin guiones",	
+          
            maxlength: jQuery.validator.format("Máximo {0} carácteres!"),
            minlength: jQuery.validator.format("Mínimo {0} carácteres!")
            },
@@ -108,8 +108,7 @@ $(document).ready(function() {
 		});
     
     
-
-       var sucursalId = 0;
+      var sucursalId = 0;
       if ($("#categorias").data("sucursalid")){
         sucursalId = $("#categorias").data("sucursalid");
       }
@@ -120,42 +119,97 @@ $(document).ready(function() {
             url: path,
             dataType: 'json',
             data: dataString,
-            success: function(data) {
-               
-                  
-   $('#jstree-proton-3').jstree({
-        'plugins': ["wholerow", "checkbox"],
-        'core': {
-            'data': data ,
-            'themes': {
-                'name': 'proton',
-                'responsive': true
-            }
-        }
-    });
+        }).done(function(data){
+        
+              $.each(data,function(i, item){
+                var catId = item.a_attr.categoria_id;
+                var categoria = "<div class=\"col-md-4\">";
+                    categoria +="              <a data-toggle=\"collapse\" data-catid=\""+catId+"\" class=\"btn btn-primary btnCate\" role=\"button\" href=\"#collapseElement"+catId+"\" aria-expanded=\"false\" aria-controls=\"collapseExample\">"+item.text+"</a>";
+     
+                    categoria +=" <div class=\"collapse\" id=\"collapseExample"+catId+"\">";
+                    categoria +="<div class=\"well\">";
+                     $.each(item.children, function(j,sub){
+                     
+                        var selected='';
+                        if (sub.state.selected ){
+                              selected="checked";
+                        }      
+                        categoria +="<input type=\"checkbox\" "+selected +" name=\"subcategoria[]\" value=\""+sub.a_attr.subcategoria_id+"\">"+sub.text+"  <br>";
+        
+      
+                     
+                     });
+                    categoria +="</div>";
+                    categoria +="</div>";
+     
+                    categoria +=" </div>";   
+                 $("#listado_categorias").append(categoria);
+              
+              });
+             
+             
+     
+     
+     
+        });
     
-    $('#jstree-proton-3').on('changed.jstree', function (e, data) {
-        var i, j, r = [], c=[];
-        for(i = 0, j = data.selected.length; i < j; i++) {
-          
-          if (data.instance.is_leaf(data.selected[i])){ 
-              r.push(data.instance.get_node(data.selected[i]).a_attr.subcategoria_id);
-          }else{
-              c.push(data.instance.get_node(data.selected[i]).a_attr.categoria_id);
-          }
-          
-        }
-        $("#subcategorias").val(r.join(', ')) ;
-        $("#categorias").val(c.join(', ')) ;
-        console.log(r.join(', '));
-    });
-               
-               
-               
-            }
-        });  
+
   
-    
+     
+     $("body").on("click",".btnCate",function(){
+             var id=$(this).data("catid");
+             $("#collapseExample"+id).collapse('toggle');
+     });
+     
+     $(".partido").on("click",function(){
+         var id = $(this).data("id");
+         if ($(this).is(":checked")){
+            $("#horapartido"+id).show();
+            $("#abierto"+id).find(".abierto").prop('checked', false);
+            $("#abierto"+id).hide();
+            $("#closed"+id).find(".closed").prop('checked', false);
+            $("#closed"+id).hide();
+         }else{
+            $("#horapartido"+id).hide();
+            $("#abierto"+id).show();
+            $("#closed"+id).show(); 
+         }
+     });
+     
+      $(".closed").on("click",function(){
+         var id = $(this).data("id");
+         if ($(this).is(":checked")){
+            $("#hora"+id).hide();
+            $("#horapartido"+id).hide();
+            $("#partido"+id).find(".partido").prop('checked', false);
+            $("#partido"+id).hide();
+            $("#abierto"+id).find(".abierto").prop('checked', false);
+            $("#abierto"+id).hide();
+         }else{
+            $("#hora"+id).show();
+            $("#partido"+id).show();
+            $("#abierto"+id).show();   
+         }
+     });
+     
+     $(".abierto").on("click",function(){
+         var id = $(this).data("id");
+         if ($(this).is(":checked")){
+            $("#hora"+id).hide();
+            $("#horapartido"+id).hide();
+            $("#partido"+id).find(".partido").prop('checked', false);
+            $("#partido"+id).hide();
+            $("#closed"+id).find(".closed").prop('checked', false);
+            $("#closed"+id).hide();
+         }else{
+            $("#hora"+id).show();
+            $("#partido"+id).show();
+            $("#closed"+id).show();   
+         }
+     });
+     
+     
+     
 		
 	});
 

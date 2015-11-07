@@ -49,9 +49,9 @@ function checkOpen(){
 		var time = moment().format('HH:mm');
 		var url = $('#status').data("url");
 		var tienda = $("#status").data("tienda");
-		console.log(day);
-		console.log(time);
-		console.log(url);
+		console.log("day: "+day);
+		console.log("time: "+time);
+		console.log("url: "+url);
 
 		var data = {'day':day,'time':time,'tienda':tienda}
 

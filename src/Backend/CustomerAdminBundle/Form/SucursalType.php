@@ -35,9 +35,15 @@ class SucursalType extends AbstractType
 
           'multiple'=>false
       ));
+     
       $builder->add('paymethods','entity',array(
           'class'=>'BackendAdminBundle:PayMethod',
-          'property'=>'name',
+          'query_builder'=>function(EntityRepository $er ) {
+           return $er->createQueryBuilder('u')
+                  ->where('u.isActive = 1')
+                  ->orderBy('u.name', 'ASC');
+            },
+
           'multiple'=>true
       ));
       

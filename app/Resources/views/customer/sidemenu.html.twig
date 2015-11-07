@@ -2,50 +2,52 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     
-                    <li class="active">
-                        <a href="{{ path('customer_principal') }}"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                    <li >
+                        <a href="{{ path('customer_principal') }}"><i class="fa fa-fw fa-dashboard"></i> Principal</a>
                     </li>
                     
-                    <li class="active">
+                    <li >
                         <a href="{{ path('customer_profile') }}"><i class="fa fa-wa fa-user"></i> Perfil</a>
                     </li>
                     {% if is_granted('ROLE_VIEWDIRECCION') %}                    
-          					<li class="active">
+          					<li >
                                   <a href="{{ path('direccion') }}"><i class="fa fa-wa fa-map-marker"></i> Mis Direcciones</a>
                      </li>
                      {% endif %}
                      {% if is_granted('ROLE_VIEWFAVORITO') %}                    
-          					<li class="active">
+          					<li >
                                   <a href="{{ path('favorito')}}"><i class="fa fa-wa fa-star"></i> Mis Favoritos</a>
                               </li>
                      {% endif %}   
                      {% if is_granted('ROLE_VIEWSUCURSAL') %}       
-          					<li class="active">
+          					<li >
                                   <a href="{{ path('sucursal') }}"><i class="fa fa-wa fa-home"></i> Mis Sucursales</a>
                               </li>               					
                      {% endif %}   
                      {% if is_granted('ROLE_VIEWPRODUCTO') %}       
-          					<li class="active">
+          					<li>
                                   <a href="{{ path('producto') }}"><i class="fa fa-wa fa-cube"></i> Mis Productos</a>
                               </li>               					
                      {% endif %}
                      {% if is_granted('ROLE_VIEWVARIEDAD') %} 
-             					<li class="active">
+             					<li >
                           <a href="{{ path('variedad') }}"><i class="fa fa-wa fa-cubes"></i> Variedades</a>
                       </li>
                      {% endif %}   
                      {% if is_granted('ROLE_VIEWCOMPRA') %}       
-          					<li class="active">
+          					<li >
                                   <a href="{{ path('compra') }}"><i class="fa fa-wa fa-shopping-cart"></i> Mis Compras</a>
                               </li>               					
                      {% endif %}      	 
                      {% if is_granted('ROLE_VIEWVENTA') %}       
-          					<li class="active">
+          					<li >
                                            						 
                                 <a href="{{ path('pedido') }}"><i class="fa fa-wa fa-shopping-cart"></i> Mis Ventas</a>
                        </li>               					
                      {% endif %}
 
-
+                     <li >
+                       <a href="{{ path('frontend_homepage')}}"><i class="fa fa-thumbs-up"></i>Volver a comprar!</a>
+                     </li>
                 </ul>
             </div>
