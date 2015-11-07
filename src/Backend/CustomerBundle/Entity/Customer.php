@@ -69,7 +69,12 @@ class Customer implements AdvancedUserInterface, \Serializable {
      */
     private $lastname;
     
-	
+	/**
+     * @ORM\ManyToOne(targetEntity="TipoDni", inversedBy="customers")
+     * @ORM\JoinColumn(name="tipodni_id", referencedColumnName="id")
+     */
+    
+    private $tipodni;
 	
 	/**
      * @ORM\Column(name="dni", type="string", length=100, nullable=true)
@@ -113,7 +118,7 @@ class Customer implements AdvancedUserInterface, \Serializable {
      * @ORM\ManyToOne(targetEntity="Status", inversedBy="customers")
      * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
      */
-   
+    
     private $status;
     
     /**
@@ -970,5 +975,28 @@ class Customer implements AdvancedUserInterface, \Serializable {
     public function getVariedades()
     {
         return $this->variedades;
+    }
+
+    /**
+     * Set tipodni
+     *
+     * @param \Backend\CustomerBundle\Entity\TipoDni $tipodni
+     * @return Customer
+     */
+    public function setTipodni(\Backend\CustomerBundle\Entity\TipoDni $tipodni = null)
+    {
+        $this->tipodni = $tipodni;
+
+        return $this;
+    }
+
+    /**
+     * Get tipodni
+     *
+     * @return \Backend\CustomerBundle\Entity\TipoDni 
+     */
+    public function getTipodni()
+    {
+        return $this->tipodni;
     }
 }

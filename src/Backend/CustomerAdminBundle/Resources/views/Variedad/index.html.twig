@@ -10,7 +10,7 @@
                         </h1>
                         <ol class="breadcrumb">
                             <li>
-                                <i class="fa fa-dashboard"></i>  <a href="{{ path("customer_principal") }}">Dashboard</a>
+                                <i class="fa fa-dashboard"></i>  <a href="{{ path("customer_principal") }}">Principal</a>
                             </li>
                             <li class="active">
                                 <i class="fa fa-shopping-cart"></i> Listado de Variedades
@@ -43,7 +43,7 @@
                             <table class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th {% if pagination.isSorted('u.code') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Codigo', 'u.code') }}</th>
+                                        <th {% if pagination.isSorted('u.code') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Código', 'u.code') }}</th>
                                         <th>Nombre</th>
                                         <th>Descripción</th>
                                         <th>Productos</th>

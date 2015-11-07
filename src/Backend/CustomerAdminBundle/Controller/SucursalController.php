@@ -93,18 +93,19 @@ class SucursalController extends Controller
 			if ($form->isValid()) {
             
             //add categorias
-            if ($request->get("categorias")){ 
+            /*if ($request->get("categorias")){ 
              $categorias=explode(",",$request->get("categorias"));
              foreach($categorias as $id){
                  $cat = $em->getRepository('BackendAdminBundle:Categoria')->find($id);
                  $entity->addCategoria($cat);
               }
-            }
+            } */
             
             //add subcategorias
-            if ($request->get("subcategorias")){
-             $subcategorias=explode(",",$request->get("subcategorias"));
-             foreach($subcategorias as $id){
+            if ($request->get("subcategoria")){
+             $subcategorias=$request->get("subcategoria");//explode(",",$request->get("subcategorias"));
+             foreach($subcategorias as $k=>$id){
+            
                  $sub = $em->getRepository('BackendAdminBundle:Subcategoria')->find($id);
                  $entity->addSubcategoria($sub);
               }
@@ -114,10 +115,10 @@ class SucursalController extends Controller
              $fromM=$request->get("fromM");
              $toH=$request->get("toH");
              $toM=$request->get("toM");
-                $fromHT=$request->get("fromHT");
-                $fromMT=$request->get("fromMT");
-                $toHT=$request->get("toHT");
-                $toMT=$request->get("toMT");
+            $fromHT=$request->get("fromHT");
+            $fromMT=$request->get("fromMT");
+            $toHT=$request->get("toHT");
+            $toMT=$request->get("toMT");
              $closed=$request->get("closed");
              foreach($dias as $d){
                 $horario = new Horario();
@@ -230,6 +231,7 @@ class SucursalController extends Controller
         $dias = $em->getRepository('BackendAdminBundle:Dia')->findAll();
         $horarios=array();
         foreach($entity->getHorarios() as $h){
+             
               $id=$h->getDia()->getId();
               if ($h->getDesde()){
                 $desde=explode(":",$h->getDesde());
@@ -252,7 +254,7 @@ class SucursalController extends Controller
                 $hastaT=array(0,0);
               }
 
-
+              
               $horarios[$id]["fromH"]=$desde[0];
               $horarios[$id]["fromM"]=":".$desde[1];
               $horarios[$id]["toH"]=$hasta[0];
@@ -338,14 +340,14 @@ class SucursalController extends Controller
                  $dia=$horario->getDia()->getId();
                  if ( isset($closed[$dia]) && $closed[$dia] == 1){
                         $horario->setCerrado(true);
-                        $horario->setDesde(null);
-                        $horario->setHasta(null);
-                        $horario->setDesdeT(null);
-                        $horario->setHastaT(null);
+                        $horario->setDesde("0:00");
+                        $horario->setHasta("0:00");
+                        $horario->setDesdeT("0:00");
+                        $horario->setHastaT("0:00");
                  }else{
                         $horario->setCerrado(false);
 
-                        if(($fromH[$dia] == "0" && $fromM[$dia] ="00") && ($toH[$dia] == "0" && $toM[$dia] ="00")){
+                        /*if(($fromH[$dia] == "0" && $fromM[$dia] ="00") && ($toH[$dia] == "0" && $toM[$dia] ="00")){
 
                             $horario->setDesde(null);
                             $horario->setHasta(null);
@@ -354,21 +356,21 @@ class SucursalController extends Controller
 
                             $horario->setDesdeT($fromHT[$dia] . $fromMT[$dia]);
                             $horario->setHastaT($toHT[$dia] . $toMT[$dia]);
-                        }
+                        }      */
 
                         $horario->setDesde($fromH[$dia].$fromM[$dia]);
                         $horario->setHasta($toH[$dia].$toM[$dia]);
 
-                        if(($fromHT[$dia] == "0" && $fromMT[$dia] ="00") && ($toHT[$dia] == "0" && $toMT[$dia] ="00")){
+                        /*if(($fromHT[$dia] == "0" && $fromMT[$dia] ="00") && ($toHT[$dia] == "0" && $toMT[$dia] ="00")){
 
                             $horario->setDesdeT(null);
                             $horario->setHastaT(null);
 
-                        }else {
+                        }else {*/
 
                             $horario->setDesdeT($fromHT[$dia] . $fromMT[$dia]);
                             $horario->setHastaT($toHT[$dia] . $toMT[$dia]);
-                        }
+                        //}
                  }
              
              }
@@ -403,10 +405,10 @@ class SucursalController extends Controller
               $existSubCategorias[]=$c->getId();
             }
            
-            if ($request->get("subcategorias")){ 
-             $subcategorias=explode(",",$request->get("subcategorias"));
+            if ($request->get("subcategoria")){ 
+             $subcategorias=$request->get("subcategoria");//explode(",",$request->get("subcategorias"));
            
-             foreach($subcategorias as $id){
+             foreach($subcategorias as $k=>$id){
                  if (!in_array($id,$existSubCategorias)){ //no esta la agrego la relacion
                     $cat = $em->getRepository('BackendAdminBundle:Subcategoria')->find($id);
                     $entity->addSubcategoria($cat);
@@ -437,18 +439,19 @@ class SucursalController extends Controller
               }else{
                 $desde=array(0,0);
               }
+              
               if ($h->getHasta()){
                 $hasta=explode(":",$h->getHasta()); 
               }else{
                 $hasta=array(0,0);
               }
               if ($h->getDesdeT()){
-                $desdeT=explode(":",$h->getDesdeT());
+                $desdet=explode(":",$h->getDesdeT());
               }else{
                 $desdet=array(0,0);
               }
               if ($h->getHastaT()){
-                $hastaT=explode(":",$h->getHastaT());
+                $hastat=explode(":",$h->getHastaT());
               }else{
                 $hastat=array(0,0);
               }

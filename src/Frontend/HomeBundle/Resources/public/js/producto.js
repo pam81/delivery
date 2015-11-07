@@ -3,6 +3,14 @@ $(document).ready(function(){
    simpleCart.bind( 'ready' , function(){
        loadCantidad();
   });
+  
+  simpleCart.bind( 'update' , function(){
+             loadCantidad();
+  });
+  
+  simpleCart.bind('emptyCarrito',function(){
+       zeroCantidad();
+  });
 
     $("#search-button").on('click',function(){
 
@@ -36,6 +44,7 @@ $(document).ready(function(){
     	$('.product-title').each(function(index, element){
             var lengthText = 20;
       			var text = $(element).text();
+            if (text.length > lengthText){
       			var shortText = $.trim(text).substring(0, lengthText).split(" ").slice(0, -1).join(" ") + "...";
       			$(element).text(shortText);
             
@@ -44,6 +53,7 @@ $(document).ready(function(){
       				}, function(){
       					$(this).text(shortText);
       			});
+           } 
       
       });
       
@@ -54,7 +64,7 @@ $(document).ready(function(){
 });
 
 function loadCantidad(){
-
+    zeroCantidad();
 //si el producto que muestro de la tienda esta en el 
    //carrito le cargo la cantidad que esta comprando
    var listado=new Array();
@@ -79,5 +89,10 @@ function loadCantidad(){
      }
    }
    
+
+}
+
+function zeroCantidad(){
+    $(".input-number").val(0);
 
 }

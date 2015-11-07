@@ -224,7 +224,7 @@ class HomeController extends Controller
 		$time_array = explode(":",$time);
 		$ahora = $time_array[0]*60 + $time_array[1];
 
-        $dql= "SELECT u FROM BackendCustomerAdminBundle:Sucursal u JOIN u.direccion d"; // where d.barrio = ".$barrioId;
+        $dql= "SELECT u FROM BackendCustomerAdminBundle:Sucursal u JOIN u.direccion d JOIN u.customer c JOIN c.status e"; 
 
         if($subId){
 
@@ -237,6 +237,9 @@ class HomeController extends Controller
 
             $dql.= " where d.barrio = ".$barrioId;
         }
+       //validar que esten activas las tiendas que los usuarios esten activos y habilitados 
+        $dql .=" and u.is_active= 1 and c.isActive = true and e.name = 'Habilitado'";   
+        
         $em = $this->getDoctrine()->getManager();
 		$query = $em->createQuery($dql);
 		$tiendas = $query->getResult();
@@ -313,9 +316,16 @@ class HomeController extends Controller
 
         $time = trim(mb_convert_case($request->get("time"),MB_CASE_LOWER));
         $dia = trim(mb_convert_case($request->get("day"),MB_CASE_LOWER));
-        //mostrar en el slider principal sucursales premium activas
-        $tiendas = $this->getDoctrine()->getRepository('BackendCustomerAdminBundle:Sucursal')
-                  ->findBy(array("is_active"=>true,"premium"=>true));        
+        $dql= "SELECT u FROM BackendCustomerAdminBundle:Sucursal u JOIN u.customer c JOIN c.status e"; 
+        
+         //validar que esten activas las sucursales que sean premium 
+         // que esten activos los usuarios y que esten validados sus datos
+        $dql .=" where u.is_active= true and u.premium= true and c.isActive = true and e.name = 'Habilitado' ";  
+        
+        $em = $this->getDoctrine()->getManager();
+    		$query = $em->createQuery($dql);
+    		$tiendas = $query->getResult();
+        
         
         $listado=array();
         
@@ -339,7 +349,7 @@ class HomeController extends Controller
               $record["name"]=$tienda->getName();
 			  if($tienda->getWebPath()){
               	$record["imagen"]=$tienda->getWebPath();
-		  	  }else{		  	  	
+		  	  }else{		  //imagen default si no tiene una asociada	  	
 				$record["imagen"]="images/home/shop_default.png";
 		  	  }
               $record["horario"] = $horarios_tienda; 
@@ -790,9 +800,9 @@ class HomeController extends Controller
          
     		}else{
     			$customer["role"]="ROLE_CLIENTE";  //el usuario se da de alta como habilitado
-				$customer["isComercio"] = false;
-				$status=$em->getRepository('BackendCustomerBundle:Status')->findOneByName("Pendiente");
-				$customer["status"]=$status;			
+  				$customer["isComercio"] = false;
+  				$status=$em->getRepository('BackendCustomerBundle:Status')->findOneByName("Pendiente");
+  				$customer["status"]=$status;			
         }        
         
     		$service = new \Backend\CustomerBundle\Services\CustomerService($this->get('doctrine.orm.default_entity_manager'));

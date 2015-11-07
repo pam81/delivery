@@ -5,11 +5,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @ORM\Table(name="status")
+ * @ORM\Table(name="tipo_dni")
  * @ORM\Entity()
  */
 
-class Status {
+class TipoDni {
 
     /**
      * @ORM\Column(type="integer")
@@ -24,16 +24,14 @@ class Status {
      * @ORM\Column(name="name", type="string",length=100, nullable=true)
      */
     private $name;
-	
+    
+    
     /**
      * @ORM\OneToMany(targetEntity="Customer", mappedBy="status")
      */
     private $customers;
     
     
-
-    
-       
     public function __construct() {
        
        
@@ -46,10 +44,7 @@ class Status {
    
          return $this->name;
    }
-
-
-   
-
+    
 
     /**
      * Get id
@@ -61,13 +56,11 @@ class Status {
         return $this->id;
     }
 
-    
-
     /**
      * Set name
      *
      * @param string $name
-     * @return Status
+     * @return TipoDni
      */
     public function setName($name)
     {
@@ -86,12 +79,11 @@ class Status {
         return $this->name;
     }
 
-    
     /**
      * Add customers
      *
      * @param \Backend\CustomerBundle\Entity\Customer $customers
-     * @return Status
+     * @return TipoDni
      */
     public function addCustomer(\Backend\CustomerBundle\Entity\Customer $customers)
     {

@@ -23,7 +23,7 @@ class ProfileType extends AbstractType
                       'format' => 'dd-MM-yyyy',
                       'years'=> range(date('Y') -100, date('Y'))
                   ));
-			          
+			      $builder->add('tipodni');    
             
     }
 
