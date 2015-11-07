@@ -163,7 +163,7 @@
     <div  data-name="{{ d.getName() }}" data-id="{{ d.getId() }}" class="day col-md-12" style="margin-bottom: 10px;">
        <div id="label">{{ d.getName() }}: </div>
        
-       <span  id="hora{{ d.getId()}}" {% if horarios is defined and horarios[d.getId()]['closed'] == 1 or horarios[d.getId()]['abierto'] == 1  %}   style="display:none;" {% endif %} >
+       <span  id="hora{{ d.getId()}}" {% if horarios is defined and (horarios[d.getId()]['closed'] == 1 or horarios[d.getId()]['abierto'] == 1)  %}   style="display:none;" {% endif %} >
        <select name="fromH[{{ d.getId()}}]" class="hour from" style="width: 60px">
        {% for  h in 0..23 %}
          {% set selected='' %}
@@ -205,7 +205,7 @@
         {% endfor %}
        </select>
        </span>
-        <span  {% if horarios is defined and horarios[d.getId()]['partido'] != 1 %} style="display:none;" {% endif %} id="horapartido{{ d.getId()}}">
+        <span  {% if (horarios is defined and horarios[d.getId()]['partido'] != 1) or horarios is not defined %} style="display:none;" {% endif %} id="horapartido{{ d.getId()}}">
         --
 
         <select name="fromHT[{{ d.getId()}}]" class="hour from" style="width: 60px; ">
