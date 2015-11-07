@@ -47,6 +47,7 @@
                                     <tr>
                                         <th {% if pagination.isSorted('u.name') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nombre', 'u.name') }}</th>
                                         <th>Habilitado</th>
+                                        <th>Imagen</th>
                                         <th style="width: 36px;">Acciones</th>
                                     </tr>
                                 </thead>
@@ -59,6 +60,11 @@
                                                   	<span class="label label-success"> Si </span>
 												  {% else %}
 												  	 <span class="label label-danger"> No </span>
+                                                  {% endif %}
+                                                  </td>
+                                                  <td>
+                                                  {% if pay.getWebPath() %}
+                                                    <img src="{{ asset(pay.getWebPath()) }}" width="30"  />
                                                   {% endif %}
                                                   </td>
                                                   <td>
