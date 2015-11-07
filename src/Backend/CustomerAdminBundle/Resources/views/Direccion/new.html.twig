@@ -1,4 +1,11 @@
 {% extends '::customer/backend.html.twig' %}
+
+ {% block navigation %}
+          {% if type == 1 %}
+              {{ parent() }}
+          {% endif %}
+  {% endblock %}
+ 
 {% block topmenu %}
     {% if type == 1 %}
               {{ parent() }}

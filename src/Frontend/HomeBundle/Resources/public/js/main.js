@@ -67,11 +67,11 @@ $(document).ready(function() {
             
             }).fail(function(data){
                
-               $("body #message").text("Email / Contraseña incorrectos").show();
+               $("body #messageLogin").text("Email / Contraseña incorrectos").show();
             });
          }else{
               
-              $("body #message").text("Email / Contraseña incorrectos").show();
+              $("body #messageLogin").text("Email / Contraseña incorrectos").show();
          }   
     });  
    

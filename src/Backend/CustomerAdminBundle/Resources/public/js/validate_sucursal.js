@@ -108,8 +108,53 @@ $(document).ready(function() {
 		});
     
     
+      var sucursalId = 0;
+      if ($("#categorias").data("sucursalid")){
+        sucursalId = $("#categorias").data("sucursalid");
+      }
+      var dataString ="sucursalId="+sucursalId;
+      var path = $("#categorias").data('url');
+        $.ajax({
+            type: "POST",
+            url: path,
+            dataType: 'json',
+            data: dataString,
+        }).done(function(data){
+        
+              $.each(data,function(i, item){
+                var catId = item.a_attr.categoria_id;
+                var categoria = "<div class=\"col-md-4\">";
+                    categoria +="              <a data-toggle=\"collapse\" data-catid=\""+catId+"\" class=\"btn btn-primary btnCate\" role=\"button\" href=\"#collapseElement"+catId+"\" aria-expanded=\"false\" aria-controls=\"collapseExample\">"+item.text+"</a>";
+     
+                    categoria +=" <div class=\"collapse\" id=\"collapseExample"+catId+"\">";
+                    categoria +="<div class=\"well\">";
+                     $.each(item.children, function(j,sub){
+                     
+                        var selected='';
+                        if (sub.state.selected ){
+                              selected="checked";
+                        }      
+                        categoria +="<input type=\"checkbox\" "+selected +" name=\"subcategoria[]\" value=\""+sub.a_attr.subcategoria_id+"\">"+sub.text+"  <br>";
+        
+      
+                     
+                     });
+                    categoria +="</div>";
+                    categoria +="</div>";
+     
+                    categoria +=" </div>";   
+                 $("#listado_categorias").append(categoria);
+              
+              });
+             
+             
+     
+     
+     
+        });
+    
 
-       var sucursalId = 0;
+    /*   var sucursalId = 0;
       if ($("#categorias").data("sucursalid")){
         sucursalId = $("#categorias").data("sucursalid");
       }
@@ -155,7 +200,12 @@ $(document).ready(function() {
             }
         });  
   
-    
+     */
+     
+     $("body").on("click",".btnCate",function(){
+             var id=$(this).data("catid");
+             $("#collapseExample"+id).collapse('toggle');
+     });
 		
 	});
 

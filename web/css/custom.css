@@ -33,3 +33,11 @@
 .hiddenRow {
     padding: 0 !important;
 }
+
+.cate-pill {
+  background-color: #31B0D5;
+}
+
+.btnCate{
+ margin-bottom: 10px;
+}

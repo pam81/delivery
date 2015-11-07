@@ -6,7 +6,7 @@ $(document).ready(function(){
            if (simpleCart.quantity() > 0){
               return $('#carrito-content').html();
           }else{
-              return "<p>Aún no has realizado compras!</p>";
+              return "<p class=\"no_buy\">Aún no has realizado compras!</p>";
           }
         }
   });
@@ -19,7 +19,7 @@ $(document).ready(function(){
  
     simpleCart.empty();
     $("#btnCarrito").popover('hide');
-    // loadCantidad checkear que este la funcion definida
+    simpleCart.trigger("emptyCarrito");
  });
  
  $("body").on("click","#buyBtn",function(){
@@ -71,7 +71,22 @@ simpleCart({
                             attr: "name",
                             label: "Producto",
                             view: function (item, column){
-                                 return '<span data-toggle="tooltip" data-placement="left" title="'+item.get("variedad")+'">'+item.get("name")+"</span>"; 
+                                  var lengthText = 20;
+                                  var name = item.get("name");
+                                  if (name.length > lengthText){
+                                    name = $.trim(name).substring(0, lengthText).split(" ").slice(0, -1).join(" ") + "...";
+                                    /*
+                                    Esto no anda
+                                    $(element).hover(function(){
+                                					$(this).text(item.get("name"));
+                                				}, function(){
+                                					$(this).text(shortText);
+                                			});*/
+                                  
+                                  }
+      			
+            
+                                  return '<span data-toggle="tooltip" data-placement="left" title="'+item.get("variedad")+'">'+name+"</span>"; 
                             }
                         }, 
                         {
@@ -98,6 +113,18 @@ simpleCart({
         
     });
 
+ $(".comprar_comun").on("click",function(){
+ 
+     var id= $(this).data("id");
+     $("#slider-plus-"+id).click();
+ });
+ 
+ $(".comprar_variedades").on("click",function(){
+ 
+     var id= $(this).data("id");
+     $("#slider-plus-variedad-"+id).click();
+ });
+ 
  //add carrito sin variedad
       
  $(".slider-plus").on("click",function(){
