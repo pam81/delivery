@@ -52,31 +52,27 @@
                     {% endfor %}
                     </tr>
                     <tr>
-                        {% for h in horarios %}
-                        {% if h.getCerrado() %}<td> Cerrado </td>
+                    {% for h in horarios %}
+                        {% if h.getCerrado() %}<td> Cerrado </td> 
+                        {% elseif h.getOpenAll() %} <td> 24hs </td>
                         {% else %}
-                        <td>
-                            {% if h.getDesde() is not null and h.getHasta() is not null %}
-                                {{ h.getDesde() ~ " - "~ h.Hasta()~"hs."}}
-                            {% else %}
-                                Cerrado
-                            {% endif %}
-                        </td>
+                        
+                            <td>
+                                {% if h.getDesde() is not null and h.getHasta() is not null %}
+                                    {{ h.getDesde() ~ " - "~ h.Hasta()~"hs."}}
+                                {% endif %}
+                                 <br>
+                                {% if h.getHorarioPartido() and h.getDesdeT() is not null and h.getHastaT() is not null %}
+                                        {{ h.getDesdeT() ~ " - "~ h.HastaT()~"hs."}}
+                                {% endif %}
+                            </td>
+                       
                         {% endif %}
                     {% endfor %}
                     </tr>
-                    <tr>
-                        {% for h in horarios %}
-                            {% if h.getCerrado() %}<td> Cerrado </td>
-                            {% else %}
-                                <td>
-                                    {% if h.getDesdeT() is not null and h.getHastaT() is not null %}
-                                        {{ h.getDesdeT() ~ " - "~ h.HastaT()~"hs."}}
-                                    {% endif %}
-                                </td>
-                            {% endif %}
-                        {% endfor %}
-                    </tr>
+                    
+                   
+                    
                 </table>
             </div>
             </div>

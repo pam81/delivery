@@ -162,6 +162,8 @@
 
     <div  data-name="{{ d.getName() }}" data-id="{{ d.getId() }}" class="day col-md-12" style="margin-bottom: 10px;">
        <div id="label">{{ d.getName() }}: </div>
+       
+       <span  id="hora{{ d.getId()}}" {% if horarios is defined and horarios[d.getId()]['closed'] == 1 or horarios[d.getId()]['abierto'] == 1  %}   style="display:none;" {% endif %} >
        <select name="fromH[{{ d.getId()}}]" class="hour from" style="width: 60px">
        {% for  h in 0..23 %}
          {% set selected='' %}
@@ -202,10 +204,11 @@
         <option value="{{ h }}" {{ selected }}> {{ h }}</option>
         {% endfor %}
        </select>
-
+       </span>
+        <span  {% if horarios is defined and horarios[d.getId()]['partido'] != 1 %} style="display:none;" {% endif %} id="horapartido{{ d.getId()}}">
         --
 
-        <select name="fromHT[{{ d.getId()}}]" class="hour from" style="width: 60px">
+        <select name="fromHT[{{ d.getId()}}]" class="hour from" style="width: 60px; ">
             {% for  h in 0..23 %}
                 {% set selected='' %}
                 {% if horarios is defined and horarios[d.getId()]['fromHT'] == h%}
@@ -227,7 +230,7 @@
 
         a
 
-        <select name="toHT[{{ d.getId()}}]" class="hour to" style="width: 60px">
+        <select name="toHT[{{ d.getId()}}]" class="hour to" style="width: 60px; ">
             {% for  h in 0..23 %}
                 {% set selected='' %}
                 {% if horarios is defined and horarios[d.getId()]['toHT'] == h%}
@@ -245,13 +248,24 @@
                 <option value="{{ h }}" {{ selected }}> {{ h }}</option>
             {% endfor %}
         </select>
-
+        </span>
 
                {% set checked='' %}
                   {% if horarios is defined and horarios[d.getId()]['closed'] == 1%}
                     {% set checked='checked'%}
-                {% endif %}
-               <input type="checkbox" {{ checked}} name="closed[{{d.getId()}}]" value="1" class="closed"><span>Cerrado</span>
+               {% endif %}
+               <label id="closed{{d.getId()}}" {% if horarios is defined and ( horarios[d.getId()]['abierto'] == 1 or horarios[d.getId()]['partido'] == 1) %} style="display: none;" {% endif %}  ><input type="checkbox" data-id="{{d.getId()}}" {{ checked}} name="closed[{{d.getId()}}]" value="1"  class="closed"><span>Cerrado</span></label>
+               {% set checkedAbierto='' %}
+                  {% if horarios is defined and horarios[d.getId()]['abierto'] == 1%}
+                    {% set checkedAbierto='checked'%}
+               {% endif %}
+               <label id="abierto{{d.getId()}}" {% if horarios is defined and ( horarios[d.getId()]['closed'] == 1 or horarios[d.getId()]['partido'] == 1) %} style="display: none;" {% endif %}><input type="checkbox" data-id="{{d.getId()}}" {{ checkedAbierto}} name="abierto[{{d.getId()}}]" value="1"  class="abierto"><span>Abierto 24hs</span></label>
+               {% set checkedPartido='' %}
+                  {% if horarios is defined and horarios[d.getId()]['partido'] == 1%}
+                    {% set checkedPartido='checked'%}
+               {% endif %}
+              <label id="partido{{d.getId()}}" {% if horarios is defined and ( horarios[d.getId()]['abierto'] == 1 or horarios[d.getId()]['closed'] == 1) %} style="display: none;" {% endif %}> <input type="checkbox" data-id="{{d.getId()}}" {{ checkedPartido}}  name="partido[{{d.getId()}}]" value="1"  class="partido"><span>Horario Partido</span></label>
+               
         </div>
         {% endfor %}
     

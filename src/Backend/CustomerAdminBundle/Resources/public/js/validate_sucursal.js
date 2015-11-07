@@ -154,58 +154,62 @@ $(document).ready(function() {
         });
     
 
-    /*   var sucursalId = 0;
-      if ($("#categorias").data("sucursalid")){
-        sucursalId = $("#categorias").data("sucursalid");
-      }
-      var dataString ="sucursalId="+sucursalId;
-      var path = $("#categorias").data('url');
-        $.ajax({
-            type: "POST",
-            url: path,
-            dataType: 'json',
-            data: dataString,
-            success: function(data) {
-               
-                  
-   $('#jstree-proton-3').jstree({
-        'plugins': ["wholerow", "checkbox"],
-        'core': {
-            'data': data ,
-            'themes': {
-                'name': 'proton',
-                'responsive': true
-            }
-        }
-    });
-    
-    $('#jstree-proton-3').on('changed.jstree', function (e, data) {
-        var i, j, r = [], c=[];
-        for(i = 0, j = data.selected.length; i < j; i++) {
-          
-          if (data.instance.is_leaf(data.selected[i])){ 
-              r.push(data.instance.get_node(data.selected[i]).a_attr.subcategoria_id);
-          }else{
-              c.push(data.instance.get_node(data.selected[i]).a_attr.categoria_id);
-          }
-          
-        }
-        $("#subcategorias").val(r.join(', ')) ;
-        $("#categorias").val(c.join(', ')) ;
-        console.log(r.join(', '));
-    });
-               
-               
-               
-            }
-        });  
   
-     */
      
      $("body").on("click",".btnCate",function(){
              var id=$(this).data("catid");
              $("#collapseExample"+id).collapse('toggle');
      });
+     
+     $(".partido").on("click",function(){
+         var id = $(this).data("id");
+         if ($(this).is(":checked")){
+            $("#horapartido"+id).show();
+            $("#abierto"+id).find(".abierto").prop('checked', false);
+            $("#abierto"+id).hide();
+            $("#closed"+id).find(".closed").prop('checked', false);
+            $("#closed"+id).hide();
+         }else{
+            $("#horapartido"+id).hide();
+            $("#abierto"+id).show();
+            $("#closed"+id).show(); 
+         }
+     });
+     
+      $(".closed").on("click",function(){
+         var id = $(this).data("id");
+         if ($(this).is(":checked")){
+            $("#hora"+id).hide();
+            $("#horapartido"+id).hide();
+            $("#partido"+id).find(".partido").prop('checked', false);
+            $("#partido"+id).hide();
+            $("#abierto"+id).find(".abierto").prop('checked', false);
+            $("#abierto"+id).hide();
+         }else{
+            $("#hora"+id).show();
+            $("#partido"+id).show();
+            $("#abierto"+id).show();   
+         }
+     });
+     
+     $(".abierto").on("click",function(){
+         var id = $(this).data("id");
+         if ($(this).is(":checked")){
+            $("#hora"+id).hide();
+            $("#horapartido"+id).hide();
+            $("#partido"+id).find(".partido").prop('checked', false);
+            $("#partido"+id).hide();
+            $("#closed"+id).find(".closed").prop('checked', false);
+            $("#closed"+id).hide();
+         }else{
+            $("#hora"+id).show();
+            $("#partido"+id).show();
+            $("#closed"+id).show();   
+         }
+     });
+     
+     
+     
 		
 	});
 
