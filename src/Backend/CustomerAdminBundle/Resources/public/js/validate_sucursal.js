@@ -9,15 +9,15 @@ $(document).ready(function() {
 				},
 				"backend_customeradminbundle_sucursaltype[cuit]": {
 					required:true,
-					digits:true,
-					minlength:11,
+				
+					minlength:6,
 					maxlength:20,
 				},
 				"backend_customeradminbundle_sucursaltype[phone]": {
 					required:true,
 					minlength:4,
 					maxlength:20,
-					digits: true
+					
 				},
         "backend_customeradminbundle_sucursaltype[email]": {
 					required:true,
@@ -61,14 +61,14 @@ $(document).ready(function() {
 		 
            "backend_customeradminbundle_sucursaltype[cuit]": {
            required: "Ingrese el numero de cuit",
-		       digits: "Ingrese los numeros sin guiones",	   
+		        
            maxlength: jQuery.validator.format("Máximo {0} carácteres!"),
            minlength: jQuery.validator.format("Mínimo {0} carácteres!")
            },
 		 	
            "backend_customeradminbundle_sucursaltype[phone]": {
            required: "Ingrese el numero de telefono",
-           digits: "Ingrese los numeros sin guiones",	
+          
            maxlength: jQuery.validator.format("Máximo {0} carácteres!"),
            minlength: jQuery.validator.format("Mínimo {0} carácteres!")
            },
