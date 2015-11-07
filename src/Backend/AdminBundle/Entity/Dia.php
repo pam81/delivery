@@ -26,7 +26,11 @@ class Dia
      * @ORM\Column(name="short", type="string", length=100,nullable=true)
      */
     private $short;
-
+    
+    /**
+     * @ORM\Column(name="nro", type="integer")
+     */
+    private $nro;
 
     /**
     * @ORM\OneToMany(targetEntity="Horario", mappedBy="dia")
@@ -133,5 +137,28 @@ class Dia
     public function getShort()
     {
         return $this->short;
+    }
+
+    /**
+     * Set nro
+     *
+     * @param integer $nro
+     * @return Dia
+     */
+    public function setNro($nro)
+    {
+        $this->nro = $nro;
+
+        return $this;
+    }
+
+    /**
+     * Get nro
+     *
+     * @return integer 
+     */
+    public function getNro()
+    {
+        return $this->nro;
     }
 }

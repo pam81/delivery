@@ -22,6 +22,18 @@ class Horario
      */
     
 	private $cerrado;
+  
+    /**
+     * @ORM\Column(name="open_all", type="boolean",nullable=true)
+     */
+    
+	private $openAll;
+
+   /**
+     * @ORM\Column(name="horario_partido", type="boolean",nullable=true)
+     */
+  
+  private $horarioPartido;
 
     /**
      * @ORM\Column(name="desde", type="string", length=100,nullable=true)
@@ -73,8 +85,10 @@ class Horario
     public function __construct()
     {
         $this->sucursales = new \Doctrine\Common\Collections\ArrayCollection();
-		$this->createdAt = new \DateTime('now');
-		
+		    $this->createdAt = new \DateTime('now');
+		    $this->horario_partido = false;
+        $this->openAll = false;
+        
     }
 
     public function __toString()
@@ -331,5 +345,51 @@ class Horario
     public function getHastaT()
     {
         return $this->hastaT;
+    }
+
+    /**
+     * Set openAll
+     *
+     * @param boolean $openAll
+     * @return Horario
+     */
+    public function setOpenAll($openAll)
+    {
+        $this->openAll = $openAll;
+
+        return $this;
+    }
+
+    /**
+     * Get openAll
+     *
+     * @return boolean 
+     */
+    public function getOpenAll()
+    {
+        return $this->openAll;
+    }
+
+    /**
+     * Set horarioPartido
+     *
+     * @param boolean $horarioPartido
+     * @return Horario
+     */
+    public function setHorarioPartido($horarioPartido)
+    {
+        $this->horarioPartido = $horarioPartido;
+
+        return $this;
+    }
+
+    /**
+     * Get horarioPartido
+     *
+     * @return boolean 
+     */
+    public function getHorarioPartido()
+    {
+        return $this->horarioPartido;
     }
 }
