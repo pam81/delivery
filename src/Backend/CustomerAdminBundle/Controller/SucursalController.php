@@ -544,7 +544,7 @@ class SucursalController extends Controller
   
   public function categoriasAction(Request $request){
        $em = $this->getDoctrine()->getManager();
-       $categorias = $em->getRepository('BackendAdminBundle:Categoria')->findAll();
+       $categorias = $em->getRepository('BackendAdminBundle:Categoria')->findBy([], ['name' => 'ASC']);
        
        $data = array();
        $sucursalId = $request->get("sucursalId");
