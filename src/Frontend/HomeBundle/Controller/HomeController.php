@@ -224,7 +224,7 @@ class HomeController extends Controller
 		$time_array = explode(":",$time);
 		$ahora = $time_array[0]*60 + $time_array[1];
 
-        $dql= "SELECT u FROM BackendCustomerAdminBundle:Sucursal u JOIN u.direccion d JOIN u.customer c JOIN c.status e"; 
+        $dql= "SELECT u FROM BackendCustomerAdminBundle:Sucursal u JOIN u.direccion d JOIN u.customer c JOIN c.status e "; 
 
         if($subId){
 
@@ -283,8 +283,9 @@ class HomeController extends Controller
 
 			  $record["cierra"] = $cierra;
 			  $record["link"] = $this->generateUrl('frontend_show_products', array('id' =>$tienda->getId()));
-              $record["favorito"]=$this->isFavorito($tienda);
-              $listado[] = $record;
+        $record["favorito"]=$this->isFavorito($tienda);
+        $record["restricted"] =$this->checkSucursalIsResctricted($tienda->getSubcategorias());
+             $listado[] = $record;
 
        
 		} 
@@ -294,6 +295,20 @@ class HomeController extends Controller
        $response->headers->set('Content-Type', 'application/json');
   
        return $response;
+    
+    }
+    
+    
+    private function checkSucursalIsResctricted($subcategorias){
+    
+       $isRestricted = false;
+       foreach($subcategorias as $s){
+         
+          if ($s->getCategoria()->getIsRestrict()){
+            $isRestricted = true;
+          }
+       }
+       return $isRestricted;
     
     }
     
@@ -371,7 +386,8 @@ class HomeController extends Controller
 			  
          $record["favorito"]=$this->isFavorito($tienda);
          $record["link"] =$this->generateUrl('frontend_show_products', array('id' => $tienda->getId()));
-            $listado[] = $record;
+         $record["restricted"] =$this->checkSucursalIsResctricted($tienda->getSubcategorias());
+         $listado[] = $record;
 
 	   }
        $response = new Response(json_encode($listado));
@@ -449,7 +465,7 @@ class HomeController extends Controller
         $filter = trim(mb_convert_case($request->get("filter"),MB_CASE_LOWER));
         $resultado = array();
 
-		if($id) {
+		    if($id) {
             $em = $this->getDoctrine()->getManager();
             $sucursal = $em->getRepository('BackendCustomerAdminBundle:Sucursal')->find($id);
             $productos = $sucursal->getProductos();
@@ -474,9 +490,9 @@ class HomeController extends Controller
 
             $count = count($resultado);
 
-
+            $restricted = $this->checkSucursalIsResctricted($sucursal->getSubcategorias());
             return $this->render('FrontendHomeBundle:Shop:index.html.twig', array(
-
+                'restricted'=>$restricted,
                 'tienda' => $sucursal,
                 'productos' => $resultado,
                 'subcategoria' => $subcategoria,

@@ -1,6 +1,19 @@
 $(document).ready(function(){
 
-   simpleCart.bind( 'ready' , function(){
+  //si es una tienda restringida validar el acceso
+  if ( $("#restricted").val() == 1){
+    if ( $.cookie('delivery-mayor') != 1){
+        var url = window.location.href;
+        $("#restringido").data("url",url);
+        $("#restringido").modal('show');
+    }
+   
+  }
+  
+  
+  
+  
+  simpleCart.bind( 'ready' , function(){
        loadCantidad();
   });
   

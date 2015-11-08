@@ -215,3 +215,21 @@
                   
                   
                   <!-- -->
+   <div class="modal fade" id="restringido" data-url="#" tabindex="-2" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	               <h4 class="modal-title" id="myModalLabel">Acceso Restringuido</h4>
+	            </div>
+	            <div class="modal-body">
+	                 Esta intentando ingresar a un áŕea restringuida. 
+                   Para poder ver los resultados declaro que tengo más de 18 años y acepto los <a href="#" target="_blank">Términos y Condiciones de Adultos.</a>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-warning" id="mayor18">Soy mayor de 18 años</button>
+                  <button type="button" class="btn btn-default" id="nomayor18" data-url="{{ path('frontend_homepage')}}">No soy mayor de 18 años</button>
+    	        </div>
+	    </div>
+	  </div>
+	</div>
