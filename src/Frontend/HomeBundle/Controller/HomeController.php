@@ -216,10 +216,9 @@ class HomeController extends Controller
     public function getTiendasAction(Request $request){
         
         $barrioId =trim(mb_convert_case($request->get("barrio"),MB_CASE_LOWER));
-		$time = trim(mb_convert_case($request->get("time"),MB_CASE_LOWER)); 
+		$time = trim(mb_convert_case($request->get("time"),MB_CASE_LOWER));
    		$dia = trim(mb_convert_case($request->get("day"),MB_CASE_LOWER));
         $subId = trim(mb_convert_case($request->get("cat"),MB_CASE_LOWER));
-
 
 		$time_array = explode(":",$time);
 		$ahora = $time_array[0]*60 + $time_array[1];
@@ -346,10 +345,10 @@ class HomeController extends Controller
         $dql .=" where u.is_active= true and u.premium= true and c.isActive = true and e.name = 'Habilitado' ";  
         
         $em = $this->getDoctrine()->getManager();
-    		$query = $em->createQuery($dql);
-    		$tiendas = $query->getResult();
-        
-        
+        $query = $em->createQuery($dql);
+        $tiendas = $query->getResult();
+
+
         $listado=array();
         
         foreach ($tiendas as $tienda) {
@@ -552,80 +551,110 @@ class HomeController extends Controller
     
     }
 	
-	private function checkOpenNow($horarios,$dia,$time){
-	
-		$open = false;
-   
-		
-		$time_array = explode(":",$time);		
-		$ahora = $time_array[0]*60 + $time_array[1];		
-	
-		foreach($horarios as $horario){
-			
-			if($horario->getDia()->getNro() == $dia){
-			
-				if($horario->getCerrado() == 1){  
-			
-					return false; //salgo directo con false porque esta cerrado
-				
-				}elseif ($horario->getOpenAll() == 1){
-      
-            return true; //salgo directo esta abierto porque abre 24 hs ese dia 
-        }else{						
+	private function checkOpenNow($horarios,$dia,$time)
+    {
 
-             
-      
-      				  if($horario->getDesde()){
-      			
-          					$desde_array = explode(":",$horario->getDesde());					
-          					$desde = $desde_array[0]*60 + $desde_array[1];
-                   
-      				  }
-      				  if($horario->getHasta()){
-          					$hasta_array = explode(":",$horario->getHasta());					
-          					$hasta = $hasta_array[0]*60 + $hasta_array[1];
-                  
-      										
-      				  }
-                if($horario->getDesdeT()){
-      
-                    $desdeT_array = explode(":",$horario->getDesdeT());
-                    $desdeT = $desdeT_array[0]*60 + $desdeT_array[1];
-                    $h_partido = true;
-      
+        $open = false;
+
+        $time_array = explode(":", $time);
+        $ahora = $time_array[0] * 60 + $time_array[1];
+
+        foreach ($horarios as $horario) {
+
+            $validar = false;
+
+            if ($horario->getDia()->getNro() == $dia) {
+
+
+                if ($horario->getCerrado() == 1) {
+
+                    return false; //salgo directo con false porque esta cerrado
+
+                } elseif ($horario->getOpenAll() == 1) {
+
+                    return true; //salgo directo esta abierto porque abre 24 hs ese dia
+
+                } else {
+
+                    if ($horario->getDesde()) {
+
+                        $desde_array = explode(":", $horario->getDesde());
+                        $desde = $desde_array[0] * 60 + $desde_array[1];
+
+                    }
+                    if ($horario->getHasta()) {
+                        $hasta_array = explode(":", $horario->getHasta());
+                        $hasta = $hasta_array[0] * 60 + $hasta_array[1];
+
+                    }
+                    if ($horario->getDesdeT()) {
+
+                        $desdeT_array = explode(":", $horario->getDesdeT());
+                        $desdeT = $desdeT_array[0] * 60 + $desdeT_array[1];
+                        $h_partido = true;
+                    }
+                    if ($horario->getHastaT()) {
+
+                        $hastaT_array = explode(":", $horario->getHastaT());
+                        $hastaT = $hastaT_array[0] * 60 + $hastaT_array[1];
+                        $h_partido = true;
+                    }
+
+                    if ($horario->getHorarioPartido()) {  // si el horario es partido
+
+
+                        if ($ahora < $hasta && $ahora >= $desde) {
+
+                            return true; // valido mediodía
+
+                        }
+                        if ($desdeT < $hastaT) {
+
+                            if ($ahora >= $desdeT && $ahora < $hastaT) {
+
+                                return true;
+
+                            } else {
+
+                                return false;
+                            }
+                        } else {
+
+                            if ($ahora > $desdeT && $ahora > $hastaT) {
+
+                                return true;
+
+                            }else if($ahora < $hastaT){
+
+                                return true;
+                            }
+                            else return false;
+                        }
+
+                    } else {  //no es horario partido
+
+                        if ($hasta > $desde) {
+
+                            if ($ahora >= $desde && $ahora < $hasta) {
+
+                                return true;  //esta dentro del horario de abierto
+
+                            } else { return false; }
+
+                        } else {
+
+                            if ($ahora < $hasta) { return true; }
+
+                            else { return false; }
+                        }
+                    } // no es partido
+
+
                 }
-                if($horario->getHastaT()){
-                    $hastaT_array = explode(":",$horario->getHastaT());
-                    $hastaT = $hastaT_array[0]*60 + $hastaT_array[1];
-                    $h_partido = true;
-      
-                }
-                //falta validar el caso de horario 0:00
-              if($horario->getHorarioPartido() ) {  // si el horario es partido
-                   
-                   if(($ahora > $hasta && $ahora < $desdeT) || ($ahora < $desde || $ahora > $hastaT)){
-      
-                      return false;
-      
-                   }else{
-      
-                      return true;
-                   }
-      
-              }else {  //no es horario partido
-      
-                   if ( $ahora >= $desde && $ahora < $hasta){
-                      
-                      return true;  //esta dentro del horario de abierto
-                   }else{
-                       return false;
-                   }
-      
-              } 
-      }
-			}	
-		}		
-		return $open;
+        }
+
+        }
+	//	return $open;
 	}
 
    
