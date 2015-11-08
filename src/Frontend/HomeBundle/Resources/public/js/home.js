@@ -1,6 +1,26 @@
 
 $(document).ready(function() {
 
+
+      $("body").on("click",".go_tienda",function(){
+      
+          var restricted=$(this).data("restricted");
+          var url = $(this).data("link");
+          if (!restricted){
+             window.location = url;
+          }else{
+            if ( $.cookie('delivery-mayor') != 1){
+                $("#restringido").data("url",url);
+                $("#restringido").modal('show');
+            }else{
+               window.location = url;
+            }
+          }
+      
+      });
+
+
+
     $('#buscar').prop('disabled', false);
     $('#see_more').hide();
 
@@ -59,7 +79,7 @@ $(document).ready(function() {
                 $("#categoria-id").val(ui.item.value);
                 $("#categoria-restricted").val(ui.item.restricted);
                 console.log($("#categoria-restricted").val());
-                if(ui.item.restricted == true){
+                /*if(ui.item.restricted == true){
 
                     alert("Para acceder a este contenido debe estar registrado");
                     $('#buscar').prop('disabled', true);
@@ -67,7 +87,7 @@ $(document).ready(function() {
                 }else{
 
                     $('#buscar').prop('disabled', false);
-                }
+                } */
                 return false;
             }
         });
@@ -148,7 +168,7 @@ $(document).ready(function() {
 										element += ' <div class="single-products">';
 										element +='		<div class="productinfo text-center">';
 										element +='			<img src="'+data[index].imagen+'" alt="" />';
-										element +='			<a href="'+data[index].link+'" class="btn btn-warning go_tienda"></i>Ir a la tienda</a>';
+										element += '										<a href="javascript:void(0)" data-link="'+data[index].link+'" data-restricted="'+data[index].restricted+'" class="btn btn-warning go_tienda"  data-sucursal="'+data[index].id+'"></i>Ir a la tienda</a>';
 										element +='		</div> ';
 										element +='<img src="'+data[index].promo+'" title="'+data[index].title +'" class="new">';
 										//element +='<img src="'+data[index].open+'" class="open">';
@@ -292,7 +312,7 @@ function getTiendas(ubicacion){
                       	element += '							<div class="single-products">';
                       	element += '									<div class="productinfo text-center">';
                       	element += '										<img src="'+data[index].imagen+'" alt="" />';
-                      	element += '										<a href="'+data[index].link+'" class="btn btn-warning go_tienda"  data-sucursal="'+data[index].id+'"></i>Ir a la tienda</a>';
+                      	element += '										<a href="javascript:void(0)" data-link="'+data[index].link+'" data-restricted="'+data[index].restricted+'" class="btn btn-warning go_tienda"  data-sucursal="'+data[index].id+'"></i>Ir a la tienda</a>';
                       	element += '									</div> ';
                         element +='<img src="'+data[index].promo+'" title="'+data[index].title +'" class="new">';
 										//element +='<img src="'+data[index].open+'" class="open">';

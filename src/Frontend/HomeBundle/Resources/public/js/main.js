@@ -157,6 +157,20 @@ $(document).ready(function() {
     
     });
     
+    
+    $("#mayor18").on("click",function(){
+        //crear la cookie
+        $.cookie('delivery-mayor',1 , { expires: 30, path: '/' });
+        var url = $("#restringido").data("url");
+        window.location = url;
+        
+    });
+    
+    $("#nomayor18").on("click",function(){
+        var url = $(this).data("url");
+        window.location = url;
+    });
+    
       
 });
 
