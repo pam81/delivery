@@ -251,7 +251,8 @@ class HomeController extends Controller
 			  $horarios = $tienda->getHorarios();
 			  $horarios_tienda = $this->generateHorarios($horarios);
          
-              $open = $this->checkOpenNow($horarios,$dia,$time);
+              //$open = $this->checkOpenNow($horarios,$dia,$time);
+              $open = true;
 			  $cierra = null; // para validar si está abierto al momento de comprar. 	
 			  $record=array();
               $record["id"]=$tienda->getId();
@@ -282,8 +283,8 @@ class HomeController extends Controller
 
 			  $record["cierra"] = $cierra;
 			  $record["link"] = $this->generateUrl('frontend_show_products', array('id' =>$tienda->getId()));
-        $record["favorito"]=$this->isFavorito($tienda);
-        $record["restricted"] =$this->checkSucursalIsResctricted($tienda->getSubcategorias());
+              $record["favorito"]=$this->isFavorito($tienda);
+              $record["restricted"] =$this->checkSucursalIsResctricted($tienda->getSubcategorias());
              $listado[] = $record;
 
        
@@ -355,7 +356,7 @@ class HomeController extends Controller
 			  
 			  $open = false;
 			  $horarios = $tienda->getHorarios();
-              $open = $this->checkOpenNow($horarios,$dia,$time);
+              //$open = $this->checkOpenNow($horarios,$dia,$time);
 			  $horarios_tienda = $this->generateHorarios($horarios); 	
 			
 			 
@@ -550,9 +551,12 @@ class HomeController extends Controller
       
     
     }
-	
+	/*
 	private function checkOpenNow($horarios,$dia,$time)
     {
+
+        $dia = 1;
+        $time = "0:30";
 
         $open = false;
 
@@ -565,6 +569,7 @@ class HomeController extends Controller
 
             if ($horario->getDia()->getNro() == $dia) {
 
+                if($ahora < )
 
                 if ($horario->getCerrado() == 1) {
 
@@ -602,13 +607,13 @@ class HomeController extends Controller
 
                     if ($horario->getHorarioPartido()) {  // si el horario es partido
 
-
+                        echo("aca");
                         if ($ahora < $hasta && $ahora >= $desde) {
 
                             return true; // valido mediodía
 
                         }
-                        if ($desdeT < $hastaT) {
+                        if ($desdeT < $hastaT) { // valido hasta 23:59
 
                             if ($ahora >= $desdeT && $ahora < $hastaT) {
 
@@ -618,17 +623,12 @@ class HomeController extends Controller
 
                                 return false;
                             }
-                        } else {
+                        } else { // valido a partir 0:00 hora de apertura > hora de cierre
 
-                            if ($ahora > $desdeT && $ahora > $hastaT) {
-
-                                return true;
-
-                            }else if($ahora < $hastaT){
+                            if (($ahora <= 1439 && $ahora >= $desdeT) && $hastaT >= 0) {
 
                                 return true;
                             }
-                            else return false;
                         }
 
                     } else {  //no es horario partido
@@ -641,7 +641,25 @@ class HomeController extends Controller
 
                             } else { return false; }
 
-                        } else {
+                        } else { // desde es menor que hasta dia anterior
+
+                            $d = $dia -1;
+
+                            foreach($horarios as $horario){
+
+                                if($horario->getDia()->getNro() == 0){
+
+                                    $hastaT_array = explode(":", $horario->getHastaT());
+                                    $hastaT = $hastaT_array[0] * 60 + $hastaT_array[1];
+                                    $h_partido = true;
+
+                                    if($hastaT < $ahora) {
+
+                                        return true;
+
+                                    }
+                                }
+                            }
 
                             if ($ahora < $hasta) { return true; }
 
@@ -656,10 +674,179 @@ class HomeController extends Controller
         }
 	//	return $open;
 	}
+    */
+    private function checkOpenNow($horarios,$dia,$time)
+    {
 
-   
+        //$dia = 1;
+        //$time = "0:30";
 
-	/* Verifica si la tienda sigue abierta */
+        $time_array = explode(":", $time);
+        $ahora = $time_array[0] * 60 + $time_array[1];
+
+        foreach ($horarios as $horario) {
+
+            if($ahora > 360 && $ahora < 1439) { // horario diurno
+
+                if ($horario->getDia()->getNro() == $dia) {
+
+                    if ($horario->getCerrado() == 1) {
+
+                        return false; //salgo directo con false porque esta cerrado
+
+                    } elseif ($horario->getOpenAll() == 1) {
+
+                        return true; //salgo directo esta abierto porque abre 24 hs ese dia
+
+                    } else {
+
+                        if ($horario->getDesde()) {
+
+                            $desde_array = explode(":", $horario->getDesde());
+                            $desde = $desde_array[0] * 60 + $desde_array[1];
+                        }
+                        if ($horario->getHasta()) {
+                            $hasta_array = explode(":", $horario->getHasta());
+                            $hasta = $hasta_array[0] * 60 + $hasta_array[1];
+                        }
+                        if ($horario->getDesdeT()) {
+
+                            $desdeT_array = explode(":", $horario->getDesdeT());
+                            $desdeT = $desdeT_array[0] * 60 + $desdeT_array[1];
+                            $h_partido = true;
+                        }
+                        if ($horario->getHastaT()) {
+
+                            $hastaT_array = explode(":", $horario->getHastaT());
+                            $hastaT = $hastaT_array[0] * 60 + $hastaT_array[1];
+                            $h_partido = true;
+                        }
+
+                        if ($horario->getHorarioPartido()) {
+
+
+                            if ($ahora >= $desde && $ahora < $hasta) { // horario de la mañana
+
+                                return true;
+                            }
+                            if ($hastaT < $desdeT) { // cierra despues de las 0:00
+
+                                if ($ahora >= $desdeT) {
+
+                                    return true;
+
+                                } else {
+                                    return false;
+                                }
+
+                            } else {
+
+                                if ($ahora >= $desdeT && $ahora < $hastaT) {
+
+                                    return true;
+
+                                } else {
+                                    return false;
+                                }
+                            }
+
+                        } else { // no es horario partido
+
+                            if ($desde < $hasta) {  // ejemplo de 9:00 a 21:00
+
+                                if ($ahora >= $desde && $ahora < $hasta) {
+
+                                    return true;
+                                } else {
+
+                                    return false;
+                                }
+                            } else { // ejemplo 9:00 a 0:30
+
+                                if ($ahora >= $desde) {
+                                    return true;
+                                } else {
+                                    return false;
+                                }
+                            }
+                        } // no es partido
+                    } // else numero
+                 }
+                }
+                if ($ahora < 360) {
+
+                    if ($dia == 0) {
+                        $d = 6;
+                    } else {
+                        $d = $dia - 1;
+                    }
+
+                    if ($horario->getDia()->getNro() == $d) {
+
+                        if ($horario->getCerrado() == 1) {
+
+                            return false; //salgo directo con false porque esta cerrado
+
+                        } elseif ($horario->getOpenAll() == 1) {
+
+                            return true; //salgo directo esta abierto porque abre 24 hs ese dia
+
+                        } else {
+
+                            if ($horario->getDesde()) {
+
+                                $desde_array = explode(":", $horario->getDesde());
+                                $desde = $desde_array[0] * 60 + $desde_array[1];
+                            }
+                            if ($horario->getHasta()) {
+                                $hasta_array = explode(":", $horario->getHasta());
+                                $hasta = $hasta_array[0] * 60 + $hasta_array[1];
+                            }
+                            if ($horario->getDesdeT()) {
+
+                                $desdeT_array = explode(":", $horario->getDesdeT());
+                                $desdeT = $desdeT_array[0] * 60 + $desdeT_array[1];
+                                $h_partido = true;
+                            }
+                            if ($horario->getHastaT()) {
+
+                                $hastaT_array = explode(":", $horario->getHastaT());
+                                $hastaT = $hastaT_array[0] * 60 + $hastaT_array[1];
+                                $h_partido = true;
+                            }
+
+                            if ($horario->getHorarioPartido()) {
+
+                                if ($ahora < $hastaT) { // valido que sea menor que la hora de cierre
+
+                                    return true;
+                                } else {
+
+                                    return false;
+                                }
+                            } else {
+
+                                if ($ahora < $hasta) {
+
+                                    return true;
+                                } else {
+
+                                    return false;
+                                }
+                            }
+
+                        } // horario definido
+                    } // valida dia
+
+                } // horario nocturno
+
+            } // foreach
+    } // function
+
+
+
+
+    /* Verifica si la tienda sigue abierta */
 	
 	public function checkTimeAction(Request $request){
 		
@@ -672,6 +859,10 @@ class HomeController extends Controller
         $sucursal = $em->getRepository('BackendCustomerAdminBundle:Sucursal')->find($tiendaId);
 		
 		$horarios = $sucursal->getHorarios();
+
+        //$dia = 1;
+
+        //$hora = "01:20";
 		 
 		$status = $this->checkOpenNow($horarios,$dia,$hora);
 		
