@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Backend\CustomerAdminBundle\Entity\Pedido;
 use Backend\CustomerAdminBundle\Form\PedidoType;
+use Backend\CustomerAdminBundle\Entity\Proceso;
 
 
 /**
@@ -289,24 +290,48 @@ class PedidoController extends Controller
         ;
     }
     
-	public function updateStatusAction(Request $request)
+	public function toUpdateStatusAction(Request $request)
     {
         if ( $this->get('security.context')->isGranted('ROLE_VIEWPRODUCTO')) {
+
+            $id = $request->request->get('id');
+            $em = $this->getDoctrine()->getManager();
 
             $statusId = $request->get("status");
             $comentarios = $request->get("comentarios");
             $em = $this->getDoctrine()->getManager();
             $pedido = $em->getRepository('BackendCustomerAdminBundle:Pedido')->find($id);
             $status = $em->getRepository('BackendCustomerAdminBundle:Status')->find($statusId);
-            $pedido->setStatus($status);
-            $cliente = $pedido->getCliente();
+
+            $proceso = new Proceso();
+            $proceso->setPedido($pedido);
+            $proceso->setStatus($status);
+
+            if($comentarios){
+
+                $proceso->setComentarios($comentarios);
+            }
+            $em->persist($proceso);
+            $pedido->addProceso($proceso);
+            $em->persist($pedido);
+            $em->flush();
+
+            $cliente = $pedido->getCustomer();
             $sucursal = $pedido->getSucursal();
 
             $this->sendStatusPedidosEmails($cliente,$sucursal,$status,$comentarios);
 
-            return $this->redirect($this->generateUrl('producto'));
+            $data['ok'] = true;
+            $data['status'] = $status->getName();
         }
+
+        $response = new Response(json_encode($data));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+
     }
+
+
 
 
     public function printAction(Request $request, $id)
@@ -354,7 +379,7 @@ class PedidoController extends Controller
             ->setTo($customer->getEmail())
             ->setBody(
                 $this->renderView(
-                    'BackendCustomerAdminBundle:Pedido:status_customer_email.html.twig',
+                    'BackendCustomerAdminBundle:Pedido:pedido_status_email.html.twig',
                     array('customerName' => $customer->getName(),'sucursalName' => $sucursal->getName(),'status'=> $status->getName(),
                         'comentarios' => $comentarios, 'empresa' =>$empresa->getValue(),'sucursalTelefono' =>$sucursal->getPhone(),
                         'sucursalEmail'=>$sucursal->getEmail() )
