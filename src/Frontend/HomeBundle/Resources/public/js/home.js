@@ -158,11 +158,12 @@ $(document).ready(function() {
                   $.each(data,function(index){ 
                     
                     horario = data[index].horario;
-                    
+                    console.log("horario:"+horario);
+                    /*
                     $.each(horario,function(i){
 						h += horario[i]+"-";
 					});
-
+                    */
                     element += '<div class="col-sm-4">';
 										element += '<div class="product-image-wrapper">';
 										element += ' <div class="single-products">';
@@ -175,7 +176,7 @@ $(document).ready(function() {
 										element += '</div>';
 										                        element +='    <div class="choose">';
     									  element +='       <ul class="nav nav-pills nav-justified">';
-    										element +='         <li><a href="javascript:void(0)" class="horarios_modal" data-texto="'+horario+'"><i class="fa fa-clock-o"></i>Consultar horario</a></li>';
+    										element +='         <li><a href="javascript:void(0)" class="horarios_modal" data-texto="'+horario+'" data-sucursal="panel_premium_'+data[index].id+'"><i class="fa fa-clock-o"></i>Consultar horario</a></li>';
                     if (data[index].favorito == true){    
                         element +='         <li><a href="javascript:void(0)" class="add_favorito" data-sucursal="'+data[index].id+'"><i class="fa fa-heart"></i></a></li>';
                      }   
@@ -184,9 +185,16 @@ $(document).ready(function() {
                     }    
                         element +=' 			</ul>';
     								    element +='    </div>';
+                      var clock ='<div class="panel panel-default" style="display: none"; id="panel_premium_'+data[index].id+'"><div class="panel-heading"><h4 class="faqs panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="faqs">HOY</a></h4></div>';
+                      clock += '<div id="collapseOne" class="panel-collapse collapse in"><div class="panel-body">';
+                      clock += '<p class="horario-home">'+horario+'</p></div></div></div>';
+
+                      element += clock;
                       	element += '						</div>';
 										element +='  </div>';
 										element +=' </div>';
+
+
 					element +=' </div>';
                     i++;
                     if (i == 3){
@@ -206,6 +214,11 @@ $(document).ready(function() {
    
     
       $("body").on("click",".horarios_modal",function(){
+
+          var id = $(this).data('sucursal');
+          $("#"+id).toggle();
+
+          /*
             var texto=$(this).data("texto");
             var tabla = "<table><tr><th width='100px'>Lunes</th><th width='100px'>Martes</th><th width='100px'>Miercoles</th><th width='100px'>Jueves</th><th width='100px'>Viernes</th><th width='100px'>Sabado</th><th width='100px'>Domingo</th></tr><tr>";
             var i;
@@ -218,9 +231,12 @@ $(document).ready(function() {
                 tabla += row;
             }
             tabla += "</tr></table>";
-
+            //$("#horarioModal").addClass("horarioHome");
+            $(".horarios_modal").addClass("horarioHome");
+            $("#horarioModal .modal-body").addClass("horarioHome");
             $("#horarioModal .modal-body").html(tabla);
             $('#horarioModal').modal("show");
+            */
       });
       
       $("body").on("click",".add_favorito",function(){
@@ -302,11 +318,11 @@ function getTiendas(ubicacion){
                   $.each(data,function(index){ 
 					  
 					horario = data[index].horario;
-                    
+                    /*
                     $.each(horario,function(i){
 						h += horario[i]+'<br/>'; 	
 					});  
-                    
+                    */
                     var element = '         <div class="col-sm-4">';
                       	element += '						<div class="product-image-wrapper">';
                       	element += '							<div class="single-products">';
@@ -320,18 +336,24 @@ function getTiendas(ubicacion){
                       	element += '							</div>';
                         element +='    <div class="choose">';
                         element +='       <ul class="nav nav-pills nav-justified">';
-                        element +='         <li><a href="javascript:void(0)" class="horarios_modal" data-texto="'+horario+'"  ><i class="fa fa-clock-o"></i>Consultar horario</a>  </li>';
-                        if (data[index].favorito == true){  
+                        element +='         <li><a href="javascript:void(0)" class="horarios_modal" data-texto="'+horario+'"  data-sucursal="panel_'+data[index].id+'"><i class="fa fa-clock-o"></i>Consultar horario</a>  </li>';
+                        if (data[index].favorito == true){
                             element +='         <li><a href="javascript:void(0)" class="add_favorito" data-sucursal="'+data[index].id+'"><i class="fa fa-heart"></i></a></li>';
                         }else{
                             element +='         <li><a href="javascript:void(0)" class="add_favorito" data-sucursal="'+data[index].id+'"><i class="fa fa-plus-square"></i>Agregar a Favoritos</a></li>';
                         }
 
                         element +=' 			</ul>';
-    								    element +='    </div>';
+                        element +='    </div>';
+                      var clock ='<div id="panel_'+data[index].id+'" class="panel panel-default" style="display: none"><div class="panel-heading"><h4 class="faqs panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="faqs">HOY</a></h4></div>';
+                      clock += '<div id="collapseOne" class="panel-collapse collapse in"><div class="panel-body">';
+                      clock += '<p class="horario-home">'+horario+'</p></div></div></div>';
+
+                      element += clock;
+
                       	element += '						</div>';
                       	element += '					</div>';
-                                                                                                       
+                      element += '					</div>';
                     
                     $('#tiendas_listado').append(element);
                        

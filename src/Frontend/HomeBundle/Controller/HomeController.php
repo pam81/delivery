@@ -249,10 +249,10 @@ class HomeController extends Controller
 			  
 			  $open = false;
 			  $horarios = $tienda->getHorarios();
-			  $horarios_tienda = $this->generateHorarios($horarios);
+			  //$horarios_tienda = $this->generateHorarios($horarios);
+              $horarios_tienda = $this->hoyHorario($horarios,$dia,$time);
          
-              //$open = $this->checkOpenNow($horarios,$dia,$time);
-              $open = true;
+              $open = $this->checkOpenNow($horarios,$dia,$time);
 			  $cierra = null; // para validar si está abierto al momento de comprar. 	
 			  $record=array();
               $record["id"]=$tienda->getId();
@@ -334,7 +334,67 @@ class HomeController extends Controller
               }
        return $horarios_tienda;
     }
-    
+
+    private function hoyHorario($horarios,$dia,$time){
+
+        $time_array = explode(":", $time);
+        $hora = $time_array[0] * 60 + $time_array[1];
+
+        $horarios_tienda = array();
+
+        foreach($horarios as $horario) {
+
+            if($hora > 360) {
+
+                if($horario->getDia()->getNro() == $dia) {
+
+                    if ($horario->getCerrado()) {
+                        $horarios_tienda[] =  "Hoy descansamos";
+                    } elseif ($horario->getOpenAll()) {
+                        $horarios_tienda[] = "Abierto las 24hs";
+                    } else {
+
+                        $hours = "Abrimos: ".$horario->getDesde() . "hs. Cerramos: " . $horario->getHasta()." hs.";
+                        $horarios_tienda[] = $hours;
+
+                        if ($horario->getHorarioPartido()) {
+
+                            $hours_hasta = "Abrimos: ".$horario->getDesdeT() . "hs. Cerramos: " . $horario->getHastaT()." hs.";
+
+                            $horarios_tienda[] = $hours_hasta;
+                        }
+                    }
+                }
+            }else{
+
+                if($dia == 0) {$d = 6;} else {$d = $dia -1;}
+
+                if($horario->getDia()->getNro() == $d) {
+
+                    if ($horario->getCerrado()) {
+                        $horarios_tienda['close'] = $horario->getDia()->getName() . ": Cerrado";
+                    } elseif ($horario->getOpenAll()) {
+                        $horarios_tienda['open'] = $horario->getDia()->getName() . ": 24hs";
+                    } else {
+
+                        $hours = $horario->getDesde() . "-" . $horario->getHasta();
+                        $horarios_tienda[] = $hours;
+
+                        if ($horario->getHorarioPartido()) {
+
+                            $hours_hasta = $horario->getDesdeT() . "-" . $horario->getHastaT();
+
+                            $horarios_tienda[] = $hours_hasta;
+                        }
+                    }
+                }
+
+            }
+        }
+        return $horarios_tienda;
+
+    }
+
     public function getTiendasPremiumAction(Request $request){
 
         $time = trim(mb_convert_case($request->get("time"),MB_CASE_LOWER));
@@ -356,10 +416,10 @@ class HomeController extends Controller
 			  
 			  $open = false;
 			  $horarios = $tienda->getHorarios();
-              //$open = $this->checkOpenNow($horarios,$dia,$time);
-			  $horarios_tienda = $this->generateHorarios($horarios); 	
-			
-			 
+              $open = $this->checkOpenNow($horarios,$dia,$time);
+			  //$horarios_tienda = $this->generateHorarios($horarios);
+              $horarios_tienda = $this->hoyHorario($horarios,$dia,$time);
+
 			  $record=array();
               $record["id"]=$tienda->getId();
               $record["name"]=$tienda->getName();
