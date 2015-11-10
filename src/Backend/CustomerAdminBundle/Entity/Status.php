@@ -29,10 +29,12 @@ class Status {
      * @ORM\OneToMany(targetEntity="Proceso", mappedBy="status")
      */
     private $procesos;
-    
-  
 
-    
+    /**
+     * @ORM\Column(name="orden",type="integer")
+     */
+
+    private $orden;
        
     public function __construct() {
        
@@ -152,5 +154,28 @@ class Status {
     public function getProcesos()
     {
         return $this->procesos;
+    }
+
+    /**
+     * Set orden
+     *
+     * @param integer $orden
+     * @return Status
+     */
+    public function setOrden($orden)
+    {
+        $this->orden = $orden;
+
+        return $this;
+    }
+
+    /**
+     * Get orden
+     *
+     * @return integer 
+     */
+    public function getOrden()
+    {
+        return $this->orden;
     }
 }

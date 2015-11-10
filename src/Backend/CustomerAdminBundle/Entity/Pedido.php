@@ -85,8 +85,8 @@ class Pedido
 		 
 		  $this->createdAt = new \DateTime('now');
 		  $this->detalles = new \Doctrine\Common\Collections\ArrayCollection();
-      $this->procesos = new \Doctrine\Common\Collections\ArrayCollection();
-      $pagado = false;   
+          $this->procesos = new \Doctrine\Common\Collections\ArrayCollection();
+          $pagado = false;
     }
     
     
@@ -372,5 +372,14 @@ class Pedido
     public function getDireccion()
     {
         return $this->direccion;
+    }
+
+    /**
+     * @return mixed
+     */
+
+    public function getLastProceso(){
+
+        return $this->procesos->last();
     }
 }
