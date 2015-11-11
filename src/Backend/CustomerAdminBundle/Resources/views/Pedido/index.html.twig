@@ -54,7 +54,7 @@
 										<th>Productos</th>										
 										<th>Observaciones</th>
 										<th>Estado</th>
-                                        <th style="width: 90px;">Acciones</th>
+                                        <th style="width: 105px;">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -110,7 +110,22 @@
                                                   <a data-toggle="tooltip" title="Editar Pedido" href="{{ path('pedido_edit', { 'id': pedido.id }) }}"><i class="fa fa-pencil"></i></a>
                                                   {% endif %}
 												  {% if is_granted("ROLE_VIEWPRODUCTO") %}
-												  <a data-toggle="tooltip" title="Imprimir Pedido" href="{{ path('pedido_print',{ 'id': pedido.id }) }}"><i class="fa fa-print"></i></a>
+                                                      <a href="#"  title="Ver Pedido Completo" data-toggle="modal" data-target="#completo{{pedido.id}}"><i class="fa fa-eye"></i></a>
+                                                      <div class="modal fade " id="completo{{pedido.id}}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                                                          <div class="modal-dialog modal-lg">
+                                                              <div class="modal-content">
+
+                                                                  <table class="table table-bordered table-hover" style="margin-top: 10px;">
+                                                                      <th style="width: 100px;text-align: center">Estado</th><th style="width: 180px;">Fecha y hora</th><th>Comentarios</th>
+                                                                      {% for p in pedido.getProcesos() %}
+                                                                          <tr><td style="text-align: center;">{{ p.getStatus().getName() }}</td><td>{{ p.getCreatedAt() |date('d-m-Y h:m:s') }}</td><td>{{ p.getComentarios() | raw }}</td></tr>
+                                                                      {% endfor %}
+                                                                  </table>
+
+                                                              </div>
+                                                          </div>
+                                                      </div>
+                                                      <a data-toggle="tooltip" title="Imprimir Pedido" href="{{ path('pedido_print',{ 'id': pedido.id }) }}"><i class="fa fa-print"></i></a>
 												  {% endif %}
                                                   {% if is_granted("ROLE_DELPRODUCTO") %}
                                                   <a href="#" class="btn confirm-delete"   data-toggle="modal" data-id={{ pedido.id }}  data-target="#myModal"><i class="fa fa-trash"></i></a>
@@ -149,36 +164,6 @@
             </div>
         </div>
     </div>
-    <!--
-
-    <div class="modal small hide fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3 id="myModalLabel">Modificar estado</h3>
-        </div>
-        <div class="modal-body">
-
-            <!--
-            <p class="error-text">Esta seguro que desea registrar el pago?</p>
-
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" id="total" value="1">Pago total
-                </label>
-            </div>
-
-
-            <p class="error-text">Pago parcial (ingresar monto)</p>
-            <input type="text" name="parcial" id="parcial">
-
-            {% include 'BackendCustomerAdminBundle:Pedido:status.html.twig' %}
-        </div>
-        <div class="modal-footer">
-            <button class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</button>
-            <button class="btn btn-danger " data-id="0"  data-url="{{ path('producto') }}">Registrar Pago</button>
-        </div>
-    </div>
-    -->
 
     <form action="" id="delete-form" method="post" {{ form_enctype(delete_form) }}>
     {{ form_widget(delete_form) }}
