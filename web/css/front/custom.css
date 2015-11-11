@@ -96,3 +96,18 @@ opacity: 1;
 .no_buy{
  font-size: 14px;
 }
+
+.ui-autocomplete-barrio{
+ text-decoration: underline;
+ color: #333;
+ font-weight: bold;
+ cursor: none;
+}
+
+.ui-autocomplete-barrio:hover{
+ background-color: #fff;
+}
+
+.twitter-typeahead{
+ width: 100%;
+}

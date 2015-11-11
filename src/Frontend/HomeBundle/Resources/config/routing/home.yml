@@ -20,7 +20,11 @@ frontend_menuZona:
     
 frontend_menuCategoria:
     pattern:  /menuCategoria
-    defaults: { _controller: FrontendHomeBundle:Home:menuCategoria } 
+    defaults: { _controller: FrontendHomeBundle:Home:menuCategoria }
+    
+frontend_que:
+    pattern:  /que
+    defaults: { _controller: FrontendHomeBundle:Home:getQue }     
 
 frontend_tiendas:
     pattern:  /tiendas

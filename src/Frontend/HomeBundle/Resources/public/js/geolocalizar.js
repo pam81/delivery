@@ -43,10 +43,9 @@ function codeLatLng(lat, lng) {
   geocoder.geocode({'location': latlng}, function(results, status) {
     if (status == google.maps.GeocoderStatus.OK) {
       if (results[1]) {
-        //alert("Ud esta en :"+results[1].formatted_address);
+      
         var zonas =results[1].formatted_address.split(",");
-        console.log(zonas); 
-        //console.log(results);
+       
         var dataString = 'zona=' + zonas[1]+"&barrio="+zonas[0];
         var path = $("#check").val();
         $.ajax({
@@ -58,7 +57,7 @@ function codeLatLng(lat, lng) {
                 console.log("zona"+data.zonaId+"barrio"+data.barrioId);
                 $.cookie('delivery-ubicacion',JSON.stringify(data) , { expires: 30, path: '/' });
                 var cook = JSON.parse($.cookie('delivery-ubicacion'));
-                console.log(cook);
+              
                 getTiendas(data); //se la ubicacion y traigo las tiendas de esa zona validando el horario
             }
         });
