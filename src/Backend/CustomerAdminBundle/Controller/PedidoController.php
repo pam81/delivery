@@ -395,67 +395,114 @@ class PedidoController extends Controller
 
      public function exportarAction(Request $request)
     {
-     if ( $this->get('security.context')->isGranted('ROLE_VIEWPRODUCTO')) {
-         
-         $em = $this->getDoctrine()->getManager();
+        if ( $this->get('security.context')->isGranted('ROLE_VIEWPRODUCTO')) {
 
-       
-        $search=$this->generateSQL($request->query->get("search-query"));
+            $em = $this->getDoctrine()->getManager();
 
-       
-        $query = $em->createQuery($search);
+            $search=$this->generateSQL($request->query->get("search-query"));
 
-         $excelService = $this->get('xls.service_xls5');
-                         
-                            
-        $excelService->excelObj->setActiveSheetIndex(0)
-                    ->setCellValue('A1', 'Pedido nº')
-                    ->setCellValue('B1','Fecha')
-                    ->setCellValue('C1','Sucursal')
-                    ->setCellValue('D1','Cliente')
-                    ->setCellValue('E1','Direccion')
-                    ->setCellValue('F1','')
-                    ;
-                    
-        $resultados=$query->getResult();
-        $i=2;
-        foreach($resultados as $r)
-        {
-           $excelService->excelObj->setActiveSheetIndex(0)
-                         ->setCellValue("A$i",$r->getId())
-                         ->setCellValue("B$i",$r->getCreatedAt())
-                         ->setCellValue("C$i",$r->getSucursal()->getName())
-                         ->setCellValue("D$i",$r->getCliente()->getName())
-                         ->setCellValue("E$i",$r->getCliente()->getDireccion()->getCalle())
-                         ->setCellValue("F$i",$r->getMedioPago()->getName())
-                         ->setCellValue("G$i",$r->getDetalle())
-                         ;
-          $i++;
-        }
-                            
-        $excelService->excelObj->getActiveSheet()->setTitle('Listado de Productos');
-        // Set active sheet index to the first sheet, so Excel opens this as the first sheet
-        $excelService->excelObj->setActiveSheetIndex(0);
-        $excelService->excelObj->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
-        
-        $fileName="categorias_".date("Ymd").".xls";
-        //create the response
-        $response = $excelService->getResponse();
-        $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
-        //$response->headers->set('Content-Disposition', 'filename='.$fileName);
-        echo header("Content-Disposition: attachment; filename=$fileName");
-        // If you are using a https connection, you have to set those two headers and use sendHeaders() for compatibility with IE <9
-        $response->headers->set('Pragma', 'public');
-        $response->headers->set('Cache-Control', 'maxage=1');
-        $response->sendHeaders();
-        return $response; 
-        
-        
+            $query = $em->createQuery($search);
+
+            $excelService = $this->get('phpexcel')->createPHPExcelObject();
+
+
+            $excelService->setActiveSheetIndex(0)
+                ->setCellValue('A1', 'Orden')
+                ->setCellValue('B1', 'Fecha')
+                ->setCellValue('C1', 'Sucursal')
+                ->setCellValue('D1', 'Cliente')
+                ->setCellValue('E1', 'Direccion- Calle y nro')
+                ->setCellValue('F1', 'Piso y depto')
+                ->setCellValue('G1', 'Barrio')
+                ->setCellValue('H1', 'Total')
+                ->setCellValue('I1', 'Observaciones')
+                ->setCellValue('J1', 'Estado')
+                ->setCellValue('K1','Detalle')
+            ;
+
+            $resultados=$query->getResult();
+            $i=2;
+            foreach($resultados as $r)
+            {
+
+                $excelService->setActiveSheetIndex(0)
+                    ->setCellValue("A$i",$r->getId())
+                    ->setCellValue("B$i","fecha")
+                    ->setCellValue("C$i",$r->getSucursal()->getName())
+                    ->setCellValue("D$i",$r->getCustomer()->getName())
+                    ->setCellValue("E$i",$r->getDireccion()->getCalle()." ".$r->getDireccion()->getNumero())
+                    ->setCellValue("F$i",$r->getDireccion()->getPiso()." ".$r->getDireccion()->getDepto())
+                    ->setCellValue("G$i",$r->getDireccion()->getBarrio()->getName())
+                    ->setCellValue("H$i",$r->getTotal())
+                    ->setCellValue("I$i",$r->getComentarios())
+                    ->setCellValue("J$i",$r->getLastProceso()->getStatus()->getName())
+                    ->setCellValue("K$i","productos pedidos")
+                ;
+                $i++;
+            }
+
+            $excelService->getActiveSheet()->setTitle('Listado de Pedidos');
+            // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+            $excelService->setActiveSheetIndex(0);
+            $excelService->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+            $excelService->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+            $excelService->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
+            $excelService->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
+            $excelService->getActiveSheet()->getColumnDimension('E')->setAutoSize(true);
+            $excelService->getActiveSheet()->getColumnDimension('F')->setAutoSize(true);
+            $excelService->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);
+            $excelService->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
+            $excelService->getActiveSheet()->getColumnDimension('I')->setAutoSize(true);
+            $excelService->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
+
+            $fileName="productos_".date("Ymd").".xls";
+            //create the response
+            $writer = $this->get('phpexcel')->createWriter($excelService, 'Excel5');
+            // create the response
+            $response = $this->get('phpexcel')->createStreamedResponse($writer);
+            $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
+            echo header("Content-Disposition: attachment; filename=$fileName");
+            // If you are using a https connection, you have to set those two headers and use sendHeaders() for compatibility with IE <9
+            $response->headers->set('Pragma', 'public');
+            $response->headers->set('Cache-Control', 'maxage=1');
+            $response->sendHeaders();
+            return $response;
+
+
         }
         else{
-           throw new AccessDeniedException(); 
+            throw new AccessDeniedException();
         }
+
     }
+
+    /**
+     *
+     * Cargar productos desde Excel
+     *
+     */
+
+    public function importarProductosAction(){
+
+
+            $filenames = "your-file-name";
+            $phpExcelObject = $this->get('phpexcel')->createPHPExcelObject($filenames);
+
+            foreach ($phpExcelObject ->getWorksheetIterator() as $worksheet) {
+                echo 'Worksheet - ' , $worksheet->getTitle();
+                foreach ($worksheet->getRowIterator() as $row) {
+                    echo '    Row number - ' , $row->getRowIndex();
+                    $cellIterator = $row->getCellIterator();
+                    $cellIterator->setIterateOnlyExistingCells(false); // Loop all cells, even if it is not set
+                    foreach ($cellIterator as $cell) {
+                        if (!is_null($cell)) {
+                            echo '        Cell - ' , $cell->getCoordinate() , ' - ' , $cell->getCalculatedValue();
+                        }
+                    }
+                }
+            }
+    }
+
 
     public function getProductosAction(Request $request)
     {
