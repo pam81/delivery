@@ -126,8 +126,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f1e767', end
     background: linear-gradient(to bottom, rgba(241,231,103,0.81) 0%, rgba(254,182,69,0.81) 42%, rgba(254,182,69,0.81) 44%, rgba(254,182,69,1) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f1e767', endColorstr='#feb645', GradientType=0 );
 
-
-
 }
 
 .div_checkout{
@@ -300,6 +298,15 @@ header .shop-horarios table td{
     text-align: center;
 
 }
+
+.horario-home{
+
+    color: #363432;
+    font-size: 16px;
+    font-weight: 300;
+    font-family: "Roboto",sans-serif;
+
+}
 .product-title, .product-price{
 
 	color: #FE980F;
@@ -338,6 +345,16 @@ header .shop-horarios table td{
 .buscador_tienda{
 
     margin-top:15px;
+}
+
+.not-active {
+    pointer-events: none;
+    cursor: default;
+}
+
+.grey{
+
+    color:#C0C0C0;
 }
 
 @media(min-width:768px) {

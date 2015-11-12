@@ -132,7 +132,7 @@
                         <p class="product-title">{{ p.getName() }}</p>
                         <p class="product-desc">{{ p.getDescription }}</p>
                         <p class="product-price">$ {{ p.getPrecio() }}</p>
-						            <p class="product-details">
+                           <p class="product-details">
                             {% if p.getVariedades() is not empty %}
                             <button type="button" class="btn btn-link variedades" data-toggle="modal" data-target="#variedades{{p.getId() }}" >Ver Variedades</button>
                             <div class="modal fade" id="variedades{{p.getId() }}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
@@ -161,6 +161,8 @@
                                 </div>
                               </div>
                             </div>
+                            {% else %}
+                                <button type="button" class="btn btn-link variedades not-active" data-toggle="modal" data-target="#variedades{{p.getId() }}"><span class="grey">Sin Variedades</span></button>
                             {% endif %}
                         </p>  
 						           <button type="button"  data-id="{{p.getId}}" class="btn btn-warning  {% if p.getVariedades() is not empty %} comprar_variedades  {% else %} comprar_comun{% endif %}">Comprar</button>         
