@@ -88,24 +88,24 @@
                                                   </td>
 												  
                                                   <td>{{ pedido.comentarios }}</td>
-                                                  {% for proceso in pedido.getProcesos() %}
-                                                  <td>
 
-                                                      {% if proceso.getStatus.getName == "Pendiente" %}
-                                                        <span class="label label-info"> {{ proceso.getStatus.getName() }} </span>
-                                                      {% elseif proceso.getStatus.getName == "Procesando" %}
-                                                          <span class="label label-warning"> {{ proceso.getStatus.getName() }} </span>
-                                                      {% elseif proceso.getStatus.getName == "Enviado" %}
-                                                         <span class="label label-primary"> Enviado </span>
-                                                      {% elseif proceso.getStatus.getName == "Entregado" %}
-                                                          <span class="label label-success">{{ pedido.status.getName }}</span>
-                                                      {% elseif proceso.getStatus.getName == "Cancelado" %}
-                                                          <span class="label label-danger">Cancelado</span>
+                                                  <td>
+                                                      {% if pedido.getLastProceso().getStatus.getOrden() == 1 %}
+
+                                                        <span class="label label-info"> {{ pedido.getLastProceso().getStatus.getName() }} </span>
+                                                      {% elseif pedido.getLastProceso().getStatus.getOrden == 2 %}
+                                                          <span class="label label-warning"> {{ pedido.getLastProceso().getStatus.getName() }} </span>
+                                                      {% elseif pedido.getLastProceso().getStatus.getOrden() == 3 %}
+                                                         <span class="label label-primary"> {{ pedido.getLastProceso().getStatus.getName() }} </span>
+                                                      {% elseif pedido.getLastProceso().getStatus.getOrden() == 4 %}
+                                                          <span class="label label-success">{{ pedido.getLastProceso().getStatus.getName() }}</span>
+                                                      {% elseif pedido.getLastProceso().getStatus.getOrden() == 5 %}
+                                                          <span class="label label-danger">{{ pedido.getLastProceso().getStatus.getName() }}</span>
                                                       {% endif %}
 
                                                   </td>
-                                                  <td>{{ proceso.getModifiedAt() |date('d-m-Y h:m:s') }}</td>
-                                                    {% endfor %}
+                                                  <td>{{ pedido.getLastProceso().getModifiedAt() |date('d-m-Y h:m:s') }}</td>
+
                                                   <td>
                                                   {% if is_granted("ROLE_MODCOMPRA") %}
                                                   <a data-toggle="tooltip" title="Editar Pedido" href="{{ path('pedido_edit', { 'id': pedido.id }) }}"><i class="fa fa-pencil"></i></a>
@@ -144,7 +144,7 @@
             <h4 class="modal-title" id="myModalLabel">Confirmar Borrado</h4>
             </div>
             <div class="modal-body">
-                <p class="error-text">Esta seguro que desea borrar el producto?</p>
+                <p class="error-text">Esta seguro que desea borrar el pedido?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
