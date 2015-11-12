@@ -63,7 +63,7 @@
                                        <tr>
                                                   <td>{{ pedido.id}}</td>
 												  <td>{{ pedido.createdAt |date('d-m-Y h:m:s') }}</td>
-												  <td>{{ pedido.sucursal.getCustomer().getName() ~ " " ~ pedido.sucursal.getName() |capitalize}}</td>
+												  <td>{{ pedido.sucursal.getName() |capitalize}}</td>
 												  <td>{{ pedido.direccion.getCalle() ~ " " ~ pedido.direccion.getNumero() ~ " " ~ pedido.direccion.getPiso() }}
                                                   <td>{{ pedido.total }}</td>
                                                   <td>{{ pedido.paymethod.getName() | capitalize}}</td>
