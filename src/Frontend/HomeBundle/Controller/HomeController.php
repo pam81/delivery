@@ -25,7 +25,7 @@ class HomeController extends Controller
     {
 
         $session = $this->getRequest()->getSession();
-        $session->remove('categoria');
+        $session->remove('que');
         return $this->render('FrontendHomeBundle:Home:index.html.twig');
     }
     
@@ -52,39 +52,7 @@ class HomeController extends Controller
     public function menuZonaAction(Request $request)
     {
 
-        /*
-        $zonas = $this->getDoctrine()->getRepository('BackendAdminBundle:Zona')->findAll();
-
-        $listado=array();
-        foreach($zonas as $z){
-              $record=array();
-              $record["id"]=$z->getId();
-              $record["name"]=$z->getName();
-              $record["barrios"]=$this->getBarrios($z->getId());
-              $listado[] = $record;
-         }
-         $response = new Response(json_encode($listado));
-
-         $response->headers->set('Content-Type', 'application/json');
-
-         return $response;
-      }
-
-      //obtener listado de los barrios según la zona
-      private function getBarrios($zonaId){
-        $barrios = $this->getDoctrine()->getRepository('BackendAdminBundle:Barrio')->findBy(array("zona"=>$zonaId));
-
-        $resultado=array();
-        foreach($barrios as $b){
-              $record=array();
-              $record["id"]=$b->getId();
-              $record["name"]=$b->getName();
-              $resultado[] = $record;
-         }
-
-         return $resultado;
-      }
-      */
+        
 
         $search = trim(mb_convert_case($request->get("q"), MB_CASE_LOWER));
 
@@ -105,8 +73,7 @@ class HomeController extends Controller
 
             $resultados = $query->getResult();
 
-        //if(!is_empty($resultados)) {
-
+      
         foreach ($resultados as $resultado) {
 
             $barrio = array();
@@ -118,35 +85,15 @@ class HomeController extends Controller
             $listado[] = $barrio;
         }
 
-        //}
+        $listado[]=array("id"=>-1,"name"=>"Todos","zona"=>"Todas las Zonas","zonaId"=>-1);
+        
         $response = new Response(json_encode($listado));
 
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
     }
-     //obtener listado de categorias y subcategorias
-    /*
-    public function menuCategoriaAction(Request $request){
-    
-      $categorias = $this->getDoctrine()->getRepository('BackendAdminBundle:Categoria')->findAll();
      
-      $listado=array();
-      foreach($categorias as $c){
-            $record=array();
-            $record["id"]=$c->getId();
-            $record["name"]=$c->getName();
-            $record["subcategorias"]=$this->getSubcategorias($c->getId());
-            $listado[] = $record;
-       }
-       $response = new Response(json_encode($listado));
-        
-       $response->headers->set('Content-Type', 'application/json');
-  
-       return $response;
-    }
-
-    */
 
     public function menuCategoriaAction(Request $request){
 
@@ -169,7 +116,7 @@ class HomeController extends Controller
 
         $resultados = $query->getResult();
 
-        //if(!is_empty($resultados)) {
+     
 
             foreach ($resultados as $resultado) {
 
@@ -183,7 +130,7 @@ class HomeController extends Controller
                 $listado[] = $subcategoria;
             }
 
-        //}
+      
         $response = new Response(json_encode($listado));
 
         $response->headers->set('Content-Type', 'application/json');
@@ -210,87 +157,183 @@ class HomeController extends Controller
        
        return $resultado;
     }
+    
+    public function getQueAction(Request $request){
+         $q=$request->get("q");
+         //busco posibles valores de nombre tiendas
+         //categorias y subcategorias
+         $em = $this->getDoctrine()->getManager();
+         $sql="select s from BackendCustomerAdminBundle:Sucursal s where s.name like '%".$q."%' order by s.name";
+         $query = $em->createQuery($sql)->setMaxResults(3);
+         
+         $resultados = $query->getResult();
+         
+         $listado=array();
+         
+         foreach($resultados as $r){
+           $listado[]=array("name"=>$r->getName());
+         }
+         
+         /* $sql="select c from BackendAdminBundle:Categoria c where c.name like '%".$q."%' order by c.name";
+         $query = $em->createQuery($sql)->setMaxResults(3);
+         
+         $resultados = $query->getResult();
+         
+         foreach($resultados as $r){
+           $listado[]=array("name"=>$r->getName());
+         } */
+         
+         $sql="select s from BackendAdminBundle:Subcategoria s where s.name like '%".$q."%' order by s.name";
+         $query = $em->createQuery($sql)->setMaxResults(3);
+         
+         $resultados = $query->getResult();
+         
+         foreach($resultados as $r){
+           $listado[]=array("name"=>$r->getName());
+         }
+        
+         $response = new Response(json_encode($listado));
+
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+
+    
+    }
 
     // devuelve las tiendas según barrio y subcategoria devolver con status
 
     public function getTiendasAction(Request $request){
         
         $barrioId =trim(mb_convert_case($request->get("barrio"),MB_CASE_LOWER));
-		$time = trim(mb_convert_case($request->get("time"),MB_CASE_LOWER));
-   		$dia = trim(mb_convert_case($request->get("day"),MB_CASE_LOWER));
-        $subId = trim(mb_convert_case($request->get("cat"),MB_CASE_LOWER));
-
-		$time_array = explode(":",$time);
-		$ahora = $time_array[0]*60 + $time_array[1];
-
-        $dql= "SELECT u FROM BackendCustomerAdminBundle:Sucursal u JOIN u.direccion d JOIN u.customer c JOIN c.status e "; 
-
-        if($subId){
-
-            $dql.= " JOIN u.subcategorias s where s.id =".$subId." and d.barrio = ".$barrioId;
-
-            $session = $this->getRequest()->getSession();
-            $session->set('categoria',$subId);
-
-        }else{
-
-            $dql.= " where d.barrio = ".$barrioId;
-        }
-       //validar que esten activas las tiendas que los usuarios esten activos y habilitados 
-        $dql .=" and u.is_active= 1 and c.isActive = true and e.name = 'Habilitado'";   
+        $zonaId =trim(mb_convert_case($request->get("zona"),MB_CASE_LOWER));
+        $time = trim(mb_convert_case($request->get("time"),MB_CASE_LOWER));
+        $dia = trim(mb_convert_case($request->get("day"),MB_CASE_LOWER));
         
+        $que = trim(mb_convert_case($request->get("que"),MB_CASE_LOWER));
+        
+     
+        
+        $limit = 3;
+        $offset = $request->get("offset");
+        
+        $time_array = explode(":",$time);
+        $ahora = $time_array[0]*60 + $time_array[1];
+        
+        $where='';
+        
+        $select="SELECT u ";
+        $dql= " FROM BackendCustomerAdminBundle:Sucursal u 
+               JOIN u.customer c JOIN c.status e "; 
+
+        //validar que esten activas las tiendas que los usuarios esten activos y habilitados 
+        $where .=" where u.is_active= 1 and c.isActive = true and e.name = 'Habilitado'";
+        $session = $this->getRequest()->getSession();
+        
+        if ( ($zonaId && $zonaId != -1 ) || ($barrioId && $barrioId != -1)){
+              $dql .=" JOIN u.direccion d ";
+        }
+        
+        if ($zonaId && $zonaId != -1){
+            
+            $where.= " and d.zona = ".$zonaId;
+            
+            $session->set('zonaId',$zonaId);
+            $session->save();
+        }
+        
+        
+        if ($barrioId && $barrioId != -1){
+            
+            $where.= " and d.barrio = ".$barrioId;
+            
+            $session->set('barrioId',$barrioId);
+            $session->save();
+        }
+
+
+        if($que){
+
+            $dql.= " JOIN u.subcategorias s  "; 
+
+          
+            $session->set('que',$que);
+            $session->save();
+            $where .=" and ( s.name like '%".$que."%' or u.name like '%".$que."%')";
+        }
+        
+        $dql .=$where." order by u.id";
         $em = $this->getDoctrine()->getManager();
-		$query = $em->createQuery($dql);
-		$tiendas = $query->getResult();
+        $sql="select count(u.id)".$dql;
+        $total=$em->createQuery($sql)
+                ->getSingleScalarResult();
+       
+       
+       
+            
+        $sql=$select.$dql;     
+        
+    		$query = $em->createQuery($sql)->setMaxResults($limit)->setFirstResult($offset);
+    		$tiendas = $query->getResult();
+        
+        
+        $offset += $limit;
+       if ($offset > $total){
+           $offset = -1; // no hay más para la busqueda
+           
+       }
+        
         
         $listado=array();
         
         foreach ($tiendas as $tienda) {
 			  
-			  $open = false;
-			  $horarios = $tienda->getHorarios();
-			  //$horarios_tienda = $this->generateHorarios($horarios);
-              $horarios_tienda = $this->hoyHorario($horarios,$dia,$time);
-         
-              $open = $this->checkOpenNow($horarios,$dia,$time);
-			  $cierra = null; // para validar si está abierto al momento de comprar. 	
-			  $record=array();
-              $record["id"]=$tienda->getId();
-              $record["name"]=$tienda->getName();              
-			  if($tienda->getWebPath()){
-              	$record["imagen"]=$tienda->getWebPath();
-		  	  }else{		  	  	
-				$record["imagen"]="images/home/shop_default.png";
-		  	  }
-              $record["horario"] = $horarios_tienda; 
-              
-              if($open){				  
-				  $record["promo"] = "images/home/tienda_open.png";
-				  $record["title"] = "Abierto";
-			 
-			  }else{
-				  
-				  if($tienda->getOpen()){
-					  $record["promo"] = "images/home/tienda_pedido.png";
-					  $record["title"] = "Toma pedidos"; 					   
-				  
-				  }else{
-					  $record["promo"] = "images/home/tienda_close.png";
-					  $record["title"] = "Cerrado";					  
-				  }				  
-			  }
-			  $record["dia"] = $dia;
-
-			  $record["cierra"] = $cierra;
-			  $record["link"] = $this->generateUrl('frontend_show_products', array('id' =>$tienda->getId()));
+      			  $open = false;
+      			  $horarios = $tienda->getHorarios();
+      			 
+                    $horarios_tienda = $this->hoyHorario($horarios,$dia,$time);
+               
+                    $open = $this->checkOpenNow($horarios,$dia,$time);
+      			  $cierra = null; // para validar si está abierto al momento de comprar. 	
+      			  $record=array();
+                    $record["id"]=$tienda->getId();
+                    $record["name"]=$tienda->getName();              
+      			  if($tienda->getWebPath()){
+                    	$record["imagen"]=$tienda->getWebPath();
+      		  	  }else{		  	  	
+      				$record["imagen"]="images/home/shop_default.png";
+      		  	  }
+                    $record["horario"] = $horarios_tienda; 
+                    
+                    if($open){				  
+      				  $record["promo"] = "images/home/tienda_open.png";
+      				  $record["title"] = "Abierto";
+      			 
+      			  }else{
+      				  
+      				  if($tienda->getOpen()){
+      					  $record["promo"] = "images/home/tienda_pedido.png";
+      					  $record["title"] = "Toma pedidos"; 					   
+      				  
+      				  }else{
+      					  $record["promo"] = "images/home/tienda_close.png";
+      					  $record["title"] = "Cerrado";					  
+      				  }				  
+      			  }
+      			  $record["dia"] = $dia;
+      
+      			  $record["cierra"] = $cierra;
+      			  $record["link"] = $this->generateUrl('frontend_show_products', array('id' =>$tienda->getId()));
               $record["favorito"]=$this->isFavorito($tienda);
               $record["restricted"] =$this->checkSucursalIsResctricted($tienda->getSubcategorias());
-             $listado[] = $record;
+              $listado[] = $record;
 
        
-		} 
-		
-       $response = new Response(json_encode($listado));
+	     	} 
+		   
+       $resultado=array("listado"=>$listado,"zona"=>$zonaId,"barrio"=>$barrioId,"q"=>$que,"offset"=>$offset);
+    
+       $response = new Response(json_encode($resultado));
         
        $response->headers->set('Content-Type', 'application/json');
   
