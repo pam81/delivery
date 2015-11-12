@@ -94,6 +94,8 @@
                                        <td>
                                        {% if h.getCerrado() == 1%}
                                         <span class="label label-warning">Cerrado</span>
+                                       {% elseif h.getOpenAll()  %}
+                                           <span class="label label-success">24 hs</span>
                                        {% else %}
                                            {{ h.getDesde() }} - {{ h.getHasta() }}
                                        {% endif %}
@@ -105,6 +107,8 @@
                                                <td>
                                                    {% if h.getCerrado() == 1%}
                                                        <span class="label label-warning">Cerrado</span>
+                                                   {% elseif h.getOpenAll()  %}
+                                                       <span class="label label-success">24 hs</span>
                                                    {% else %}
                                                        {% if h.getDesdeT() is not null and h.getHastaT() is not null %}
                                                        {{ h.getDesdeT() }} - {{ h.getHastaT() }}
