@@ -587,7 +587,15 @@ class HomeController extends Controller
                 }
 
             }else{
-                $resultado = $productos;
+
+                foreach ($productos as $prod) {
+
+                    if($prod->getIsActive() == true){
+
+                        $resultado[] = $prod;
+                    }
+                }
+
                 $subcategoria = "Todos";
             }
 
