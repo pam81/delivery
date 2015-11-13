@@ -115,6 +115,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f1e767', end
     background-image: url("headers/panaderia_header.jpg");
 }
 
+.header_veterinaria {
+
+    background-image: url("headers/petshop.jpg");
+}
+
 .header_checkout {
 
     background: rgba(241,231,103,0.81);
@@ -229,7 +234,7 @@ header .intro-text .payments-method{
 header .intro-text .shop-payment{
 
 	font-size: 1.00em;
-    font-weight: 300;
+    font-weight: 400;
     color: #ffffff;
     margin-left: 190px;
 	margin-top: 5px;
@@ -238,7 +243,7 @@ header .intro-text .shop-payment{
 header .intro-text .shop-delivery{
 
 	font-size: 1.00em;
-    font-weight: 200;
+    font-weight: 400;
     color: #ffffff;
     margin-left: 190px;
 	margin-top: 5px;
