@@ -25,6 +25,10 @@ class Subcategoria
     private $name;
 
     /**
+     * @ORM\Column(name="code", type="string", length=50)
+     */
+    private $code;
+    /**
      * @ORM\ManyToOne(targetEntity="Categoria", inversedBy="subcategorias")
      * @ORM\JoinColumn(name="categoria_id", referencedColumnName="id")
      */
@@ -312,5 +316,28 @@ class Subcategoria
     public function getSucursales()
     {
         return $this->sucursales;
+    }
+
+    /**
+     * Set code
+     *
+     * @param string $code
+     * @return Subcategoria
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string 
+     */
+    public function getCode()
+    {
+        return $this->code;
     }
 }

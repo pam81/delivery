@@ -5,6 +5,10 @@ producto_new:
 producto_exportar:
     pattern:  /exportar
     defaults: { _controller: "BackendCustomerAdminBundle:Producto:exportar" }
+
+producto_importar:
+    pattern:  /importar
+    defaults: { _controller: "BackendCustomerAdminBundle:Producto:importar" }
     
 producto_create:
     pattern:  /create

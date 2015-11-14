@@ -20,10 +20,10 @@
                 </div> <!-- row -->
 
                  <div class="row">
-                    <div class="col-lg-3">
+                    <div class="col-lg-2">
                         <button type="button" class="btn btn-primary" id="new_button" data-url="{{ path('producto_new') }}">Nuevo</button>
                      </div>
-                     <div class="col-lg-4">
+                     <div class="col-lg-5">
                           <form id="custom-search-form" class="form-search form-horizontal pull-right" action="#">
                             
                             <div class="form-group input-group">
@@ -33,9 +33,13 @@
                            
                           </form>
                      </div>
-                     <div class="col-lg-3">
+                     <div class="col-lg-2">
                      {% if is_granted("ROLE_VIEWPRODUCTO") %} <button class="btn btn-primary" type="button" id="exportar_button" data-url="{{ path('producto_exportar') }}" >Exportar </button> {% endif %}
-                     </div> 
+                     </div>
+                     <div class="col-lg-2">
+                         {% if is_granted("ROLE_ADDPRODUCTO") %} <button class="btn btn-primary" type="button" id="importar_button" data-url="{{ path('producto_importar') }}" >Importar</button> {% endif %}
+                     </div>
+
                  </div>
                     
 

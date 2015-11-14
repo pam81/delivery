@@ -273,6 +273,28 @@ class ProductoController extends Controller
             ->getForm()
         ;
     }
+
+    /*
+     * Carga masiva de productos a traves de un excel
+     *
+     */
+
+    public function importarAction(){
+
+        if ( $this->get('security.context')->isGranted('ROLE_ADDPRODUCTO')) {
+            $entity = new Producto();
+            $customerId=$this->getUser()->getId();
+            $form   = $this->createForm(new ProductoType(), $entity, array("customerId"=>$customerId));
+
+            return $this->render('BackendCustomerAdminBundle:Producto:masiva.html.twig', array(
+                'entity' => $entity,
+                'form'   => $form->createView()
+
+            ));
+        }
+        else
+            throw new AccessDeniedException();
+    }
     
      public function exportarAction(Request $request)
     {
