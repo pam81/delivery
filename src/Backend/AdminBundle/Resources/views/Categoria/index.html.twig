@@ -46,6 +46,7 @@
                                 <thead>
                                     <tr>
                                         <th {% if pagination.isSorted('u.name') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nombre', 'u.name') }}</th>
+                                        <th>Codigo</th>
                                         <th>Imagen</th>
                                         <th>Restringida</th>
                                         <th style="width: 36px;">Acciones</th>
@@ -55,6 +56,7 @@
                                      {% for categoria in pagination %}
                                        <tr>
                                                   <td>{{ categoria.name |capitalize}}</td>
+                                                  <td>{{ categoria.code }}</td>
                                                   <td>
                                                   {% if categoria.getWebPath() %}
                                                   <img src="{{ asset(categoria.getWebPath()) }}" width="100" height="100" />

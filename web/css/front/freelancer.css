@@ -135,13 +135,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f1e767', end
 
 .div_checkout{
 
-     padding-top:10px;
      background-image: url("headers/header_checkout_tiny.png");
      width: 1170px;
      height: 367px;
-     margin-left: 90px;
+     margin-left: -30px;
 }
-
 
 header .container {
     padding-top: 100px;

@@ -21,7 +21,7 @@
 
                  <div class="row">
                     <div class="col-lg-2">
-                        <button type="button" class="btn btn-primary" id="new_button" data-url="{{ path('producto_new') }}">Nuevo</button>
+                        <button type="button" class="btn btn-primary" id="new_button" data-url="{{ path('producto_importar') }}">Nuevo</button>
                      </div>
                      <div class="col-lg-5">
                           <form id="custom-search-form" class="form-search form-horizontal pull-right" action="#">
@@ -34,10 +34,10 @@
                           </form>
                      </div>
                      <div class="col-lg-2">
-                     {% if is_granted("ROLE_VIEWPRODUCTO") %} <button class="btn btn-primary" type="button" id="exportar_button" data-url="{{ path('producto_exportar') }}" >Exportar </button> {% endif %}
+                     {% if is_granted("ROLE_VIEWPRODUCTO") %} <button class="btn btn-primary" type="button" id="importar_button" data-url="{{ path('producto_importar') }}" >Importar</button> {% endif %}
                      </div>
                      <div class="col-lg-2">
-                         {% if is_granted("ROLE_ADDPRODUCTO") %} <button class="btn btn-primary" type="button" id="importar_button" data-url="{{ path('producto_importar') }}" >Importar</button> {% endif %}
+                         {% if is_granted("ROLE_VIEWPRODUCTO") %} <button class="btn btn-primary" type="button" id="exportar_button" data-url="{{ path('producto_exportar') }}" >Exportar </button> {% endif %}
                      </div>
 
                  </div>

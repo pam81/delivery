@@ -279,22 +279,55 @@ class ProductoController extends Controller
      *
      */
 
-    public function importarAction(){
+    public function importarAction(Request $request){
 
         if ( $this->get('security.context')->isGranted('ROLE_ADDPRODUCTO')) {
-            $entity = new Producto();
-            $customerId=$this->getUser()->getId();
-            $form   = $this->createForm(new ProductoType(), $entity, array("customerId"=>$customerId));
 
+            $user=$this->getUser();
+            $em = $this->getDoctrine()->getManager();
+
+            $dql="SELECT u FROM BackendCustomerAdminBundle:Sucursal u JOIN u.customer c where c.id = ".$user->getId();
+
+            $query = $em->createQuery($dql);
+
+            $sucursales=$query->getResult();
+
+            $entity = null;
             return $this->render('BackendCustomerAdminBundle:Producto:masiva.html.twig', array(
                 'entity' => $entity,
-                'form'   => $form->createView()
+                'sucursales' => $sucursales
+                    ));
 
-            ));
-        }
-        else
-            throw new AccessDeniedException();
+            } else{
+                throw new AccessDeniedException();
+            }
     }
+
+
+    private function procesarExcel($filename){
+
+        $phpExcelObject = $this->get('phpexcel')->createPHPExcelObject($filename);
+
+        foreach ($phpExcelObject ->getWorksheetIterator() as $worksheet) {
+
+            foreach ($worksheet->getRowIterator() as $row) {
+
+                $cellIterator = $row->getCellIterator();
+                $cellIterator->setIterateOnlyExistingCells(false);
+
+                foreach ($cellIterator as $cell) {
+
+                    if (!is_null($cell)) {
+
+                        echo '        Cell - ' , $cell->getCoordinate() , ' - ' , $cell->getCalculatedValue();
+
+                    }
+                }
+            }
+        }
+
+    }
+
     
      public function exportarAction(Request $request)
     {
