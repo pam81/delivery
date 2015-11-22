@@ -9,7 +9,7 @@
             <div class="tab-pane active in" id="home">
 
                 <div class="span12">
-                    <form method="get" action="{{ path('producto') }}">
+                    <form method="post" action="{{ path('producto_procesar') }}">
                         <label>Seleccione las sucursales</label>
                         <select class="span4" name="sucursal" id="sucursal" multiple style="width: 220px;">
                             <option value="0">Seleccione la sucursal</option>
@@ -22,7 +22,7 @@
                        <input type="file" name="excel" id="excel">
 
 
-                        <button class="btn btn-primary" type="submit">Cargar</button>
+                        <button class="btn btn-primary" type="submit" id="cargar">Cargar</button>
                     </form>
                 </div>
 

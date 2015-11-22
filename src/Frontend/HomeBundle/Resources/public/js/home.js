@@ -192,15 +192,15 @@ $('#menuCategoria .typeahead').typeahead({
 										element += '<div class="product-image-wrapper">';
 										element += ' <div class="single-products">';
 										element +='		<div class="productinfo text-center">';
-										element +='			<img src="'+data[index].imagen+'" alt="" />';
-										element += '										<a href="javascript:void(0)" data-link="'+data[index].link+'" data-restricted="'+data[index].restricted+'" class="btn btn-warning go_tienda"  data-sucursal="'+data[index].id+'"></i>Ir a la tienda</a>';
+										element +='<a href="javascript:void(0)" data-link="'+data[index].link+'" data-restricted="'+data[index].restricted+'" data-sucursal="'+data[index].id+'" class="go_tienda"><img src="'+data[index].imagen+'" alt="" class="img-circle" title="Ir a la tienda"/></a>';
+										//element += '										<a href="javascript:void(0)" data-link="'+data[index].link+'" data-restricted="'+data[index].restricted+'" class="btn btn-warning go_tienda"  data-sucursal="'+data[index].id+'"></i>Ir a la tienda</a>';
 										element +='		</div> ';
-										element +='<img src="'+data[index].promo+'" title="'+data[index].title +'" class="new">';
+										//element +='<img src="'+data[index].promo+'" title="'+data[index].title +'" class="new">';
 										
 										element += '</div>';
 										                        element +='    <div class="choose">';
     									  element +='       <ul class="nav nav-pills nav-justified">';
-    										element +='         <li><a href="javascript:void(0)" class="horarios_modal" data-texto="'+horario+'" data-sucursal="panel_premium_'+data[index].id+'"><i class="fa fa-clock-o"></i>Consultar horario</a></li>';
+    									//	element +='         <li><a href="javascript:void(0)" class="horarios_modal" data-texto="'+horario+'" data-sucursal="panel_premium_'+data[index].id+'"><i class="fa fa-clock-o"></i>Consultar horario</a></li>';
                     if (data[index].favorito == true){    
                         element +='         <li><a href="javascript:void(0)" class="add_favorito" data-sucursal="'+data[index].id+'"><i class="fa fa-heart"></i></a></li>';
                      }   
@@ -352,8 +352,9 @@ function getTiendas(ubicacion){
                       	element += '						<div class="product-image-wrapper">';
                       	element += '							<div class="single-products">';
                       	element += '									<div class="productinfo text-center">';
-                      	element += '										<img src="'+data[index].imagen+'" alt="" />';
-                      	element += '										<a href="javascript:void(0)" data-link="'+data[index].link+'" data-restricted="'+data[index].restricted+'" class="btn btn-warning go_tienda"  data-sucursal="'+data[index].id+'"></i>Ir a la tienda</a>';
+                        element += '<a href="javascript:void(0)" data-link="'+data[index].link+'" data-restricted="'+data[index].restricted+'" data-sucursal="'+data[index].id+'"></a>';
+                      	element += '										<img src="'+data[index].imagen+'" alt="" class="img-circle"/></a>';
+                      	//element += '										<a href="javascript:void(0)" data-link="'+data[index].link+'" data-restricted="'+data[index].restricted+'" class="btn btn-warning go_tienda"  data-sucursal="'+data[index].id+'"></i>Ir a la tienda</a>';
                       	element += '									</div> ';
                         element +='<img src="'+data[index].promo+'" title="'+data[index].title +'" class="new">';
 									

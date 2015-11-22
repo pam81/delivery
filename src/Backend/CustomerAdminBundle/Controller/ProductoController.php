@@ -275,7 +275,7 @@ class ProductoController extends Controller
     }
 
     /*
-     * Carga masiva de productos a traves de un excel
+     * Genera el formulario para la carga masiva de productos
      *
      */
 
@@ -303,8 +303,17 @@ class ProductoController extends Controller
             }
     }
 
+    /**
+     * @param Request $request
+     *
+     * Proceso los datos del excel
+     */
 
-    private function procesarExcel($filename){
+    public function procesarExcelAction(Request $request){
+
+        $user=$this->getUser();
+
+        $filename = "uploads/masiva/"+ strval($user)+"/datos.csv";
 
         $phpExcelObject = $this->get('phpexcel')->createPHPExcelObject($filename);
 
@@ -326,15 +335,22 @@ class ProductoController extends Controller
             }
         }
 
+        $this->get('session')->getFlashBag()->add('success' , 'Se han cargado los productos correctamente.');
+
+        return $this->redirect($this->generateUrl('sucursal'));
+
     }
 
+    /*
+     *  Genera listado de productos completo en Excel
+     *
+     */
     
      public function exportarAction(Request $request)
     {
      if ( $this->get('security.context')->isGranted('ROLE_VIEWPRODUCTO')) {
-         
-         $em = $this->getDoctrine()->getManager();
 
+         $em = $this->getDoctrine()->getManager();
        
         $search=$this->generateSQL($request->query->get("search-query")); 
            
