@@ -146,7 +146,7 @@ header .container {
     padding-bottom: 30px;
 }
 
-header_shop .container {
+.header_shop .container {
 
 	padding-top: 250px;
     padding-bottom: 50px;
@@ -302,6 +302,11 @@ header .shop-horarios table td{
 
 }
 
+.discount{
+
+    padding-top: -50px;
+}
+
 .horario-home{
 
     color: #363432;
@@ -361,9 +366,10 @@ header .shop-horarios table td{
 }
 
 @media(min-width:768px) {
+
     header .container {
-        padding-top: 100px;
-        padding-bottom: 30px;
+        padding-top: 80px;
+        padding-bottom: 20px;
     }
 
     header .intro-text .name {
@@ -377,6 +383,7 @@ header .shop-horarios table td{
 }
 
 @media(min-width:768px) {
+
     .navbar-fixed-top {
         padding: 2px 0;
         -webkit-transition: padding .3s;
@@ -406,7 +413,8 @@ header .shop-horarios table td{
     font-weight: 700;
     background-color: inherit;
     border-color: transparent;
-    opacity: 0.5;
+    opacity: 1;
+    height: 65px;
 }
 
 .navbar a:focus {
@@ -447,6 +455,28 @@ section.success a:active,
 section.success a.active {
     outline: 0;
     color: #2c3e50;
+}
+
+.carousel-home{
+
+    margin-top: -50px;
+    padding-bottom: 20px;
+    margin-left: -100px;
+}
+
+.carousel-control.left{
+
+    background-image: none;
+}
+
+.carousel-control.right{
+
+    background-image: none;
+}
+
+.product-image-wrapper{
+
+    border: none;
 }
 
 @media(max-width:767px) {

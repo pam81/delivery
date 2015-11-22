@@ -29,6 +29,11 @@
                                   <a href="{{ path('producto') }}"><i class="fa fa-wa fa-cube"></i> Mis Productos</a>
                               </li>               					
                      {% endif %}
+                     {% if is_granted('ROLE_ADDPRODUCTO') %}
+                        <li>
+                            <a href="{{ path('producto_importar') }}"><i class="fa fa-wa fa-upload"></i> Carga masiva</a>
+                        </li>
+                     {% endif %}
                      {% if is_granted('ROLE_VIEWVARIEDAD') %} 
              					<li >
                           <a href="{{ path('variedad') }}"><i class="fa fa-wa fa-cubes"></i> Variedades</a>

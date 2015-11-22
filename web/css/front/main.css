@@ -876,7 +876,7 @@ h1.slogan {
 }
 
 .product-image-wrapper{
-	border:1px solid #F7F7F5;
+	border: none;
 	overflow: hidden;
 	margin-bottom:30px;
 	margin-left:40px;
@@ -1015,7 +1015,7 @@ h1.slogan {
 }
 
 .choose {
-  border-top: 1px solid #F7F7F0;
+ /* border-top: 1px solid #F7F7F0; */
 }
 
 .choose ul li a {
@@ -1093,7 +1093,7 @@ h1.slogan {
 
 .recommended-item-control {
   position: absolute;
-  top: 41%;
+  top: 46%;
 }
 
 .recommended-item-control i {
