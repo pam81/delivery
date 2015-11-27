@@ -88,7 +88,12 @@ class Sucursal
      * @ORM\ManyToMany(targetEntity="Producto", mappedBy="sucursales", cascade={"persist","remove"})
      */
     protected $productos;
-	
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Promocion", mappedBy="sucursales", cascade={"persist","remove"})
+     */
+    protected $promociones;
+
     /**
      * @ORM\ManyToMany(targetEntity="\Backend\AdminBundle\Entity\PayMethod", inversedBy="sucursales")
 	 * @ORM\JoinTable(name="paymethod_sucursal")
@@ -1053,5 +1058,38 @@ class Sucursal
     public function getHeader()
     {
         return $this->header;
+    }
+
+    /**
+     * Add promociones
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Promocion $promociones
+     * @return Sucursal
+     */
+    public function addPromocione(\Backend\CustomerAdminBundle\Entity\Promocion $promociones)
+    {
+        $this->promociones[] = $promociones;
+
+        return $this;
+    }
+
+    /**
+     * Remove promociones
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Promocion $promociones
+     */
+    public function removePromocione(\Backend\CustomerAdminBundle\Entity\Promocion $promociones)
+    {
+        $this->promociones->removeElement($promociones);
+    }
+
+    /**
+     * Get promociones
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPromociones()
+    {
+        return $this->promociones;
     }
 }

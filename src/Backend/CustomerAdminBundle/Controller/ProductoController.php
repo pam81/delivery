@@ -65,6 +65,7 @@ class ProductoController extends Controller
      else
          throw new AccessDeniedException(); 
     }
+
     /**
      * Creates a new Producto entity.
      *

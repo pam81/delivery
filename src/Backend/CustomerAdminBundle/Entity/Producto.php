@@ -104,6 +104,11 @@ class Producto
      * @ORM\JoinColumn(name="subcategoria_id", referencedColumnName="id")
      */
     private $subcategoria;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Promocion", mappedBy="producto")
+     */
+    private $promociones;
 	
 	 /**
      * @ORM\OneToMany(targetEntity="Detalle", mappedBy="producto")
@@ -769,5 +774,38 @@ class Producto
     public function getMinVariedad()
     {
         return $this->minVariedad;
+    }
+
+    /**
+     * Add promociones
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Promocion $promociones
+     * @return Producto
+     */
+    public function addPromocione(\Backend\CustomerAdminBundle\Entity\Promocion $promociones)
+    {
+        $this->promociones[] = $promociones;
+
+        return $this;
+    }
+
+    /**
+     * Remove promociones
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Promocion $promociones
+     */
+    public function removePromocione(\Backend\CustomerAdminBundle\Entity\Promocion $promociones)
+    {
+        $this->promociones->removeElement($promociones);
+    }
+
+    /**
+     * Get promociones
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPromociones()
+    {
+        return $this->promociones;
     }
 }

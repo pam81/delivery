@@ -40,9 +40,7 @@ customer_sucursal:
 
 customer_producto:
     resource: "@BackendCustomerAdminBundle/Resources/config/routing/producto.yml"
-    prefix:   /producto    
-   
-  
+    prefix:   /producto
 
 customer_variedad:
     resource: "@BackendCustomerAdminBundle/Resources/config/routing/variedad.yml"
@@ -56,3 +54,6 @@ customer_compra:
     resource: "@BackendCustomerAdminBundle/Resources/config/routing/compra.yml"
     prefix:   /compra
             
+customer_promocion:
+    resource: "@BackendCustomerAdminBundle/Resources/config/routing/promocion.yml"
+    prefix:   /promocion

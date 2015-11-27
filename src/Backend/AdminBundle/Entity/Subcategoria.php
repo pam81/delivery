@@ -33,8 +33,8 @@ class Subcategoria
      * @ORM\JoinColumn(name="categoria_id", referencedColumnName="id")
      */
     private $categoria;
-    
-     /**
+
+    /**
     * @ORM\ManyToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Sucursal", mappedBy="categorias")
     */
   
@@ -44,6 +44,11 @@ class Subcategoria
      * @ORM\OneToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Producto", mappedBy="subcategoria")
      */
    private $productos;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Promocion", mappedBy="subcategorias", cascade={"persist","remove"})
+     */
+    protected $promociones;
 
    /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -339,5 +344,38 @@ class Subcategoria
     public function getCode()
     {
         return $this->code;
+    }
+
+    /**
+     * Add promociones
+     *
+     * @param \Backend\AdminBundle\Entity\Promocion $promociones
+     * @return Subcategoria
+     */
+    public function addPromocione(\Backend\CustomerAdminBundle\Entity\Promocion $promociones)
+    {
+        $this->promociones[] = $promociones;
+
+        return $this;
+    }
+
+    /**
+     * Remove promociones
+     *
+     * @param \Backend\AdminBundle\Entity\Promocion $promociones
+     */
+    public function removePromocione(\Backend\CustomerAdminBundle\Entity\Promocion $promociones)
+    {
+        $this->promociones->removeElement($promociones);
+    }
+
+    /**
+     * Get promociones
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPromociones()
+    {
+        return $this->promociones;
     }
 }
