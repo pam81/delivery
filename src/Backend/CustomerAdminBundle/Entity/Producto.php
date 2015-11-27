@@ -238,7 +238,8 @@ class Producto
     {
         // get rid of the __DIR__ so it doesn't screw up
         // when displaying uploaded doc/image in the view.
-        return 'uploads/productos';
+        $sucursales=$this->getSucursales();
+        return 'uploads/productos/'.$sucursales[0]->getCustomer()->getId();
     }
     
     
