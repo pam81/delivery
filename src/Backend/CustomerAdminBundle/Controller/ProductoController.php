@@ -6,8 +6,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Core\Exception\RuntimeException;
 use Backend\CustomerAdminBundle\Entity\Producto;
+use Backend\CustomerAdminBundle\Entity\Variedad;
 use Backend\CustomerAdminBundle\Form\ProductoType;
+use ZipArchive;
 
 /**
  * Producto controller.
@@ -291,10 +294,85 @@ class ProductoController extends Controller
             $query = $em->createQuery($dql);
 
             $sucursales=$query->getResult();
+            if ($request->getMethod() == 'POST') {
+              $sucursal='';
+              $excel='';
+              $images='';
+              $continuar=true;
+             
+              if ($request->get("sucursal")){   
+                $sucursal=$request->get("sucursal");
+              }else{
+                 $this->get('session')->getFlashBag()->add('error' , 'No se indico una sucursal.');
+                 $continuar=false;
+              }
+             
+             $excel = $request->files->get('excell');
+             if (null === $excel){
+                $continuar=false;
+                $this->get('session')->getFlashBag()->add('error' , 'No se indico un archivo de productos.');
+             }else{
+                 $path= pathinfo($excel->getClientOriginalName());
+                 $ext = $path["extension"];
+                 $size = $excel->getClientSize();
+                 echo "producto extension $ext size $size maximo".$excel->getMaxFilesize();
+                 if ($ext == "xls" || $ext == "xlsx"){
+                    if ($size < $excel->getMaxFilesize()){
+                        $filename = sha1(uniqid(mt_rand(), true));
+                        $dir = __DIR__.'/../../../../web/uploads/importar/'.$user->getId();
+                        $excel->move($dir, $filename);
+                    }else{
+                       $continuar=false;
+                       $this->get('session')->getFlashBag()->add('error' , 'El archivo de productos es demasiado grande.'); 
+                    }
+                }else{
+                    $continuar=false;
+                    $this->get('session')->getFlashBag()->add('error' , 'El archivo de productos no tiene extensión xls o xlsx.');
+                }
+             }
 
-            $entity = null;
+             $images = $request->files->get('images');
+             if (null !== $images){
+                 $path = pathinfo($images->getClientOriginalName());
+                 $ext = $path["extension"];
+                 $size = $images->getClientSize();
+                 echo "imagen extension $ext size $size maximo".$images->getMaxFilesize();
+                 if ($ext == "zip" ){
+                    if ($size < $images->getMaxFilesize()){
+                         $filenameImg = sha1(uniqid(mt_rand(), true)).".zip";
+                         $dir = __DIR__.'/../../../../web/uploads/importar/'.$user->getId();
+                         $images->move($dir, $filenameImg);
+                         $targetzip = $dir."/".$filenameImg;
+                         $targetdir = __DIR__.'/../../../../web/uploads/productos/'.$user->getId(); //poner los productos en carpetas por usuario
+                         $zip = new ZipArchive();
+                         
+                         $x = $zip->open($targetzip);  // open the zip file to extract
+                         if ($x === true) {
+                                $zip->extractTo($targetdir); // place in the directory with same name  
+                                $zip->close();
+                     
+                                unlink($targetzip);
+                        }else{
+                            $continuar=false;
+                            $this->get('session')->getFlashBag()->add('error' , 'El archivo de images no pudo descomprimirse. Verifique que este bien formado.'); 
+                        }
+                    }else{
+                        $continuar=false;
+                        $this->get('session')->getFlashBag()->add('error' , 'El archivo de images es demasiado grande.');  
+                    }
+               } else{
+                    $continuar=false;
+                    $this->get('session')->getFlashBag()->add('error' , 'El archivo de imagenes no tiene extensión zip .');
+               }
+             }
+
+             if ($continuar){
+
+                    return $this->render('BackendCustomerAdminBundle:Producto:importar.html.twig',array("filename"=>$dir."/".$filename,"sucursales"=>implode(",",$sucursal)));
+             }
+            }
+            
             return $this->render('BackendCustomerAdminBundle:Producto:masiva.html.twig', array(
-                'entity' => $entity,
                 'sucursales' => $sucursales
                     ));
 
@@ -310,34 +388,132 @@ class ProductoController extends Controller
      */
 
     public function procesarExcelAction(Request $request){
+            $user=$this->getUser();
+            $resultado=array("status"=>0,"message"=>'', "total"=>0, "row"=>2, "error"=>'');
+            $filename =$request->get("filename");
+            $sucursales = $request->get("sucursales");
+            $rowIndex = $request->get("row");
 
-        $user=$this->getUser();
+            
+            $phpExcelObject = $this->get('phpexcel')->createPHPExcelObject($filename);
+            $phpExcelObject->setActiveSheetIndex(0);
+            $worksheet = $phpExcelObject->getActiveSheet();
+            
+            $total=$worksheet->getHighestRow();
+            $resultado["total"]=$total;
+            $limit = 10;
+            $em = $this->getDoctrine()->getManager();
+            $i=0;
+        
+            while ( $i< $limit && $rowIndex <= $total){
+                $i++; //solo proceso 100 filas del excell o salgo si llegue al máximo
+                $cellA = $worksheet->getCell('A' . $rowIndex);
+                $categoriaName= $cellA->getCalculatedValue();
+                $categoria = $em->getRepository('BackendAdminBundle:Categoria')->findOneByCode($categoriaName);
 
-        $filename = "uploads/masiva/"+ strval($user)+"/datos.csv";
+                $cellB = $worksheet->getCell('B' . $rowIndex);
+                $subcategoriaName= $cellB->getCalculatedValue();
+                $subcategoria = $em->getRepository('BackendAdminBundle:Subcategoria')->findOneByCode($subcategoriaName);
 
-        $phpExcelObject = $this->get('phpexcel')->createPHPExcelObject($filename);
+                $cellC = $worksheet->getCell('C' . $rowIndex);
+                $nameProducto = $cellC->getCalculatedValue();
 
-        foreach ($phpExcelObject ->getWorksheetIterator() as $worksheet) {
+                $cellD = $worksheet->getCell('D' . $rowIndex);
+                $descriptionProducto = $cellD->getCalculatedValue();
 
-            foreach ($worksheet->getRowIterator() as $row) {
+                $cellE = $worksheet->getCell('E' . $rowIndex);
+                $codeProducto = $cellE->getCalculatedValue();
 
-                $cellIterator = $row->getCellIterator();
-                $cellIterator->setIterateOnlyExistingCells(false);
+                $cellF = $worksheet->getCell('F' . $rowIndex);
+                $priceProducto = $cellF->getCalculatedValue();
 
-                foreach ($cellIterator as $cell) {
+                $cellG = $worksheet->getCell('G' . $rowIndex);
+                $disponibleProducto = $cellG->getCalculatedValue();
 
-                    if (!is_null($cell)) {
+                $cellH = $worksheet->getCell('H' . $rowIndex);
+                $imagenProducto = $cellH->getCalculatedValue();
 
-                        echo '        Cell - ' , $cell->getCoordinate() , ' - ' , $cell->getCalculatedValue();
+                $cellI = $worksheet->getCell('I' . $rowIndex);
+                $stockProducto = $cellI->getCalculatedValue();
 
-                    }
-                }
-            }
-        }
+                $cellJ = $worksheet->getCell('J' . $rowIndex);
+                $maxVariedadProducto = $cellJ->getCalculatedValue();
 
-        $this->get('session')->getFlashBag()->add('success' , 'Se han cargado los productos correctamente.');
+                $cellK = $worksheet->getCell('K' . $rowIndex);
+                $minVariedadProducto = $cellK->getCalculatedValue();
 
-        return $this->redirect($this->generateUrl('sucursal'));
+                $cellL = $worksheet->getCell('L' . $rowIndex);
+                $qtyVariedadProducto = $cellL->getCalculatedValue();
+
+                $cellM = $worksheet->getCell('M' . $rowIndex);
+                $variedadesProducto = $cellM->getCalculatedValue();
+                try{
+                        $entity = new Producto();
+                        $entity->setName($nameProducto);
+                        $entity->setDescription($descriptionProducto);
+                        $entity->setCode($codeProducto);
+                        $entity->setPrecio($priceProducto);
+                        $entity->setAlwaysAvailable($disponibleProducto);
+                        $entity->setPath($imagenProducto);
+                        $entity->setStock($stockProducto);
+                        $entity->setMaxVariedad($maxVariedadProducto);
+                        $entity->setMinVariedad($minVariedadProducto);
+                        $entity->setQtyVariedad($qtyVariedadProducto);
+                        if ($categoria){
+                               $entity->setCategoria($categoria);
+                        }else{
+                            throw new RuntimeException('No existe categoría.');
+                        }
+                        if ($subcategoria){
+                           $entity->setSubcategoria($subcategoria);
+                        }else{
+                            throw new RuntimeException('No existe subcategoría.');
+                        }
+                        //agregar sucursales
+                        $listSucursales = explode(",",$sucursales);
+                        foreach($listSucursales as $s){
+                            $sucursal = $em->getRepository('BackendCustomerAdminBundle:Sucursal')->find($s);
+                            $entity->addSucursale($sucursal);
+                        }
+                        //agregar variedades
+                        if ($variedadesProducto != ''){
+                            $variedades = explode(",",$variedadesProducto);
+                            foreach($variedades as $v){
+                                //busco la variedad en la tabla por el nombre
+                                $variedad = $em->getRepository('BackendCustomerAdminBundle:Variedad')->findOneByName($v);
+                                if ($variedad){ //si esta asocio directamente con el producto
+                                    $entity->addVariedade($variedad);
+                                }else{ //debo crear primero la variedad y dps asociarla con el producto
+                                    $variedad = new Variedad();
+                                    $variedad->setName($v);
+                                    $em->persist($variedad);
+                                    $em->flush();
+                                    $entity->addVariedade($variedad);
+                                }
+                            }
+                        }
+                        $em->persist($entity);
+                        $em->flush();
+
+                }catch(RuntimeException $e){
+                        $resultado["error"] .= "No se pudo subir el ".$nameProducto.": ".$e->getMessage()."<br>";
+                } 
+
+                $rowIndex ++;
+            } 
+
+
+           
+      $resultado["row"]=$rowIndex;
+
+      $response = new Response(json_encode($resultado));
+       
+       $response->headers->set('Content-Type', 'application/json');
+  
+       return $response;
+
+
+        
 
     }
 
