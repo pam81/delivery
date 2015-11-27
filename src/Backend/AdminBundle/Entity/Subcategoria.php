@@ -25,10 +25,20 @@ class Subcategoria
     private $name;
 
     /**
+     * @ORM\Column(name="code", type="string", length=50)
+     */
+    private $code;
+    /**
      * @ORM\ManyToOne(targetEntity="Categoria", inversedBy="subcategorias")
      * @ORM\JoinColumn(name="categoria_id", referencedColumnName="id")
      */
     private $categoria;
+    
+     /**
+    * @ORM\ManyToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Sucursal", mappedBy="categorias")
+    */
+  
+   protected $sucursales;
     
      /**
      * @ORM\OneToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Producto", mappedBy="subcategoria")
@@ -44,10 +54,15 @@ class Subcategoria
     private $temp;
     private $file;
 
+    public function __construct(){
+          $this->productos = new \Doctrine\Common\Collections\ArrayCollection();
+          $this->sucursales = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
      public function __toString()
     {
           return $this->name;
-          $this->productos = new \Doctrine\Common\Collections\ArrayCollection();
+    
     }
 
     /**
@@ -105,13 +120,7 @@ class Subcategoria
     {
         return $this->categoria;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->productos = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+   
 
     /**
      * Add productos
@@ -274,5 +283,61 @@ class Subcategoria
     public function getPath()
     {
         return $this->path;
+    }
+
+    /**
+     * Add sucursales
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Sucursal $sucursales
+     * @return Subcategoria
+     */
+    public function addSucursale(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
+    {
+        $this->sucursales[] = $sucursales;
+
+        return $this;
+    }
+
+    /**
+     * Remove sucursales
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Sucursal $sucursales
+     */
+    public function removeSucursale(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
+    {
+        $this->sucursales->removeElement($sucursales);
+    }
+
+    /**
+     * Get sucursales
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSucursales()
+    {
+        return $this->sucursales;
+    }
+
+    /**
+     * Set code
+     *
+     * @param string $code
+     * @return Subcategoria
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string 
+     */
+    public function getCode()
+    {
+        return $this->code;
     }
 }

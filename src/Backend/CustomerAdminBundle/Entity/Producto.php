@@ -35,11 +35,12 @@ class Producto
     private $code;
 
     /**
-     * @ORM\Column(name="price", type="string", length=100)
+     * @ORM\Column(name="price", type="decimal", scale=2)
      */
     private $precio;
     
     /**
+
      * @ORM\Column(name="always_available", type="boolean")
      */
     private $alwaysAvailable;    
@@ -62,17 +63,33 @@ class Producto
     /**
      * @ORM\Column(name="stock", type="integer",nullable=true)
      */
-    private $stock;	
-			
-    /**
-     * @ORM\ManyToMany(targetEntity="Sucursal", mappedBy="productos", cascade={"persist","remove"})
-     */
+    private $stock;
 
+    /**
+     * @ORM\Column(name="maxVariedad", type="integer",nullable=true)
+     */
+    private $maxVariedad;
+    
+    /**
+     * @ORM\Column(name="minVariedad", type="integer",nullable=true)
+     */
+    private $minVariedad;
+
+    /**
+     * @ORM\Column(name="qtyVariedad", type="boolean",nullable=true)
+     */
+    private $qtyVariedad;
+    
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="Sucursal", inversedBy="productos", cascade={"persist","remove"})
+	 * @ORM\JoinTable(name="sucursal_producto")
+     */
     protected $sucursales;
 	
     /**
      * @ORM\ManyToMany(targetEntity="Variedad", inversedBy="productos")
-	 * @ORM\JoinTable(name="producto_variedad")
+	   * @ORM\JoinTable(name="producto_variedad")
      */
     protected $variedades;
 	
@@ -87,12 +104,11 @@ class Producto
      * @ORM\JoinColumn(name="subcategoria_id", referencedColumnName="id")
      */
     private $subcategoria;
-    
-    /**
-     * @ORM\ManyToMany(targetEntity="Pedido", mappedBy="productos")
+	
+	 /**
+     * @ORM\OneToMany(targetEntity="Detalle", mappedBy="producto")
      */
-
-    protected $pedidos;
+    private $detalles;	
 	
     
     /**
@@ -102,14 +118,18 @@ class Producto
     private $path;
     private $temp;
     private $file;
+    	
     public function __construct() {
 
 		  $this->alwaysAvailable = true;
 		  $this->isActive = true;
 		  $this->createdAt = new \DateTime('now');
 		  $this->variedades = new \Doctrine\Common\Collections\ArrayCollection();
+          $this->minVariedad = 0;
+          $this->maxVariedad = 0;
          
     }
+
     public function __toString()
     {
           return $this->name;
@@ -218,7 +238,8 @@ class Producto
     {
         // get rid of the __DIR__ so it doesn't screw up
         // when displaying uploaded doc/image in the view.
-        return 'uploads/productos';
+        $sucursales=$this->getSucursales();
+        return 'uploads/productos/'.$sucursales[0]->getCustomer()->getId();
     }
     
     
@@ -471,6 +492,7 @@ class Producto
     public function getPath()
     {
         return $this->path;
+
     }
 
     /**
@@ -479,7 +501,7 @@ class Producto
      * @param \Backend\CustomerAdminBundle\Entity\Sucursales $sucursales
      * @return Producto
      */
-    public function addSucursal(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
+    public function addSucursale(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
     {
         $this->sucursales[] = $sucursales;
 		$sucursales->addProducto($this);
@@ -492,7 +514,7 @@ class Producto
      *
      * @param \Backend\CustomerAdminBundle\Entity\Sucursales $sucursales
      */
-    public function removeSucursal(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
+    public function removeSucursale(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
     {
         $this->sucursales->removeElement($sucursales);
 		$sucursales->removeProducto($this);
@@ -564,29 +586,7 @@ class Producto
         return $this->isActive;
     }
 
-    /**
-     * Add sucursales
-     *
-     * @param \Backend\CustomerAdminBundle\Entity\Sucursal $sucursales
-     * @return Producto
-     */
-    public function addSucursale(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
-    {
-        $this->sucursales[] = $sucursales;
-
-        return $this;
-    }
-
-    /**
-     * Remove sucursales
-     *
-     * @param \Backend\CustomerAdminBundle\Entity\Sucursal $sucursales
-     */
-    public function removeSucursale(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursales)
-    {
-        $this->sucursales->removeElement($sucursales);
-    }
-
+    
     /**
      * Add variedades
      *
@@ -666,5 +666,108 @@ class Producto
     public function getPedidos()
     {
         return $this->pedidos;
+    }
+
+    /**
+     * Add detalles
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Detalle $detalles
+     * @return Producto
+     */
+    public function addDetalle(\Backend\CustomerAdminBundle\Entity\Detalle $detalles)
+    {
+        $this->detalles[] = $detalles;
+
+        return $this;
+    }
+
+    /**
+     * Remove detalles
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Detalle $detalles
+     */
+    public function removeDetalle(\Backend\CustomerAdminBundle\Entity\Detalle $detalles)
+    {
+        $this->detalles->removeElement($detalles);
+    }
+
+    /**
+     * Get detalles
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getDetalles()
+    {
+        return $this->detalles;
+    }
+
+
+    /**
+     * Set maxVariedad
+     *
+     * @param integer $maxVariedad
+     * @return Producto
+     */
+    public function setMaxVariedad($maxVariedad)
+    {
+        $this->maxVariedad = $maxVariedad;
+
+        return $this;
+    }
+
+    /**
+     * Get maxVariedad
+     *
+     * @return integer 
+     */
+    public function getMaxVariedad()
+    {
+        return $this->maxVariedad;
+    }
+
+    /**
+     * Set qtyVariedad
+     *
+     * @param integer $qtyVariedad
+     * @return Producto
+     */
+    public function setQtyVariedad($qtyVariedad)
+    {
+        $this->qtyVariedad = $qtyVariedad;
+
+        return $this;
+    }
+
+    /**
+     * Get qtyVariedad
+     *
+     * @return integer 
+     */
+    public function getQtyVariedad()
+    {
+        return $this->qtyVariedad;
+    }
+
+    /**
+     * Set minVariedad
+     *
+     * @param integer $minVariedad
+     * @return Producto
+     */
+    public function setMinVariedad($minVariedad)
+    {
+        $this->minVariedad = $minVariedad;
+
+        return $this;
+    }
+
+    /**
+     * Get minVariedad
+     *
+     * @return integer 
+     */
+    public function getMinVariedad()
+    {
+        return $this->minVariedad;
     }
 }

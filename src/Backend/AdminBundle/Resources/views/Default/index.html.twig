@@ -17,6 +17,12 @@
       <span>USUARIOS</span>
      </div>
   {% endif %}
+  {% if is_granted('ROLE_VIEWCUSTOMER') %}
+     <div class="col-md-3 boton_initial">
+      <a href="{{ path('customer') }}"><img src="{{ asset("img/user.png")}}" width="150" height="150"></a>
+      <span>CLIENTES</span>
+     </div>
+  {% endif %}
   {% if is_granted('ROLE_VIEWZONA') %}
       <div class="col-md-3 boton_initial">
         <a href="{{ path('zona') }}"><img src="{{ asset("img/localidad.png")}}" width="150" height="150"></a>

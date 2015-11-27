@@ -16,3 +16,28 @@
     margin: 10px;
    
 }
+
+#backend_customerbundle_profiletype_birthday .select2-container{
+  width: 80px !important;
+}
+
+.day {
+    height: 25px;
+}
+
+#label {
+    float: left;
+    min-width: 80px; 
+}
+
+.hiddenRow {
+    padding: 0 !important;
+}
+
+.cate-pill {
+  background-color: #31B0D5;
+}
+
+.btnCate{
+ margin-bottom: 10px;
+}

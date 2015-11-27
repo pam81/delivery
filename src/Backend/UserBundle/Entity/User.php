@@ -40,7 +40,10 @@ class User implements AdvancedUserInterface, \Serializable {
      */
     private $password;
     
-    
+    /**
+     * @ORM\Column(name="codigo", type="string", length=200, nullable= true)
+     */
+    private $codigo; 
 
     /**
      * @ORM\Column(type="string", length=200)
@@ -540,4 +543,27 @@ class User implements AdvancedUserInterface, \Serializable {
 
    
 
+
+    /**
+     * Set codigo
+     *
+     * @param string $codigo
+     * @return User
+     */
+    public function setCodigo($codigo)
+    {
+        $this->codigo = $codigo;
+
+        return $this;
+    }
+
+    /**
+     * Get codigo
+     *
+     * @return string 
+     */
+    public function getCodigo()
+    {
+        return $this->codigo;
+    }
 }

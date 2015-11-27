@@ -27,11 +27,11 @@ class Favorito
      */
     private $customer;
     /**
-     * @ORM\ManyToOne(targetEntity="\Backend\CustomerBundle\Entity\Customer", inversedBy="favoritosComercios")
-     * @ORM\JoinColumn(name="comercio_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="\Backend\CustomerAdminBundle\Entity\Sucursal", inversedBy="favoritos")
+     * @ORM\JoinColumn(name="sucursal_id", referencedColumnName="id")
      *      
      */
-    private $comercio;
+    private $sucursal;
     
     
     /**
@@ -117,6 +117,8 @@ class Favorito
 
 
 
+    
+
     /**
      * Set customer
      *
@@ -141,25 +143,25 @@ class Favorito
     }
 
     /**
-     * Set comercio
+     * Set sucursal
      *
-     * @param \Backend\CustomerBundle\Entity\Customer $comercio
+     * @param \Backend\CustomerAdminBundle\Entity\Sucursal $sucursal
      * @return Favorito
      */
-    public function setComercio(\Backend\CustomerBundle\Entity\Customer $comercio = null)
+    public function setSucursal(\Backend\CustomerAdminBundle\Entity\Sucursal $sucursal = null)
     {
-        $this->comercio = $comercio;
+        $this->sucursal = $sucursal;
 
         return $this;
     }
 
     /**
-     * Get comercio
+     * Get sucursal
      *
-     * @return \Backend\CustomerBundle\Entity\Customer 
+     * @return \Backend\CustomerAdminBundle\Entity\Sucursal 
      */
-    public function getComercio()
+    public function getSucursal()
     {
-        return $this->comercio;
+        return $this->sucursal;
     }
 }

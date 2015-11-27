@@ -4,39 +4,116 @@
 
   <input type="hidden" name="check" id="check" value="{{ path('frontend_checkbarrio') }}">
 	<section>
+        <div class="row carousel-home">
+
+            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                </ol>
+
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <img src="images/home/pizza_tiny.jpg" alt="...">
+                        <div class="carousel-caption">
+                            <h3>PROMO 2X1 EN PIZZAS</h3>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img src="images/home/sushi_header.jpg" alt="...">
+                        <div class="carousel-caption">
+                            <h3>25% de descuento todos los mediodías</h3>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img src="images/home/fruteria_header.jpg" alt="...">
+                        <div class="carousel-caption">
+                            <h3>2x1 en frutas de estación</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <!--
+                <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                </a>
+                <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                </a>
+                -->
+            </div> <!-- Carousel -->
+
+        </div>
 		<div class="container">
+
+
 			<div class="row">
 					
 					<div class="recommended_items"><!--recommended_items-->
-						<h2 class="title text-center">Sugeridos</h2>
+						<h2 class="title text-center">Hoy sugerimos</h2>
 						
 						<div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
 							<div class="carousel-inner" id="sugeridos" data-url="{{ path('frontend_premium') }}">
 							
           
-								</div>  <!-- items-->
-							</div>
+							</div>  <!-- items-->
+						</div>
 							 <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
 								<i class="fa fa-angle-left"></i>
 							  </a>
 							  <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
 								<i class="fa fa-angle-right"></i>
 							  </a>			
-						</div>
-					</div><!--/recommended_items-->
+					</div>
+			</div>
 					
           	<div class="col-sm-12 padding-right">
-					<div class="features_items" id="tiendas_listado" data-url="{{ path('frontend_tiendas')}}"><!--features_items-->
-						<h2 class="title text-center">Mirá lo que tenes cerca</h2>
+				<h2 class="title text-center" id="title_mira">Mirá lo que tenes cerca</h2>
+					<div class="features_items" id="tiendas_listado" data-urlfavorito="{{ path('frontend_addFavorito')}}" data-url="{{ path('frontend_tiendas')}}"><!--features_items-->
+						<p class="respuesta" id="aun">Aún no realizaste ninguna busqueda</p>
 					</div><!--features_items-->
           
           	<div class="col-sm-12 ">
-                    <a class="btn" id="see_more">queres ver más!</a>
+                    <a class="btn btn-warning" id="see_more">queres ver más!</a>
             </div>
-				</div>
-			</div>
-		</div>
+			</div><!-- col -->
+
+		</div><!-- container -->
 	</section>
+
+  <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="horarioModal">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+       <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+           <h4 class="modal-title" id="myModalLabel">Horarios de Atención</h4>  
+       </div>
+       <div class="modal-body">
+            
+       </div>
+    </div>
+  </div>
+</div>
 
 
 {% endblock %}
+  {% block javascripts %}
+  {{ parent()}}
+  {% javascripts '@FrontendHomeBundle/Resources/public/js/geolocalizar.js'filter='?uglifyjs2' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+  {% endjavascripts %}
+  
+  {% javascripts '@FrontendHomeBundle/Resources/public/js/home.js'filter='?uglifyjs2' %}
+      <script type="text/javascript" src="{{ asset_url }}"></script>
+  {% endjavascripts %}
+  
+  {% javascripts '@FrontendHomeBundle/Resources/public/js/checkTime.js'filter='?uglifyjs2' %}
+      <script type="text/javascript" src="{{ asset_url }}"></script>
+  {% endjavascripts %}
+ 
+  
+ {% endblock %} 

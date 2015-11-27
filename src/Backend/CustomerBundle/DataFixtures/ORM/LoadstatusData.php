@@ -28,7 +28,7 @@ class LoadStatusData extends AbstractFixture implements OrderedFixtureInterface,
     {
         $status1 = new Status();
         $status1->setName("Pendiente");
-        $status1->setIsDelete("false");
+        $status1->setIsDelete(false);
         $status1->setCreatedAt(new \DateTime('now'));
         $manager->persist($status1);
         $manager->flush();
@@ -36,7 +36,7 @@ class LoadStatusData extends AbstractFixture implements OrderedFixtureInterface,
         
         $status2 = new Status();
         $status2->setName("Habilitado");
-        $status2->setIsDelete("false");
+        $status2->setIsDelete(false);
         $status2->setCreatedAt(new \DateTime('now'));
         $manager->persist($status2);
         $manager->flush();

@@ -51,7 +51,9 @@ forgot_pass:
 
 change_pass:
     pattern:  /change_pass/{codigo}
-    defaults: { _controller: "BackendUserBundle:User:changePassword", codigo: '' }    
+    defaults: { _controller: "BackendUserBundle:User:changePassword", codigo: '' }
+
+        
     
 access_denied:
     pattern: /panel/caes

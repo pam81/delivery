@@ -39,6 +39,10 @@ class Customer implements AdvancedUserInterface, \Serializable {
      * @ORM\Column(type="string", length=40)
      */
     private $password;
+    /**
+     * @ORM\Column(name="codigo", type="string", length=200, nullable= true)
+     */
+    private $codigo; 
     
     /**
      * @ORM\Column(type="string", length=200)
@@ -66,9 +70,11 @@ class Customer implements AdvancedUserInterface, \Serializable {
     private $lastname;
     
 	/**
-     * @ORM\Column(name="nickname", type="string", length=100, nullable=true)
+     * @ORM\ManyToOne(targetEntity="TipoDni", inversedBy="customers")
+     * @ORM\JoinColumn(name="tipodni_id", referencedColumnName="id")
      */
-    private $nickname;
+    
+    private $tipodni;
 	
 	/**
      * @ORM\Column(name="dni", type="string", length=100, nullable=true)
@@ -112,7 +118,7 @@ class Customer implements AdvancedUserInterface, \Serializable {
      * @ORM\ManyToOne(targetEntity="Status", inversedBy="customers")
      * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
      */
-   
+    
     private $status;
     
     /**
@@ -146,14 +152,15 @@ class Customer implements AdvancedUserInterface, \Serializable {
 
 	private $sucursales;
 		
-	
-    /*falta*/
-    private $productos;
-    
     /**
-     * @ORM\OneToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Favorito", mappedBy="comercio")
+     * @ORM\OneToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Variedad", mappedBy="customer")
      */
-    private $favoritosComercios;
+
+	 private $variedades;
+	
+    
+    
+   
     
     /**
      * @ORM\OneToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Favorito", mappedBy="customer")
@@ -164,13 +171,14 @@ class Customer implements AdvancedUserInterface, \Serializable {
        
     public function __construct() {
         $this->isActive = true;
+        $this->isComercio = false;
         $this->isDelete = false;
         $this->salt = md5(uniqid(null, true));
         $this->groups =  new ArrayCollection();
 		    $this->sucursales = new ArrayCollection();
         $this->createdAt = new \DateTime('now');
         $this->favoritos =  new ArrayCollection();
-        $this->favoritosComercios =  new ArrayCollection();
+        
         
     }
 
@@ -780,29 +788,7 @@ class Customer implements AdvancedUserInterface, \Serializable {
         return $this->direcciones;
     }
 
-    /**
-     * Set nickname
-     *
-     * @param string $nickname
-     * @return Customer
-     */
-    public function setNickname($nickname)
-    {
-        $this->nickname = $nickname;
-
-        return $this;
-    }
-
-    /**
-     * Get nickname
-     *
-     * @return string 
-     */
-    public function getNickname()
-    {
-        return $this->nickname;
-    }
-
+   
     /**
      * Add productos
      *
@@ -933,5 +919,84 @@ class Customer implements AdvancedUserInterface, \Serializable {
     public function getFavoritos()
     {
         return $this->favoritos;
+    }
+
+    /**
+     * Set codigo
+     *
+     * @param string $codigo
+     * @return Customer
+     */
+    public function setCodigo($codigo)
+    {
+        $this->codigo = $codigo;
+
+        return $this;
+    }
+
+    /**
+     * Get codigo
+     *
+     * @return string 
+     */
+    public function getCodigo()
+    {
+        return $this->codigo;
+    }
+
+    /**
+     * Add variedades
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Variedad $variedades
+     * @return Customer
+     */
+    public function addVariedade(\Backend\CustomerAdminBundle\Entity\Variedad $variedades)
+    {
+        $this->variedades[] = $variedades;
+
+        return $this;
+    }
+
+    /**
+     * Remove variedades
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Variedad $variedades
+     */
+    public function removeVariedade(\Backend\CustomerAdminBundle\Entity\Variedad $variedades)
+    {
+        $this->variedades->removeElement($variedades);
+    }
+
+    /**
+     * Get variedades
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getVariedades()
+    {
+        return $this->variedades;
+    }
+
+    /**
+     * Set tipodni
+     *
+     * @param \Backend\CustomerBundle\Entity\TipoDni $tipodni
+     * @return Customer
+     */
+    public function setTipodni(\Backend\CustomerBundle\Entity\TipoDni $tipodni = null)
+    {
+        $this->tipodni = $tipodni;
+
+        return $this;
+    }
+
+    /**
+     * Get tipodni
+     *
+     * @return \Backend\CustomerBundle\Entity\TipoDni 
+     */
+    public function getTipodni()
+    {
+        return $this->tipodni;
     }
 }
