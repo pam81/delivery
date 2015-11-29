@@ -68,7 +68,7 @@ class Promocion
     private $desde;
 
     /**
-     * @ORM\Column(name="hasta", type="integer",nullable=false)
+     * @ORM\Column(name="hasta", type="datetime",nullable=false)
      */
     private $hasta;
 
@@ -81,6 +81,10 @@ class Promocion
      * @ORM\Column(name="modified_at", type="datetime", nullable=true)
      */
     private $modifiedAt;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
 
     private $path;
     private $temp;
@@ -427,7 +431,7 @@ class Promocion
      * @param \Backend\CustomerAdminBundle\Entity\Subcategoria $subcategorias
      * @return Promocion
      */
-    public function addSubcategoria(\Backend\CustomerAdminBundle\Entity\Subcategoria $subcategorias)
+    public function addSubcategoria(\Backend\AdminBundle\Entity\Subcategoria $subcategorias)
     {
         $this->subcategorias[] = $subcategorias;
 
@@ -439,7 +443,7 @@ class Promocion
      *
      * @param \Backend\CustomerAdminBundle\Entity\Subcategoria $subcategorias
      */
-    public function removeSubcategoria(\Backend\CustomerAdminBundle\Entity\Subcategoria $subcategorias)
+    public function removeSubcategoria(\Backend\AdminBundle\Entity\Subcategoria $subcategorias)
     {
         $this->subcategorias->removeElement($subcategorias);
     }
@@ -521,5 +525,28 @@ class Promocion
     public function getDetail()
     {
         return $this->detail;
+    }
+
+    /**
+     * Set path
+     *
+     * @param string $path
+     * @return Promocion
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+
+        return $this;
+    }
+
+    /**
+     * Get path
+     *
+     * @return string 
+     */
+    public function getPath()
+    {
+        return $this->path;
     }
 }

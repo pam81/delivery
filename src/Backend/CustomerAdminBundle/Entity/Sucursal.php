@@ -154,10 +154,11 @@ class Sucursal
      */
 	
 	private $minimo;
-  
- 
-  
 
+    /**
+     * @ORM\OneToMany(targetEntity="Banner", mappedBy="sucursal")
+     */
+    private $banners;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -1091,5 +1092,38 @@ class Sucursal
     public function getPromociones()
     {
         return $this->promociones;
+    }
+
+    /**
+     * Add banners
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Banner $banners
+     * @return Sucursal
+     */
+    public function addBanner(\Backend\CustomerAdminBundle\Entity\Banner $banners)
+    {
+        $this->banners[] = $banners;
+
+        return $this;
+    }
+
+    /**
+     * Remove banners
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Banner $banners
+     */
+    public function removeBanner(\Backend\CustomerAdminBundle\Entity\Banner $banners)
+    {
+        $this->banners->removeElement($banners);
+    }
+
+    /**
+     * Get banners
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getBanners()
+    {
+        return $this->banners;
     }
 }

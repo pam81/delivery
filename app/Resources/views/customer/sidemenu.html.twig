@@ -34,10 +34,22 @@
                             <a href="{{ path('producto_importar') }}"><i class="fa fa-wa fa-upload"></i> Carga masiva</a>
                         </li>
                      {% endif %}
-                     {% if is_granted('ROLE_ADDPRODUCTO') %}
+                    {% if is_granted('ROLE_ADDPRODUCTO') %}
+                    <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Campañas <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="demo" class="collapse">
+                            {% if is_granted('ROLE_ADDPRODUCTO') %}
+                                <li>
+                                    <a href="{{ path('banner') }}"><i class="fa fa-picture-o"></i> Banners</a>
+                                </li>
+                            {% endif %}
+                            {% if is_granted('ROLE_ADDPRODUCTO') %}
                         <li>
                             <a href="{{ path('promocion') }}"><i class="fa fa-wa fa-gift"></i> Mis Promociones</a>
                         </li>
+                             {% endif %}
+                        </ul>
+                     </li>
                      {% endif %}
 
                      {% if is_granted('ROLE_VIEWVARIEDAD') %} 

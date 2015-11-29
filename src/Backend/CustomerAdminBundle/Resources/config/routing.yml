@@ -57,3 +57,7 @@ customer_compra:
 customer_promocion:
     resource: "@BackendCustomerAdminBundle/Resources/config/routing/promocion.yml"
     prefix:   /promocion
+
+customer_banner:
+    resource: "@BackendCustomerAdminBundle/Resources/config/routing/banner.yml"
+    prefix:   /banner

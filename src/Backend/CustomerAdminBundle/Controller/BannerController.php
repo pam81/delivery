@@ -7,15 +7,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Exception\RuntimeException;
-use Backend\CustomerAdminBundle\Entity\Promocion;
-use Backend\CustomerAdminBundle\Form\PromocionType;
+use Backend\CustomerAdminBundle\Entity\Banner;
+use Backend\CustomerAdminBundle\Form\BannerType;
 
 
 /**
- * Promocion controller.
+ * Banner controller.
  *
  */
-class PromocionController extends Controller
+class BannerController extends Controller
 {
 
     public function generateSQL($search)
@@ -23,7 +23,7 @@ class PromocionController extends Controller
 
         $user = $this->getUser();
 
-        $dql = "SELECT u FROM BackendCustomerAdminBundle:Promocion u JOIN u.sucursales s where s.customer = " . $user->getId();
+        $dql = "SELECT u FROM BackendCustomerAdminBundle:Banner u JOIN u.sucursal s where s.customer = " . $user->getId();
         $search = mb_convert_case($search, MB_CASE_LOWER);
 
         if ($search)
@@ -36,7 +36,7 @@ class PromocionController extends Controller
     }
 
     /**
-     * Lists all Promocion entities.
+     * Lists all Banners entities.
      *
      */
     public function indexAction(Request $request, $search)
@@ -55,7 +55,7 @@ class PromocionController extends Controller
             );
 
             $deleteForm = $this->createDeleteForm(0);
-            return $this->render('BackendCustomerAdminBundle:Promocion:index.html.twig',
+            return $this->render('BackendCustomerAdminBundle:Banner:index.html.twig',
                 array('pagination' => $pagination,
                     'delete_form' => $deleteForm->createView(),
                     'search' => $search
@@ -72,9 +72,9 @@ class PromocionController extends Controller
     public function createAction(Request $request)
     {
         if ( $this->get('security.context')->isGranted('ROLE_ADDPRODUCTO')) {
-            $entity  = new Promocion();
+            $entity  = new Banner();
             $customerId=$this->getUser()->getId();
-            $form = $this->createForm(new PromocionType(), $entity, array("customerId"=>$customerId));
+            $form = $this->createForm(new BannerType(), $entity, array("customerId"=>$customerId));
 
             $form->bind($request);
 
@@ -83,11 +83,11 @@ class PromocionController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($entity);
                 $em->flush();
-                $this->get('session')->getFlashBag()->add('success' , 'Se ha agregado una nueva promocion.');
-                return $this->redirect($this->generateUrl('promocion_edit', array('id' => $entity->getId())));
+                $this->get('session')->getFlashBag()->add('success' , 'Se ha agregado un nuevo banner.');
+                return $this->redirect($this->generateUrl('banner_edit', array('id' => $entity->getId())));
             }
 
-            return $this->render('BackendCustomerAdminBundle:Promocion:new.html.twig', array(
+            return $this->render('BackendCustomerAdminBundle:Banner:new.html.twig', array(
                 'entity' => $entity,
                 'form'   => $form->createView()
 
@@ -98,16 +98,16 @@ class PromocionController extends Controller
     }
 
     /**
-     * Creates a form to create a Cliente entity.
+     * Creates a form to create a Banner entity.
      *
-     * @param Promocion $entity The entity
+     * @param Banner $entity The entity
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateForm(Promocion $entity)
+    private function createCreateForm(Banner $entity)
     {
-        $form = $this->createForm(new PromocionType(), $entity, array(
-            'action' => $this->generateUrl('promocion_create'),
+        $form = $this->createForm(new BannerType(), $entity, array(
+            'action' => $this->generateUrl('banner_create'),
             'method' => 'POST',
         ));
 
@@ -117,17 +117,17 @@ class PromocionController extends Controller
     }
 
     /**
-     * Displays a form to create a new Promocion entity.
+     * Displays a form to create a new Banner entity.
      *
      */
     public function newAction()
     {
         if ( $this->get('security.context')->isGranted('ROLE_ADDPRODUCTO')) {
-            $entity = new Promocion();
+            $entity = new Banner();
             $customerId=$this->getUser()->getId();
-            $form   = $this->createForm(new PromocionType(), $entity, array("customerId"=>$customerId));
+            $form   = $this->createForm(new BannerType(), $entity, array("customerId"=>$customerId));
 
-            return $this->render('BackendCustomerAdminBundle:Promocion:new.html.twig', array(
+            return $this->render('BackendCustomerAdminBundle:Banner:new.html.twig', array(
                 'entity' => $entity,
                 'form'   => $form->createView()
 
@@ -146,18 +146,18 @@ class PromocionController extends Controller
         if ( $this->get('security.context')->isGranted('ROLE_MODPRODUCTO')) {
             $em = $this->getDoctrine()->getManager();
 
-            $entity = $em->getRepository('BackendCustomerAdminBundle:Promocion')->find($id);
+            $entity = $em->getRepository('BackendCustomerAdminBundle:Banner')->find($id);
 
             if (!$entity) {
 
-                $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado el producto.');
+                $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado el banner.');
                 return $this->redirect($this->generateUrl('promocion'));
             }
             $customerId=$this->getUser()->getId();
             $editForm = $this->createForm(new PromocionType(), $entity, array("customerId"=>$customerId));
             $deleteForm = $this->createDeleteForm($id);
 
-            return $this->render('BackendCustomerAdminBundle:Promocion:edit.html.twig', array(
+            return $this->render('BackendCustomerAdminBundle:Banner:edit.html.twig', array(
                 'entity'      => $entity,
                 'form'   => $editForm->createView(),
                 'delete_form' => $deleteForm->createView(),
@@ -170,16 +170,16 @@ class PromocionController extends Controller
     }
 
     /**
-     * Creates a form to edit a Producto entity.
+     * Creates a form to edit a Banner entity.
      *
-     * @param Producto $entity The entity
+     * @param Banner $entity The entity
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createEditForm(Promocion $entity)
+    private function createEditForm(Banner $entity)
     {
-        $form = $this->createForm(new PromocionType(), $entity, array(
-            'action' => $this->generateUrl('promocion_update', array('id' => $entity->getId())),
+        $form = $this->createForm(new BannerType(), $entity, array(
+            'action' => $this->generateUrl('banner_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
@@ -196,26 +196,26 @@ class PromocionController extends Controller
         if ( $this->get('security.context')->isGranted('ROLE_MODPRODUCTO')) {
             $em = $this->getDoctrine()->getManager();
 
-            $entity = $em->getRepository('BackendCustomerAdminBundle:Promocion')->find($id);
+            $entity = $em->getRepository('BackendCustomerAdminBundle:Banner')->find($id);
 
             if (!$entity) {
-                $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado la promocion.');
-                return $this->redirect($this->generateUrl('producto'));
+                $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado el banner.');
+                return $this->redirect($this->generateUrl('banner'));
             }
 
             $deleteForm = $this->createDeleteForm($id);
             $customerId=$this->getUser()->getId();
-            $editForm = $this->createForm(new PromocionType(), $entity, array("customerId"=>$customerId));
+            $editForm = $this->createForm(new BannerType(), $entity, array("customerId"=>$customerId));
             $editForm->bind($request);
 
             if ($editForm->isValid()) {
                 $em->persist($entity);
                 $em->flush();
-                $this->get('session')->getFlashBag()->add('success' , 'Se han actualizado los datos de la promocion .');
-                return $this->redirect($this->generateUrl('promocion_edit', array('id' => $id)));
+                $this->get('session')->getFlashBag()->add('success' , 'Se han actualizado los datos del banner.');
+                return $this->redirect($this->generateUrl('banner_edit', array('id' => $id)));
             }
 
-            return $this->render('BackendCustomerAdminBundle:Promocion:edit.html.twig', array(
+            return $this->render('BackendCustomerAdminBundle:Banner:edit.html.twig', array(
                 'entity'      => $entity,
                 'form'   => $editForm->createView(),
                 'delete_form' => $deleteForm->createView(),
@@ -227,7 +227,7 @@ class PromocionController extends Controller
             throw new AccessDeniedException();
     }
     /**
-     * Deletes a Producto entity.
+     * Deletes a Banner entity.
      *
      */
     public function deleteAction(Request $request, $id)
@@ -238,31 +238,29 @@ class PromocionController extends Controller
 
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
-                $entity = $em->getRepository('BackendCustomerAdminBundle:Promocion')->find($id);
+                $entity = $em->getRepository('BackendCustomerAdminBundle:Banner')->find($id);
 
                 if (!$entity) {
-                    $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado el promocion.');
+                    $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado el banner.');
 
                 }
                 else{
 
-                    //TODO: si se borran y hay pedidos? hay compras?
-
                     $em->remove($entity);
                     $em->flush();
-                    $this->get('session')->getFlashBag()->add('success' , 'Se han borrado los datos de la promocion.');
+                    $this->get('session')->getFlashBag()->add('success' , 'Se han borrado los datos del banner.');
 
                 }
             }
 
-            return $this->redirect($this->generateUrl('promocion'));
+            return $this->redirect($this->generateUrl('banner'));
         }
         else
             throw new AccessDeniedException();
     }
 
     /**
-     * Creates a form to delete a Producto entity by id.
+     * Creates a form to delete a Banner entity by id.
      *
      * @param mixed $id The entity id
      *

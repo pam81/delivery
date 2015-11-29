@@ -10,7 +10,7 @@ use Backend\AdminBundle\Form\EventListener\CategoriaSubscriber;
 use Backend\AdminBundle\Form\EventListener\SubcategoriaSubscriber;
 
 
-class PromocionType extends AbstractType
+class BannerType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
 
@@ -20,9 +20,6 @@ class PromocionType extends AbstractType
 
         $builder
             ->add('name')
-            ->add('detail')
-            ->add('terms')
-            //->add('desde')
             ->add('desde', 'datetime', array(
                 'input' => 'datetime',
                 'date_widget' => 'choice',
@@ -39,23 +36,7 @@ class PromocionType extends AbstractType
             ))
 
             ->add('file', 'file', array("required" => false))
-            //deben ser las sucursales del customer
-            ->add('type', 'choice', array(
-                'choices' => array( 1 => 'Porcentaje', 2 => 'Unidades'),
-            ))
-            ->add('producto','entity',array(
-                'class'=>'BackendCustomerAdminBundle:Producto',
-                'query_builder'=>function(EntityRepository $er ) use ( $customerId ) {
-                    return $er->createQueryBuilder('u')
-                        //->where('u.customer = '.$customerId)
-                        ->orderBy('u.name', 'ASC');
-                },
-
-                'multiple'=>false,
-                'mapped'=>true,
-                'required'=>true
-            ))
-            ->add('sucursales','entity',array(
+            ->add('sucursal','entity',array(
                 'class'=>'BackendCustomerAdminBundle:Sucursal',
                 'query_builder'=>function(EntityRepository $er ) use ( $customerId ) {
                     return $er->createQueryBuilder('u')
@@ -63,29 +44,16 @@ class PromocionType extends AbstractType
                         ->orderBy('u.name', 'ASC');
                 },
 
-                'multiple'=>true,
+                'multiple'=>false,
                 'mapped'=>true,
                 'required'=>true
-            ))
-
-            ->add('subcategorias','entity',array(
-            'class'=>'BackendAdminBundle:Subcategoria',
-            'query_builder'=>function(EntityRepository $er ) use ( $customerId ) {
-                return $er->createQueryBuilder('u')
-                    //->where('u.customer = '.$customerId)
-                    ->orderBy('u.name', 'ASC');
-            },
-            'multiple'=>true,
-            'mapped'=>true,
-            'required'=>false
             ));
-
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Backend\CustomerAdminBundle\Entity\Promocion',
+            'data_class' => 'Backend\CustomerAdminBundle\Entity\Banner',
             'customerId' => null
 
         ));
@@ -94,6 +62,6 @@ class PromocionType extends AbstractType
 
     public function getName()
     {
-        return 'backend_customeradminbundle_promociontype';
+        return 'backend_customeradminbundle_bannertype';
     }
 }

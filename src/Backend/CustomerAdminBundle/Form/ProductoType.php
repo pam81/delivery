@@ -25,8 +25,6 @@ class ProductoType extends AbstractType
             ->add('code')
             ->add('file', 'file', array("required" => false))
 			      //deben ser las sucursales del customer
-            
-            
             ->add('sucursales','entity',array(
           'class'=>'BackendCustomerAdminBundle:Sucursal',
           'query_builder'=>function(EntityRepository $er ) use ( $customerId ) {
