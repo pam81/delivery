@@ -169,8 +169,9 @@ class Banner
     {
         // get rid of the __DIR__ so it doesn't screw up
         // when displaying uploaded doc/image in the view.
-        $sucursales = $this->getSucursales();
-        return 'uploads/banners' . $sucursales[0]->getCustomer()->getId();
+        $sucursal = $this->getSucursal();
+        //return 'uploads/banners' . $sucursal->getCustomer()->getId();
+        return 'uploads/banners/' . $sucursal->getCustomer()->getId()."/".$sucursal->getId();
     }
 
 

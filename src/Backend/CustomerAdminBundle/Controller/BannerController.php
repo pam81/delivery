@@ -151,10 +151,10 @@ class BannerController extends Controller
             if (!$entity) {
 
                 $this->get('session')->getFlashBag()->add('error' , 'No se ha encontrado el banner.');
-                return $this->redirect($this->generateUrl('promocion'));
+                return $this->redirect($this->generateUrl('banner'));
             }
             $customerId=$this->getUser()->getId();
-            $editForm = $this->createForm(new PromocionType(), $entity, array("customerId"=>$customerId));
+            $editForm = $this->createForm(new BannerType(), $entity, array("customerId"=>$customerId));
             $deleteForm = $this->createDeleteForm($id);
 
             return $this->render('BackendCustomerAdminBundle:Banner:edit.html.twig', array(
