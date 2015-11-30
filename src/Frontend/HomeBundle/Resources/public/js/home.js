@@ -353,7 +353,7 @@ function getTiendas(ubicacion){
                       	element += '							<div class="single-products">';
                       	element += '									<div class="productinfo text-center">';
                         element += '<a href="javascript:void(0)" data-link="'+data[index].link+'" data-restricted="'+data[index].restricted+'" data-sucursal="'+data[index].id+'"></a>';
-                      	element += '										<img src="'+data[index].imagen+'" alt="" class="img-circle"/></a>';
+                      	element += '										<img src="'+data[index].imagen+'" alt="" /></a>'; // class="img-circle"
                       	//element += '										<a href="javascript:void(0)" data-link="'+data[index].link+'" data-restricted="'+data[index].restricted+'" class="btn btn-warning go_tienda"  data-sucursal="'+data[index].id+'"></i>Ir a la tienda</a>';
                       	element += '									</div> ';
                         element +='<img src="'+data[index].promo+'" title="'+data[index].title +'" class="new">';
