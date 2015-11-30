@@ -398,3 +398,5 @@ function getTiendas(ubicacion){
                  $('#buscar').prop('disabled', false);
               });        
 }
+
+function getPromosVigentes(){ }
