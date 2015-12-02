@@ -6,6 +6,14 @@ producto_exportar:
     pattern:  /exportar
     defaults: { _controller: "BackendCustomerAdminBundle:Producto:exportar" }
 
+producto_exportar_categorias:
+    pattern:  /exportar_categorias
+    defaults: { _controller: "BackendCustomerAdminBundle:Producto:exportarCategorias" }    
+
+producto_exportar_subcategorias:
+    pattern:  /exportar_subcategorias
+    defaults: { _controller: "BackendCustomerAdminBundle:Producto:exportarSubcategorias" }        
+
 producto_importar:
     pattern:  /importar
     defaults: { _controller: "BackendCustomerAdminBundle:Producto:importar" }

@@ -665,5 +665,109 @@ class ProductoController extends Controller
   
        return $response;
     }
+
+    public function exportarCategoriasAction(Request $request)
+    {
+     
+         
+        
+        $excelService = $this->get('phpexcel')->createPHPExcelObject();
+                         
+                            
+        $excelService->setActiveSheetIndex(0)
+                    ->setCellValue('A1', 'Nombre')
+                    ->setCellValue('B1', 'Código')
+                    ;
+                    
+        $resultados= $this->getDoctrine()->getRepository('BackendAdminBundle:Categoria')->findBy(array(),array("name"=>"asc"));
+        $i=2;
+        foreach($resultados as $r)
+        {
+           $excelService->setActiveSheetIndex(0)
+                         ->setCellValue("A$i",$r->getName())
+                         ->setCellValue("B$i",$r->getCode())
+                         ;
+          $i++;
+        }
+                            
+        $excelService->getActiveSheet()->setTitle('Listado de Categorias');
+        // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+        $excelService->setActiveSheetIndex(0);
+        $excelService->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+        $excelService->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+        
+        $fileName="categorias_".date("Ymd").".xls";
+        //create the response
+        $writer = $this->get('phpexcel')->createWriter($excelService, 'Excel5');
+        // create the response
+        $response = $this->get('phpexcel')->createStreamedResponse($writer);
+        
+        $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
+        //$response->headers->set('Content-Disposition', 'filename='.$fileName);
+        echo header("Content-Disposition: attachment; filename=$fileName");
+        // If you are using a https connection, you have to set those two headers and use sendHeaders() for compatibility with IE <9
+        $response->headers->set('Pragma', 'public');
+        $response->headers->set('Cache-Control', 'maxage=1');
+        $response->sendHeaders();
+        return $response; 
+        
+        
+       
+    }
+
+    public function exportarSubcategoriasAction(Request $request)
+    {
+     
+        
+        $excelService = $this->get('phpexcel')->createPHPExcelObject();
+                         
+                            
+        $excelService->setActiveSheetIndex(0)
+                    ->setCellValue('A1', 'Categoría')
+                    ->setCellValue('B1', 'Nombre')
+                    ->setCellValue('C1', 'Código')
+                    
+                    ;
+                    
+        $resultados= $this->getDoctrine()->getRepository('BackendAdminBundle:Subcategoria')->findBy(array(),array("name"=>"asc"));
+        $i=2;
+        foreach($resultados as $r)
+        {
+           $excelService->setActiveSheetIndex(0)
+                         ->setCellValue("A$i",$r->getCategoria()->getName())
+                         ->setCellValue("B$i",$r->getName())
+                         ->setCellValue("C$i",$r->getCode())
+                         ;
+          $i++;
+        }
+                            
+        $excelService->getActiveSheet()->setTitle('Listado de Subcategorías');
+        // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+        $excelService->setActiveSheetIndex(0);
+        $excelService->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+        $excelService->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+        $excelService->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
+        
+        
+        $fileName="subcategorias_".date("Ymd").".xls";
+        $writer = $this->get('phpexcel')->createWriter($excelService, 'Excel5');
+        // create the response
+        $response = $this->get('phpexcel')->createStreamedResponse($writer);
+        $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
+        //$response->headers->set('Content-Disposition', 'filename='.$fileName);
+        echo header("Content-Disposition: attachment; filename=$fileName");
+        // If you are using a https connection, you have to set those two headers and use sendHeaders() for compatibility with IE <9
+        $response->headers->set('Pragma', 'public');
+        $response->headers->set('Cache-Control', 'maxage=1');
+        $response->sendHeaders();
+        return $response; 
+        
+        
+       
+    }
+    
+
+
+
     
 }
