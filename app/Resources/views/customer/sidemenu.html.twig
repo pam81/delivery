@@ -34,6 +34,11 @@
                             <a href="{{ path('producto_importar') }}"><i class="fa fa-wa fa-upload"></i> Carga masiva</a>
                         </li>
                      {% endif %}
+                     {% if is_granted('ROLE_MODPRODUCTO') %}
+                        <li>
+                            <a href="{{ path('producto_edicion_masiva') }}"><i class="fa fa-wa fa-upload"></i>Edición masiva</a>
+                        </li>
+                     {% endif %}
                     {% if is_granted('ROLE_ADDPRODUCTO') %}
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Campañas <i class="fa fa-fw fa-caret-down"></i></a>
