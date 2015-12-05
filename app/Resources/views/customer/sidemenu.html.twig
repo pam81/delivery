@@ -36,9 +36,10 @@
                      {% endif %}
                      {% if is_granted('ROLE_MODPRODUCTO') %}
                         <li>
-                            <a href="{{ path('producto_edicion_masiva') }}"><i class="fa fa-wa fa-upload"></i>Edición masiva</a>
+                            <a href="{{ path('producto_edicion_masiva') }}"><i class="fa fa-pencil-square-o"></i>Edición masiva</a>
                         </li>
                      {% endif %}
+
                     {% if is_granted('ROLE_ADDPRODUCTO') %}
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Campañas <i class="fa fa-fw fa-caret-down"></i></a>
@@ -70,7 +71,7 @@
                      {% if is_granted('ROLE_VIEWVENTA') %}       
           					<li >
                                            						 
-                                <a href="{{ path('pedido') }}"><i class="fa fa-wa fa-shopping-cart"></i> Mis Ventas</a>
+                                <a href="{{ path('pedido') }}"><i class="fa fa-wa fa-credit-card "></i> Mis Ventas</a>
                        </li>               					
                      {% endif %}
 
