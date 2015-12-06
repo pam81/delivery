@@ -2,7 +2,7 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('css/themes/proton/style.min.css')}}" />
-
+    <link rel="stylesheet" href="{{ asset('plugins/boostrap-datepicker/css/datepicker.css')}}" />
 {% endblock %}
 
 {% block container -%}
@@ -44,6 +44,7 @@
         Shadowbox.init();
     </script>
     <script type="text/javascript" src="{{ asset('js/jstree.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>
     {% javascripts '@BackendCustomerAdminBundle/Resources/public/js/validate_sucursal.js' filter='?uglifyjs2' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
