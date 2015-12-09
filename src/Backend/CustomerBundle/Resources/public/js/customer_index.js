@@ -18,6 +18,86 @@ $("#search-query").keyup(function(event){
     }
 });
 
+$(".extra").on("click",function(){
+
+     var id = $(this).data('id');
+ 
+     $('#extraCustomer').find('.btn-danger').data('id', id);
+    
+    $('#extraCustomer').modal('show');
+});
+
+$("#extraCustomer .btn-danger").on('click',function(){
+ 
+   if ( $(this).data('id') != 0 ) {
+       $(this).prop("disabled",true); //disabled button to prevent more than one deleted
+       var id=$(this).data('id');
+       var path=$(this).data('url');
+        var dataString = "customer="+id;
+         var self = $(this);
+       $.ajax({
+            type: "POST",
+            url: path,
+            dataType: 'json',
+            data: dataString
+        }).done(function(data){
+        
+             if (data.status == 0){
+                $("#noextra"+id).hide();
+                $("#extra"+id).show();
+                $("#extraCustomer").modal('hide');
+             }else{
+              alert(data.message);
+             }
+        }).always(function() {
+            self.prop("disabled", false);
+        });
+        
+   }
+ 
+ 
+ });
+
+
+$(".noextra").on("click",function(){
+    var id = $(this).data('id');
+ 
+     $('#noextraCustomer').find('.btn-danger').data('id', id);
+    $('#noextraCustomer').modal('show');
+});
+
+$("#noextraCustomer .btn-danger").on('click',function(){
+ 
+   if ( $(this).data('id') != 0 ) {
+       $(this).prop("disabled",true); //disabled button to prevent more than one deleted
+       var id=$(this).data('id');
+       var path=$(this).data('url');
+        var dataString = "customer="+id;
+         var self = $(this);
+       $.ajax({
+            type: "POST",
+            url: path,
+            dataType: 'json',
+            data: dataString
+        }).done(function(data){
+        
+             if (data.status == 0){
+                $("#noextra"+id).show();
+                $("#extra"+id).hide();
+                $("#noextraCustomer").modal('hide');
+             }else{
+              alert(data.message);
+             }
+        }).always(function() {
+            self.prop("disabled",false);
+        });
+        
+   }
+ 
+ 
+ });
+
+
 
 $(".habilitar").on("click",function(){
 
@@ -27,6 +107,9 @@ $(".habilitar").on("click",function(){
     
     $('#validarCustomer').modal('show');
 });
+
+
+
 
 $("#validarCustomer .btn-danger").on('click',function(){
  

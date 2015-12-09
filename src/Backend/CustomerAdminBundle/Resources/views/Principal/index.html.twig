@@ -54,14 +54,14 @@
 
  
 
-{% if is_granted('ROLE_VIEWPRODUCTO') %}  
+{% if is_granted('ROLE_IMPORTAR') %}  
 <div class="col-md-3 boton_initial">
       <a href="{{ path('producto_importar') }}"><i class="fa fa-wa fa-upload fa-5"></i></a><br>
       <span>CARGA MASIVA</span>
  </div>
 {% endif %}
 
-{% if is_granted('ROLE_VIEWPRODUCTO') %}  
+{% if is_granted('ROLE_EDICION') %}  
 <div class="col-md-3 boton_initial">
       <a href="{{ path('producto_edicion_masiva') }}"><i class="fa fa-pencil-square-o fa-5"></i></a><br>
       <span>EDICION MASIVA</span>

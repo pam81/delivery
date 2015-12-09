@@ -285,7 +285,7 @@ class ProductoController extends Controller
 
     public function importarAction(Request $request){
 
-        if ( $this->get('security.context')->isGranted('ROLE_ADDPRODUCTO')) {
+        if ( $this->get('security.context')->isGranted('ROLE_IMPORTAR')) {
 
             $user=$this->getUser();
             $em = $this->getDoctrine()->getManager();
@@ -770,7 +770,7 @@ class ProductoController extends Controller
 
     public function edicionMasivaAction(Request $request){
 
-        if ( $this->get('security.context')->isGranted('ROLE_MODPRODUCTO')) {
+        if ( $this->get('security.context')->isGranted('ROLE_EDICION')) {
 
             $user=$this->getUser();
             $em = $this->getDoctrine()->getManager();
