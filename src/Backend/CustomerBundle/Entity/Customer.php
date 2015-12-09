@@ -421,6 +421,18 @@ class Customer implements AdvancedUserInterface, \Serializable {
         return $this->groups;
     }
 
+
+    public function hasGroup($groupName){
+       $groups = $this->getGroups();
+       $retorna = false;
+       foreach( $groups as $g){
+        if ($g->getRole() == $groupName){
+            $retorna = true;
+        }
+       }
+       return $retorna;
+    }
+
     /**
      * Set name
      *
