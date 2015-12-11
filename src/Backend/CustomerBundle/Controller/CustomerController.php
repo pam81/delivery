@@ -586,6 +586,39 @@ class CustomerController extends Controller
         return $response;
     
     }
+
+     public function changeExtraAction(Request $request){
+    
+        $resultado=array("status"=>1, "message"=>'');
+        $em = $this->getDoctrine()->getManager();
+        $customerId=$request->get("customer");
+        $entity = $em->getRepository('BackendCustomerBundle:Customer')->find($customerId);
+
+        if (!$entity) {
+            $resultado["message"]='No se ha encontrado el cliente.';
+        }else{
+            $group=$em->getRepository('BackendUserBundle:Group')->findOneByRole("ROLE_EXTRACOMERCIO");
+            if ( $entity->hasGroup("ROLE_EXTRACOMERCIO") ){
+                  $entity->removeGroup($group);
+                  $resultado["message"]="Se han desactivado los permisos extras del cliente";
+            }else{
+                  $entity->addGroup($group);
+                  $resultado["message"]="Se han agregado permisos extras al cliente";
+            }
+            
+            $em->persist($entity);
+            $em->flush();
+            $resultado["status"]=0;
+            
+        }
+        
+        $response = new Response(json_encode($resultado));
+        
+        $response->headers->set('Content-Type', 'application/json');
+  
+        return $response;
+    
+    }
     
     
     public function changePremiumAction(Request $request){

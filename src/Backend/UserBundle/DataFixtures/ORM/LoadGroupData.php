@@ -101,13 +101,14 @@ class LoadGroupData extends AbstractFixture implements OrderedFixtureInterface
         
         //aun no tiene roles asignados
         $groupAdmin1 = new Group();
-        $groupAdmin1->setName('Visitante');
-        $groupAdmin1->setRole('ROLE_VISITOR');
-        
+        $groupAdmin1->setName('Extra Comercio');
+        $groupAdmin1->setRole('ROLE_EXTRACOMERCIO');
+        $groupAdmin1->addAcceso($this->getReference('importar-producto'));
+        $groupAdmin1->addAcceso($this->getReference('edicion-producto'));
         
         $manager->persist($groupAdmin1);
         $manager->flush();
-        $this->addReference('visitor-group', $groupAdmin1);
+        $this->addReference('extracomercio-group', $groupAdmin1);
 
         
         

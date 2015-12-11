@@ -449,6 +449,19 @@ class LoadAccesoData extends AbstractFixture implements OrderedFixtureInterface
         $manager->flush();
         $this->addReference('view-horario', $accesoAdmin65);
 
+		$accesoAdmin66= new Acceso();
+        $accesoAdmin66->setName('Importar Productos');
+        $accesoAdmin66->setAcceso('ROLE_IMPORTAR');
+        $manager->persist($accesoAdmin66);
+        $manager->flush();
+        $this->addReference('importar-producto', $accesoAdmin66);
+
+        $accesoAdmin67= new Acceso();
+        $accesoAdmin67->setName('Edición Masiva Productos');
+        $accesoAdmin67->setAcceso('ROLE_EDICION');
+        $manager->persist($accesoAdmin67);
+        $manager->flush();
+        $this->addReference('edicion-producto', $accesoAdmin67);
                
     }
 
