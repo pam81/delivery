@@ -147,7 +147,7 @@
                                 </div>
                             {% else %}
                                 <div class="unidades">
-                                    <p>LLEVATE <span class="unidades-precio">{{ promo['valor'][0] }}</span> IGUALES x {{ promo['valor'][2] }}<span class="unidades-precio">$ {{ promo['promo'].getProducto().getPrecio() }}</span></p>
+                                    <p>LLEVATE <span class="unidades-precio">{{ promo['valor'][0] }}</span> IGUALES x <span class="unidades-precio">{{ promo['valor'][1] }}</span> <span class="unidades-precio">$ {{ promo['promo'].getProducto().getPrecio() }}</span></p>
                                 </div>
                             {% endif %}
                         {% else %}
@@ -157,7 +157,7 @@
                                 </div>
                             {% else %}
                                 <div class="unidades">
-                                    <p>LLEVATE <span class="unidades-precio">{{ promo['valor'][0] }}</span> IGUALES x <span class="unidades-precio">{{ promo['valor'][2] }}</span></p>
+                                    <p>LLEVATE <span class="unidades-precio">{{ promo['valor'][0] }}</span> IGUALES x <span class="unidades-precio">{{ promo['valor'][1] }}</span></p>
                                 </div>
                             {% endif %}
                             <p class="list-categories">Válido para:
