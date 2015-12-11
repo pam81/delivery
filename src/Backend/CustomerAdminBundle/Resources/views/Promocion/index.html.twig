@@ -53,9 +53,9 @@
                         <th>Detalle</th>
                         <th>Terminos</th>
                         <th>Producto/Categoría</th>
-                        <th>Imagen</th>
+                        <th>Estado</th>
                         <th>Sucursales</th>
-                        <th style="width: 36px;">Acciones</th>
+                        <th style="width: 86px;">Acciones</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -72,10 +72,17 @@
                             </td>
                             <td>{{ promo.detail }}</td>
                             <td>{{ promo.terms }}</td>
-                            <td>{% for subcategoria in promo.getSubcategorias() %}
+                            <td>
+                            {% if promo.getSubcategorias() is defined %}
+                            {% for subcategoria in promo.getSubcategorias() %}
                                 {{ subcategoria.getName() }}
                                 {% endfor %}
+                            {% endif %}
+                            {% if  promo.getProducto() is not null %}
+                               {{ promo.getProducto().getName() }}
+                            {% endif %}
                             </td>
+
                             <!--
                             <td>
 
@@ -103,8 +110,12 @@
                             </td>
                             -->
                             <td>
-                                {% if promo.getWebPath() %}
-                                    <img src="{{ asset(promo.getWebPath()) }}" width="100" height="100" />
+                                {% if promo.getStatus() == 1 %}
+                                   <span class="label label-success"> Vigente</span>
+                                {% elseif promo.getStatus() == 2 %}
+                                    <span class="label label-info"> Pausada</span>
+                                {% elseif promo.getStatus() == 3 %}
+                                    <span class="label label-default"> Finalizada</span>
                                 {% endif %}
                             </td>
                             <td>
@@ -116,9 +127,13 @@
                                 {% if is_granted("ROLE_MODPRODUCTO") %}
                                     <a href="{{ path('promocion_edit', { 'id': promo.id }) }}"><i class="fa fa-pencil"></i></a>
                                 {% endif %}
+                                {% if is_granted("ROLE_MODPRODUCTO") %}
+                                    <a href="#"><i class="fa fa-pause"></i></a>
+                                {% endif %}
                                 {% if is_granted("ROLE_DELPRODUCTO") %}
                                     <a href="#" class="btn confirm-delete"   data-toggle="modal" data-id={{ promo.id }}  data-target="#myModal"><i class="fa fa-trash"></i></a>
                                 {% endif %}
+
                             </td>
                         </tr>
 

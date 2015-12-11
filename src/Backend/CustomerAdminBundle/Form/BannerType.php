@@ -24,17 +24,30 @@ class BannerType extends AbstractType
                 'input' => 'datetime',
                 'date_widget' => 'choice',
                 'time_widget' => 'choice',
+                'years' => range(Date('Y'), 2020),
                 'required' => true,
 
             ))
+
             ->add('hasta', 'datetime', array(
                 'input' => 'datetime',
                 'date_widget' => 'choice',
                 'time_widget' => 'choice',
+                'years' => range(Date('Y'), 2020),
                 'required' => true,
 
             ))
-
+            /*
+            ->add('hasta', 'datetime', [
+                'widget' => 'single_text',
+                'format' => 'dd-MM-yyyy',
+                'attr' => [
+                    'class' => 'form-control input-inline datepicker',
+                    'data-provide' => 'datepicker',
+                    'data-date-format' => 'dd-mm-yyyy'
+                ]
+            ])
+            */
             ->add('file', 'file', array("required" => false))
             ->add('sucursal','entity',array(
                 'class'=>'BackendCustomerAdminBundle:Sucursal',

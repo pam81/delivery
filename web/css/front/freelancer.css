@@ -355,6 +355,156 @@ header .shop-horarios table td{
     margin-top:15px;
 }
 
+.promo-item{
+    /*background-color: #F0AD4E;*/
+    background-color: rgba(24, 188, 156, 0.66);
+    border-radius: 10px;
+    /*border: 1px solid #EEA236;*/
+    border: 1px solid rgba(24, 188, 156, 0.66); /*#18BC9C; */
+    height: 180px;
+    margin-bottom: 10px;
+
+}
+
+.promo-item .thumbnail{
+
+    display: block;
+    margin-bottom: 4px;
+    /*margin-bottom: 10px;*/
+    background-color: transparent;
+    border: transparent;
+    border-radius: 4px;
+    background-image: url("promos/label_promo.png");
+    width: 180px;
+    height: 181px;
+    margin-left: 5px;
+    margin-top: -5px;
+    /*
+    line-height: 1.42857;
+    background-color: #FFF;
+    border: 1px solid #DDD;
+    border-radius: 4px;
+    transition: all 0.2s ease-in-out 0s;
+    */
+    width: 180px;
+    float:left;
+
+}
+
+.promo-item .thumbnail img{
+
+    display: block;
+    height: auto;
+    max-width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: -5px;
+}
+
+.promo-item .thumbnail h1{
+
+    color:#ffffff;
+    font-size: 55px;
+    padding-top: 35px;
+
+}
+
+.promo-item .caption{
+
+    margin-top:5px;
+}
+
+.promo-item .title{
+
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.promo-item .descripcion{
+
+    margin-top: -8px;
+}
+
+.promo-item .terms{
+
+    font-size:15px;
+}
+
+.promo-item .antes{
+
+    float:left;
+    margin-left: 30px;
+    padding-top: 5px;
+}
+
+.promo-item .antes p{
+
+    font-size:14px;
+    color: #5e5e5e;
+}
+
+.promo-item .antes .antes-precio{
+
+    text-decoration:line-through;
+    color: #5e5e5e;
+    font-size:20px;
+    font-weight: 500;
+}
+
+.promo-item .ahora{
+
+    float:right;
+    border-left: solid;
+    border-color:#5E5E5E;
+    margin-right: 165px;
+    padding-top: 5px;
+
+}
+
+.promo-item .ahora p{
+
+    font-size:14px;
+    padding-left: 5px;
+    padding-right: 5px;
+    color: #ffffff;
+
+}
+
+.promo-item .ahora .ahora-precio{
+
+    font-size:20px;
+    color:#ffffff;
+    font-weight: 600;
+}
+
+.promo-item .unidades{
+
+    margin-top:10px;
+    height: 73px;
+
+}
+
+.promo-item .unidades p{
+
+    font-size:18px;
+    color:#ffffff;
+
+}
+
+.promo-item .unidades .unidades-precio{
+
+    font-size:20px;
+    color:#ffffff;
+    font-weight: 600;
+}
+
+.promo-item .btns{
+
+    float: right;
+    margin-top: -30px;
+    margin-right: 5px;
+}
+
 .not-active {
     pointer-events: none;
     cursor: default;

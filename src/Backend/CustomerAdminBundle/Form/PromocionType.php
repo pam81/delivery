@@ -22,26 +22,33 @@ class PromocionType extends AbstractType
             ->add('name')
             ->add('detail')
             ->add('terms')
-            //->add('desde')
+            ->add('stock')
+            ->add('stop')
             ->add('desde', 'datetime', array(
                 'input' => 'datetime',
                 'date_widget' => 'choice',
-                'time_widget' => 'choice',
+               // 'time_widget' => 'choice',
+                'years' => range(Date('Y'), 2020),
                 'required' => true,
 
             ))
             ->add('hasta', 'datetime', array(
                 'input' => 'datetime',
                 'date_widget' => 'choice',
-                'time_widget' => 'choice',
+              //  'time_widget' => 'choice',
+                'years' => range(Date('Y'), 2020),
                 'required' => true,
 
             ))
-
             ->add('file', 'file', array("required" => false))
             //deben ser las sucursales del customer
             ->add('type', 'choice', array(
                 'choices' => array( 1 => 'Porcentaje', 2 => 'Unidades'),
+            ))
+            ->add('status', 'choice', array(
+                'choices' => array( 1 => 'Vigente', 2 => 'Pausada'),
+                'required' => true,
+                'mapped' => true
             ))
             ->add('producto','entity',array(
                 'class'=>'BackendCustomerAdminBundle:Producto',
@@ -53,7 +60,8 @@ class PromocionType extends AbstractType
 
                 'multiple'=>false,
                 'mapped'=>true,
-                'required'=>true
+                'required'=>false,
+                'empty_data'  => null,
             ))
             ->add('sucursales','entity',array(
                 'class'=>'BackendCustomerAdminBundle:Sucursal',

@@ -52,8 +52,6 @@ class HomeController extends Controller
     public function menuZonaAction(Request $request)
     {
 
-        
-
         $search = trim(mb_convert_case($request->get("q"), MB_CASE_LOWER));
 
         $listado = array();
@@ -564,15 +562,49 @@ class HomeController extends Controller
 
         $search = " ";
         $session = $this->getRequest()->getSession();
+        $time = "00:00";//trim(mb_convert_case($request->get("time"),MB_CASE_LOWER));
+        $dia = 1; //trim(mb_convert_case($request->get("day"),MB_CASE_LOWER));
         $subId = $session->get('categoria');
         $filter = trim(mb_convert_case($request->get("filter"),MB_CASE_LOWER));
         $resultado = array();
+        $resultado_promos = array();
+        $r_promo = array();
 
 		    if($id) {
             $em = $this->getDoctrine()->getManager();
             $sucursal = $em->getRepository('BackendCustomerAdminBundle:Sucursal')->find($id);
             $productos = $sucursal->getProductos();
             $horarios = $sucursal-> getHorarios();
+            $promos = $sucursal->getPromociones();
+
+
+            foreach($promos as $promo){
+
+                if($promo->getStatus() == 1) {
+
+                    //if($this->checkPromoNow($promo->getHorarios(), 1, '00:00') == true) {
+
+                        $type = $promo->getType();
+
+                        if ($type == 1) {
+
+                            $precioProd = $promo->getProducto()->getPrecio();
+                            $valor = ((1 - ($promo->getDetail() / 100)) * $precioProd);
+                            $r_promo['promo'] = $promo;
+                            $r_promo['valor'] = $valor;
+
+
+                        } else { // supongo solo ejemplo 2x1
+
+                            $valores = explode("x", $promo->getDetail());
+                            $r_promo['promo'] = $promo;
+                            $r_promo['valor'] = $valores[0];
+                        }
+
+                        $resultado_promos[] = $r_promo;
+                    //}
+                }
+            }
 
             if ($subId) {
 
@@ -609,7 +641,8 @@ class HomeController extends Controller
                 'subcategoria' => $subcategoria,
                 'count' => $count,
                 'search'=>$search,
-                'horarios'=>$horarios
+                'horarios'=>$horarios,
+                'promos' =>$resultado_promos
             ));
 
 		}else{
@@ -662,6 +695,30 @@ class HomeController extends Controller
       
     
     }
+
+    private function checkPromoNow($horarios,$dia,$time){
+
+        $time_array = explode(":",$time);
+        $ahora = $time_array[0] * 60 + $time_array[1];
+
+        foreach ($horarios as $horario) {
+
+            if ($horario->getDia()->getNro() == $dia) {
+
+                if($horario->getHasta() > $ahora && $ahora > $horario->getDesde()){
+
+                    return true;
+
+                }else if($ahora < $horario->getDesde()){ // si es del día pero aun no empezó
+
+                    return true;
+                }
+            }
+
+        }
+        return false;
+    }
+
 
     private function checkOpenNow($horarios,$dia,$time)
     {
@@ -849,10 +906,6 @@ class HomeController extends Controller
         $sucursal = $em->getRepository('BackendCustomerAdminBundle:Sucursal')->find($tiendaId);
 		
 		$horarios = $sucursal->getHorarios();
-
-        //$dia = 1;
-
-        //$hora = "01:20";
 		 
 		$status = $this->checkOpenNow($horarios,$dia,$hora);
 		
@@ -865,7 +918,30 @@ class HomeController extends Controller
         return $response;
 		
 	}
-    
+
+    public function getPromosVigentesAction(Request $request){
+
+        // TODO validar la fecha y el tema de stock
+        $dia = trim(mb_convert_case($request->get("day"),MB_CASE_LOWER));
+        $hora = trim(mb_convert_case($request->get("time"),MB_CASE_LOWER));
+        $hoy = "30/11/2015 00:00:00";
+
+        $em = $this->getDoctrine()->getManager();
+
+        $banners = $em->getRepository('BackendCustomerAdminBundle:Banner')->findAll();
+
+        foreach ($banners as $b){
+
+            if($b->getDesde() >= $hoy && $b->getHasta() <= $hoy){
+
+                
+            }
+
+        }
+
+        return true;
+    }
+
     public function checkBarrioAction(Request $request){
      
       $barrio=trim(mb_convert_case($request->get("barrio"),MB_CASE_LOWER));

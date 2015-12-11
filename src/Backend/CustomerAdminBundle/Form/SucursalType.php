@@ -62,7 +62,6 @@ class SucursalType extends AbstractType
 	    $builder->add('radio');
   	  	$builder->add('delivery');
         $builder->add('minimo');
-      
 		$builder->add('tiempo_entrega');
             
     }

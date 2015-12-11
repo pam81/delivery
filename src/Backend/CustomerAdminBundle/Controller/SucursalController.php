@@ -145,8 +145,7 @@ class SucursalController extends Controller
                 $em->flush();
                 $entity->addHorario($horario);
              }
-                         
-			      $entity->setCustomer($customer);
+                $entity->setCustomer($customer);
 			      $em->persist($entity);
             $em->flush();
             $this->get('session')->getFlashBag()->add('success' , 'Se ha agregado una nueva sucursal.');

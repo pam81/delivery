@@ -38,6 +38,14 @@ class Dia
    private $horarios;
 
     /**
+     * @ORM\ManyToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Promocion", mappedBy="dias")
+     */
+
+    private $promociones;
+
+
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -160,5 +168,38 @@ class Dia
     public function getNro()
     {
         return $this->nro;
+    }
+
+    /**
+     * Add promociones
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Promocion $promociones
+     * @return Dia
+     */
+    public function addPromocione(\Backend\CustomerAdminBundle\Entity\Promocion $promociones)
+    {
+        $this->promociones[] = $promociones;
+
+        return $this;
+    }
+
+    /**
+     * Remove promociones
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Promocion $promociones
+     */
+    public function removePromocione(\Backend\CustomerAdminBundle\Entity\Promocion $promociones)
+    {
+        $this->promociones->removeElement($promociones);
+    }
+
+    /**
+     * Get promociones
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPromociones()
+    {
+        return $this->promociones;
     }
 }

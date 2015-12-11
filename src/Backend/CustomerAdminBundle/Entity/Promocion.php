@@ -40,6 +40,11 @@ class Promocion
     private $type;
 
     /**
+     * @ORM\Column(name="status", type="integer",nullable=false)
+     */
+    private $status;
+
+    /**
      * @ORM\ManyToMany(targetEntity="Sucursal", inversedBy="promociones", cascade={"persist","remove"})
      * @ORM\JoinTable(name="sucursal_promocion")
      */
@@ -63,6 +68,11 @@ class Promocion
     private $stock;
 
     /**
+     * @ORM\Column(name="stop", type="boolean",nullable=true)
+     */
+    private $stop;
+
+    /**
      * @ORM\Column(name="desde", type="datetime",nullable=false)
      */
     private $desde;
@@ -71,6 +81,13 @@ class Promocion
      * @ORM\Column(name="hasta", type="datetime",nullable=false)
      */
     private $hasta;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="\Backend\AdminBundle\Entity\HorarioPromo", inversedBy="promociones")
+     * @ORM\JoinTable(name="promocion_horario")
+     */
+
+    private $horarios;
 
     /**
      * @ORM\Column(name="created_at", type="datetime")
@@ -93,6 +110,7 @@ class Promocion
     public function __construct() {
 
         $this->createdAt = new \DateTime('now');
+        $this->status = 1;
     }
 
     public function __toString()
@@ -548,5 +566,119 @@ class Promocion
     public function getPath()
     {
         return $this->path;
+    }
+
+    /**
+     * Add dias
+     *
+     * @param \Backend\AdminBundle\Entity\Dia $dias
+     * @return Promocion
+     */
+    public function addDia(\Backend\AdminBundle\Entity\Dia $dias)
+    {
+        $this->dias[] = $dias;
+
+        return $this;
+    }
+
+    /**
+     * Remove dias
+     *
+     * @param \Backend\AdminBundle\Entity\Dia $dias
+     */
+    public function removeDia(\Backend\AdminBundle\Entity\Dia $dias)
+    {
+        $this->dias->removeElement($dias);
+    }
+
+    /**
+     * Get dias
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getDias()
+    {
+        return $this->dias;
+    }
+
+    /**
+     * Set stop
+     *
+     * @param boolean $stop
+     * @return Promocion
+     */
+    public function setStop($stop)
+    {
+        $this->stop = $stop;
+
+        return $this;
+    }
+
+    /**
+     * Get stop
+     *
+     * @return boolean 
+     */
+    public function getStop()
+    {
+        return $this->stop;
+    }
+
+    /**
+     * Add horarios
+     *
+     * @param \Backend\AdminBundle\Entity\HorarioPromo $horarios
+     * @return Promocion
+     */
+    public function addHorario(\Backend\AdminBundle\Entity\HorarioPromo $horarios)
+    {
+        $this->horarios[] = $horarios;
+
+        return $this;
+    }
+
+    /**
+     * Remove horarios
+     *
+     * @param \Backend\AdminBundle\Entity\HorarioPromo $horarios
+     */
+    public function removeHorario(\Backend\AdminBundle\Entity\HorarioPromo $horarios)
+    {
+        $this->horarios->removeElement($horarios);
+    }
+
+    /**
+     * Get horarios
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getHorarios()
+    {
+        return $this->horarios;
+    }
+
+
+
+    /**
+     * Set status
+     *
+     * @param integer $status
+     * @return Promocion
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return integer 
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 }
