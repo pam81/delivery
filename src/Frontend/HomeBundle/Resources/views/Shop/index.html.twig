@@ -135,24 +135,43 @@
                     <div class="caption">
                         <p class="title">{{ promo['promo'].getName() }}</p>
                         <p class="terms">{{ promo['promo'].getTerms() }}</p>
-                    {% if promo['promo'].getType() == 1 %}
-                        <div class="antes">
-                            <p>ANTES</p>
-                            <p class="antes-precio">$ {{ promo['promo'].getProducto().getPrecio() }}</p>
-                        </div>
-                        <div class="ahora">
-                            <p>AHORA</p>
-                            <p class="ahora-precio">$ {{ promo['valor'] }}</p>
-                        </div>
-                    {% else %}
-                        <div class="unidades">
-                            <p>LLEVATE <span class="unidades-precio">{{ promo['valor'] }}</span> IGUALES x <span class="unidades-precio">$ {{ promo['promo'].getProducto().getPrecio() }}</span></p>
-                        </div>
-                    {% endif %}
+                        {% if promo['producto'] == 1 %}
+                            {% if promo['promo'].getType() == 1 %}
+                                <div class="antes">
+                                    <p>ANTES</p>
+                                    <p class="antes-precio">$ {{ promo['promo'].getProducto().getPrecio() }}</p>
+                                </div>
+                                <div class="ahora">
+                                    <p>AHORA</p>
+                                    <p class="ahora-precio">$ {{ promo['valor'] }}</p>
+                                </div>
+                            {% else %}
+                                <div class="unidades">
+                                    <p>LLEVATE <span class="unidades-precio">{{ promo['valor'][0] }}</span> IGUALES x {{ promo['valor'][2] }}<span class="unidades-precio">$ {{ promo['promo'].getProducto().getPrecio() }}</span></p>
+                                </div>
+                            {% endif %}
+                        {% else %}
+                            {% if promo['promo'].getType() == 1 %}
+                                <div class="unidades">
+                                    <p>LLEVATE TODO AL <span class="unidades-precio">{{ promo['promo'].getDetail() }} % de descuento</span></p>
+                                </div>
+                            {% else %}
+                                <div class="unidades">
+                                    <p>LLEVATE <span class="unidades-precio">{{ promo['valor'][0] }}</span> IGUALES x <span class="unidades-precio">{{ promo['valor'][2] }}</span></p>
+                                </div>
+                            {% endif %}
+                            <p class="list-categories">Válido para:
+                                {% for cat in promo['promo'].getSubcategorias() %}
+                                    {{ cat.getName() ~" "}}
+                                {% endfor %}
+                            </p>
+                        {% endif %}
                     </div>
+                    {% if promo['producto'] == 1 %}
                     <div class="btns">
                         <button type="button"  data-id="{{promo['promo'].getId}}" class="btn btn-warning comprar_comun">Comprar</button>
                     </div>
+                    {% endif %}
                 </div>
 
             </div>

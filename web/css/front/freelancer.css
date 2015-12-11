@@ -430,6 +430,13 @@ header .shop-horarios table td{
     font-size:15px;
 }
 
+.promo-item .list-categories {
+
+    font-size: 14px;
+    margin-top: -30px;
+    margin-right: 70px;
+}
+
 .promo-item .antes{
 
     float:left;

@@ -586,22 +586,40 @@ class HomeController extends Controller
 
                         $type = $promo->getType();
 
-                        if ($type == 1) {
+                        if($promo->getProducto() != null) { // promo de producto
 
-                            $precioProd = $promo->getProducto()->getPrecio();
-                            $valor = ((1 - ($promo->getDetail() / 100)) * $precioProd);
+                            if ($type == 1) {
+
+                                $precioProd = $promo->getProducto()->getPrecio();
+                                $valor = ((1 - ($promo->getDetail() / 100)) * $precioProd);
+                                $r_promo['promo'] = $promo;
+                                $r_promo['valor'] = $valor;
+
+                            } else { // supongo solo ejemplo 2x1
+
+                                $valores = explode("x", $promo->getDetail());
+                                $r_promo['promo'] = $promo;
+                                $r_promo['valor'] = $valores;
+                            }
+                            $r_promo['producto'] = 1;
+                            $resultado_promos[] = $r_promo;
+
+                        }else{ // promo de categoria
+
+                            if($type == 1){
+                                $r_promo['valor'] = $promo->getDetail();
+
+                            }else{
+
+                                $valores = explode("x", $promo->getDetail());
+                                $r_promo['valor'] = $valores;
+                            }
+
                             $r_promo['promo'] = $promo;
-                            $r_promo['valor'] = $valor;
+                            $r_promo['producto'] = 0;
+                            $resultado_promos[] = $r_promo;
 
-
-                        } else { // supongo solo ejemplo 2x1
-
-                            $valores = explode("x", $promo->getDetail());
-                            $r_promo['promo'] = $promo;
-                            $r_promo['valor'] = $valores[0];
                         }
-
-                        $resultado_promos[] = $r_promo;
                     //}
                 }
             }
