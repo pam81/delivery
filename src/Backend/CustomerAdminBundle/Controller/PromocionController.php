@@ -310,6 +310,31 @@ class PromocionController extends Controller
         else
             throw new AccessDeniedException();
     }
+
+    public function toUpdateStatusAction(Request $request)
+    {
+        if ( $this->get('security.context')->isGranted('ROLE_VIEWPRODUCTO')) {
+
+            $id = $request->request->get('id');
+            $em = $this->getDoctrine()->getManager();
+
+            $statusId = $request->get("status");
+            $em = $this->getDoctrine()->getManager();
+            $promocion = $em->getRepository('BackendCustomerAdminBundle:Promocion')->find($id);
+
+            $promocion->setStatus($statusId);
+            $em->persist($promocion);
+            $em->flush();
+
+            $data['ok'] = true;
+            $data['status'] = $statusId;
+        }
+
+        $response = new Response(json_encode($data));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+
+    }
     /**
      * Deletes a Producto entity.
      *

@@ -109,7 +109,7 @@
 
                             </td>
                             -->
-                            <td>
+                            <td id="status{{ promo.id }}">
                                 {% if promo.getStatus() == 1 %}
                                    <span class="label label-success"> Vigente</span>
                                 {% elseif promo.getStatus() == 2 %}
@@ -128,10 +128,16 @@
                                     <a href="{{ path('promocion_edit', { 'id': promo.id }) }}"><i class="fa fa-pencil"></i></a>
                                 {% endif %}
                                 {% if is_granted("ROLE_MODPRODUCTO") %}
-                                    <a href="#"><i class="fa fa-pause"></i></a>
+                                    {% if promo.getStatus() == 1 %}
+                                        <a href="#"  class="btn confirm-status" data-toggle="modal" data-id={{ promo.id }} data-target="#myModal" title="Pausar Promocion"><i class="fa fa-pause"></i></a>
+                                    {% endif %}
+                                        {% if promo.getStatus() == 2 %}
+                                        <a href="#"  class="btn confirm-status" data-toggle="modal" data-id={{ promo.id }} data-target="#myModal" title="Reactivar Promocion"><i class="fa fa-play"></i></a>
+                                    {% endif %}
+                                  <!--  <a href="#"><i class="fa fa-pause"></i></a> -->
                                 {% endif %}
                                 {% if is_granted("ROLE_DELPRODUCTO") %}
-                                    <a href="#" class="btn confirm-delete"   data-toggle="modal" data-id={{ promo.id }}  data-target="#myModal"><i class="fa fa-trash"></i></a>
+                                    <!--<a href="#" class="btn confirm-delete"   data-toggle="modal" data-id={{ promo.id }}  data-target="#myModal"><i class="fa fa-trash"></i></a>-->
                                 {% endif %}
 
                             </td>
@@ -151,7 +157,33 @@
 
     </div>
 
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel">Modificar Estado</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="control-group">
 
+                        <div class="status">
+                            <p class="error-text">Seleccionar estado</p>
+                            <select name="status" id="status">
+                                    <option value="1">Vigente</option>
+                                    <option value="2">Pausada</option>
+                                    <option value="3">Finalizada</option>
+                            </select>
+                            <br/>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-warning" data-id="0"  data-url="{{ path('promocion_status') }}">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
@@ -187,6 +219,9 @@
       {{ parent() }}
 
       {% javascripts '@BackendAdminBundle/Resources/public/js/search_index.js' filter='?uglifyjs2'%}
+      <script type="text/javascript" src="{{ asset_url }}"></script>
+      {% endjavascripts %}
+      {% javascripts '@BackendCustomerAdminBundle/Resources/public/js/cambiar_promo_status.js' filter='?uglifyjs2' %}
       <script type="text/javascript" src="{{ asset_url }}"></script>
       {% endjavascripts %}
       {% javascripts '@BackendAdminBundle/Resources/public/js/exportar_entidad.js' filter='?uglifyjs2' %}
