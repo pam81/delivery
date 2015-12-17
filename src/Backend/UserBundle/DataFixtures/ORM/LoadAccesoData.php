@@ -462,6 +462,34 @@ class LoadAccesoData extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($accesoAdmin67);
         $manager->flush();
         $this->addReference('edicion-producto', $accesoAdmin67);
+
+        $accesoAdmin68 = new Acceso();
+        $accesoAdmin68->setName('Nueva Región');
+        $accesoAdmin68->setAcceso('ROLE_ADDREGION');
+        $manager->persist($accesoAdmin68);
+        $manager->flush();
+        $this->addReference('add-region', $accesoAdmin68);
+        
+        $accesoAdmin69 = new Acceso();
+        $accesoAdmin69->setName('Modificar Región');
+        $accesoAdmin69->setAcceso('ROLE_MODREGION');
+        $manager->persist($accesoAdmin69);
+        $manager->flush();
+        $this->addReference('mod-region', $accesoAdmin69);
+
+        $accesoAdmin70 = new Acceso();
+        $accesoAdmin70->setName('Borrar  Región');
+        $accesoAdmin70->setAcceso('ROLE_DELREGION');
+        $manager->persist($accesoAdmin70);
+        $manager->flush();
+        $this->addReference('del-region', $accesoAdmin70);
+       
+        $accesoAdmin71= new Acceso();
+        $accesoAdmin71->setName('Listar  Región');
+        $accesoAdmin71->setAcceso('ROLE_VIEWREGION');
+        $manager->persist($accesoAdmin71);
+        $manager->flush();
+        $this->addReference('view-region', $accesoAdmin71);
                
     }
 

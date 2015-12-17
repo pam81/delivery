@@ -61,3 +61,7 @@ customer_promocion:
 customer_banner:
     resource: "@BackendCustomerAdminBundle/Resources/config/routing/banner.yml"
     prefix:   /banner
+
+customer_region:
+    resource: "@BackendCustomerAdminBundle/Resources/config/routing/region.yml"
+    prefix:   /region

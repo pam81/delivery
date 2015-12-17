@@ -73,6 +73,12 @@ class Sucursal
      */
    
     private $direccion;	
+
+    /**
+     * @ORM\OneToMany(targetEntity="Region", mappedBy="sucursal")
+     */
+   
+    private $regiones; 
 	
     /**
      * @ORM\ManyToMany(targetEntity="\Backend\AdminBundle\Entity\Categoria", inversedBy="sucursales")
@@ -173,21 +179,23 @@ class Sucursal
     private $path;
     private $temp;
     private $file;
-        
+     
+
     
     public function __construct() {
 	
-		$this->createdAt = new \DateTime('now');
-    $this->modifiedAt = new \DateTime('now');
-		$this->open = false;
-		$this->active = true;
-    $this->is_premium = false;
-    $this->radio = 0;
-    $this->minimo = 0;
-    $this->delivery = 0;
-		$this->productos = new \Doctrine\Common\Collections\ArrayCollection();
-		$this->horarios = new \Doctrine\Common\Collections\ArrayCollection();
-		$this->favoritos =  new ArrayCollection();     
+        $this->createdAt = new \DateTime('now');
+        $this->modifiedAt = new \DateTime('now');
+        $this->open = false;
+        $this->active = true;
+        $this->is_premium = false;
+        $this->radio = 0;
+        $this->minimo = 0;
+        $this->delivery = 0;
+        $this->productos = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->regiones = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->horarios = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->favoritos =  new ArrayCollection();     
     }
     
     public function __toString()
@@ -1125,5 +1133,40 @@ class Sucursal
     public function getBanners()
     {
         return $this->banners;
+    }
+
+    
+
+    /**
+     * Add regiones
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Region $regiones
+     * @return Sucursal
+     */
+    public function addRegione(\Backend\CustomerAdminBundle\Entity\Region $regiones)
+    {
+        $this->regiones[] = $regiones;
+
+        return $this;
+    }
+
+    /**
+     * Remove regiones
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Region $regiones
+     */
+    public function removeRegione(\Backend\CustomerAdminBundle\Entity\Region $regiones)
+    {
+        $this->regiones->removeElement($regiones);
+    }
+
+    /**
+     * Get regiones
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getRegiones()
+    {
+        return $this->regiones;
     }
 }
