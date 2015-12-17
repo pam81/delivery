@@ -48,7 +48,7 @@
 										<th>Direccion</th>
 										<th>Zona</th>
 										<th>Localidad</th>
-                                        <th>Categorías</th>
+                                       
                                         <th>Subcategorías</th>
 										<th>Horario</th>
 										<th>Pedidos <br/> 24 hs</th>
@@ -67,10 +67,7 @@
 												  <td>{{ sucursal.getDireccion.getCalle ~ " " ~  sucursal.getDireccion().getNumero() }}</td>
 												  <td>{{ sucursal.getDireccion.getZona.getName }}</td>
 												  <td>{{ sucursal.getDireccion.getBarrio.getName }}</td>
-												  <td>{% for categoria in sucursal.getCategorias %}
-												  		   {{ categoria.getName }}
-													    {% endfor %}
-                          </td>
+												  
                           <td> 
                               {% for subcategoria in sucursal.getSubcategorias %}
 												  		   {{ subcategoria.getName }}
@@ -133,8 +130,9 @@
 												  </td>
 												  <td>{% if sucursal.premium %} <span class="label label-success"> Si  </span>{% endif %}</td>
 												  <td>
-                                                  <a href="{{ path('sucursal_edit', { 'id': sucursal.id }) }}"><i class="fa fa-pencil"></i></a>
-                                                  <a href="#" class="btn confirm-delete"   data-toggle="modal" data-id={{ sucursal.id }}  data-target="#myModal"><i class="fa fa-trash"></i></a>
+                                                  <a href="{{ path('sucursal_edit', { 'id': sucursal.id }) }}"><i class="fa fa-pencil" title="editar"></i></a>
+                                                  <a href="#" class="btn confirm-delete"   data-toggle="modal" data-id={{ sucursal.id }}  data-target="#myModal"><i class="fa fa-trash" title="borrar"></i></a>
+                                                  <a href="{{ path('region',{'sucursal': sucursal.id}) }}" class="btn btn-primary" title="definir zona de delivery">Zona Entrega</a>
                                                   </td>
                                       </tr>
                                       

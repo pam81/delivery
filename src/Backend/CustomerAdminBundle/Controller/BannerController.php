@@ -27,7 +27,7 @@ class BannerController extends Controller
         $search = mb_convert_case($search, MB_CASE_LOWER);
 
         if ($search)
-            $dql .= " and u.name like '%$search%' ";
+            $dql .= " and u.name like '%".$search."%' ";
 
         $dql .= " order by u.name";
 

@@ -94,6 +94,8 @@ class LoadGroupData extends AbstractFixture implements OrderedFixtureInterface
         $groupAdmin->addAcceso($this->getReference('del-variedad'));
         $groupAdmin->addAcceso($this->getReference('view-variedad')); 
 
+
+
         
         $manager->persist($groupAdmin);
         $manager->flush();
@@ -105,6 +107,8 @@ class LoadGroupData extends AbstractFixture implements OrderedFixtureInterface
         $groupAdmin1->setRole('ROLE_EXTRACOMERCIO');
         $groupAdmin1->addAcceso($this->getReference('importar-producto'));
         $groupAdmin1->addAcceso($this->getReference('edicion-producto'));
+
+        
         
         $manager->persist($groupAdmin1);
         $manager->flush();
@@ -141,6 +145,10 @@ class LoadGroupData extends AbstractFixture implements OrderedFixtureInterface
         $groupAdmin2->addAcceso($this->getReference('mod-horario'));
         $groupAdmin2->addAcceso($this->getReference('del-horario'));
         $groupAdmin2->addAcceso($this->getReference('view-horario'));
+        $groupAdmin2->addAcceso($this->getReference('add-region'));
+        $groupAdmin2->addAcceso($this->getReference('mod-region'));
+        $groupAdmin2->addAcceso($this->getReference('del-region'));
+        $groupAdmin2->addAcceso($this->getReference('view-region')); 
         
         $manager->persist($groupAdmin2);
         $manager->flush();
