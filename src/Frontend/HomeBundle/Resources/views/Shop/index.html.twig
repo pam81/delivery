@@ -35,7 +35,41 @@
                     <div class="info">
                         <p class="shop-title text-right">{{ tienda.getName() }}</p>
                         <p class="shop-address text-right">{{ tienda.getDireccion().getCalle() ~ " " ~ tienda.getDireccion().getNumero() ~ " - " ~ tienda.getDireccion().getBarrio().getName()~ ", " ~ tienda.getDireccion().getZona().getName() }}</p>
+                        {% if tienda.getRegiones() | length > 0 %}
+                         <p class="shop-delivery text-right">Zona de entrega: <a href="#myMapModal" class="btn btn-primary" data-toggle="modal">Ver</a></p>
+                         
+
+                         <div class="modal fade" id="myMapModal">
+							    <div class="modal-dialog">
+							        <div class="modal-content">
+							            <div class="modal-header">
+							                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+							                 <h4 class="modal-title title-mapa">Zonas de Entrega del Comercio</h4>
+
+							            </div>
+							            <div class="modal-body">
+							                <div class="container">
+							                    <div class="row">
+							                        <div id="map-canvas" class=""></div>
+							                    </div>
+							                </div>
+							            </div>
+							            <div class="modal-footer">
+							                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							                
+							            </div>
+							        </div>
+							        <!-- /.modal-content -->
+							    </div>
+							    <!-- /.modal-dialog -->
+					    </div>
+							    <!-- /.modal -->
+
+
+
+                        {% else %}
                         <p class="shop-delivery text-right">Radio de entrega: {{ tienda.getRadio() }} km.</p>
+                        {% endif %}
                         <p class="shop-delivery text-right">Pedido mínimo: {% if tienda.getMinimo() is null %} -- {% else %}  {{ " $ " ~tienda.getMinimo() }} {% endif %}</p>
                         <h3 class="shop-status label label-warning" data-url = "{{ path('frontend_checkTime') }}" id = "status" data-tienda = " {{ tienda.getId() }} "></h3>
                     </div>
@@ -105,11 +139,7 @@
                 <form id="custom-search-form" class="form-search form-horizontal" action="#">
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Buscar mas productos" id="search-query" value="{{ search }}">
-                    <!--
-                    <span class="input-group-btn">
-                     <a href="{{ path('frontend_product_filter', { 'id': tienda.id}) }}" class="btn btn-warning" role="button" id="search-button"><i class="fa fa-search"></i></a>
-                    </span>
-                    -->
+                    
                     <span class="input-group-btn"><button class="btn btn-warning" id="search-button" data-url="{{ path('frontend_product_filter', { 'id': tienda.id}) }}" type="button"><i class="fa fa-search"></i></button></span>
                 </div><!-- /input-group -->
                 </form>
@@ -307,4 +337,68 @@
   {% javascripts '@FrontendHomeBundle/Resources/public/js/checkTime.js'filter='?uglifyjs2' %}
       <script type="text/javascript" src="{{ asset_url }}"></script>
   {% endjavascripts %}
+
+ <script>
+
+var map;       
+var myCenter=new google.maps.LatLng({{ tienda.getRegiones()[0].getCoordenadas()[0].getLat() }}, {{ tienda.getRegiones()[0].getCoordenadas()[0].getLng() }});
+
+
+function initialize() {
+  var mapProp = {
+      center:myCenter,
+      zoom: 14,
+      draggable: true,
+      scrollwheel: true,
+      mapTypeId:google.maps.MapTypeId.ROADMAP
+
+  };
+  
+  map=new google.maps.Map(document.getElementById("map-canvas"),mapProp);
+ 
+ {% for poligono in regiones %}
+
+ var poligonoCoords{{ loop.index }} = [ {{poligono}} ]; 
+
+  myPolygon{{ loop.index }} = new google.maps.Polygon({
+    paths: poligonoCoords{{ loop.index }},
+    draggable: true, // turn off if it gets annoying
+    editable: true,
+    strokeColor: '#FF0000',
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: '#FF0000',
+    fillOpacity: 0.35
+  });
+
+  myPolygon{{ loop.index }}.setMap(map);
+
+ {% endfor %}
+
+};
+google.maps.event.addDomListener(window, 'load', initialize);
+
+google.maps.event.addDomListener(window, "resize", resizingMap());
+
+$('#myMapModal').on('show.bs.modal', function() {
+   //Must wait until the render of the modal appear, thats why we use the resizeMap and NOT resizingMap!! ;-)
+   resizeMap();
+})
+
+function resizeMap() {
+   if(typeof map =="undefined") return;
+   setTimeout( function(){resizingMap();} , 400);
+}
+
+function resizingMap() {
+   if(typeof map =="undefined") return;
+   var center = map.getCenter();
+   google.maps.event.trigger(map, "resize");
+   map.setCenter(center); 
+}
+
+
+ </script>
+
+
  {% endblock %}                         

@@ -651,6 +651,19 @@ class HomeController extends Controller
 
             $count = count($resultado);
 
+            $regiones=array();
+
+            foreach($sucursal->getRegiones() as $region){
+              $separador='';
+              $poligono='';
+              foreach($region->getCoordenadas() as $c){
+                $poligono .=$separador." new google.maps.LatLng(".$c->getLat().", ".$c->getLng().") "; 
+                $separador=",";
+              }
+              $regiones[]=$poligono;
+            }
+
+
             $restricted = $this->checkSucursalIsResctricted($sucursal->getSubcategorias());
             return $this->render('FrontendHomeBundle:Shop:index.html.twig', array(
                 'restricted'=>$restricted,
@@ -660,7 +673,8 @@ class HomeController extends Controller
                 'count' => $count,
                 'search'=>$search,
                 'horarios'=>$horarios,
-                'promos' =>$resultado_promos
+                'promos' =>$resultado_promos,
+                'regiones'=>$regiones
             ));
 
 		}else{

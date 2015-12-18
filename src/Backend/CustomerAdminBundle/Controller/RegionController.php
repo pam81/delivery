@@ -164,7 +164,7 @@ class RegionController extends Controller
                 $poligono .=$separador." new google.maps.LatLng(".$c->getLat().", ".$c->getLng().") "; 
                 $separador=",";
            }
-           echo $poligono;
+           
             return $this->render('BackendCustomerAdminBundle:Region:edit.html.twig', array(
                 
                     "sucursalid"=>$entity->getSucursal()->getId(),
