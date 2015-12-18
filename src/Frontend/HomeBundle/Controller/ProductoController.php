@@ -21,6 +21,31 @@ use Backend\CustomerAdminBundle\Entity\Detalle;
  * Producto controller.
  *
  */
+
+
+class Point {
+   private $X = '';
+   private $Y = '';
+   
+   public function getX(){
+      return $this->X;
+   }
+
+   public function setX($x){
+      $this->X = $x;
+   }
+
+   public function getY(){
+      return $this->Y;
+   }
+
+   public function setY($y){
+      $this->Y = $y;
+   }
+
+
+};
+
 class ProductoController extends Controller
 {
 
@@ -259,6 +284,9 @@ class ProductoController extends Controller
 
    private function calculoDistancia(Sucursal $s, $lat2, $long2){
 
+           $regiones = $s->getRegiones();
+           if (count($regiones) == 0){  //verifico por radio
+
            $direccion = $s->getDireccion();
 
            $lat1 = $direccion->getLat();
@@ -277,12 +305,56 @@ class ProductoController extends Controller
 
            $km = ($dd * 111.302);
 
-           if($km <= $radio)
-
+          if($km <= $radio){
                 return true;
+          }
 
            return false;
+         }else{ //verifico si llega por regiones
+            
+             $p= new Point();
+             $p->setX($lat2);
+             $p->setY($long2);
+
+            foreach($regiones as $r){
+
+               if ( $this->pointInZone($r->getCoordenadas(),$p) ){  //si da positivo en una zona salgo con true
+                  return true;
+               }
+            }
+            return false;
+         }
    }
+
+
+   public function pointInZone($polygon, $p){
+      
+    $cnt = 0;
+    
+    if($p->getX() == "" || $p->getY() == "") return false;
+    
+    $p1 = $polygon[0];
+    for ($i=1;$i<=count($polygon);$i++) {
+      $p2 = $polygon[$i % count($polygon)];
+      if ($p->getY() > min($p1->getLng(),$p2->getLng())) {
+        if ($p->getY() <= max($p1->getLng(),$p2->getLng())) {
+    if ($p->getX() <= max($p1->getLat(),$p2->getLat())) {
+      if ($p1->getLng() != $p2->getLng()) {
+        $xinters = ($p->getY()-$p1->getLng())*($p2->getLat()-$p1->getLat())/($p2->getLng()-$p1->getLng())+$p1->getLat();
+        if ($p1->getLat() == $p2->getLat() || $p->getX() <= $xinters)
+          $cnt++;
+      }
+    }
+        }
+      }
+      $p1 = $p2;
+    }
+  
+    if ($cnt % 2 == 0)
+      return false;
+    else
+      return true;
+  }
 
 
    //realizar el pedido a la tienda
