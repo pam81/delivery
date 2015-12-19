@@ -78,8 +78,10 @@
                                 {{ subcategoria.getName() }}
                                 {% endfor %}
                             {% endif %}
-                            {% if  promo.getProducto() is not null %}
-                               {{ promo.getProducto().getName() }}
+                            {% if  promo.getProductos() is defined %}
+                               {% for prod in promo.getProductos() %}
+                               {{ prod.getName() }}
+                               {% endfor %}
                             {% endif %}
                             </td>
 

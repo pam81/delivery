@@ -3,7 +3,7 @@
     {{ form_label(form.file,"Imagen (tamaño recomendado: 300x300 px)", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
     <div class="col-xs-6">
         {{ form_widget(form.file, { 'attr': {'class': 'input-xlarge'} }) }}
-        <span id='backend_customeradminbundle_producto_file_errorloc' class="help-block"> {{ form_errors(form.file) }} </span>
+        <span id='backend_customeradminbundle_promocion_file_errorloc' class="help-block"> {{ form_errors(form.file) }} </span>
     </div>
     {% if entity.getWebPath() %}
         <img src="{{ asset(entity.getWebPath()) }}" width="100" height="100" />
@@ -16,7 +16,7 @@
     <i class="fa fa-comment" data-toggle="tooltip" data-placement="right" title="Sucursal en la cual vende el producto"></i>
     <div class="col-xs-6">
         {{ form_widget(form.sucursales, { 'attr': {'class': 'form-control'} }) }}
-        <span id='backend_customeradminbundle_producto_sucursales_errorloc' class="help-block"> {{ form_errors(form.sucursales) }} </span>
+        <span id='backend_customeradminbundle_promocion_sucursales_errorloc' class="help-block"> {{ form_errors(form.sucursales) }} </span>
     </div>
 </div>
 
@@ -88,13 +88,14 @@
 
 <div class="form-group">
 
-    {{ form_label(form.producto,"Producto", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
+    {{ form_label(form.productos,"Productos", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
     <i class="fa fa-comment" data-toggle="tooltip" data-placement="right" title="Seleccione un producto para la promocion."></i>
     <div class="col-xs-6">
-        {{ form_widget(form.producto, { 'attr': {'class': 'form-control'} }) }}
-        <span id='backend_customeradminbundle_producto_subcategorias_errorloc' class="help-block"> {{ form_errors(form.producto) }} </span>
+        {{ form_widget(form.productos, { 'attr': {'class': 'form-control'} }) }}
+        <span id='backend_customeradminbundle_promocion_productos_errorloc' class="help-block"> {{ form_errors(form.productos) }} </span>
     </div>
 </div>
+
 
 <div class="form-group">
 
@@ -103,6 +104,26 @@
     <div class="col-xs-6">
         {{ form_widget(form.subcategorias, { 'attr': {'class': 'form-control'} }) }}
         <span id='backend_customeradminbundle_producto_subcategorias_errorloc' class="help-block"> {{ form_errors(form.subcategorias) }} </span>
+    </div>
+</div>
+
+<div class="form-group">
+
+    {{ form_label(form.productosExcluidos,"Productos excluidos", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
+    <i class="fa fa-comment" data-toggle="tooltip" data-placement="right" title="Seleccione aquellos productos que no participan de la promocion."></i>
+    <div class="col-xs-6">
+        {{ form_widget(form.productosExcluidos, { 'attr': {'class': 'form-control'} }) }}
+        <span id='backend_customeradminbundle_promocion_productosExcluidos_errorloc' class="help-block"> {{ form_errors(form.productosExcluidos) }} </span>
+    </div>
+</div>
+
+<div class="form-group">
+
+    {{ form_label(form.mediosPago,"Medios de Pago", { 'label_attr': {'class': 'control-label col-xs-2'} }) }}
+    <i class="fa fa-comment" data-toggle="tooltip" data-placement="right" title="Seleccione aquellos medios de pago que participan de la promocion."></i>
+    <div class="col-xs-6">
+        {{ form_widget(form.mediosPago, { 'attr': {'class': 'form-control'} }) }}
+        <span id='backend_customeradminbundle_promocion_mediosPago_errorloc' class="help-block"> {{ form_errors(form.mediosPago) }} </span>
     </div>
 </div>
 
