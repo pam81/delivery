@@ -57,10 +57,24 @@ class Promocion
     protected $subcategorias;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Producto", inversedBy="promociones")
-     * @ORM\JoinColumn(name="producto_id", referencedColumnName="id")
+     * @ORM\ManyToMany(targetEntity="Producto", inversedBy="promociones", cascade={"persist","remove"})
+     * @ORM\JoinTable(name="producto_promocion")
      */
-    private $producto;
+    private $productos;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Producto", inversedBy="promoExcluidos", cascade={"persist","remove"})
+     * @ORM\JoinTable(name="excluido_promocion")
+     */
+
+    private $productosExcluidos;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="\Backend\AdminBundle\Entity\PayMethod", inversedBy="promociones", cascade={"persist","remove"})
+     * @ORM\JoinTable(name="paymethod_promocion")
+     */
+    private $mediosPago;
+
 
     /**
      * @ORM\Column(name="stock", type="integer",nullable=true)
@@ -680,5 +694,104 @@ class Promocion
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * Add productos
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Producto $productos
+     * @return Promocion
+     */
+    public function addProducto(\Backend\CustomerAdminBundle\Entity\Producto $productos)
+    {
+        $this->productos[] = $productos;
+
+        return $this;
+    }
+
+    /**
+     * Remove productos
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Producto $productos
+     */
+    public function removeProducto(\Backend\CustomerAdminBundle\Entity\Producto $productos)
+    {
+        $this->productos->removeElement($productos);
+    }
+
+    /**
+     * Get productos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProductos()
+    {
+        return $this->productos;
+    }
+
+    /**
+     * Add productosExcluidos
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Producto $productosExcluidos
+     * @return Promocion
+     */
+    public function addProductosExcluido(\Backend\CustomerAdminBundle\Entity\Producto $productosExcluidos)
+    {
+        $this->productosExcluidos[] = $productosExcluidos;
+
+        return $this;
+    }
+
+    /**
+     * Remove productosExcluidos
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Producto $productosExcluidos
+     */
+    public function removeProductosExcluido(\Backend\CustomerAdminBundle\Entity\Producto $productosExcluidos)
+    {
+        $this->productosExcluidos->removeElement($productosExcluidos);
+    }
+
+    /**
+     * Get productosExcluidos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProductosExcluidos()
+    {
+        return $this->productosExcluidos;
+    }
+
+    /**
+     * Add mediosPago
+     *
+     * @param \Backend\AdminBundle\Entity\PayMethod $mediosPago
+     * @return Promocion
+     */
+    public function addMediosPago(\Backend\AdminBundle\Entity\PayMethod $mediosPago)
+    {
+        $this->mediosPago[] = $mediosPago;
+
+        return $this;
+    }
+
+    /**
+     * Remove mediosPago
+     *
+     * @param \Backend\AdminBundle\Entity\PayMethod $mediosPago
+     */
+    public function removeMediosPago(\Backend\AdminBundle\Entity\PayMethod $mediosPago)
+    {
+        $this->mediosPago->removeElement($mediosPago);
+    }
+
+    /**
+     * Get mediosPago
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMediosPago()
+    {
+        return $this->mediosPago;
     }
 }

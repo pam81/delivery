@@ -34,6 +34,11 @@ class PayMethod
     * @ORM\OneToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Pedido", mappedBy="paymethod")
     */
    private $pedidos;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Promocion", mappedBy="mediosPago", cascade={"persist","remove"})
+     */
+    protected $promociones;
 	
     /**
      * @ORM\Column(name="is_active", type="boolean")
@@ -393,5 +398,38 @@ class PayMethod
     public function getPath()
     {
         return $this->path;
+    }
+
+    /**
+     * Add promociones
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Promocion $promociones
+     * @return PayMethod
+     */
+    public function addPromocione(\Backend\CustomerAdminBundle\Entity\Promocion $promociones)
+    {
+        $this->promociones[] = $promociones;
+
+        return $this;
+    }
+
+    /**
+     * Remove promociones
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Promocion $promociones
+     */
+    public function removePromocione(\Backend\CustomerAdminBundle\Entity\Promocion $promociones)
+    {
+        $this->promociones->removeElement($promociones);
+    }
+
+    /**
+     * Get promociones
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPromociones()
+    {
+        return $this->promociones;
     }
 }

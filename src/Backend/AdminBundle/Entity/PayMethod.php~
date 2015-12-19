@@ -34,6 +34,11 @@ class PayMethod
     * @ORM\OneToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Pedido", mappedBy="paymethod")
     */
    private $pedidos;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="\Backend\CustomerAdminBundle\Entity\Promocion", mappedBy="mediosPago", cascade={"persist","remove"})
+     */
+    protected $promociones;
 	
     /**
      * @ORM\Column(name="is_active", type="boolean")

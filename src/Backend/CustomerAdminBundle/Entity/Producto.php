@@ -106,10 +106,15 @@ class Producto
     private $subcategoria;
 
     /**
-     * @ORM\OneToMany(targetEntity="Promocion", mappedBy="producto")
+     * @ORM\ManyToMany(targetEntity="Promocion", mappedBy="productos", cascade={"persist","remove"})
      */
-    private $promociones;
-	
+    protected $promociones;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Promocion", mappedBy="productosExcluidos", cascade={"persist","remove"})
+     */
+    protected $promosExcluidos;
+
 	 /**
      * @ORM\OneToMany(targetEntity="Detalle", mappedBy="producto")
      */
@@ -807,5 +812,38 @@ class Producto
     public function getPromociones()
     {
         return $this->promociones;
+    }
+
+    /**
+     * Add promosExcluidos
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Promocion $promosExcluidos
+     * @return Producto
+     */
+    public function addPromosExcluido(\Backend\CustomerAdminBundle\Entity\Promocion $promosExcluidos)
+    {
+        $this->promosExcluidos[] = $promosExcluidos;
+
+        return $this;
+    }
+
+    /**
+     * Remove promosExcluidos
+     *
+     * @param \Backend\CustomerAdminBundle\Entity\Promocion $promosExcluidos
+     */
+    public function removePromosExcluido(\Backend\CustomerAdminBundle\Entity\Promocion $promosExcluidos)
+    {
+        $this->promosExcluidos->removeElement($promosExcluidos);
+    }
+
+    /**
+     * Get promosExcluidos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPromosExcluidos()
+    {
+        return $this->promosExcluidos;
     }
 }

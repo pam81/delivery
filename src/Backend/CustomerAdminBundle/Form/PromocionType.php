@@ -50,7 +50,7 @@ class PromocionType extends AbstractType
                 'required' => true,
                 'mapped' => true
             ))
-            ->add('producto','entity',array(
+            ->add('productos','entity',array(
                 'class'=>'BackendCustomerAdminBundle:Producto',
                 'query_builder'=>function(EntityRepository $er ) use ( $customerId ) {
                     return $er->createQueryBuilder('u')
@@ -58,7 +58,20 @@ class PromocionType extends AbstractType
                         ->orderBy('u.name', 'ASC');
                 },
 
-                'multiple'=>false,
+                'multiple'=>true,
+                'mapped'=>true,
+                'required'=>false,
+                'empty_data'  => null,
+            ))
+            ->add('productosExcluidos','entity',array(
+                'class'=>'BackendCustomerAdminBundle:Producto',
+                'query_builder'=>function(EntityRepository $er ) use ( $customerId ) {
+                    return $er->createQueryBuilder('u')
+                        //->where('u.customer = '.$customerId)
+                        ->orderBy('u.name', 'ASC');
+                },
+
+                'multiple'=>true,
                 'mapped'=>true,
                 'required'=>false,
                 'empty_data'  => null,
@@ -74,6 +87,18 @@ class PromocionType extends AbstractType
                 'multiple'=>true,
                 'mapped'=>true,
                 'required'=>true
+            ))
+
+            ->add('mediosPago','entity',array(
+                'class'=>'BackendAdminBundle:PayMethod',
+                'query_builder'=>function(EntityRepository $er ) use ( $customerId ) {
+                    return $er->createQueryBuilder('u')
+                        //->where('u.customer = '.$customerId)
+                        ->orderBy('u.name', 'ASC');
+                },
+                'multiple'=>true,
+                'mapped'=>true,
+                'required'=>false
             ))
 
             ->add('subcategorias','entity',array(
