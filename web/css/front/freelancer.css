@@ -418,6 +418,8 @@ header .shop-horarios table td{
 
     color: #ffffff;
     font-weight: 600;
+    padding-top: 15px;
+    font-size: 26px;
 }
 
 .promo-item .descripcion{
@@ -437,20 +439,35 @@ header .shop-horarios table td{
     margin-right: 70px;
 }
 
-.promo-item .antes{
+.promo-producto{
+
+    height: 80px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.promo-item .antes {
 
     float:left;
     margin-left: 30px;
     padding-top: 5px;
 }
 
-.promo-item .antes p{
+.promo-producto .antes {
+
+    float:left;
+    margin-left: 30px;
+    padding-top: 5px;
+
+}
+
+.promo-item .antes p, .promo-producto .antes p{
 
     font-size:14px;
     color: #5e5e5e;
 }
 
-.promo-item .antes .antes-precio{
+.promo-item .antes .antes-precio, .promo-producto .antes .antes-precio{
 
     text-decoration:line-through;
     color: #5e5e5e;
@@ -468,7 +485,17 @@ header .shop-horarios table td{
 
 }
 
-.promo-item .ahora p{
+.promo-producto .ahora{
+
+    float:right;
+    border-left: solid;
+    border-color:#5E5E5E;
+    margin-right: 40px;
+    padding-top: 5px;
+
+}
+
+.promo-item .ahora p, .promo-producto .ahora p{
 
     font-size:14px;
     padding-left: 5px;
@@ -477,14 +504,24 @@ header .shop-horarios table td{
 
 }
 
-.promo-item .ahora .ahora-precio{
+.promo-producto .ahora p{
+
+    color: #FE980F;
+}
+
+.promo-item .ahora .ahora-precio, .promo-producto .ahora .ahora-precio{
 
     font-size:20px;
     color:#ffffff;
     font-weight: 600;
 }
 
-.promo-item .unidades{
+.promo-producto .ahora .ahora-precio{
+
+    color: #FE980F;
+}
+
+.promo-item .unidades, .promo-producto .unidades{
 
     margin-top:10px;
     height: 73px;
@@ -500,7 +537,7 @@ header .shop-horarios table td{
 
 .promo-item .unidades .unidades-precio{
 
-    font-size:20px;
+    font-size: 30px;
     color:#ffffff;
     font-weight: 600;
 }
@@ -511,6 +548,7 @@ header .shop-horarios table td{
     margin-top: -30px;
     margin-right: 5px;
 }
+
 
 .not-active {
     pointer-events: none;

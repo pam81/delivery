@@ -586,11 +586,11 @@ class HomeController extends Controller
 
                         $type = $promo->getType();
 
-                        if($promo->getProducto() != null) { // promo de producto
+                        if($promo->getProductos() != null) { // promo de producto
 
                             if ($type == 1) {
 
-                                $precioProd = $promo->getProducto()->getPrecio();
+                                $precioProd = 1; // $promo->getProducto()->getPrecio();
                                 $valor = ((1 - ($promo->getDetail() / 100)) * $precioProd);
                                 $r_promo['promo'] = $promo;
                                 $r_promo['valor'] = $valor;
@@ -674,6 +674,7 @@ class HomeController extends Controller
                 'search'=>$search,
                 'horarios'=>$horarios,
                 'promos' =>$resultado_promos,
+                'status' =>1,
                 'regiones'=>$regiones
             ));
 

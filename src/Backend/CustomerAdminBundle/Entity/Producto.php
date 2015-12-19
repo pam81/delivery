@@ -38,7 +38,12 @@ class Producto
      * @ORM\Column(name="price", type="decimal", scale=2)
      */
     private $precio;
-    
+
+    /**
+     * @ORM\Column(name="pricePromo", type="decimal", scale=2)
+     */
+    private $precioPromo;
+
     /**
 
      * @ORM\Column(name="always_available", type="boolean")
@@ -845,5 +850,28 @@ class Producto
     public function getPromosExcluidos()
     {
         return $this->promosExcluidos;
+    }
+
+    /**
+     * Set precioPromo
+     *
+     * @param string $precioPromo
+     * @return Producto
+     */
+    public function setPrecioPromo($precioPromo)
+    {
+        $this->precioPromo = $precioPromo;
+
+        return $this;
+    }
+
+    /**
+     * Get precioPromo
+     *
+     * @return string 
+     */
+    public function getPrecioPromo()
+    {
+        return $this->precioPromo;
     }
 }
