@@ -106,8 +106,7 @@ class Sucursal
     */
 	
     private $horarios;
-	
-  
+
   
     /**
      * @ORM\OneToMany(targetEntity="Pedido", mappedBy="sucursal")
