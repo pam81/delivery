@@ -83,6 +83,25 @@ class BannerController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($entity);
                 $em->flush();
+
+                $sucursal = $entity->getSucursal();
+                $bannerActual = $entity->getId();
+
+                $banners = $sucursal->getBanners();
+
+                foreach($banners as $ba){  // despublico todos los otros banners vigentes
+
+                    if($ba->getIsActive() == true && $ba->getId() != $bannerActual){
+
+                        $ba->setIsActive(false);
+                        $em->persist($ba);
+                        $em->flush();
+                        $sucursal->addBanner($ba);
+                    }
+                }
+                $em->persist($sucursal);
+                $em->flush();
+
                 $this->get('session')->getFlashBag()->add('success' , 'Se ha agregado un nuevo banner.');
                 return $this->redirect($this->generateUrl('banner_edit', array('id' => $entity->getId())));
             }

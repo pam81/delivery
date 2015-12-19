@@ -41,6 +41,11 @@ class Banner
     private $hasta;
 
     /**
+     * @ORM\Column(name="is_active", type="boolean")
+     */
+    private $is_active;
+
+    /**
      * @ORM\Column(name="created_at", type="datetime")
      */
     private $createdAt;
@@ -62,6 +67,7 @@ class Banner
     {
 
         $this->createdAt = new \DateTime('now');
+        $this->is_active = true;
     }
 
     public function __toString()
@@ -344,5 +350,28 @@ class Banner
     public function getSucursal()
     {
         return $this->sucursal;
+    }
+
+    /**
+     * Set is_active
+     *
+     * @param boolean $isActive
+     * @return Banner
+     */
+    public function setIsActive($isActive)
+    {
+        $this->is_active = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get is_active
+     *
+     * @return boolean 
+     */
+    public function getIsActive()
+    {
+        return $this->is_active;
     }
 }

@@ -50,6 +50,7 @@
                         <th>Hasta</th>
                         <th>Imagen</th>
                         <th>Sucursal</th>
+                        <th>Publicado</th>
                         <th style="width: 36px;">Acciones</th>
                     </tr>
                     </thead>
@@ -65,6 +66,12 @@
                                 {% endif %}
                             </td>
                             <td>{{ banner.sucursal.getName() }}</td>
+                            <td>{% if  banner.getIsActive() == true %}
+                                <span class="label label-success"> Si</span>
+                                {% else %}
+                                <span class="label label-default"> No</span>
+                                {% endif %}
+                            </td>
                             <td>
                                 {% if is_granted("ROLE_MODPRODUCTO") %}
                                     <a href="{{ path('banner_edit', { 'id': banner.id }) }}"><i class="fa fa-pencil"></i></a>
