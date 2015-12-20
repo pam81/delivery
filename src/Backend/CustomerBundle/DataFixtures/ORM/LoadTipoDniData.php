@@ -26,26 +26,26 @@ class LoadTipoDniData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $status1 = new Status();
+        $status1 = new TipoDni();
         $status1->setName("DNI");
         
         $manager->persist($status1);
         $manager->flush();
         $this->addReference('tipodni-dni', $status1);
         
-        $status2 = new Status();
+        $status2 = new TipoDni();
         $status2->setName("LC");
         $manager->persist($status2);
         $manager->flush();
         $this->addReference('tipodni-libretacivica', $status2);
         
-        $status3 = new Status();
+        $status3 = new TipoDni();
         $status3->setName("Pasaporte");
         $manager->persist($status3);
         $manager->flush();
         $this->addReference('tipodni-pasaporte', $status3);
         
-        $status4 = new Status();
+        $status4 = new TipoDni();
         $status4->setName("LE");
         $manager->persist($status4);
         $manager->flush();
