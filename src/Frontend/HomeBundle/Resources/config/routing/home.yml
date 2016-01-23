@@ -74,7 +74,9 @@ frontend_islogin:
     pattern:  /isloginFront
     defaults: { _controller: "FrontendHomeBundle:Home:islogin" }    
     
-
+frontend_checkPromos:
+    pattern:  /checkPromos
+    defaults: { _controller: "FrontendHomeBundle:Home:getPromosVigentes" }
 
 
 

@@ -1,6 +1,6 @@
-
 $(document).ready(function() {
 
+     getPromosVigentes();
 
       $("body").on("click",".go_tienda",function(){
       
@@ -31,7 +31,7 @@ $(document).ready(function() {
 
     var day = moment().weekday();
     var time = moment().format('HH:mm');
-    
+
 
     $.ui.autocomplete.prototype._renderItem = function (ul, item) {
         return $("<li>")
@@ -352,7 +352,7 @@ function getTiendas(ubicacion){
                       	element += '						<div class="product-image-wrapper">';
                       	element += '							<div class="single-products">';
                       	element += '									<div class="productinfo text-center">';
-                        element += '<a href="javascript:void(0)" data-link="'+data[index].link+'" data-restricted="'+data[index].restricted+'" data-sucursal="'+data[index].id+'"></a>';
+                        element += '<a href="javascript:void(0)" class="go_tienda" data-link="'+data[index].link+'" data-restricted="'+data[index].restricted+'" data-sucursal="'+data[index].id+'">';
                       	element += '										<img src="'+data[index].imagen+'" alt="" /></a>'; // class="img-circle"
                       	//element += '										<a href="javascript:void(0)" data-link="'+data[index].link+'" data-restricted="'+data[index].restricted+'" class="btn btn-warning go_tienda"  data-sucursal="'+data[index].id+'"></i>Ir a la tienda</a>';
                       	element += '									</div> ';
@@ -399,4 +399,30 @@ function getTiendas(ubicacion){
               });        
 }
 
-function getPromosVigentes(){ }
+function getPromosVigentes(){
+
+    var today = moment().format('DD/MM/YYYY');
+    var data="today="+today;
+    var id = 1;
+
+    $.ajax({
+        type: "POST",
+        url: $("#promo_chk").val(),
+        dataType: 'json',
+        data: data,
+    })
+        .done(function(response) {
+
+            var data = response.banners;
+
+            $.each(data, function (index) {
+
+                var url = data[index].img;
+                $("#item"+id).attr("src",url);
+
+                id++;
+
+            });
+
+        });
+}

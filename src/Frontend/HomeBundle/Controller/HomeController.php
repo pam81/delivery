@@ -952,12 +952,18 @@ class HomeController extends Controller
 		
 	}
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
+
     public function getPromosVigentesAction(Request $request){
 
         // TODO validar la fecha y el tema de stock
-        $dia = trim(mb_convert_case($request->get("day"),MB_CASE_LOWER));
-        $hora = trim(mb_convert_case($request->get("time"),MB_CASE_LOWER));
-        $hoy = "30/11/2015 00:00:00";
+        $today = trim(mb_convert_case($request->get("today"),MB_CASE_LOWER));
+        //$hora = trim(mb_convert_case($request->get("time"),MB_CASE_LOWER));
+        $hoy = $today." 00:00:00";
+        $resultados = array();
 
         $em = $this->getDoctrine()->getManager();
 
@@ -965,15 +971,25 @@ class HomeController extends Controller
 
         foreach ($banners as $b){
 
-            if($b->getDesde() >= $hoy && $b->getHasta() <= $hoy){
-
-                
+            if(($b->getDesde() >= $hoy || $b->getHasta() < $hoy) && $b->getIsActive() == true){
+                $r = array();
+                $r['img'] = $b->getWebPath();
+                $r['tiendaId'] = $b->getSucursal()->getId();
+                $resultados[] = $r;
             }
-
         }
 
-        return true;
+        $response = new Response(json_encode(array("banners"=>$resultados)));
+
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
     }
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
 
     public function checkBarrioAction(Request $request){
      

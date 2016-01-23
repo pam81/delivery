@@ -3,6 +3,7 @@
 {% block container %}
 
   <input type="hidden" name="check" id="check" value="{{ path('frontend_checkbarrio') }}">
+  <input type="hidden" name="promo_chk" id="promo_chk" value="{{ path('frontend_checkPromos') }}">
 	<section>
         <div class="row carousel-home">
 
@@ -17,19 +18,19 @@
                 <!-- Wrapper for slides -->
                 <div class="carousel-inner">
                     <div class="item active">
-                        <img src="images/home/promo_pizza.jpg" alt="...">
+                        <img id="item1" src="images/home/placeholder_promo.jpg" alt="...">
                         <div class="carousel-caption">
                          <!--   <h3>PROMO 2X1 EN PIZZAS</h3> -->
                         </div>
                     </div>
                     <div class="item">
-                        <img src="images/home/placeholder_promos.jpg" alt="...">
+                        <img id="item2" src="images/home/placeholder_promos.jpg" alt="...">
                         <div class="carousel-caption">
                          <!--   <h3>25% de descuento todos los mediodías</h3> -->
                         </div>
                     </div>
                     <div class="item">
-                        <img src="images/home/placeholder_promos.jpg" alt="...">
+                        <img id="item3" src="images/home/placeholder_promos.jpg" alt="...">
                         <div class="carousel-caption">
                           <!--  <h3>2x1 en frutas de estación</h3> -->
                         </div>
