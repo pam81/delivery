@@ -109,6 +109,24 @@ class PromocionController extends Controller
                     $entity->addHorario($horario);
                 }
 
+                $promoType = $entity->getType();
+
+                $productos = $entity->getProductos();
+
+                if($promoType->getId() == 1){
+
+                    $porcentaje = $entity->getDetail();
+
+                    foreach($productos as $prod){
+
+                        $price = $prod->getPrice();
+                        $prod->setPromoPrice($price*0.25);
+
+                        $em->persist($prod);
+                        $em->flush();
+                    }
+                }
+
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($entity);
                 $em->flush();

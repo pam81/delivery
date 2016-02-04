@@ -40,7 +40,7 @@ class Producto
     private $precio;
 
     /**
-     * @ORM\Column(name="pricePromo", type="decimal", scale=2)
+     * @ORM\Column(name="pricePromo", type="decimal", scale=2,nullable=true)
      */
     private $precioPromo;
 
